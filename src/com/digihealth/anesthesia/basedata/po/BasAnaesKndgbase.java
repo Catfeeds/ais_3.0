@@ -13,7 +13,7 @@ import java.util.Date;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value="知识库对象22222222")
+@ApiModel(value="知识库对象")
 public class BasAnaesKndgbase {
     /**
      * 主键id
