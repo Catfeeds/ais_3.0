@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnalgesicPostflupDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnalgesicPostflup" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="analgesicId" property="analgesicId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="lastDrugTime" property="lastDrugTime" jdbcType="TIMESTAMP" />
+    <result column="postTime" property="postTime" jdbcType="VARCHAR" />
+    <result column="spo2" property="spo2" jdbcType="VARCHAR" />
+    <result column="cardiotach" property="cardiotach" jdbcType="VARCHAR" />
+    <result column="breath" property="breath" jdbcType="VARCHAR" />
+    <result column="vasScore" property="vasScore" jdbcType="VARCHAR" />
+    <result column="calmnessScore" property="calmnessScore" jdbcType="TIMESTAMP" />
+    <result column="sportBlockScore" property="sportBlockScore" jdbcType="TIMESTAMP" />
+    <result column="nauseaScore" property="nauseaScore" jdbcType="INTEGER" />
+    <result column="vomitScore" property="vomitScore" jdbcType="INTEGER" />
+    <result column="emictionRetentionScore" property="emictionRetentionScore" jdbcType="INTEGER" />
+    <result column="catheterScore" property="catheterScore" jdbcType="INTEGER" />
+    <result column="otherKickback" property="otherKickback" jdbcType="VARCHAR" />
+    <result column="totalPress" property="totalPress" jdbcType="INTEGER" />
+    <result column="validPress" property="validPress" jdbcType="INTEGER" />
+    <result column="drugUsed" property="drugUsed" jdbcType="REAL" />
+    <result column="inquiryDoctor" property="inquiryDoctor" jdbcType="VARCHAR" />
+    <result column="analgesicCatheter" property="analgesicCatheter" jdbcType="INTEGER" />
+    <result column="totalSatisf" property="totalSatisf" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="TIMESTAMP" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, analgesicId, processState, type, lastDrugTime, postTime, spo2, cardiotach, 
+    breath, vasScore, calmnessScore, sportBlockScore, nauseaScore, vomitScore, emictionRetentionScore, 
+    catheterScore, otherKickback, totalPress, validPress, drugUsed, inquiryDoctor, analgesicCatheter, 
+    totalSatisf, remark, recordTime, recorder
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_postflup
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_analgesic_postflup
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicPostflup" >
+    insert into doc_analgesic_postflup (id, regOptId, analgesicId, 
+      processState, type, lastDrugTime, 
+      postTime, spo2, cardiotach, 
+      breath, vasScore, calmnessScore, 
+      sportBlockScore, nauseaScore, vomitScore, 
+      emictionRetentionScore, catheterScore, 
+      otherKickback, totalPress, validPress, 
+      drugUsed, inquiryDoctor, analgesicCatheter, 
+      totalSatisf, remark, recordTime, 
+      recorder)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{analgesicId,jdbcType=VARCHAR}, 
+      #{processState,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{lastDrugTime,jdbcType=TIMESTAMP}, 
+      #{postTime,jdbcType=VARCHAR}, #{spo2,jdbcType=VARCHAR}, #{cardiotach,jdbcType=VARCHAR}, 
+      #{breath,jdbcType=VARCHAR}, #{vasScore,jdbcType=VARCHAR}, #{calmnessScore,jdbcType=TIMESTAMP}, 
+      #{sportBlockScore,jdbcType=TIMESTAMP}, #{nauseaScore,jdbcType=INTEGER}, #{vomitScore,jdbcType=INTEGER}, 
+      #{emictionRetentionScore,jdbcType=INTEGER}, #{catheterScore,jdbcType=INTEGER}, 
+      #{otherKickback,jdbcType=VARCHAR}, #{totalPress,jdbcType=INTEGER}, #{validPress,jdbcType=INTEGER}, 
+      #{drugUsed,jdbcType=REAL}, #{inquiryDoctor,jdbcType=VARCHAR}, #{analgesicCatheter,jdbcType=INTEGER}, 
+      #{totalSatisf,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{recordTime,jdbcType=TIMESTAMP}, 
+      #{recorder,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicPostflup" >
+    insert into doc_analgesic_postflup
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="lastDrugTime != null" >
+        lastDrugTime,
+      </if>
+      <if test="postTime != null" >
+        postTime,
+      </if>
+      <if test="spo2 != null" >
+        spo2,
+      </if>
+      <if test="cardiotach != null" >
+        cardiotach,
+      </if>
+      <if test="breath != null" >
+        breath,
+      </if>
+      <if test="vasScore != null" >
+        vasScore,
+      </if>
+      <if test="calmnessScore != null" >
+        calmnessScore,
+      </if>
+      <if test="sportBlockScore != null" >
+        sportBlockScore,
+      </if>
+      <if test="nauseaScore != null" >
+        nauseaScore,
+      </if>
+      <if test="vomitScore != null" >
+        vomitScore,
+      </if>
+      <if test="emictionRetentionScore != null" >
+        emictionRetentionScore,
+      </if>
+      <if test="catheterScore != null" >
+        catheterScore,
+      </if>
+      <if test="otherKickback != null" >
+        otherKickback,
+      </if>
+      <if test="totalPress != null" >
+        totalPress,
+      </if>
+      <if test="validPress != null" >
+        validPress,
+      </if>
+      <if test="drugUsed != null" >
+        drugUsed,
+      </if>
+      <if test="inquiryDoctor != null" >
+        inquiryDoctor,
+      </if>
+      <if test="analgesicCatheter != null" >
+        analgesicCatheter,
+      </if>
+      <if test="totalSatisf != null" >
+        totalSatisf,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="recordTime != null" >
+        recordTime,
+      </if>
+      <if test="recorder != null" >
+        recorder,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="lastDrugTime != null" >
+        #{lastDrugTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postTime != null" >
+        #{postTime,jdbcType=VARCHAR},
+      </if>
+      <if test="spo2 != null" >
+        #{spo2,jdbcType=VARCHAR},
+      </if>
+      <if test="cardiotach != null" >
+        #{cardiotach,jdbcType=VARCHAR},
+      </if>
+      <if test="breath != null" >
+        #{breath,jdbcType=VARCHAR},
+      </if>
+      <if test="vasScore != null" >
+        #{vasScore,jdbcType=VARCHAR},
+      </if>
+      <if test="calmnessScore != null" >
+        #{calmnessScore,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sportBlockScore != null" >
+        #{sportBlockScore,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nauseaScore != null" >
+        #{nauseaScore,jdbcType=INTEGER},
+      </if>
+      <if test="vomitScore != null" >
+        #{vomitScore,jdbcType=INTEGER},
+      </if>
+      <if test="emictionRetentionScore != null" >
+        #{emictionRetentionScore,jdbcType=INTEGER},
+      </if>
+      <if test="catheterScore != null" >
+        #{catheterScore,jdbcType=INTEGER},
+      </if>
+      <if test="otherKickback != null" >
+        #{otherKickback,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPress != null" >
+        #{totalPress,jdbcType=INTEGER},
+      </if>
+      <if test="validPress != null" >
+        #{validPress,jdbcType=INTEGER},
+      </if>
+      <if test="drugUsed != null" >
+        #{drugUsed,jdbcType=REAL},
+      </if>
+      <if test="inquiryDoctor != null" >
+        #{inquiryDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicCatheter != null" >
+        #{analgesicCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="totalSatisf != null" >
+        #{totalSatisf,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicPostflup" >
+    update doc_analgesic_postflup
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="lastDrugTime != null" >
+        lastDrugTime = #{lastDrugTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postTime != null" >
+        postTime = #{postTime,jdbcType=VARCHAR},
+      </if>
+      <if test="spo2 != null" >
+        spo2 = #{spo2,jdbcType=VARCHAR},
+      </if>
+      <if test="cardiotach != null" >
+        cardiotach = #{cardiotach,jdbcType=VARCHAR},
+      </if>
+      <if test="breath != null" >
+        breath = #{breath,jdbcType=VARCHAR},
+      </if>
+      <if test="vasScore != null" >
+        vasScore = #{vasScore,jdbcType=VARCHAR},
+      </if>
+      <if test="calmnessScore != null" >
+        calmnessScore = #{calmnessScore,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sportBlockScore != null" >
+        sportBlockScore = #{sportBlockScore,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nauseaScore != null" >
+        nauseaScore = #{nauseaScore,jdbcType=INTEGER},
+      </if>
+      <if test="vomitScore != null" >
+        vomitScore = #{vomitScore,jdbcType=INTEGER},
+      </if>
+      <if test="emictionRetentionScore != null" >
+        emictionRetentionScore = #{emictionRetentionScore,jdbcType=INTEGER},
+      </if>
+      <if test="catheterScore != null" >
+        catheterScore = #{catheterScore,jdbcType=INTEGER},
+      </if>
+      <if test="otherKickback != null" >
+        otherKickback = #{otherKickback,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPress != null" >
+        totalPress = #{totalPress,jdbcType=INTEGER},
+      </if>
+      <if test="validPress != null" >
+        validPress = #{validPress,jdbcType=INTEGER},
+      </if>
+      <if test="drugUsed != null" >
+        drugUsed = #{drugUsed,jdbcType=REAL},
+      </if>
+      <if test="inquiryDoctor != null" >
+        inquiryDoctor = #{inquiryDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicCatheter != null" >
+        analgesicCatheter = #{analgesicCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="totalSatisf != null" >
+        totalSatisf = #{totalSatisf,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        recordTime = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recorder != null" >
+        recorder = #{recorder,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicPostflup" >
+    update doc_analgesic_postflup
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      lastDrugTime = #{lastDrugTime,jdbcType=TIMESTAMP},
+      postTime = #{postTime,jdbcType=VARCHAR},
+      spo2 = #{spo2,jdbcType=VARCHAR},
+      cardiotach = #{cardiotach,jdbcType=VARCHAR},
+      breath = #{breath,jdbcType=VARCHAR},
+      vasScore = #{vasScore,jdbcType=VARCHAR},
+      calmnessScore = #{calmnessScore,jdbcType=TIMESTAMP},
+      sportBlockScore = #{sportBlockScore,jdbcType=TIMESTAMP},
+      nauseaScore = #{nauseaScore,jdbcType=INTEGER},
+      vomitScore = #{vomitScore,jdbcType=INTEGER},
+      emictionRetentionScore = #{emictionRetentionScore,jdbcType=INTEGER},
+      catheterScore = #{catheterScore,jdbcType=INTEGER},
+      otherKickback = #{otherKickback,jdbcType=VARCHAR},
+      totalPress = #{totalPress,jdbcType=INTEGER},
+      validPress = #{validPress,jdbcType=INTEGER},
+      drugUsed = #{drugUsed,jdbcType=REAL},
+      inquiryDoctor = #{inquiryDoctor,jdbcType=VARCHAR},
+      analgesicCatheter = #{analgesicCatheter,jdbcType=INTEGER},
+      totalSatisf = #{totalSatisf,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      recordTime = #{recordTime,jdbcType=TIMESTAMP},
+      recorder = #{recorder,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

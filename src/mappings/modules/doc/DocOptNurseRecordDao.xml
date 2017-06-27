@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocOptNurseRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocOptNurseRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="operStartTime" property="operStartTime" jdbcType="TIMESTAMP" />
+    <result column="operEndTime" property="operEndTime" jdbcType="TIMESTAMP" />
+    <result column="inOperRoomTime" property="inOperRoomTime" jdbcType="TIMESTAMP" />
+    <result column="outOperRoomTime" property="outOperRoomTime" jdbcType="TIMESTAMP" />
+    <result column="greenChannel" property="greenChannel" jdbcType="VARCHAR" />
+    <result column="tourNurse" property="tourNurse" jdbcType="VARCHAR" />
+    <result column="operationCode" property="operationCode" jdbcType="VARCHAR" />
+    <result column="operationName" property="operationName" jdbcType="VARCHAR" />
+    <result column="bodySkin" property="bodySkin" jdbcType="VARCHAR" />
+    <result column="bodySkinDes" property="bodySkinDes" jdbcType="VARCHAR" />
+    <result column="braden" property="braden" jdbcType="INTEGER" />
+    <result column="bradenCond" property="bradenCond" jdbcType="VARCHAR" />
+    <result column="fall" property="fall" jdbcType="INTEGER" />
+    <result column="fallCond" property="fallCond" jdbcType="VARCHAR" />
+    <result column="operPositionFlag" property="operPositionFlag" jdbcType="VARCHAR" />
+    <result column="allergic" property="allergic" jdbcType="VARCHAR" />
+    <result column="antibiotic" property="antibiotic" jdbcType="VARCHAR" />
+    <result column="designedAnaesMethodCode" property="designedAnaesMethodCode" jdbcType="VARCHAR" />
+    <result column="designedAnaesMethodName" property="designedAnaesMethodName" jdbcType="VARCHAR" />
+    <result column="skinDisinfect" property="skinDisinfect" jdbcType="VARCHAR" />
+    <result column="skinDisinfectOther" property="skinDisinfectOther" jdbcType="VARCHAR" />
+    <result column="totalIn" property="totalIn" jdbcType="INTEGER" />
+    <result column="infusion" property="infusion" jdbcType="VARCHAR" />
+    <result column="bloodType" property="bloodType" jdbcType="VARCHAR" />
+    <result column="blood" property="blood" jdbcType="VARCHAR" />
+    <result column="totalOut" property="totalOut" jdbcType="INTEGER" />
+    <result column="urine" property="urine" jdbcType="INTEGER" />
+    <result column="bleeding" property="bleeding" jdbcType="INTEGER" />
+    <result column="hematocele" property="hematocele" jdbcType="INTEGER" />
+    <result column="outOther" property="outOther" jdbcType="VARCHAR" />
+    <result column="tourniquet" property="tourniquet" jdbcType="VARCHAR" />
+    <result column="chestTube" property="chestTube" jdbcType="INTEGER" />
+    <result column="intraperitonealTube" property="intraperitonealTube" jdbcType="INTEGER" />
+    <result column="intraventricularTube" property="intraventricularTube" jdbcType="INTEGER" />
+    <result column="tTube" property="tTube" jdbcType="INTEGER" />
+    <result column="suctionBall" property="suctionBall" jdbcType="INTEGER" />
+    <result column="film" property="film" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="placeSiteA1" property="placeSiteA1" jdbcType="VARCHAR" />
+    <result column="placeSiteA2" property="placeSiteA2" jdbcType="VARCHAR" />
+    <result column="aeratedTime1" property="aeratedTime1" jdbcType="TIMESTAMP" />
+    <result column="deflationTime1" property="deflationTime1" jdbcType="TIMESTAMP" />
+    <result column="totalTime1" property="totalTime1" jdbcType="INTEGER" />
+    <result column="pressure1" property="pressure1" jdbcType="INTEGER" />
+    <result column="placeSiteB1" property="placeSiteB1" jdbcType="VARCHAR" />
+    <result column="placeSiteB2" property="placeSiteB2" jdbcType="VARCHAR" />
+    <result column="aeratedTime2" property="aeratedTime2" jdbcType="TIMESTAMP" />
+    <result column="deflationTime2" property="deflationTime2" jdbcType="TIMESTAMP" />
+    <result column="totalTime2" property="totalTime2" jdbcType="INTEGER" />
+    <result column="pressure2" property="pressure2" jdbcType="INTEGER" />
+    <result column="optBody" property="optBody" jdbcType="VARCHAR" />
+    <result column="preventFall1" property="preventFall1" jdbcType="VARCHAR" />
+    <result column="preventFall2" property="preventFall2" jdbcType="VARCHAR" />
+    <result column="preventFall3" property="preventFall3" jdbcType="VARCHAR" />
+    <result column="preventFall4" property="preventFall4" jdbcType="VARCHAR" />
+    <result column="preventBraden1" property="preventBraden1" jdbcType="VARCHAR" />
+    <result column="preventBraden2" property="preventBraden2" jdbcType="VARCHAR" />
+    <result column="preventBraden3" property="preventBraden3" jdbcType="VARCHAR" />
+    <result column="preventBradenOther" property="preventBradenOther" jdbcType="VARCHAR" />
+    <result column="preventHypothermia1" property="preventHypothermia1" jdbcType="VARCHAR" />
+    <result column="preventHypothermia2" property="preventHypothermia2" jdbcType="VARCHAR" />
+    <result column="preventHypothermia3" property="preventHypothermia3" jdbcType="VARCHAR" />
+    <result column="preventHypothermia4" property="preventHypothermia4" jdbcType="VARCHAR" />
+    <result column="preventHypothermiaOther" property="preventHypothermiaOther" jdbcType="VARCHAR" />
+    <result column="otherNurse1" property="otherNurse1" jdbcType="VARCHAR" />
+    <result column="otherNurse2" property="otherNurse2" jdbcType="VARCHAR" />
+    <result column="otherNurse3" property="otherNurse3" jdbcType="VARCHAR" />
+    <result column="otherNurse4" property="otherNurse4" jdbcType="VARCHAR" />
+    <result column="negativePosition1" property="negativePosition1" jdbcType="VARCHAR" />
+    <result column="negativePosition2" property="negativePosition2" jdbcType="VARCHAR" />
+    <result column="negativePosition3" property="negativePosition3" jdbcType="VARCHAR" />
+    <result column="negativePosition4" property="negativePosition4" jdbcType="VARCHAR" />
+    <result column="negativePosition" property="negativePosition" jdbcType="VARCHAR" />
+    <result column="pasteSkin" property="pasteSkin" jdbcType="VARCHAR" />
+    <result column="specimen" property="specimen" jdbcType="VARCHAR" />
+    <result column="specimen1" property="specimen1" jdbcType="VARCHAR" />
+    <result column="specimen2" property="specimen2" jdbcType="VARCHAR" />
+    <result column="specimen3" property="specimen3" jdbcType="VARCHAR" />
+    <result column="specimenOther" property="specimenOther" jdbcType="VARCHAR" />
+    <result column="specimenOtherCond" property="specimenOtherCond" jdbcType="VARCHAR" />
+    <result column="postoperativeSkin1" property="postoperativeSkin1" jdbcType="VARCHAR" />
+    <result column="postoperativeSkin2" property="postoperativeSkin2" jdbcType="VARCHAR" />
+    <result column="leaveto1" property="leaveto1" jdbcType="VARCHAR" />
+    <result column="leaveto2" property="leaveto2" jdbcType="VARCHAR" />
+    <result column="leavetoOther" property="leavetoOther" jdbcType="VARCHAR" />
+    <result column="outBloodPre" property="outBloodPre" jdbcType="VARCHAR" />
+    <result column="outPulse" property="outPulse" jdbcType="INTEGER" />
+    <result column="outBreath" property="outBreath" jdbcType="INTEGER" />
+    <result column="specialRecord1" property="specialRecord1" jdbcType="VARCHAR" />
+    <result column="specialRecord1Time" property="specialRecord1Time" jdbcType="TIMESTAMP" />
+    <result column="specialRecord1Signature" property="specialRecord1Signature" jdbcType="VARCHAR" />
+    <result column="specialRecord2" property="specialRecord2" jdbcType="VARCHAR" />
+    <result column="specialRecord2Time" property="specialRecord2Time" jdbcType="TIMESTAMP" />
+    <result column="specialRecord2Signature" property="specialRecord2Signature" jdbcType="VARCHAR" />
+    <result column="specialRecord3" property="specialRecord3" jdbcType="VARCHAR" />
+    <result column="specialRecord3Time" property="specialRecord3Time" jdbcType="TIMESTAMP" />
+    <result column="specialRecord3Signature" property="specialRecord3Signature" jdbcType="VARCHAR" />
+    <result column="specialRecord4" property="specialRecord4" jdbcType="VARCHAR" />
+    <result column="specialRecord4Time" property="specialRecord4Time" jdbcType="TIMESTAMP" />
+    <result column="specialRecord4Signature" property="specialRecord4Signature" jdbcType="VARCHAR" />
+    <result column="takeOverBloodPre" property="takeOverBloodPre" jdbcType="VARCHAR" />
+    <result column="takeOverPulse" property="takeOverPulse" jdbcType="INTEGER" />
+    <result column="takeOverBreath" property="takeOverBreath" jdbcType="INTEGER" />
+    <result column="tourNurseSignature" property="tourNurseSignature" jdbcType="VARCHAR" />
+    <result column="wardNurseSignature" property="wardNurseSignature" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="doctorConfirm" property="doctorConfirm" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, processState, operStartTime, operEndTime, inOperRoomTime, outOperRoomTime, 
+    greenChannel, tourNurse, operationCode, operationName, bodySkin, bodySkinDes, braden, 
+    bradenCond, fall, fallCond, operPositionFlag, allergic, antibiotic, designedAnaesMethodCode, 
+    designedAnaesMethodName, skinDisinfect, skinDisinfectOther, totalIn, infusion, bloodType, 
+    blood, totalOut, urine, bleeding, hematocele, outOther, tourniquet, chestTube, intraperitonealTube, 
+    intraventricularTube, tTube, suctionBall, film, other, placeSiteA1, placeSiteA2, 
+    aeratedTime1, deflationTime1, totalTime1, pressure1, placeSiteB1, placeSiteB2, aeratedTime2, 
+    deflationTime2, totalTime2, pressure2, optBody, preventFall1, preventFall2, preventFall3, 
+    preventFall4, preventBraden1, preventBraden2, preventBraden3, preventBradenOther, 
+    preventHypothermia1, preventHypothermia2, preventHypothermia3, preventHypothermia4, 
+    preventHypothermiaOther, otherNurse1, otherNurse2, otherNurse3, otherNurse4, negativePosition1, 
+    negativePosition2, negativePosition3, negativePosition4, negativePosition, pasteSkin, 
+    specimen, specimen1, specimen2, specimen3, specimenOther, specimenOtherCond, postoperativeSkin1, 
+    postoperativeSkin2, leaveto1, leaveto2, leavetoOther, outBloodPre, outPulse, outBreath, 
+    specialRecord1, specialRecord1Time, specialRecord1Signature, specialRecord2, specialRecord2Time, 
+    specialRecord2Signature, specialRecord3, specialRecord3Time, specialRecord3Signature, 
+    specialRecord4, specialRecord4Time, specialRecord4Signature, takeOverBloodPre, takeOverPulse, 
+    takeOverBreath, tourNurseSignature, wardNurseSignature, time, doctorConfirm
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_opt_nurse_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select DISTINCT * from doc_opt_nurse_record
+    where regOptId = #{regOptId}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_opt_nurse_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateBloodAndInfusion" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurseRecord" >
+	update doc_opt_nurse_record
+	<set>
+		<if test="blood != null">
+			blood = #{blood,jdbcType=VARCHAR},
+		</if>
+		<if test="infusion != null">
+			infusion = #{infusion,jdbcType=VARCHAR},
+		</if>
+		<if test="totalIn != null">
+			totalIn = #{totalIn,jdbcType=INTEGER},
+		</if>
+	</set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurseRecord" >
+    insert into doc_opt_nurse_record (id, regOptId, processState, 
+      operStartTime, operEndTime, inOperRoomTime, 
+      outOperRoomTime, greenChannel, tourNurse, 
+      operationCode, operationName, bodySkin, 
+      bodySkinDes, braden, bradenCond, 
+      fall, fallCond, operPositionFlag, 
+      allergic, antibiotic, designedAnaesMethodCode, 
+      designedAnaesMethodName, skinDisinfect, 
+      skinDisinfectOther, totalIn, infusion, 
+      bloodType, blood, totalOut, 
+      urine, bleeding, hematocele, 
+      outOther, tourniquet, chestTube, 
+      intraperitonealTube, intraventricularTube, 
+      tTube, suctionBall, film, 
+      other, placeSiteA1, placeSiteA2, 
+      aeratedTime1, deflationTime1, totalTime1, 
+      pressure1, placeSiteB1, placeSiteB2, 
+      aeratedTime2, deflationTime2, totalTime2, 
+      pressure2, optBody, preventFall1, 
+      preventFall2, preventFall3, preventFall4, 
+      preventBraden1, preventBraden2, preventBraden3, 
+      preventBradenOther, preventHypothermia1, 
+      preventHypothermia2, preventHypothermia3, 
+      preventHypothermia4, preventHypothermiaOther, 
+      otherNurse1, otherNurse2, otherNurse3, 
+      otherNurse4, negativePosition1, negativePosition2, 
+      negativePosition3, negativePosition4, negativePosition, 
+      pasteSkin, specimen, specimen1, 
+      specimen2, specimen3, specimenOther, 
+      specimenOtherCond, postoperativeSkin1, 
+      postoperativeSkin2, leaveto1, leaveto2, 
+      leavetoOther, outBloodPre, outPulse, 
+      outBreath, specialRecord1, specialRecord1Time, 
+      specialRecord1Signature, specialRecord2, 
+      specialRecord2Time, specialRecord2Signature, 
+      specialRecord3, specialRecord3Time, specialRecord3Signature, 
+      specialRecord4, specialRecord4Time, specialRecord4Signature, 
+      takeOverBloodPre, takeOverPulse, takeOverBreath, 
+      tourNurseSignature, wardNurseSignature, 
+      time, doctorConfirm)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{operStartTime,jdbcType=TIMESTAMP}, #{operEndTime,jdbcType=TIMESTAMP}, #{inOperRoomTime,jdbcType=TIMESTAMP}, 
+      #{outOperRoomTime,jdbcType=TIMESTAMP}, #{greenChannel,jdbcType=VARCHAR}, #{tourNurse,jdbcType=VARCHAR}, 
+      #{operationCode,jdbcType=VARCHAR}, #{operationName,jdbcType=VARCHAR}, #{bodySkin,jdbcType=VARCHAR}, 
+      #{bodySkinDes,jdbcType=VARCHAR}, #{braden,jdbcType=INTEGER}, #{bradenCond,jdbcType=VARCHAR}, 
+      #{fall,jdbcType=INTEGER}, #{fallCond,jdbcType=VARCHAR}, #{operPositionFlag,jdbcType=VARCHAR}, 
+      #{allergic,jdbcType=VARCHAR}, #{antibiotic,jdbcType=VARCHAR}, #{designedAnaesMethodCode,jdbcType=VARCHAR}, 
+      #{designedAnaesMethodName,jdbcType=VARCHAR}, #{skinDisinfect,jdbcType=VARCHAR}, 
+      #{skinDisinfectOther,jdbcType=VARCHAR}, #{totalIn,jdbcType=INTEGER}, #{infusion,jdbcType=VARCHAR}, 
+      #{bloodType,jdbcType=VARCHAR}, #{blood,jdbcType=VARCHAR}, #{totalOut,jdbcType=INTEGER}, 
+      #{urine,jdbcType=INTEGER}, #{bleeding,jdbcType=INTEGER}, #{hematocele,jdbcType=INTEGER}, 
+      #{outOther,jdbcType=VARCHAR}, #{tourniquet,jdbcType=VARCHAR}, #{chestTube,jdbcType=INTEGER}, 
+      #{intraperitonealTube,jdbcType=INTEGER}, #{intraventricularTube,jdbcType=INTEGER}, 
+      #{tTube,jdbcType=INTEGER}, #{suctionBall,jdbcType=INTEGER}, #{film,jdbcType=INTEGER}, 
+      #{other,jdbcType=VARCHAR}, #{placeSiteA1,jdbcType=VARCHAR}, #{placeSiteA2,jdbcType=VARCHAR}, 
+      #{aeratedTime1,jdbcType=TIMESTAMP}, #{deflationTime1,jdbcType=TIMESTAMP}, #{totalTime1,jdbcType=INTEGER}, 
+      #{pressure1,jdbcType=INTEGER}, #{placeSiteB1,jdbcType=VARCHAR}, #{placeSiteB2,jdbcType=VARCHAR}, 
+      #{aeratedTime2,jdbcType=TIMESTAMP}, #{deflationTime2,jdbcType=TIMESTAMP}, #{totalTime2,jdbcType=INTEGER}, 
+      #{pressure2,jdbcType=INTEGER}, #{optBody,jdbcType=VARCHAR}, #{preventFall1,jdbcType=VARCHAR}, 
+      #{preventFall2,jdbcType=VARCHAR}, #{preventFall3,jdbcType=VARCHAR}, #{preventFall4,jdbcType=VARCHAR}, 
+      #{preventBraden1,jdbcType=VARCHAR}, #{preventBraden2,jdbcType=VARCHAR}, #{preventBraden3,jdbcType=VARCHAR}, 
+      #{preventBradenOther,jdbcType=VARCHAR}, #{preventHypothermia1,jdbcType=VARCHAR}, 
+      #{preventHypothermia2,jdbcType=VARCHAR}, #{preventHypothermia3,jdbcType=VARCHAR}, 
+      #{preventHypothermia4,jdbcType=VARCHAR}, #{preventHypothermiaOther,jdbcType=VARCHAR}, 
+      #{otherNurse1,jdbcType=VARCHAR}, #{otherNurse2,jdbcType=VARCHAR}, #{otherNurse3,jdbcType=VARCHAR}, 
+      #{otherNurse4,jdbcType=VARCHAR}, #{negativePosition1,jdbcType=VARCHAR}, #{negativePosition2,jdbcType=VARCHAR}, 
+      #{negativePosition3,jdbcType=VARCHAR}, #{negativePosition4,jdbcType=VARCHAR}, #{negativePosition,jdbcType=VARCHAR}, 
+      #{pasteSkin,jdbcType=VARCHAR}, #{specimen,jdbcType=VARCHAR}, #{specimen1,jdbcType=VARCHAR}, 
+      #{specimen2,jdbcType=VARCHAR}, #{specimen3,jdbcType=VARCHAR}, #{specimenOther,jdbcType=VARCHAR}, 
+      #{specimenOtherCond,jdbcType=VARCHAR}, #{postoperativeSkin1,jdbcType=VARCHAR}, 
+      #{postoperativeSkin2,jdbcType=VARCHAR}, #{leaveto1,jdbcType=VARCHAR}, #{leaveto2,jdbcType=VARCHAR}, 
+      #{leavetoOther,jdbcType=VARCHAR}, #{outBloodPre,jdbcType=VARCHAR}, #{outPulse,jdbcType=INTEGER}, 
+      #{outBreath,jdbcType=INTEGER}, #{specialRecord1,jdbcType=VARCHAR}, #{specialRecord1Time,jdbcType=TIMESTAMP}, 
+      #{specialRecord1Signature,jdbcType=VARCHAR}, #{specialRecord2,jdbcType=VARCHAR}, 
+      #{specialRecord2Time,jdbcType=TIMESTAMP}, #{specialRecord2Signature,jdbcType=VARCHAR}, 
+      #{specialRecord3,jdbcType=VARCHAR}, #{specialRecord3Time,jdbcType=TIMESTAMP}, #{specialRecord3Signature,jdbcType=VARCHAR}, 
+      #{specialRecord4,jdbcType=VARCHAR}, #{specialRecord4Time,jdbcType=TIMESTAMP}, #{specialRecord4Signature,jdbcType=VARCHAR}, 
+      #{takeOverBloodPre,jdbcType=VARCHAR}, #{takeOverPulse,jdbcType=INTEGER}, #{takeOverBreath,jdbcType=INTEGER}, 
+      #{tourNurseSignature,jdbcType=VARCHAR}, #{wardNurseSignature,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{doctorConfirm,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurseRecord" >
+    insert into doc_opt_nurse_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="operStartTime != null" >
+        operStartTime,
+      </if>
+      <if test="operEndTime != null" >
+        operEndTime,
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime,
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime,
+      </if>
+      <if test="greenChannel != null" >
+        greenChannel,
+      </if>
+      <if test="tourNurse != null" >
+        tourNurse,
+      </if>
+      <if test="operationCode != null" >
+        operationCode,
+      </if>
+      <if test="operationName != null" >
+        operationName,
+      </if>
+      <if test="bodySkin != null" >
+        bodySkin,
+      </if>
+      <if test="bodySkinDes != null" >
+        bodySkinDes,
+      </if>
+      <if test="braden != null" >
+        braden,
+      </if>
+      <if test="bradenCond != null" >
+        bradenCond,
+      </if>
+      <if test="fall != null" >
+        fall,
+      </if>
+      <if test="fallCond != null" >
+        fallCond,
+      </if>
+      <if test="operPositionFlag != null" >
+        operPositionFlag,
+      </if>
+      <if test="allergic != null" >
+        allergic,
+      </if>
+      <if test="antibiotic != null" >
+        antibiotic,
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        designedAnaesMethodCode,
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        designedAnaesMethodName,
+      </if>
+      <if test="skinDisinfect != null" >
+        skinDisinfect,
+      </if>
+      <if test="skinDisinfectOther != null" >
+        skinDisinfectOther,
+      </if>
+      <if test="totalIn != null" >
+        totalIn,
+      </if>
+      <if test="infusion != null" >
+        infusion,
+      </if>
+      <if test="bloodType != null" >
+        bloodType,
+      </if>
+      <if test="blood != null" >
+        blood,
+      </if>
+      <if test="totalOut != null" >
+        totalOut,
+      </if>
+      <if test="urine != null" >
+        urine,
+      </if>
+      <if test="bleeding != null" >
+        bleeding,
+      </if>
+      <if test="hematocele != null" >
+        hematocele,
+      </if>
+      <if test="outOther != null" >
+        outOther,
+      </if>
+      <if test="tourniquet != null" >
+        tourniquet,
+      </if>
+      <if test="chestTube != null" >
+        chestTube,
+      </if>
+      <if test="intraperitonealTube != null" >
+        intraperitonealTube,
+      </if>
+      <if test="intraventricularTube != null" >
+        intraventricularTube,
+      </if>
+      <if test="tTube != null" >
+        tTube,
+      </if>
+      <if test="suctionBall != null" >
+        suctionBall,
+      </if>
+      <if test="film != null" >
+        film,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="placeSiteA1 != null" >
+        placeSiteA1,
+      </if>
+      <if test="placeSiteA2 != null" >
+        placeSiteA2,
+      </if>
+      <if test="aeratedTime1 != null" >
+        aeratedTime1,
+      </if>
+      <if test="deflationTime1 != null" >
+        deflationTime1,
+      </if>
+      <if test="totalTime1 != null" >
+        totalTime1,
+      </if>
+      <if test="pressure1 != null" >
+        pressure1,
+      </if>
+      <if test="placeSiteB1 != null" >
+        placeSiteB1,
+      </if>
+      <if test="placeSiteB2 != null" >
+        placeSiteB2,
+      </if>
+      <if test="aeratedTime2 != null" >
+        aeratedTime2,
+      </if>
+      <if test="deflationTime2 != null" >
+        deflationTime2,
+      </if>
+      <if test="totalTime2 != null" >
+        totalTime2,
+      </if>
+      <if test="pressure2 != null" >
+        pressure2,
+      </if>
+      <if test="optBody != null" >
+        optBody,
+      </if>
+      <if test="preventFall1 != null" >
+        preventFall1,
+      </if>
+      <if test="preventFall2 != null" >
+        preventFall2,
+      </if>
+      <if test="preventFall3 != null" >
+        preventFall3,
+      </if>
+      <if test="preventFall4 != null" >
+        preventFall4,
+      </if>
+      <if test="preventBraden1 != null" >
+        preventBraden1,
+      </if>
+      <if test="preventBraden2 != null" >
+        preventBraden2,
+      </if>
+      <if test="preventBraden3 != null" >
+        preventBraden3,
+      </if>
+      <if test="preventBradenOther != null" >
+        preventBradenOther,
+      </if>
+      <if test="preventHypothermia1 != null" >
+        preventHypothermia1,
+      </if>
+      <if test="preventHypothermia2 != null" >
+        preventHypothermia2,
+      </if>
+      <if test="preventHypothermia3 != null" >
+        preventHypothermia3,
+      </if>
+      <if test="preventHypothermia4 != null" >
+        preventHypothermia4,
+      </if>
+      <if test="preventHypothermiaOther != null" >
+        preventHypothermiaOther,
+      </if>
+      <if test="otherNurse1 != null" >
+        otherNurse1,
+      </if>
+      <if test="otherNurse2 != null" >
+        otherNurse2,
+      </if>
+      <if test="otherNurse3 != null" >
+        otherNurse3,
+      </if>
+      <if test="otherNurse4 != null" >
+        otherNurse4,
+      </if>
+      <if test="negativePosition1 != null" >
+        negativePosition1,
+      </if>
+      <if test="negativePosition2 != null" >
+        negativePosition2,
+      </if>
+      <if test="negativePosition3 != null" >
+        negativePosition3,
+      </if>
+      <if test="negativePosition4 != null" >
+        negativePosition4,
+      </if>
+      <if test="negativePosition != null" >
+        negativePosition,
+      </if>
+      <if test="pasteSkin != null" >
+        pasteSkin,
+      </if>
+      <if test="specimen != null" >
+        specimen,
+      </if>
+      <if test="specimen1 != null" >
+        specimen1,
+      </if>
+      <if test="specimen2 != null" >
+        specimen2,
+      </if>
+      <if test="specimen3 != null" >
+        specimen3,
+      </if>
+      <if test="specimenOther != null" >
+        specimenOther,
+      </if>
+      <if test="specimenOtherCond != null" >
+        specimenOtherCond,
+      </if>
+      <if test="postoperativeSkin1 != null" >
+        postoperativeSkin1,
+      </if>
+      <if test="postoperativeSkin2 != null" >
+        postoperativeSkin2,
+      </if>
+      <if test="leaveto1 != null" >
+        leaveto1,
+      </if>
+      <if test="leaveto2 != null" >
+        leaveto2,
+      </if>
+      <if test="leavetoOther != null" >
+        leavetoOther,
+      </if>
+      <if test="outBloodPre != null" >
+        outBloodPre,
+      </if>
+      <if test="outPulse != null" >
+        outPulse,
+      </if>
+      <if test="outBreath != null" >
+        outBreath,
+      </if>
+      <if test="specialRecord1 != null" >
+        specialRecord1,
+      </if>
+      <if test="specialRecord1Time != null" >
+        specialRecord1Time,
+      </if>
+      <if test="specialRecord1Signature != null" >
+        specialRecord1Signature,
+      </if>
+      <if test="specialRecord2 != null" >
+        specialRecord2,
+      </if>
+      <if test="specialRecord2Time != null" >
+        specialRecord2Time,
+      </if>
+      <if test="specialRecord2Signature != null" >
+        specialRecord2Signature,
+      </if>
+      <if test="specialRecord3 != null" >
+        specialRecord3,
+      </if>
+      <if test="specialRecord3Time != null" >
+        specialRecord3Time,
+      </if>
+      <if test="specialRecord3Signature != null" >
+        specialRecord3Signature,
+      </if>
+      <if test="specialRecord4 != null" >
+        specialRecord4,
+      </if>
+      <if test="specialRecord4Time != null" >
+        specialRecord4Time,
+      </if>
+      <if test="specialRecord4Signature != null" >
+        specialRecord4Signature,
+      </if>
+      <if test="takeOverBloodPre != null" >
+        takeOverBloodPre,
+      </if>
+      <if test="takeOverPulse != null" >
+        takeOverPulse,
+      </if>
+      <if test="takeOverBreath != null" >
+        takeOverBreath,
+      </if>
+      <if test="tourNurseSignature != null" >
+        tourNurseSignature,
+      </if>
+      <if test="wardNurseSignature != null" >
+        wardNurseSignature,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="doctorConfirm != null" >
+        doctorConfirm,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="operStartTime != null" >
+        #{operStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operEndTime != null" >
+        #{operEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inOperRoomTime != null" >
+        #{inOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outOperRoomTime != null" >
+        #{outOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="greenChannel != null" >
+        #{greenChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="tourNurse != null" >
+        #{tourNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="operationCode != null" >
+        #{operationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationName != null" >
+        #{operationName,jdbcType=VARCHAR},
+      </if>
+      <if test="bodySkin != null" >
+        #{bodySkin,jdbcType=VARCHAR},
+      </if>
+      <if test="bodySkinDes != null" >
+        #{bodySkinDes,jdbcType=VARCHAR},
+      </if>
+      <if test="braden != null" >
+        #{braden,jdbcType=INTEGER},
+      </if>
+      <if test="bradenCond != null" >
+        #{bradenCond,jdbcType=VARCHAR},
+      </if>
+      <if test="fall != null" >
+        #{fall,jdbcType=INTEGER},
+      </if>
+      <if test="fallCond != null" >
+        #{fallCond,jdbcType=VARCHAR},
+      </if>
+      <if test="operPositionFlag != null" >
+        #{operPositionFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="allergic != null" >
+        #{allergic,jdbcType=VARCHAR},
+      </if>
+      <if test="antibiotic != null" >
+        #{antibiotic,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        #{designedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="skinDisinfect != null" >
+        #{skinDisinfect,jdbcType=VARCHAR},
+      </if>
+      <if test="skinDisinfectOther != null" >
+        #{skinDisinfectOther,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIn != null" >
+        #{totalIn,jdbcType=INTEGER},
+      </if>
+      <if test="infusion != null" >
+        #{infusion,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null" >
+        #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        #{blood,jdbcType=VARCHAR},
+      </if>
+      <if test="totalOut != null" >
+        #{totalOut,jdbcType=INTEGER},
+      </if>
+      <if test="urine != null" >
+        #{urine,jdbcType=INTEGER},
+      </if>
+      <if test="bleeding != null" >
+        #{bleeding,jdbcType=INTEGER},
+      </if>
+      <if test="hematocele != null" >
+        #{hematocele,jdbcType=INTEGER},
+      </if>
+      <if test="outOther != null" >
+        #{outOther,jdbcType=VARCHAR},
+      </if>
+      <if test="tourniquet != null" >
+        #{tourniquet,jdbcType=VARCHAR},
+      </if>
+      <if test="chestTube != null" >
+        #{chestTube,jdbcType=INTEGER},
+      </if>
+      <if test="intraperitonealTube != null" >
+        #{intraperitonealTube,jdbcType=INTEGER},
+      </if>
+      <if test="intraventricularTube != null" >
+        #{intraventricularTube,jdbcType=INTEGER},
+      </if>
+      <if test="tTube != null" >
+        #{tTube,jdbcType=INTEGER},
+      </if>
+      <if test="suctionBall != null" >
+        #{suctionBall,jdbcType=INTEGER},
+      </if>
+      <if test="film != null" >
+        #{film,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="placeSiteA1 != null" >
+        #{placeSiteA1,jdbcType=VARCHAR},
+      </if>
+      <if test="placeSiteA2 != null" >
+        #{placeSiteA2,jdbcType=VARCHAR},
+      </if>
+      <if test="aeratedTime1 != null" >
+        #{aeratedTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deflationTime1 != null" >
+        #{deflationTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalTime1 != null" >
+        #{totalTime1,jdbcType=INTEGER},
+      </if>
+      <if test="pressure1 != null" >
+        #{pressure1,jdbcType=INTEGER},
+      </if>
+      <if test="placeSiteB1 != null" >
+        #{placeSiteB1,jdbcType=VARCHAR},
+      </if>
+      <if test="placeSiteB2 != null" >
+        #{placeSiteB2,jdbcType=VARCHAR},
+      </if>
+      <if test="aeratedTime2 != null" >
+        #{aeratedTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deflationTime2 != null" >
+        #{deflationTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalTime2 != null" >
+        #{totalTime2,jdbcType=INTEGER},
+      </if>
+      <if test="pressure2 != null" >
+        #{pressure2,jdbcType=INTEGER},
+      </if>
+      <if test="optBody != null" >
+        #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall1 != null" >
+        #{preventFall1,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall2 != null" >
+        #{preventFall2,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall3 != null" >
+        #{preventFall3,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall4 != null" >
+        #{preventFall4,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBraden1 != null" >
+        #{preventBraden1,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBraden2 != null" >
+        #{preventBraden2,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBraden3 != null" >
+        #{preventBraden3,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBradenOther != null" >
+        #{preventBradenOther,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia1 != null" >
+        #{preventHypothermia1,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia2 != null" >
+        #{preventHypothermia2,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia3 != null" >
+        #{preventHypothermia3,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia4 != null" >
+        #{preventHypothermia4,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermiaOther != null" >
+        #{preventHypothermiaOther,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse1 != null" >
+        #{otherNurse1,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse2 != null" >
+        #{otherNurse2,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse3 != null" >
+        #{otherNurse3,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse4 != null" >
+        #{otherNurse4,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition1 != null" >
+        #{negativePosition1,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition2 != null" >
+        #{negativePosition2,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition3 != null" >
+        #{negativePosition3,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition4 != null" >
+        #{negativePosition4,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition != null" >
+        #{negativePosition,jdbcType=VARCHAR},
+      </if>
+      <if test="pasteSkin != null" >
+        #{pasteSkin,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen != null" >
+        #{specimen,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen1 != null" >
+        #{specimen1,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen2 != null" >
+        #{specimen2,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen3 != null" >
+        #{specimen3,jdbcType=VARCHAR},
+      </if>
+      <if test="specimenOther != null" >
+        #{specimenOther,jdbcType=VARCHAR},
+      </if>
+      <if test="specimenOtherCond != null" >
+        #{specimenOtherCond,jdbcType=VARCHAR},
+      </if>
+      <if test="postoperativeSkin1 != null" >
+        #{postoperativeSkin1,jdbcType=VARCHAR},
+      </if>
+      <if test="postoperativeSkin2 != null" >
+        #{postoperativeSkin2,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveto1 != null" >
+        #{leaveto1,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveto2 != null" >
+        #{leaveto2,jdbcType=VARCHAR},
+      </if>
+      <if test="leavetoOther != null" >
+        #{leavetoOther,jdbcType=VARCHAR},
+      </if>
+      <if test="outBloodPre != null" >
+        #{outBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="outPulse != null" >
+        #{outPulse,jdbcType=INTEGER},
+      </if>
+      <if test="outBreath != null" >
+        #{outBreath,jdbcType=INTEGER},
+      </if>
+      <if test="specialRecord1 != null" >
+        #{specialRecord1,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord1Time != null" >
+        #{specialRecord1Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord1Signature != null" >
+        #{specialRecord1Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord2 != null" >
+        #{specialRecord2,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord2Time != null" >
+        #{specialRecord2Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord2Signature != null" >
+        #{specialRecord2Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord3 != null" >
+        #{specialRecord3,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord3Time != null" >
+        #{specialRecord3Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord3Signature != null" >
+        #{specialRecord3Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord4 != null" >
+        #{specialRecord4,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord4Time != null" >
+        #{specialRecord4Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord4Signature != null" >
+        #{specialRecord4Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="takeOverBloodPre != null" >
+        #{takeOverBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="takeOverPulse != null" >
+        #{takeOverPulse,jdbcType=INTEGER},
+      </if>
+      <if test="takeOverBreath != null" >
+        #{takeOverBreath,jdbcType=INTEGER},
+      </if>
+      <if test="tourNurseSignature != null" >
+        #{tourNurseSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="wardNurseSignature != null" >
+        #{wardNurseSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doctorConfirm != null" >
+        #{doctorConfirm,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurseRecord" >
+    update doc_opt_nurse_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="operStartTime != null" >
+        operStartTime = #{operStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operEndTime != null" >
+        operEndTime = #{operEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime = #{inOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime = #{outOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="greenChannel != null" >
+        greenChannel = #{greenChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="tourNurse != null" >
+        tourNurse = #{tourNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="operationCode != null" >
+        operationCode = #{operationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationName != null" >
+        operationName = #{operationName,jdbcType=VARCHAR},
+      </if>
+      <if test="bodySkin != null" >
+        bodySkin = #{bodySkin,jdbcType=VARCHAR},
+      </if>
+      <if test="bodySkinDes != null" >
+        bodySkinDes = #{bodySkinDes,jdbcType=VARCHAR},
+      </if>
+      <if test="braden != null" >
+        braden = #{braden,jdbcType=INTEGER},
+      </if>
+      <if test="bradenCond != null" >
+        bradenCond = #{bradenCond,jdbcType=VARCHAR},
+      </if>
+      <if test="fall != null" >
+        fall = #{fall,jdbcType=INTEGER},
+      </if>
+      <if test="fallCond != null" >
+        fallCond = #{fallCond,jdbcType=VARCHAR},
+      </if>
+      <if test="operPositionFlag != null" >
+        operPositionFlag = #{operPositionFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="allergic != null" >
+        allergic = #{allergic,jdbcType=VARCHAR},
+      </if>
+      <if test="antibiotic != null" >
+        antibiotic = #{antibiotic,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="skinDisinfect != null" >
+        skinDisinfect = #{skinDisinfect,jdbcType=VARCHAR},
+      </if>
+      <if test="skinDisinfectOther != null" >
+        skinDisinfectOther = #{skinDisinfectOther,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIn != null" >
+        totalIn = #{totalIn,jdbcType=INTEGER},
+      </if>
+      <if test="infusion != null" >
+        infusion = #{infusion,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null" >
+        bloodType = #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        blood = #{blood,jdbcType=VARCHAR},
+      </if>
+      <if test="totalOut != null" >
+        totalOut = #{totalOut,jdbcType=INTEGER},
+      </if>
+      <if test="urine != null" >
+        urine = #{urine,jdbcType=INTEGER},
+      </if>
+      <if test="bleeding != null" >
+        bleeding = #{bleeding,jdbcType=INTEGER},
+      </if>
+      <if test="hematocele != null" >
+        hematocele = #{hematocele,jdbcType=INTEGER},
+      </if>
+      <if test="outOther != null" >
+        outOther = #{outOther,jdbcType=VARCHAR},
+      </if>
+      <if test="tourniquet != null" >
+        tourniquet = #{tourniquet,jdbcType=VARCHAR},
+      </if>
+      <if test="chestTube != null" >
+        chestTube = #{chestTube,jdbcType=INTEGER},
+      </if>
+      <if test="intraperitonealTube != null" >
+        intraperitonealTube = #{intraperitonealTube,jdbcType=INTEGER},
+      </if>
+      <if test="intraventricularTube != null" >
+        intraventricularTube = #{intraventricularTube,jdbcType=INTEGER},
+      </if>
+      <if test="tTube != null" >
+        tTube = #{tTube,jdbcType=INTEGER},
+      </if>
+      <if test="suctionBall != null" >
+        suctionBall = #{suctionBall,jdbcType=INTEGER},
+      </if>
+      <if test="film != null" >
+        film = #{film,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="placeSiteA1 != null" >
+        placeSiteA1 = #{placeSiteA1,jdbcType=VARCHAR},
+      </if>
+      <if test="placeSiteA2 != null" >
+        placeSiteA2 = #{placeSiteA2,jdbcType=VARCHAR},
+      </if>
+      <if test="aeratedTime1 != null" >
+        aeratedTime1 = #{aeratedTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deflationTime1 != null" >
+        deflationTime1 = #{deflationTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalTime1 != null" >
+        totalTime1 = #{totalTime1,jdbcType=INTEGER},
+      </if>
+      <if test="pressure1 != null" >
+        pressure1 = #{pressure1,jdbcType=INTEGER},
+      </if>
+      <if test="placeSiteB1 != null" >
+        placeSiteB1 = #{placeSiteB1,jdbcType=VARCHAR},
+      </if>
+      <if test="placeSiteB2 != null" >
+        placeSiteB2 = #{placeSiteB2,jdbcType=VARCHAR},
+      </if>
+      <if test="aeratedTime2 != null" >
+        aeratedTime2 = #{aeratedTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deflationTime2 != null" >
+        deflationTime2 = #{deflationTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalTime2 != null" >
+        totalTime2 = #{totalTime2,jdbcType=INTEGER},
+      </if>
+      <if test="pressure2 != null" >
+        pressure2 = #{pressure2,jdbcType=INTEGER},
+      </if>
+      <if test="optBody != null" >
+        optBody = #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall1 != null" >
+        preventFall1 = #{preventFall1,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall2 != null" >
+        preventFall2 = #{preventFall2,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall3 != null" >
+        preventFall3 = #{preventFall3,jdbcType=VARCHAR},
+      </if>
+      <if test="preventFall4 != null" >
+        preventFall4 = #{preventFall4,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBraden1 != null" >
+        preventBraden1 = #{preventBraden1,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBraden2 != null" >
+        preventBraden2 = #{preventBraden2,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBraden3 != null" >
+        preventBraden3 = #{preventBraden3,jdbcType=VARCHAR},
+      </if>
+      <if test="preventBradenOther != null" >
+        preventBradenOther = #{preventBradenOther,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia1 != null" >
+        preventHypothermia1 = #{preventHypothermia1,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia2 != null" >
+        preventHypothermia2 = #{preventHypothermia2,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia3 != null" >
+        preventHypothermia3 = #{preventHypothermia3,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermia4 != null" >
+        preventHypothermia4 = #{preventHypothermia4,jdbcType=VARCHAR},
+      </if>
+      <if test="preventHypothermiaOther != null" >
+        preventHypothermiaOther = #{preventHypothermiaOther,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse1 != null" >
+        otherNurse1 = #{otherNurse1,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse2 != null" >
+        otherNurse2 = #{otherNurse2,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse3 != null" >
+        otherNurse3 = #{otherNurse3,jdbcType=VARCHAR},
+      </if>
+      <if test="otherNurse4 != null" >
+        otherNurse4 = #{otherNurse4,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition1 != null" >
+        negativePosition1 = #{negativePosition1,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition2 != null" >
+        negativePosition2 = #{negativePosition2,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition3 != null" >
+        negativePosition3 = #{negativePosition3,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition4 != null" >
+        negativePosition4 = #{negativePosition4,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePosition != null" >
+        negativePosition = #{negativePosition,jdbcType=VARCHAR},
+      </if>
+      <if test="pasteSkin != null" >
+        pasteSkin = #{pasteSkin,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen != null" >
+        specimen = #{specimen,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen1 != null" >
+        specimen1 = #{specimen1,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen2 != null" >
+        specimen2 = #{specimen2,jdbcType=VARCHAR},
+      </if>
+      <if test="specimen3 != null" >
+        specimen3 = #{specimen3,jdbcType=VARCHAR},
+      </if>
+      <if test="specimenOther != null" >
+        specimenOther = #{specimenOther,jdbcType=VARCHAR},
+      </if>
+      <if test="specimenOtherCond != null" >
+        specimenOtherCond = #{specimenOtherCond,jdbcType=VARCHAR},
+      </if>
+      <if test="postoperativeSkin1 != null" >
+        postoperativeSkin1 = #{postoperativeSkin1,jdbcType=VARCHAR},
+      </if>
+      <if test="postoperativeSkin2 != null" >
+        postoperativeSkin2 = #{postoperativeSkin2,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveto1 != null" >
+        leaveto1 = #{leaveto1,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveto2 != null" >
+        leaveto2 = #{leaveto2,jdbcType=VARCHAR},
+      </if>
+      <if test="leavetoOther != null" >
+        leavetoOther = #{leavetoOther,jdbcType=VARCHAR},
+      </if>
+      <if test="outBloodPre != null" >
+        outBloodPre = #{outBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="outPulse != null" >
+        outPulse = #{outPulse,jdbcType=INTEGER},
+      </if>
+      <if test="outBreath != null" >
+        outBreath = #{outBreath,jdbcType=INTEGER},
+      </if>
+      <if test="specialRecord1 != null" >
+        specialRecord1 = #{specialRecord1,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord1Time != null" >
+        specialRecord1Time = #{specialRecord1Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord1Signature != null" >
+        specialRecord1Signature = #{specialRecord1Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord2 != null" >
+        specialRecord2 = #{specialRecord2,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord2Time != null" >
+        specialRecord2Time = #{specialRecord2Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord2Signature != null" >
+        specialRecord2Signature = #{specialRecord2Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord3 != null" >
+        specialRecord3 = #{specialRecord3,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord3Time != null" >
+        specialRecord3Time = #{specialRecord3Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord3Signature != null" >
+        specialRecord3Signature = #{specialRecord3Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord4 != null" >
+        specialRecord4 = #{specialRecord4,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRecord4Time != null" >
+        specialRecord4Time = #{specialRecord4Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specialRecord4Signature != null" >
+        specialRecord4Signature = #{specialRecord4Signature,jdbcType=VARCHAR},
+      </if>
+      <if test="takeOverBloodPre != null" >
+        takeOverBloodPre = #{takeOverBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="takeOverPulse != null" >
+        takeOverPulse = #{takeOverPulse,jdbcType=INTEGER},
+      </if>
+      <if test="takeOverBreath != null" >
+        takeOverBreath = #{takeOverBreath,jdbcType=INTEGER},
+      </if>
+      <if test="tourNurseSignature != null" >
+        tourNurseSignature = #{tourNurseSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="wardNurseSignature != null" >
+        wardNurseSignature = #{wardNurseSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doctorConfirm != null" >
+        doctorConfirm = #{doctorConfirm,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurseRecord" >
+    update doc_opt_nurse_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      operStartTime = #{operStartTime,jdbcType=TIMESTAMP},
+      operEndTime = #{operEndTime,jdbcType=TIMESTAMP},
+      inOperRoomTime = #{inOperRoomTime,jdbcType=TIMESTAMP},
+      outOperRoomTime = #{outOperRoomTime,jdbcType=TIMESTAMP},
+      greenChannel = #{greenChannel,jdbcType=VARCHAR},
+      tourNurse = #{tourNurse,jdbcType=VARCHAR},
+      operationCode = #{operationCode,jdbcType=VARCHAR},
+      operationName = #{operationName,jdbcType=VARCHAR},
+      bodySkin = #{bodySkin,jdbcType=VARCHAR},
+      bodySkinDes = #{bodySkinDes,jdbcType=VARCHAR},
+      braden = #{braden,jdbcType=INTEGER},
+      bradenCond = #{bradenCond,jdbcType=VARCHAR},
+      fall = #{fall,jdbcType=INTEGER},
+      fallCond = #{fallCond,jdbcType=VARCHAR},
+      operPositionFlag = #{operPositionFlag,jdbcType=VARCHAR},
+      allergic = #{allergic,jdbcType=VARCHAR},
+      antibiotic = #{antibiotic,jdbcType=VARCHAR},
+      designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
+      skinDisinfect = #{skinDisinfect,jdbcType=VARCHAR},
+      skinDisinfectOther = #{skinDisinfectOther,jdbcType=VARCHAR},
+      totalIn = #{totalIn,jdbcType=INTEGER},
+      infusion = #{infusion,jdbcType=VARCHAR},
+      bloodType = #{bloodType,jdbcType=VARCHAR},
+      blood = #{blood,jdbcType=VARCHAR},
+      totalOut = #{totalOut,jdbcType=INTEGER},
+      urine = #{urine,jdbcType=INTEGER},
+      bleeding = #{bleeding,jdbcType=INTEGER},
+      hematocele = #{hematocele,jdbcType=INTEGER},
+      outOther = #{outOther,jdbcType=VARCHAR},
+      tourniquet = #{tourniquet,jdbcType=VARCHAR},
+      chestTube = #{chestTube,jdbcType=INTEGER},
+      intraperitonealTube = #{intraperitonealTube,jdbcType=INTEGER},
+      intraventricularTube = #{intraventricularTube,jdbcType=INTEGER},
+      tTube = #{tTube,jdbcType=INTEGER},
+      suctionBall = #{suctionBall,jdbcType=INTEGER},
+      film = #{film,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR},
+      placeSiteA1 = #{placeSiteA1,jdbcType=VARCHAR},
+      placeSiteA2 = #{placeSiteA2,jdbcType=VARCHAR},
+      aeratedTime1 = #{aeratedTime1,jdbcType=TIMESTAMP},
+      deflationTime1 = #{deflationTime1,jdbcType=TIMESTAMP},
+      totalTime1 = #{totalTime1,jdbcType=INTEGER},
+      pressure1 = #{pressure1,jdbcType=INTEGER},
+      placeSiteB1 = #{placeSiteB1,jdbcType=VARCHAR},
+      placeSiteB2 = #{placeSiteB2,jdbcType=VARCHAR},
+      aeratedTime2 = #{aeratedTime2,jdbcType=TIMESTAMP},
+      deflationTime2 = #{deflationTime2,jdbcType=TIMESTAMP},
+      totalTime2 = #{totalTime2,jdbcType=INTEGER},
+      pressure2 = #{pressure2,jdbcType=INTEGER},
+      optBody = #{optBody,jdbcType=VARCHAR},
+      preventFall1 = #{preventFall1,jdbcType=VARCHAR},
+      preventFall2 = #{preventFall2,jdbcType=VARCHAR},
+      preventFall3 = #{preventFall3,jdbcType=VARCHAR},
+      preventFall4 = #{preventFall4,jdbcType=VARCHAR},
+      preventBraden1 = #{preventBraden1,jdbcType=VARCHAR},
+      preventBraden2 = #{preventBraden2,jdbcType=VARCHAR},
+      preventBraden3 = #{preventBraden3,jdbcType=VARCHAR},
+      preventBradenOther = #{preventBradenOther,jdbcType=VARCHAR},
+      preventHypothermia1 = #{preventHypothermia1,jdbcType=VARCHAR},
+      preventHypothermia2 = #{preventHypothermia2,jdbcType=VARCHAR},
+      preventHypothermia3 = #{preventHypothermia3,jdbcType=VARCHAR},
+      preventHypothermia4 = #{preventHypothermia4,jdbcType=VARCHAR},
+      preventHypothermiaOther = #{preventHypothermiaOther,jdbcType=VARCHAR},
+      otherNurse1 = #{otherNurse1,jdbcType=VARCHAR},
+      otherNurse2 = #{otherNurse2,jdbcType=VARCHAR},
+      otherNurse3 = #{otherNurse3,jdbcType=VARCHAR},
+      otherNurse4 = #{otherNurse4,jdbcType=VARCHAR},
+      negativePosition1 = #{negativePosition1,jdbcType=VARCHAR},
+      negativePosition2 = #{negativePosition2,jdbcType=VARCHAR},
+      negativePosition3 = #{negativePosition3,jdbcType=VARCHAR},
+      negativePosition4 = #{negativePosition4,jdbcType=VARCHAR},
+      negativePosition = #{negativePosition,jdbcType=VARCHAR},
+      pasteSkin = #{pasteSkin,jdbcType=VARCHAR},
+      specimen = #{specimen,jdbcType=VARCHAR},
+      specimen1 = #{specimen1,jdbcType=VARCHAR},
+      specimen2 = #{specimen2,jdbcType=VARCHAR},
+      specimen3 = #{specimen3,jdbcType=VARCHAR},
+      specimenOther = #{specimenOther,jdbcType=VARCHAR},
+      specimenOtherCond = #{specimenOtherCond,jdbcType=VARCHAR},
+      postoperativeSkin1 = #{postoperativeSkin1,jdbcType=VARCHAR},
+      postoperativeSkin2 = #{postoperativeSkin2,jdbcType=VARCHAR},
+      leaveto1 = #{leaveto1,jdbcType=VARCHAR},
+      leaveto2 = #{leaveto2,jdbcType=VARCHAR},
+      leavetoOther = #{leavetoOther,jdbcType=VARCHAR},
+      outBloodPre = #{outBloodPre,jdbcType=VARCHAR},
+      outPulse = #{outPulse,jdbcType=INTEGER},
+      outBreath = #{outBreath,jdbcType=INTEGER},
+      specialRecord1 = #{specialRecord1,jdbcType=VARCHAR},
+      specialRecord1Time = #{specialRecord1Time,jdbcType=TIMESTAMP},
+      specialRecord1Signature = #{specialRecord1Signature,jdbcType=VARCHAR},
+      specialRecord2 = #{specialRecord2,jdbcType=VARCHAR},
+      specialRecord2Time = #{specialRecord2Time,jdbcType=TIMESTAMP},
+      specialRecord2Signature = #{specialRecord2Signature,jdbcType=VARCHAR},
+      specialRecord3 = #{specialRecord3,jdbcType=VARCHAR},
+      specialRecord3Time = #{specialRecord3Time,jdbcType=TIMESTAMP},
+      specialRecord3Signature = #{specialRecord3Signature,jdbcType=VARCHAR},
+      specialRecord4 = #{specialRecord4,jdbcType=VARCHAR},
+      specialRecord4Time = #{specialRecord4Time,jdbcType=TIMESTAMP},
+      specialRecord4Signature = #{specialRecord4Signature,jdbcType=VARCHAR},
+      takeOverBloodPre = #{takeOverBloodPre,jdbcType=VARCHAR},
+      takeOverPulse = #{takeOverPulse,jdbcType=INTEGER},
+      takeOverBreath = #{takeOverBreath,jdbcType=INTEGER},
+      tourNurseSignature = #{tourNurseSignature,jdbcType=VARCHAR},
+      wardNurseSignature = #{wardNurseSignature,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      doctorConfirm = #{doctorConfirm,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

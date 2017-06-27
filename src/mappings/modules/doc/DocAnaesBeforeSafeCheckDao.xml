@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesBeforeSafeCheckDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck" >
+    <id column="anesBeforeId" property="anesBeforeId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="patientInfoConfirm" property="patientInfoConfirm" jdbcType="VARCHAR" />
+    <result column="desigedOperConfirm" property="desigedOperConfirm" jdbcType="VARCHAR" />
+    <result column="operSiteLogoConfirm" property="operSiteLogoConfirm" jdbcType="VARCHAR" />
+    <result column="operAccedeConfirm" property="operAccedeConfirm" jdbcType="VARCHAR" />
+    <result column="anaesAccedeConfirm" property="anaesAccedeConfirm" jdbcType="VARCHAR" />
+    <result column="anaesMethodConfirm" property="anaesMethodConfirm" jdbcType="VARCHAR" />
+    <result column="anaesRiskConfirm" property="anaesRiskConfirm" jdbcType="VARCHAR" />
+    <result column="anaesFqSafeCheckConfirm" property="anaesFqSafeCheckConfirm" jdbcType="VARCHAR" />
+    <result column="skinIntegratedConfirm" property="skinIntegratedConfirm" jdbcType="VARCHAR" />
+    <result column="skinSurgicalFieldConfirm" property="skinSurgicalFieldConfirm" jdbcType="VARCHAR" />
+    <result column="venousAccessConfirm" property="venousAccessConfirm" jdbcType="VARCHAR" />
+    <result column="allergicDetail" property="allergicDetail" jdbcType="VARCHAR" />
+    <result column="antSkinTestResult" property="antSkinTestResult" jdbcType="VARCHAR" />
+    <result column="bloodType" property="bloodType" jdbcType="VARCHAR" />
+    <result column="preparationBlood" property="preparationBlood" jdbcType="VARCHAR" />
+    <result column="prosthesis" property="prosthesis" jdbcType="VARCHAR" />
+    <result column="implantVivo" property="implantVivo" jdbcType="VARCHAR" />
+    <result column="imagingData" property="imagingData" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="anesthetistId" property="anesthetistId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="circuNurseId" property="circuNurseId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="diffAirway" property="diffAirway" jdbcType="VARCHAR" />
+    <result column="riskAspiration" property="riskAspiration" jdbcType="VARCHAR" />
+    <result column="bloodAgree" property="bloodAgree" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anesBeforeId, regOptId, patientInfoConfirm, desigedOperConfirm, operSiteLogoConfirm, 
+    operAccedeConfirm, anaesAccedeConfirm, anaesMethodConfirm, anaesRiskConfirm, anaesFqSafeCheckConfirm, 
+    skinIntegratedConfirm, skinSurgicalFieldConfirm, venousAccessConfirm, allergicDetail, 
+    antSkinTestResult, bloodType, preparationBlood, prosthesis, implantVivo, imagingData, 
+    other, anesthetistId, operatorId, circuNurseId, processState, diffAirway, riskAspiration, 
+    bloodAgree
+  </sql>
+
+	<select id="searchAnaBeCheckByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck">
+		SELECT DISTINCT *
+		FROM doc_anaes_before_safe_check d
+		WHERE d.regOptId = #{regOptId}
+	</select>
+	
+	<select id="searchAnaBeCheckById" resultType="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck">
+		SELECT DISTINCT *
+		FROM doc_anaes_before_safe_check d
+		WHERE d.anesBeforeId = #{id}
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_before_safe_check
+    where anesBeforeId = #{anesBeforeId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_before_safe_check
+    where anesBeforeId = #{anesBeforeId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck" >
+    insert into doc_anaes_before_safe_check (anesBeforeId, regOptId, patientInfoConfirm, 
+      desigedOperConfirm, operSiteLogoConfirm, 
+      operAccedeConfirm, anaesAccedeConfirm, 
+      anaesMethodConfirm, anaesRiskConfirm, anaesFqSafeCheckConfirm, 
+      skinIntegratedConfirm, skinSurgicalFieldConfirm, 
+      venousAccessConfirm, allergicDetail, antSkinTestResult, 
+      bloodType, preparationBlood, prosthesis, 
+      implantVivo, imagingData, other, 
+      anesthetistId, operatorId, circuNurseId, 
+      processState, diffAirway, riskAspiration, 
+      bloodAgree)
+    values (#{anesBeforeId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{patientInfoConfirm,jdbcType=VARCHAR}, 
+      #{desigedOperConfirm,jdbcType=VARCHAR}, #{operSiteLogoConfirm,jdbcType=VARCHAR}, 
+      #{operAccedeConfirm,jdbcType=VARCHAR}, #{anaesAccedeConfirm,jdbcType=VARCHAR}, 
+      #{anaesMethodConfirm,jdbcType=VARCHAR}, #{anaesRiskConfirm,jdbcType=VARCHAR}, #{anaesFqSafeCheckConfirm,jdbcType=VARCHAR}, 
+      #{skinIntegratedConfirm,jdbcType=VARCHAR}, #{skinSurgicalFieldConfirm,jdbcType=VARCHAR}, 
+      #{venousAccessConfirm,jdbcType=VARCHAR}, #{allergicDetail,jdbcType=VARCHAR}, #{antSkinTestResult,jdbcType=VARCHAR}, 
+      #{bloodType,jdbcType=VARCHAR}, #{preparationBlood,jdbcType=VARCHAR}, #{prosthesis,jdbcType=VARCHAR}, 
+      #{implantVivo,jdbcType=VARCHAR}, #{imagingData,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}, 
+      #{anesthetistId,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{circuNurseId,jdbcType=VARCHAR}, 
+      #{processState,jdbcType=VARCHAR}, #{diffAirway,jdbcType=VARCHAR}, #{riskAspiration,jdbcType=VARCHAR}, 
+      #{bloodAgree,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck" >
+    insert into doc_anaes_before_safe_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anesBeforeId != null" >
+        anesBeforeId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="patientInfoConfirm != null" >
+        patientInfoConfirm,
+      </if>
+      <if test="desigedOperConfirm != null" >
+        desigedOperConfirm,
+      </if>
+      <if test="operSiteLogoConfirm != null" >
+        operSiteLogoConfirm,
+      </if>
+      <if test="operAccedeConfirm != null" >
+        operAccedeConfirm,
+      </if>
+      <if test="anaesAccedeConfirm != null" >
+        anaesAccedeConfirm,
+      </if>
+      <if test="anaesMethodConfirm != null" >
+        anaesMethodConfirm,
+      </if>
+      <if test="anaesRiskConfirm != null" >
+        anaesRiskConfirm,
+      </if>
+      <if test="anaesFqSafeCheckConfirm != null" >
+        anaesFqSafeCheckConfirm,
+      </if>
+      <if test="skinIntegratedConfirm != null" >
+        skinIntegratedConfirm,
+      </if>
+      <if test="skinSurgicalFieldConfirm != null" >
+        skinSurgicalFieldConfirm,
+      </if>
+      <if test="venousAccessConfirm != null" >
+        venousAccessConfirm,
+      </if>
+      <if test="allergicDetail != null" >
+        allergicDetail,
+      </if>
+      <if test="antSkinTestResult != null" >
+        antSkinTestResult,
+      </if>
+      <if test="bloodType != null" >
+        bloodType,
+      </if>
+      <if test="preparationBlood != null" >
+        preparationBlood,
+      </if>
+      <if test="prosthesis != null" >
+        prosthesis,
+      </if>
+      <if test="implantVivo != null" >
+        implantVivo,
+      </if>
+      <if test="imagingData != null" >
+        imagingData,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="circuNurseId != null" >
+        circuNurseId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="diffAirway != null" >
+        diffAirway,
+      </if>
+      <if test="riskAspiration != null" >
+        riskAspiration,
+      </if>
+      <if test="bloodAgree != null" >
+        bloodAgree,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anesBeforeId != null" >
+        #{anesBeforeId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientInfoConfirm != null" >
+        #{patientInfoConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="desigedOperConfirm != null" >
+        #{desigedOperConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operSiteLogoConfirm != null" >
+        #{operSiteLogoConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operAccedeConfirm != null" >
+        #{operAccedeConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesAccedeConfirm != null" >
+        #{anaesAccedeConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethodConfirm != null" >
+        #{anaesMethodConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesRiskConfirm != null" >
+        #{anaesRiskConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesFqSafeCheckConfirm != null" >
+        #{anaesFqSafeCheckConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="skinIntegratedConfirm != null" >
+        #{skinIntegratedConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="skinSurgicalFieldConfirm != null" >
+        #{skinSurgicalFieldConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="venousAccessConfirm != null" >
+        #{venousAccessConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="allergicDetail != null" >
+        #{allergicDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="antSkinTestResult != null" >
+        #{antSkinTestResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null" >
+        #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="preparationBlood != null" >
+        #{preparationBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="prosthesis != null" >
+        #{prosthesis,jdbcType=VARCHAR},
+      </if>
+      <if test="implantVivo != null" >
+        #{implantVivo,jdbcType=VARCHAR},
+      </if>
+      <if test="imagingData != null" >
+        #{imagingData,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="circuNurseId != null" >
+        #{circuNurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="diffAirway != null" >
+        #{diffAirway,jdbcType=VARCHAR},
+      </if>
+      <if test="riskAspiration != null" >
+        #{riskAspiration,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodAgree != null" >
+        #{bloodAgree,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck" >
+    update doc_anaes_before_safe_check
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientInfoConfirm != null" >
+        patientInfoConfirm = #{patientInfoConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="desigedOperConfirm != null" >
+        desigedOperConfirm = #{desigedOperConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operSiteLogoConfirm != null" >
+        operSiteLogoConfirm = #{operSiteLogoConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operAccedeConfirm != null" >
+        operAccedeConfirm = #{operAccedeConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesAccedeConfirm != null" >
+        anaesAccedeConfirm = #{anaesAccedeConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethodConfirm != null" >
+        anaesMethodConfirm = #{anaesMethodConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesRiskConfirm != null" >
+        anaesRiskConfirm = #{anaesRiskConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesFqSafeCheckConfirm != null" >
+        anaesFqSafeCheckConfirm = #{anaesFqSafeCheckConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="skinIntegratedConfirm != null" >
+        skinIntegratedConfirm = #{skinIntegratedConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="skinSurgicalFieldConfirm != null" >
+        skinSurgicalFieldConfirm = #{skinSurgicalFieldConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="venousAccessConfirm != null" >
+        venousAccessConfirm = #{venousAccessConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="allergicDetail != null" >
+        allergicDetail = #{allergicDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="antSkinTestResult != null" >
+        antSkinTestResult = #{antSkinTestResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null" >
+        bloodType = #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="preparationBlood != null" >
+        preparationBlood = #{preparationBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="prosthesis != null" >
+        prosthesis = #{prosthesis,jdbcType=VARCHAR},
+      </if>
+      <if test="implantVivo != null" >
+        implantVivo = #{implantVivo,jdbcType=VARCHAR},
+      </if>
+      <if test="imagingData != null" >
+        imagingData = #{imagingData,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="circuNurseId != null" >
+        circuNurseId = #{circuNurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="diffAirway != null" >
+        diffAirway = #{diffAirway,jdbcType=VARCHAR},
+      </if>
+      <if test="riskAspiration != null" >
+        riskAspiration = #{riskAspiration,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodAgree != null" >
+        bloodAgree = #{bloodAgree,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anesBeforeId = #{anesBeforeId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck" >
+    update doc_anaes_before_safe_check
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      patientInfoConfirm = #{patientInfoConfirm,jdbcType=VARCHAR},
+      desigedOperConfirm = #{desigedOperConfirm,jdbcType=VARCHAR},
+      operSiteLogoConfirm = #{operSiteLogoConfirm,jdbcType=VARCHAR},
+      operAccedeConfirm = #{operAccedeConfirm,jdbcType=VARCHAR},
+      anaesAccedeConfirm = #{anaesAccedeConfirm,jdbcType=VARCHAR},
+      anaesMethodConfirm = #{anaesMethodConfirm,jdbcType=VARCHAR},
+      anaesRiskConfirm = #{anaesRiskConfirm,jdbcType=VARCHAR},
+      anaesFqSafeCheckConfirm = #{anaesFqSafeCheckConfirm,jdbcType=VARCHAR},
+      skinIntegratedConfirm = #{skinIntegratedConfirm,jdbcType=VARCHAR},
+      skinSurgicalFieldConfirm = #{skinSurgicalFieldConfirm,jdbcType=VARCHAR},
+      venousAccessConfirm = #{venousAccessConfirm,jdbcType=VARCHAR},
+      allergicDetail = #{allergicDetail,jdbcType=VARCHAR},
+      antSkinTestResult = #{antSkinTestResult,jdbcType=VARCHAR},
+      bloodType = #{bloodType,jdbcType=VARCHAR},
+      preparationBlood = #{preparationBlood,jdbcType=VARCHAR},
+      prosthesis = #{prosthesis,jdbcType=VARCHAR},
+      implantVivo = #{implantVivo,jdbcType=VARCHAR},
+      imagingData = #{imagingData,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR},
+      anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      circuNurseId = #{circuNurseId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      diffAirway = #{diffAirway,jdbcType=VARCHAR},
+      riskAspiration = #{riskAspiration,jdbcType=VARCHAR},
+      bloodAgree = #{bloodAgree,jdbcType=VARCHAR}
+    where anesBeforeId = #{anesBeforeId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

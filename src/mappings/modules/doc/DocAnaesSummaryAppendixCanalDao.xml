@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesSummaryAppendixCanalDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixCanal" >
+    <id column="anaSumAppCanId" property="anaSumAppCanId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="spinalAnes" property="spinalAnes" jdbcType="INTEGER" />
+    <result column="waistAnes" property="waistAnes" jdbcType="INTEGER" />
+    <result column="epiduralAnes" property="epiduralAnes" jdbcType="INTEGER" />
+    <result column="cseUnionAnes" property="cseUnionAnes" jdbcType="INTEGER" />
+    <result column="sacralAnes" property="sacralAnes" jdbcType="INTEGER" />
+    <result column="puncPoint1" property="puncPoint1" jdbcType="VARCHAR" />
+    <result column="catheterPoint1" property="catheterPoint1" jdbcType="REAL" />
+    <result column="direction1" property="direction1" jdbcType="VARCHAR" />
+    <result column="puncPoint2" property="puncPoint2" jdbcType="VARCHAR" />
+    <result column="catheterPoint2" property="catheterPoint2" jdbcType="REAL" />
+    <result column="direction2" property="direction2" jdbcType="VARCHAR" />
+    <result column="anesFlat" property="anesFlat" jdbcType="VARCHAR" />
+    <result column="medicine" property="medicine" jdbcType="VARCHAR" />
+    <result column="nerveBlock" property="nerveBlock" jdbcType="INTEGER" />
+    <result column="ultrasound" property="ultrasound" jdbcType="INTEGER" />
+    <result column="nerveStimulator" property="nerveStimulator" jdbcType="INTEGER" />
+    <result column="cervicalPlexusBlock" property="cervicalPlexusBlock" jdbcType="INTEGER" />
+    <result column="shallowCong" property="shallowCong" jdbcType="INTEGER" />
+    <result column="deepPlexus" property="deepPlexus" jdbcType="INTEGER" />
+    <result column="c" property="c" jdbcType="VARCHAR" />
+    <result column="brachialPlexusBlock" property="brachialPlexusBlock" jdbcType="INTEGER" />
+    <result column="brachialValue" property="brachialValue" jdbcType="INTEGER" />
+    <result column="interscaleneLaw" property="interscaleneLaw" jdbcType="INTEGER" />
+    <result column="axillaryMethod" property="axillaryMethod" jdbcType="INTEGER" />
+    <result column="clavicleLaw" property="clavicleLaw" jdbcType="INTEGER" />
+    <result column="waistPlexusBlock" property="waistPlexusBlock" jdbcType="INTEGER" />
+    <result column="waistPlexusValue" property="waistPlexusValue" jdbcType="INTEGER" />
+    <result column="sciaticNerveBlock" property="sciaticNerveBlock" jdbcType="INTEGER" />
+    <result column="sciaticNerveValue" property="sciaticNerveValue" jdbcType="INTEGER" />
+    <result column="femoralNerveBlock" property="femoralNerveBlock" jdbcType="INTEGER" />
+    <result column="femoralNerveValue" property="femoralNerveValue" jdbcType="INTEGER" />
+    <result column="cutaneousNerveBlock" property="cutaneousNerveBlock" jdbcType="INTEGER" />
+    <result column="cutaneousNerveValue" property="cutaneousNerveValue" jdbcType="INTEGER" />
+    <result column="other1" property="other1" jdbcType="INTEGER" />
+    <result column="other1Value" property="other1Value" jdbcType="VARCHAR" />
+    <result column="medicine1" property="medicine1" jdbcType="VARCHAR" />
+    <result column="invasiveProcedure" property="invasiveProcedure" jdbcType="INTEGER" />
+    <result column="arteryCathete" property="arteryCathete" jdbcType="INTEGER" />
+    <result column="radialArtery" property="radialArtery" jdbcType="INTEGER" />
+    <result column="femoralArtery" property="femoralArtery" jdbcType="INTEGER" />
+    <result column="footArtery" property="footArtery" jdbcType="INTEGER" />
+    <result column="footArteryValue" property="footArteryValue" jdbcType="INTEGER" />
+    <result column="deepVeinCathete" property="deepVeinCathete" jdbcType="INTEGER" />
+    <result column="jugularVein" property="jugularVein" jdbcType="INTEGER" />
+    <result column="subclavianVein" property="subclavianVein" jdbcType="INTEGER" />
+    <result column="femoralVein" property="femoralVein" jdbcType="INTEGER" />
+    <result column="femoralVeinValue" property="femoralVeinValue" jdbcType="INTEGER" />
+    <result column="ultrasound1" property="ultrasound1" jdbcType="INTEGER" />
+    <result column="singleChamber" property="singleChamber" jdbcType="INTEGER" />
+    <result column="dualChamber" property="dualChamber" jdbcType="INTEGER" />
+    <result column="threeChamber" property="threeChamber" jdbcType="INTEGER" />
+    <result column="sgCatheter" property="sgCatheter" jdbcType="INTEGER" />
+    <result column="other2" property="other2" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaSumAppCanId, anaSumId, spinalAnes, waistAnes, epiduralAnes, cseUnionAnes, sacralAnes, 
+    puncPoint1, catheterPoint1, direction1, puncPoint2, catheterPoint2, direction2, anesFlat, 
+    medicine, nerveBlock, ultrasound, nerveStimulator, cervicalPlexusBlock, shallowCong, 
+    deepPlexus, c, brachialPlexusBlock, brachialValue, interscaleneLaw, axillaryMethod, 
+    clavicleLaw, waistPlexusBlock, waistPlexusValue, sciaticNerveBlock, sciaticNerveValue, 
+    femoralNerveBlock, femoralNerveValue, cutaneousNerveBlock, cutaneousNerveValue, other1, 
+    other1Value, medicine1, invasiveProcedure, arteryCathete, radialArtery, femoralArtery, 
+    footArtery, footArteryValue, deepVeinCathete, jugularVein, subclavianVein, femoralVein, 
+    femoralVeinValue, ultrasound1, singleChamber, dualChamber, threeChamber, sgCatheter, 
+    other2
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_appendix_canal
+    where anaSumAppCanId = #{anaSumAppCanId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="getPoByAnaSumId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_appendix_canal
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_summary_appendix_canal
+    where anaSumAppCanId = #{anaSumAppCanId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixCanal" >
+    insert into doc_anaes_summary_appendix_canal (anaSumAppCanId, anaSumId, spinalAnes, 
+      waistAnes, epiduralAnes, cseUnionAnes, 
+      sacralAnes, puncPoint1, catheterPoint1, 
+      direction1, puncPoint2, catheterPoint2, 
+      direction2, anesFlat, medicine, 
+      nerveBlock, ultrasound, nerveStimulator, 
+      cervicalPlexusBlock, shallowCong, deepPlexus, 
+      c, brachialPlexusBlock, brachialValue, 
+      interscaleneLaw, axillaryMethod, clavicleLaw, 
+      waistPlexusBlock, waistPlexusValue, sciaticNerveBlock, 
+      sciaticNerveValue, femoralNerveBlock, femoralNerveValue, 
+      cutaneousNerveBlock, cutaneousNerveValue, 
+      other1, other1Value, medicine1, 
+      invasiveProcedure, arteryCathete, radialArtery, 
+      femoralArtery, footArtery, footArteryValue, 
+      deepVeinCathete, jugularVein, subclavianVein, 
+      femoralVein, femoralVeinValue, ultrasound1, 
+      singleChamber, dualChamber, threeChamber, 
+      sgCatheter, other2)
+    values (#{anaSumAppCanId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{spinalAnes,jdbcType=INTEGER}, 
+      #{waistAnes,jdbcType=INTEGER}, #{epiduralAnes,jdbcType=INTEGER}, #{cseUnionAnes,jdbcType=INTEGER}, 
+      #{sacralAnes,jdbcType=INTEGER}, #{puncPoint1,jdbcType=VARCHAR}, #{catheterPoint1,jdbcType=REAL}, 
+      #{direction1,jdbcType=VARCHAR}, #{puncPoint2,jdbcType=VARCHAR}, #{catheterPoint2,jdbcType=REAL}, 
+      #{direction2,jdbcType=VARCHAR}, #{anesFlat,jdbcType=VARCHAR}, #{medicine,jdbcType=VARCHAR}, 
+      #{nerveBlock,jdbcType=INTEGER}, #{ultrasound,jdbcType=INTEGER}, #{nerveStimulator,jdbcType=INTEGER}, 
+      #{cervicalPlexusBlock,jdbcType=INTEGER}, #{shallowCong,jdbcType=INTEGER}, #{deepPlexus,jdbcType=INTEGER}, 
+      #{c,jdbcType=VARCHAR}, #{brachialPlexusBlock,jdbcType=INTEGER}, #{brachialValue,jdbcType=INTEGER}, 
+      #{interscaleneLaw,jdbcType=INTEGER}, #{axillaryMethod,jdbcType=INTEGER}, #{clavicleLaw,jdbcType=INTEGER}, 
+      #{waistPlexusBlock,jdbcType=INTEGER}, #{waistPlexusValue,jdbcType=INTEGER}, #{sciaticNerveBlock,jdbcType=INTEGER}, 
+      #{sciaticNerveValue,jdbcType=INTEGER}, #{femoralNerveBlock,jdbcType=INTEGER}, #{femoralNerveValue,jdbcType=INTEGER}, 
+      #{cutaneousNerveBlock,jdbcType=INTEGER}, #{cutaneousNerveValue,jdbcType=INTEGER}, 
+      #{other1,jdbcType=INTEGER}, #{other1Value,jdbcType=VARCHAR}, #{medicine1,jdbcType=VARCHAR}, 
+      #{invasiveProcedure,jdbcType=INTEGER}, #{arteryCathete,jdbcType=INTEGER}, #{radialArtery,jdbcType=INTEGER}, 
+      #{femoralArtery,jdbcType=INTEGER}, #{footArtery,jdbcType=INTEGER}, #{footArteryValue,jdbcType=INTEGER}, 
+      #{deepVeinCathete,jdbcType=INTEGER}, #{jugularVein,jdbcType=INTEGER}, #{subclavianVein,jdbcType=INTEGER}, 
+      #{femoralVein,jdbcType=INTEGER}, #{femoralVeinValue,jdbcType=INTEGER}, #{ultrasound1,jdbcType=INTEGER}, 
+      #{singleChamber,jdbcType=INTEGER}, #{dualChamber,jdbcType=INTEGER}, #{threeChamber,jdbcType=INTEGER}, 
+      #{sgCatheter,jdbcType=INTEGER}, #{other2,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixCanal" >
+    insert into doc_anaes_summary_appendix_canal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaSumAppCanId != null" >
+        anaSumAppCanId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="spinalAnes != null" >
+        spinalAnes,
+      </if>
+      <if test="waistAnes != null" >
+        waistAnes,
+      </if>
+      <if test="epiduralAnes != null" >
+        epiduralAnes,
+      </if>
+      <if test="cseUnionAnes != null" >
+        cseUnionAnes,
+      </if>
+      <if test="sacralAnes != null" >
+        sacralAnes,
+      </if>
+      <if test="puncPoint1 != null" >
+        puncPoint1,
+      </if>
+      <if test="catheterPoint1 != null" >
+        catheterPoint1,
+      </if>
+      <if test="direction1 != null" >
+        direction1,
+      </if>
+      <if test="puncPoint2 != null" >
+        puncPoint2,
+      </if>
+      <if test="catheterPoint2 != null" >
+        catheterPoint2,
+      </if>
+      <if test="direction2 != null" >
+        direction2,
+      </if>
+      <if test="anesFlat != null" >
+        anesFlat,
+      </if>
+      <if test="medicine != null" >
+        medicine,
+      </if>
+      <if test="nerveBlock != null" >
+        nerveBlock,
+      </if>
+      <if test="ultrasound != null" >
+        ultrasound,
+      </if>
+      <if test="nerveStimulator != null" >
+        nerveStimulator,
+      </if>
+      <if test="cervicalPlexusBlock != null" >
+        cervicalPlexusBlock,
+      </if>
+      <if test="shallowCong != null" >
+        shallowCong,
+      </if>
+      <if test="deepPlexus != null" >
+        deepPlexus,
+      </if>
+      <if test="c != null" >
+        c,
+      </if>
+      <if test="brachialPlexusBlock != null" >
+        brachialPlexusBlock,
+      </if>
+      <if test="brachialValue != null" >
+        brachialValue,
+      </if>
+      <if test="interscaleneLaw != null" >
+        interscaleneLaw,
+      </if>
+      <if test="axillaryMethod != null" >
+        axillaryMethod,
+      </if>
+      <if test="clavicleLaw != null" >
+        clavicleLaw,
+      </if>
+      <if test="waistPlexusBlock != null" >
+        waistPlexusBlock,
+      </if>
+      <if test="waistPlexusValue != null" >
+        waistPlexusValue,
+      </if>
+      <if test="sciaticNerveBlock != null" >
+        sciaticNerveBlock,
+      </if>
+      <if test="sciaticNerveValue != null" >
+        sciaticNerveValue,
+      </if>
+      <if test="femoralNerveBlock != null" >
+        femoralNerveBlock,
+      </if>
+      <if test="femoralNerveValue != null" >
+        femoralNerveValue,
+      </if>
+      <if test="cutaneousNerveBlock != null" >
+        cutaneousNerveBlock,
+      </if>
+      <if test="cutaneousNerveValue != null" >
+        cutaneousNerveValue,
+      </if>
+      <if test="other1 != null" >
+        other1,
+      </if>
+      <if test="other1Value != null" >
+        other1Value,
+      </if>
+      <if test="medicine1 != null" >
+        medicine1,
+      </if>
+      <if test="invasiveProcedure != null" >
+        invasiveProcedure,
+      </if>
+      <if test="arteryCathete != null" >
+        arteryCathete,
+      </if>
+      <if test="radialArtery != null" >
+        radialArtery,
+      </if>
+      <if test="femoralArtery != null" >
+        femoralArtery,
+      </if>
+      <if test="footArtery != null" >
+        footArtery,
+      </if>
+      <if test="footArteryValue != null" >
+        footArteryValue,
+      </if>
+      <if test="deepVeinCathete != null" >
+        deepVeinCathete,
+      </if>
+      <if test="jugularVein != null" >
+        jugularVein,
+      </if>
+      <if test="subclavianVein != null" >
+        subclavianVein,
+      </if>
+      <if test="femoralVein != null" >
+        femoralVein,
+      </if>
+      <if test="femoralVeinValue != null" >
+        femoralVeinValue,
+      </if>
+      <if test="ultrasound1 != null" >
+        ultrasound1,
+      </if>
+      <if test="singleChamber != null" >
+        singleChamber,
+      </if>
+      <if test="dualChamber != null" >
+        dualChamber,
+      </if>
+      <if test="threeChamber != null" >
+        threeChamber,
+      </if>
+      <if test="sgCatheter != null" >
+        sgCatheter,
+      </if>
+      <if test="other2 != null" >
+        other2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaSumAppCanId != null" >
+        #{anaSumAppCanId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="spinalAnes != null" >
+        #{spinalAnes,jdbcType=INTEGER},
+      </if>
+      <if test="waistAnes != null" >
+        #{waistAnes,jdbcType=INTEGER},
+      </if>
+      <if test="epiduralAnes != null" >
+        #{epiduralAnes,jdbcType=INTEGER},
+      </if>
+      <if test="cseUnionAnes != null" >
+        #{cseUnionAnes,jdbcType=INTEGER},
+      </if>
+      <if test="sacralAnes != null" >
+        #{sacralAnes,jdbcType=INTEGER},
+      </if>
+      <if test="puncPoint1 != null" >
+        #{puncPoint1,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterPoint1 != null" >
+        #{catheterPoint1,jdbcType=REAL},
+      </if>
+      <if test="direction1 != null" >
+        #{direction1,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint2 != null" >
+        #{puncPoint2,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterPoint2 != null" >
+        #{catheterPoint2,jdbcType=REAL},
+      </if>
+      <if test="direction2 != null" >
+        #{direction2,jdbcType=VARCHAR},
+      </if>
+      <if test="anesFlat != null" >
+        #{anesFlat,jdbcType=VARCHAR},
+      </if>
+      <if test="medicine != null" >
+        #{medicine,jdbcType=VARCHAR},
+      </if>
+      <if test="nerveBlock != null" >
+        #{nerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="ultrasound != null" >
+        #{ultrasound,jdbcType=INTEGER},
+      </if>
+      <if test="nerveStimulator != null" >
+        #{nerveStimulator,jdbcType=INTEGER},
+      </if>
+      <if test="cervicalPlexusBlock != null" >
+        #{cervicalPlexusBlock,jdbcType=INTEGER},
+      </if>
+      <if test="shallowCong != null" >
+        #{shallowCong,jdbcType=INTEGER},
+      </if>
+      <if test="deepPlexus != null" >
+        #{deepPlexus,jdbcType=INTEGER},
+      </if>
+      <if test="c != null" >
+        #{c,jdbcType=VARCHAR},
+      </if>
+      <if test="brachialPlexusBlock != null" >
+        #{brachialPlexusBlock,jdbcType=INTEGER},
+      </if>
+      <if test="brachialValue != null" >
+        #{brachialValue,jdbcType=INTEGER},
+      </if>
+      <if test="interscaleneLaw != null" >
+        #{interscaleneLaw,jdbcType=INTEGER},
+      </if>
+      <if test="axillaryMethod != null" >
+        #{axillaryMethod,jdbcType=INTEGER},
+      </if>
+      <if test="clavicleLaw != null" >
+        #{clavicleLaw,jdbcType=INTEGER},
+      </if>
+      <if test="waistPlexusBlock != null" >
+        #{waistPlexusBlock,jdbcType=INTEGER},
+      </if>
+      <if test="waistPlexusValue != null" >
+        #{waistPlexusValue,jdbcType=INTEGER},
+      </if>
+      <if test="sciaticNerveBlock != null" >
+        #{sciaticNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="sciaticNerveValue != null" >
+        #{sciaticNerveValue,jdbcType=INTEGER},
+      </if>
+      <if test="femoralNerveBlock != null" >
+        #{femoralNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="femoralNerveValue != null" >
+        #{femoralNerveValue,jdbcType=INTEGER},
+      </if>
+      <if test="cutaneousNerveBlock != null" >
+        #{cutaneousNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="cutaneousNerveValue != null" >
+        #{cutaneousNerveValue,jdbcType=INTEGER},
+      </if>
+      <if test="other1 != null" >
+        #{other1,jdbcType=INTEGER},
+      </if>
+      <if test="other1Value != null" >
+        #{other1Value,jdbcType=VARCHAR},
+      </if>
+      <if test="medicine1 != null" >
+        #{medicine1,jdbcType=VARCHAR},
+      </if>
+      <if test="invasiveProcedure != null" >
+        #{invasiveProcedure,jdbcType=INTEGER},
+      </if>
+      <if test="arteryCathete != null" >
+        #{arteryCathete,jdbcType=INTEGER},
+      </if>
+      <if test="radialArtery != null" >
+        #{radialArtery,jdbcType=INTEGER},
+      </if>
+      <if test="femoralArtery != null" >
+        #{femoralArtery,jdbcType=INTEGER},
+      </if>
+      <if test="footArtery != null" >
+        #{footArtery,jdbcType=INTEGER},
+      </if>
+      <if test="footArteryValue != null" >
+        #{footArteryValue,jdbcType=INTEGER},
+      </if>
+      <if test="deepVeinCathete != null" >
+        #{deepVeinCathete,jdbcType=INTEGER},
+      </if>
+      <if test="jugularVein != null" >
+        #{jugularVein,jdbcType=INTEGER},
+      </if>
+      <if test="subclavianVein != null" >
+        #{subclavianVein,jdbcType=INTEGER},
+      </if>
+      <if test="femoralVein != null" >
+        #{femoralVein,jdbcType=INTEGER},
+      </if>
+      <if test="femoralVeinValue != null" >
+        #{femoralVeinValue,jdbcType=INTEGER},
+      </if>
+      <if test="ultrasound1 != null" >
+        #{ultrasound1,jdbcType=INTEGER},
+      </if>
+      <if test="singleChamber != null" >
+        #{singleChamber,jdbcType=INTEGER},
+      </if>
+      <if test="dualChamber != null" >
+        #{dualChamber,jdbcType=INTEGER},
+      </if>
+      <if test="threeChamber != null" >
+        #{threeChamber,jdbcType=INTEGER},
+      </if>
+      <if test="sgCatheter != null" >
+        #{sgCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixCanal" >
+    update doc_anaes_summary_appendix_canal
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="spinalAnes != null" >
+        spinalAnes = #{spinalAnes,jdbcType=INTEGER},
+      </if>
+      <if test="waistAnes != null" >
+        waistAnes = #{waistAnes,jdbcType=INTEGER},
+      </if>
+      <if test="epiduralAnes != null" >
+        epiduralAnes = #{epiduralAnes,jdbcType=INTEGER},
+      </if>
+      <if test="cseUnionAnes != null" >
+        cseUnionAnes = #{cseUnionAnes,jdbcType=INTEGER},
+      </if>
+      <if test="sacralAnes != null" >
+        sacralAnes = #{sacralAnes,jdbcType=INTEGER},
+      </if>
+      <if test="puncPoint1 != null" >
+        puncPoint1 = #{puncPoint1,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterPoint1 != null" >
+        catheterPoint1 = #{catheterPoint1,jdbcType=REAL},
+      </if>
+      <if test="direction1 != null" >
+        direction1 = #{direction1,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint2 != null" >
+        puncPoint2 = #{puncPoint2,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterPoint2 != null" >
+        catheterPoint2 = #{catheterPoint2,jdbcType=REAL},
+      </if>
+      <if test="direction2 != null" >
+        direction2 = #{direction2,jdbcType=VARCHAR},
+      </if>
+      <if test="anesFlat != null" >
+        anesFlat = #{anesFlat,jdbcType=VARCHAR},
+      </if>
+      <if test="medicine != null" >
+        medicine = #{medicine,jdbcType=VARCHAR},
+      </if>
+      <if test="nerveBlock != null" >
+        nerveBlock = #{nerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="ultrasound != null" >
+        ultrasound = #{ultrasound,jdbcType=INTEGER},
+      </if>
+      <if test="nerveStimulator != null" >
+        nerveStimulator = #{nerveStimulator,jdbcType=INTEGER},
+      </if>
+      <if test="cervicalPlexusBlock != null" >
+        cervicalPlexusBlock = #{cervicalPlexusBlock,jdbcType=INTEGER},
+      </if>
+      <if test="shallowCong != null" >
+        shallowCong = #{shallowCong,jdbcType=INTEGER},
+      </if>
+      <if test="deepPlexus != null" >
+        deepPlexus = #{deepPlexus,jdbcType=INTEGER},
+      </if>
+      <if test="c != null" >
+        c = #{c,jdbcType=VARCHAR},
+      </if>
+      <if test="brachialPlexusBlock != null" >
+        brachialPlexusBlock = #{brachialPlexusBlock,jdbcType=INTEGER},
+      </if>
+      <if test="brachialValue != null" >
+        brachialValue = #{brachialValue,jdbcType=INTEGER},
+      </if>
+      <if test="interscaleneLaw != null" >
+        interscaleneLaw = #{interscaleneLaw,jdbcType=INTEGER},
+      </if>
+      <if test="axillaryMethod != null" >
+        axillaryMethod = #{axillaryMethod,jdbcType=INTEGER},
+      </if>
+      <if test="clavicleLaw != null" >
+        clavicleLaw = #{clavicleLaw,jdbcType=INTEGER},
+      </if>
+      <if test="waistPlexusBlock != null" >
+        waistPlexusBlock = #{waistPlexusBlock,jdbcType=INTEGER},
+      </if>
+      <if test="waistPlexusValue != null" >
+        waistPlexusValue = #{waistPlexusValue,jdbcType=INTEGER},
+      </if>
+      <if test="sciaticNerveBlock != null" >
+        sciaticNerveBlock = #{sciaticNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="sciaticNerveValue != null" >
+        sciaticNerveValue = #{sciaticNerveValue,jdbcType=INTEGER},
+      </if>
+      <if test="femoralNerveBlock != null" >
+        femoralNerveBlock = #{femoralNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="femoralNerveValue != null" >
+        femoralNerveValue = #{femoralNerveValue,jdbcType=INTEGER},
+      </if>
+      <if test="cutaneousNerveBlock != null" >
+        cutaneousNerveBlock = #{cutaneousNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="cutaneousNerveValue != null" >
+        cutaneousNerveValue = #{cutaneousNerveValue,jdbcType=INTEGER},
+      </if>
+      <if test="other1 != null" >
+        other1 = #{other1,jdbcType=INTEGER},
+      </if>
+      <if test="other1Value != null" >
+        other1Value = #{other1Value,jdbcType=VARCHAR},
+      </if>
+      <if test="medicine1 != null" >
+        medicine1 = #{medicine1,jdbcType=VARCHAR},
+      </if>
+      <if test="invasiveProcedure != null" >
+        invasiveProcedure = #{invasiveProcedure,jdbcType=INTEGER},
+      </if>
+      <if test="arteryCathete != null" >
+        arteryCathete = #{arteryCathete,jdbcType=INTEGER},
+      </if>
+      <if test="radialArtery != null" >
+        radialArtery = #{radialArtery,jdbcType=INTEGER},
+      </if>
+      <if test="femoralArtery != null" >
+        femoralArtery = #{femoralArtery,jdbcType=INTEGER},
+      </if>
+      <if test="footArtery != null" >
+        footArtery = #{footArtery,jdbcType=INTEGER},
+      </if>
+      <if test="footArteryValue != null" >
+        footArteryValue = #{footArteryValue,jdbcType=INTEGER},
+      </if>
+      <if test="deepVeinCathete != null" >
+        deepVeinCathete = #{deepVeinCathete,jdbcType=INTEGER},
+      </if>
+      <if test="jugularVein != null" >
+        jugularVein = #{jugularVein,jdbcType=INTEGER},
+      </if>
+      <if test="subclavianVein != null" >
+        subclavianVein = #{subclavianVein,jdbcType=INTEGER},
+      </if>
+      <if test="femoralVein != null" >
+        femoralVein = #{femoralVein,jdbcType=INTEGER},
+      </if>
+      <if test="femoralVeinValue != null" >
+        femoralVeinValue = #{femoralVeinValue,jdbcType=INTEGER},
+      </if>
+      <if test="ultrasound1 != null" >
+        ultrasound1 = #{ultrasound1,jdbcType=INTEGER},
+      </if>
+      <if test="singleChamber != null" >
+        singleChamber = #{singleChamber,jdbcType=INTEGER},
+      </if>
+      <if test="dualChamber != null" >
+        dualChamber = #{dualChamber,jdbcType=INTEGER},
+      </if>
+      <if test="threeChamber != null" >
+        threeChamber = #{threeChamber,jdbcType=INTEGER},
+      </if>
+      <if test="sgCatheter != null" >
+        sgCatheter = #{sgCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="other2 != null" >
+        other2 = #{other2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anaSumAppCanId = #{anaSumAppCanId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixCanal" >
+    update doc_anaes_summary_appendix_canal
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      spinalAnes = #{spinalAnes,jdbcType=INTEGER},
+      waistAnes = #{waistAnes,jdbcType=INTEGER},
+      epiduralAnes = #{epiduralAnes,jdbcType=INTEGER},
+      cseUnionAnes = #{cseUnionAnes,jdbcType=INTEGER},
+      sacralAnes = #{sacralAnes,jdbcType=INTEGER},
+      puncPoint1 = #{puncPoint1,jdbcType=VARCHAR},
+      catheterPoint1 = #{catheterPoint1,jdbcType=REAL},
+      direction1 = #{direction1,jdbcType=VARCHAR},
+      puncPoint2 = #{puncPoint2,jdbcType=VARCHAR},
+      catheterPoint2 = #{catheterPoint2,jdbcType=REAL},
+      direction2 = #{direction2,jdbcType=VARCHAR},
+      anesFlat = #{anesFlat,jdbcType=VARCHAR},
+      medicine = #{medicine,jdbcType=VARCHAR},
+      nerveBlock = #{nerveBlock,jdbcType=INTEGER},
+      ultrasound = #{ultrasound,jdbcType=INTEGER},
+      nerveStimulator = #{nerveStimulator,jdbcType=INTEGER},
+      cervicalPlexusBlock = #{cervicalPlexusBlock,jdbcType=INTEGER},
+      shallowCong = #{shallowCong,jdbcType=INTEGER},
+      deepPlexus = #{deepPlexus,jdbcType=INTEGER},
+      c = #{c,jdbcType=VARCHAR},
+      brachialPlexusBlock = #{brachialPlexusBlock,jdbcType=INTEGER},
+      brachialValue = #{brachialValue,jdbcType=INTEGER},
+      interscaleneLaw = #{interscaleneLaw,jdbcType=INTEGER},
+      axillaryMethod = #{axillaryMethod,jdbcType=INTEGER},
+      clavicleLaw = #{clavicleLaw,jdbcType=INTEGER},
+      waistPlexusBlock = #{waistPlexusBlock,jdbcType=INTEGER},
+      waistPlexusValue = #{waistPlexusValue,jdbcType=INTEGER},
+      sciaticNerveBlock = #{sciaticNerveBlock,jdbcType=INTEGER},
+      sciaticNerveValue = #{sciaticNerveValue,jdbcType=INTEGER},
+      femoralNerveBlock = #{femoralNerveBlock,jdbcType=INTEGER},
+      femoralNerveValue = #{femoralNerveValue,jdbcType=INTEGER},
+      cutaneousNerveBlock = #{cutaneousNerveBlock,jdbcType=INTEGER},
+      cutaneousNerveValue = #{cutaneousNerveValue,jdbcType=INTEGER},
+      other1 = #{other1,jdbcType=INTEGER},
+      other1Value = #{other1Value,jdbcType=VARCHAR},
+      medicine1 = #{medicine1,jdbcType=VARCHAR},
+      invasiveProcedure = #{invasiveProcedure,jdbcType=INTEGER},
+      arteryCathete = #{arteryCathete,jdbcType=INTEGER},
+      radialArtery = #{radialArtery,jdbcType=INTEGER},
+      femoralArtery = #{femoralArtery,jdbcType=INTEGER},
+      footArtery = #{footArtery,jdbcType=INTEGER},
+      footArteryValue = #{footArteryValue,jdbcType=INTEGER},
+      deepVeinCathete = #{deepVeinCathete,jdbcType=INTEGER},
+      jugularVein = #{jugularVein,jdbcType=INTEGER},
+      subclavianVein = #{subclavianVein,jdbcType=INTEGER},
+      femoralVein = #{femoralVein,jdbcType=INTEGER},
+      femoralVeinValue = #{femoralVeinValue,jdbcType=INTEGER},
+      ultrasound1 = #{ultrasound1,jdbcType=INTEGER},
+      singleChamber = #{singleChamber,jdbcType=INTEGER},
+      dualChamber = #{dualChamber,jdbcType=INTEGER},
+      threeChamber = #{threeChamber,jdbcType=INTEGER},
+      sgCatheter = #{sgCatheter,jdbcType=INTEGER},
+      other2 = #{other2,jdbcType=VARCHAR}
+    where anaSumAppCanId = #{anaSumAppCanId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

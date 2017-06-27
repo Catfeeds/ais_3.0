@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocNerveBlockDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocNerveBlock" >
+    <id column="nerveBlockId" property="nerveBlockId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="blockPoint" property="blockPoint" jdbcType="VARCHAR" />
+    <result column="isSucc" property="isSucc" jdbcType="VARCHAR" />
+    <result column="diffFeel" property="diffFeel" jdbcType="VARCHAR" />
+    <result column="backBlood" property="backBlood" jdbcType="VARCHAR" />
+    <result column="experDose" property="experDose" jdbcType="VARCHAR" />
+    <result column="untowardEffect" property="untowardEffect" jdbcType="VARCHAR" />
+    <result column="anaesFeel" property="anaesFeel" jdbcType="VARCHAR" />
+    <result column="succCnt" property="succCnt" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    nerveBlockId, anaSumId, blockPoint, isSucc, diffFeel, backBlood, experDose, untowardEffect, 
+    anaesFeel, succCnt
+  </sql>
+
+	<select id="searchNerveBlockList" resultType="com.digihealth.anesthesia.doc.po.DocNerveBlock">
+		SELECT *
+		FROM doc_nerve_block a where 1 = 1
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.nerveBlockId = #{searchBean.id}
+		</if>
+		<if test="searchBean.anaSumId != null and searchBean.anaSumId != ''">
+			AND a.anaSumId = #{searchBean.anaSumId}
+		</if>
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_nerve_block
+    where nerveBlockId = #{nerveBlockId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_nerve_block
+    where nerveBlockId = #{nerveBlockId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocNerveBlock" >
+    insert into doc_nerve_block (nerveBlockId, anaSumId, blockPoint, 
+      isSucc, diffFeel, backBlood, 
+      experDose, untowardEffect, anaesFeel, 
+      succCnt)
+    values (#{nerveBlockId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{blockPoint,jdbcType=VARCHAR}, 
+      #{isSucc,jdbcType=VARCHAR}, #{diffFeel,jdbcType=VARCHAR}, #{backBlood,jdbcType=VARCHAR}, 
+      #{experDose,jdbcType=VARCHAR}, #{untowardEffect,jdbcType=VARCHAR}, #{anaesFeel,jdbcType=VARCHAR}, 
+      #{succCnt,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocNerveBlock" >
+    insert into doc_nerve_block
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nerveBlockId != null" >
+        nerveBlockId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="blockPoint != null" >
+        blockPoint,
+      </if>
+      <if test="isSucc != null" >
+        isSucc,
+      </if>
+      <if test="diffFeel != null" >
+        diffFeel,
+      </if>
+      <if test="backBlood != null" >
+        backBlood,
+      </if>
+      <if test="experDose != null" >
+        experDose,
+      </if>
+      <if test="untowardEffect != null" >
+        untowardEffect,
+      </if>
+      <if test="anaesFeel != null" >
+        anaesFeel,
+      </if>
+      <if test="succCnt != null" >
+        succCnt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nerveBlockId != null" >
+        #{nerveBlockId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="blockPoint != null" >
+        #{blockPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="isSucc != null" >
+        #{isSucc,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFeel != null" >
+        #{diffFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="backBlood != null" >
+        #{backBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="experDose != null" >
+        #{experDose,jdbcType=VARCHAR},
+      </if>
+      <if test="untowardEffect != null" >
+        #{untowardEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesFeel != null" >
+        #{anaesFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="succCnt != null" >
+        #{succCnt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocNerveBlock" >
+    update doc_nerve_block
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="blockPoint != null" >
+        blockPoint = #{blockPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="isSucc != null" >
+        isSucc = #{isSucc,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFeel != null" >
+        diffFeel = #{diffFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="backBlood != null" >
+        backBlood = #{backBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="experDose != null" >
+        experDose = #{experDose,jdbcType=VARCHAR},
+      </if>
+      <if test="untowardEffect != null" >
+        untowardEffect = #{untowardEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesFeel != null" >
+        anaesFeel = #{anaesFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="succCnt != null" >
+        succCnt = #{succCnt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nerveBlockId = #{nerveBlockId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocNerveBlock" >
+    update doc_nerve_block
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      blockPoint = #{blockPoint,jdbcType=VARCHAR},
+      isSucc = #{isSucc,jdbcType=VARCHAR},
+      diffFeel = #{diffFeel,jdbcType=VARCHAR},
+      backBlood = #{backBlood,jdbcType=VARCHAR},
+      experDose = #{experDose,jdbcType=VARCHAR},
+      untowardEffect = #{untowardEffect,jdbcType=VARCHAR},
+      anaesFeel = #{anaesFeel,jdbcType=VARCHAR},
+      succCnt = #{succCnt,jdbcType=VARCHAR}
+    where nerveBlockId = #{nerveBlockId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

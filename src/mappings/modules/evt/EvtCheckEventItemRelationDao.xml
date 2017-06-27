@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtCheckEventItemRelationDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation" >
+    <id column="itemId" property="itemId" jdbcType="VARCHAR" />
+    <result column="cheEventId" property="cheEventId" jdbcType="VARCHAR" />
+    <result column="chkItemId" property="chkItemId" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="resultDescribe" property="resultDescribe" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    itemId, cheEventId, chkItemId, value, resultDescribe
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_checkevent_item_relation
+    where itemId = #{itemId,jdbcType=VARCHAR}
+  </select>
+	
+	<select id="serarchCheckeventItemRelationList" resultType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation">
+		SELECT b.*,(SELECT a.`name` FROM bas_check_item a WHERE a.`chkItemId`=b.`chkItemId`) AS `name`,
+		(SELECT a.`unit` FROM bas_check_item a WHERE a.`chkItemId`=b.`chkItemId`) AS `unit` FROM
+		  evt_checkevent_item_relation b 
+		  LEFT JOIN evt_checkevent c 
+		    ON c.cheEventId = b.cheEventId 
+		WHERE 1 = 1 
+		    AND c.docId = #{searchBean.docId} 
+		    AND b.cheEventId = #{searchBean.cheEventId}
+	</select>
+	
+	<select id="serarchCheckevent" resultType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation">
+		SELECT a.*,b.docId,b.occurTime
+		FROM evt_checkevent_item_relation a LEFT JOIN evt_checkevent b ON a.cheEventId = b.cheEventId WHERE 
+		b.docId = #{searchBean.docId} 
+		GROUP BY b.occurTime
+	</select>
+
+	<select id="serarchAllValidCheckeventItem" resultType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation">
+		SELECT 
+			b.*,a.name AS "name",a.unit AS "unit"
+		FROM bas_check_item a LEFT JOIN evt_checkevent_item_relation b ON b.chkItemId = a.chkItemId
+		LEFT JOIN evt_checkevent c ON c.`cheEventId`=b.cheEventId
+		WHERE 1=1
+		AND c.docId = #{docId} 
+		<!-- AND c.occurTime = #{searchBean.startTime} -->
+		AND b.value IS NOT NULL AND b.value != ''
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_checkevent_item_relation
+    where itemId = #{itemId,jdbcType=VARCHAR}
+  </delete>
+
+	<delete id="deleteCheckeventItemRelation" parameterType = "java.lang.String">
+		delete from evt_checkevent_item_relation 
+		WHERE cheEventId = #{cheEventId}
+	</delete>
+	
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation" >
+    insert into evt_checkevent_item_relation (itemId, cheEventId, chkItemId, 
+      value, resultDescribe)
+    values (#{itemId,jdbcType=VARCHAR}, #{cheEventId,jdbcType=VARCHAR}, #{chkItemId,jdbcType=VARCHAR}, 
+      #{value,jdbcType=VARCHAR}, #{resultDescribe,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation" >
+    insert into evt_checkevent_item_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        itemId,
+      </if>
+      <if test="cheEventId != null" >
+        cheEventId,
+      </if>
+      <if test="chkItemId != null" >
+        chkItemId,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="resultDescribe != null" >
+        resultDescribe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="cheEventId != null" >
+        #{cheEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="chkItemId != null" >
+        #{chkItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="resultDescribe != null" >
+        #{resultDescribe,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation" >
+    update evt_checkevent_item_relation
+    <set >
+      <if test="cheEventId != null" >
+        cheEventId = #{cheEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="chkItemId != null" >
+        chkItemId = #{chkItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="resultDescribe != null" >
+        resultDescribe = #{resultDescribe,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where itemId = #{itemId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEventItemRelation" >
+    update evt_checkevent_item_relation
+    set cheEventId = #{cheEventId,jdbcType=VARCHAR},
+      chkItemId = #{chkItemId,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      resultDescribe = #{resultDescribe,jdbcType=VARCHAR}
+    where itemId = #{itemId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesKndgbaseDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pId" property="pId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="open" property="open" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="folder" property="folder" jdbcType="INTEGER" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, pId, name, open, createTime, folder, createUser, beid
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bas_anaes_kndgbase
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_anaes_kndgbase
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" >
+    insert into bas_anaes_kndgbase (id, pId, name, 
+      open, createTime, folder, 
+      createUser, beid, content
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{open,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{folder,jdbcType=INTEGER}, 
+      #{createUser,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" >
+    insert into bas_anaes_kndgbase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pId != null" >
+        pId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="open != null" >
+        open,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="folder != null" >
+        folder,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        #{open,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="folder != null" >
+        #{folder,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" >
+    update bas_anaes_kndgbase
+    <set >
+      <if test="pId != null" >
+        pId = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        open = #{open,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="folder != null" >
+        folder = #{folder,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" >
+    update bas_anaes_kndgbase
+    set pId = #{pId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      open = #{open,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      folder = #{folder,jdbcType=INTEGER},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase" >
+    update bas_anaes_kndgbase
+    set pId = #{pId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      open = #{open,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      folder = #{folder,jdbcType=INTEGER},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPid" resultType="java.lang.Integer">
+  select count(*) from bas_anaes_kndgbase where pId = #{pId,jdbcType=VARCHAR} and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryAnaesKndgbaseList" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase">
+  select * from bas_anaes_kndgbase
+  where 1=1
+  and beid = #{basAnaesKndgbase.beid,jdbcType=VARCHAR}
+  <if test="basAnaesKndgbase.name!=null and basAnaesKndgbase.name !=''">
+  AND name LIKE CONCAT(CONCAT('%',#{basAnaesKndgbase.name}),'%')
+  </if>
+   order by createTime ASC
+  </select>
+  
+  <select id="selectOrderById" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase">
+  select * from bas_anaes_kndgbase order by CONVERT(id,SIGNED) DESC;
+  </select>
+
+</mapper>

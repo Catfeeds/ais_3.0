@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocInsuredChargeItemDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocInsuredChargeItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="insuredId" property="insuredId" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="DATE" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="count" property="count" jdbcType="REAL" />
+    <result column="totalPrice" property="totalPrice" jdbcType="REAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, insuredId, time, name, price, count, totalPrice
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_charge_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByInsuredId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_charge_item
+    where insuredId = #{insuredId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByNameAndPrice" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_charge_item
+    where insuredId = #{insuredId,jdbcType=VARCHAR} 
+      and name = #{name,jdbcType=VARCHAR} 
+      and price = #{price,jdbcType=REAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_insured_charge_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredChargeItem" >
+    insert into doc_insured_charge_item (id, insuredId, time, 
+      name, price, count, totalPrice
+      )
+    values (#{id,jdbcType=VARCHAR}, #{insuredId,jdbcType=VARCHAR}, #{time,jdbcType=DATE}, 
+      #{name,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{count,jdbcType=REAL}, #{totalPrice,jdbcType=REAL}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredChargeItem" >
+    insert into doc_insured_charge_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="insuredId != null" >
+        insuredId,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredId != null" >
+        #{insuredId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=DATE},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=REAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredChargeItem" >
+    update doc_insured_charge_item
+    <set >
+      <if test="insuredId != null" >
+        insuredId = #{insuredId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=DATE},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=REAL},
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice = #{totalPrice,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredChargeItem" >
+    update doc_insured_charge_item
+    set insuredId = #{insuredId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=DATE},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      count = #{count,jdbcType=REAL},
+      totalPrice = #{totalPrice,jdbcType=REAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

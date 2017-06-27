@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.operProceed.dao.BasMonitorFreqChangeDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.operProceed.po.BasMonitorFreqChange" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="freq" property="freq" jdbcType="INTEGER" />
+    <result column="oldFreq" property="oldFreq" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, time, freq, oldFreq, userId, memo
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_freq_change
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_monitor_freq_change
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorFreqChange" >
+    insert into bas_monitor_freq_change (id, regOptId, time, 
+      freq, oldFreq, userId, 
+      memo)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{freq,jdbcType=INTEGER}, #{oldFreq,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorFreqChange" >
+    insert into bas_monitor_freq_change
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="freq != null" >
+        freq,
+      </if>
+      <if test="oldFreq != null" >
+        oldFreq,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freq != null" >
+        #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="oldFreq != null" >
+        #{oldFreq,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorFreqChange" >
+    update bas_monitor_freq_change
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freq != null" >
+        freq = #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="oldFreq != null" >
+        oldFreq = #{oldFreq,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorFreqChange" >
+    update bas_monitor_freq_change
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      freq = #{freq,jdbcType=INTEGER},
+      oldFreq = #{oldFreq,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getMonitorFreqChanges" resultMap="BaseResultMap" >
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from bas_monitor_freq_change
+  	where regOptId = #{regOptId} 
+  	order by time 
+  </select>
+  
+  <select id="selectFirstChangeTime" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_freq_change
+    where regOptId = #{regOptId}
+	AND time &gt; #{inTime}
+	ORDER BY time LIMIT 1
+  </select>
+
+</mapper>

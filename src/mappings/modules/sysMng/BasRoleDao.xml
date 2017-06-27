@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.sysMng.dao.BasRoleDao">
+	<resultMap id="BaseResultMap" type="com.digihealth.anesthesia.sysMng.po.BasRole">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="beid" property="beid" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="roleType" property="roleType" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="enable" property="enable" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, beid, name,roleType, description, enable
+	</sql>
+
+	<select id="selectEntityList" resultMap="BaseResultMap"
+		parameterType="com.digihealth.anesthesia.sysMng.formbean.BasRoleFormBean">
+		select
+		<include refid="Base_Column_List" />
+		from bas_role
+		where 1=1
+		<if test="name != '' and name != null">AND name = #{name} </if>
+		<if test="description != '' and description != null">AND description LIKE CONCAT('%',#{description},'%') </if>
+		<if test="enable !=null">AND enable = #{enable} </if>
+		<if test="roleType != '' and roleType != null">AND roleType = #{roleType} </if>
+		<if test="beid != '' and beid != null">AND beid = #{beid} </if>
+		<if test="pageSize != null and pageNo != null">
+			<if test="pageSize != null and pageSize != 0">LIMIT #{pageNo},#{pageSize}</if>
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKeyAndBeid" resultMap="BaseResultMap"
+		parameterType="com.digihealth.anesthesia.common.persistence.PKEntity">
+		select
+		<include refid="Base_Column_List" />
+		from bas_role
+		where id = #{id,jdbcType=VARCHAR}
+		and beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getByName" resultType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM bas_role a
+		WHERE a.name = #{name} AND a.enable = 1 and a.beid = #{beid}
+	</select>
+	
+	<select id="getByEnname" resultType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM bas_role a
+		WHERE a.enname = #{enname} AND a.enable = 1 and a.beid = #{beid}
+	</select>
+	
+	<select id="searchMenuByRoleId" resultType="com.digihealth.anesthesia.sysMng.formbean.MenuSelectByRoleId">
+		 SELECT DISTINCT m.id,m.parentId,m.parentIds,m.`name`,(SELECT COUNT(*) FROM bas_role_menu rm WHERE rm.menuId = m.id AND rm.roleId=#{roleId}) AS "selected" FROM bas_menu m LEFT JOIN bas_role_menu r 
+		ON m.id = r.menuId
+		 WHERE m.enable = 1 AND m.beid = #{beid} ORDER BY m.sort;
+	</select>
+	
+    <select id="getRoleOrderbyId" resultType = "com.digihealth.anesthesia.sysMng.po.BasRole">
+	 SELECT DISTINCT * FROM bas_role where beid = #{beid} order by id DESC
+	</select>
+	
+	<select id="searchRoleLikeName" resultType="com.digihealth.anesthesia.sysMng.po.BasRole" >
+	select * from bas_role where name like CONCAT(CONCAT('%',#{name}),'%') and enable = 1 and beid = #{beid}
+	</select>
+	
+	<select id="queryRoleList" resultType="com.digihealth.anesthesia.sysMng.po.BasRole">
+	SELECT  t.*,b.name as beName FROM bas_role t,bas_bus_entity b where 1=1 and t.beid = b.beid ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryRoleListTotal" resultType="java.lang.Integer">
+	SELECT count(1) FROM bas_role t,bas_bus_entity b where 1=1 and t.beid = b.beid ${filter} 
+	</select>
+	
+	<select id="searchRoleById" resultMap="BaseResultMap">
+	select  <include refid="Base_Column_List" /> 
+	from bas_role where id = #{id} and beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectRoleSelectMenuByRoleId" resultType="com.digihealth.anesthesia.sysMng.formbean.RoleSelectMenuFormBean">	
+	SELECT DISTINCT m.id,m.parentId AS 'pId',m.`name` AS 'name',m.type, 
+	(SELECT COUNT(*) FROM bas_role_menu rm WHERE rm.menuId = m.id AND rm.roleId=#{roleId} AND rm.beid = #{beid,jdbcType=VARCHAR} ) AS "selected" 
+	FROM bas_menu m LEFT JOIN bas_role_menu rm ON (m.id = rm.menuId  AND m.`beid` = rm.beid )
+	WHERE m.`beid` = #{beid,jdbcType=VARCHAR}  AND module = #{module,jdbcType=VARCHAR} AND m.enable='1' 
+	ORDER BY m.`sort`  
+  </select>
+  
+  <select id="selectRoleSelectButtonByRoleId" resultType="com.digihealth.anesthesia.sysMng.formbean.CheckButtonPermission">
+  	  <!--  SELECT m.id ,m.`name`,m.permission ,r.permission AS permission2 , m.`beid` 
+	  FROM bas_menu m LEFT JOIN bas_role_menu r 
+	  ON ( m.id = r.menuId AND m.beid = r.beid )
+	  WHERE (r.roleId = #{roleId,jdbcType=VARCHAR} OR r.`roleId` IS NULL ) AND m.beid = #{beid,jdbcType=VARCHAR}
+	  AND m.`module` = #{module,jdbcType=VARCHAR} --> 
+	  
+	  SELECT m.id ,m.`name`,m.permission ,r.permission AS permission2 , m.`beid` 
+	  FROM bas_menu m LEFT JOIN bas_role_menu r 
+	  ON ( m.id = r.menuId AND m.beid = r.beid )
+	  WHERE r.roleId = #{roleId,jdbcType=VARCHAR} AND m.beid = #{beid,jdbcType=VARCHAR}
+	  AND m.`module` = #{module,jdbcType=VARCHAR}
+	  UNION
+	  SELECT m.id ,m.`name`,m.permission ,'' AS permission2 , m.`beid` 
+	  FROM bas_menu m WHERE m.beid = #{beid,jdbcType=VARCHAR}
+	  AND m.`module` = #{module,jdbcType=VARCHAR}
+	  AND m.id NOT IN(SELECT m.id
+	  FROM bas_menu m LEFT JOIN bas_role_menu r 
+	  ON ( m.id = r.menuId AND m.beid = r.beid )
+	  WHERE r.roleId = #{roleId,jdbcType=VARCHAR} AND m.beid = #{beid,jdbcType=VARCHAR}
+	  AND m.`module` = #{module,jdbcType=VARCHAR})
+  </select>
+  	
+  <select id="selectNewRoleSelectButton" resultType="com.digihealth.anesthesia.sysMng.formbean.CheckButtonPermission">
+  	  SELECT m.id,
+	  m.`name`,
+	  m.permission,
+	  '' AS permission2,
+	  m.`beid`
+	  FROM bas_menu m 
+	  WHERE m.beid = #{beid,jdbcType=VARCHAR}
+	  AND m.`module` = #{module,jdbcType=VARCHAR}
+  </select>
+  
+	<!--  <insert id="insertRoleOffice">
+		INSERT INTO bas_role_office(role_id, office_id)
+		<foreach collection="officeList" item="office" separator=" union all ">
+			SELECT #{id}, #{office.id} FROM dual
+		</foreach>
+	</insert> -->
+	
+	<delete id="deleteRoleMenu">
+		DELETE FROM bas_role_menu WHERE roleId = #{id}
+	</delete>
+	
+	<update id="delete">
+		UPDATE bas_role SET enable = #{enable} WHERE id = #{id}
+	</update>
+	
+	<insert id="insertRoleMenu">
+		INSERT INTO bas_role_menu(roleId, menuId)
+		<foreach collection="menuList" item="menu" separator=" union all ">
+			SELECT #{id}, #{menu.id} FROM dual
+		</foreach>
+	</insert>
+	
+	<select id="findList" resultMap="BaseResultMap">
+		SELECT <!-- DISTINCT -->
+			<include refid="Base_Column_List"/>
+		FROM bas_role a
+		LEFT JOIN bas_user_role ur ON ur.roleId = a.id
+		LEFT JOIN bas_user u ON u.userName = ur.userId
+		WHERE <!-- a.del_flag = #{DEL_FLAG_NORMAL} AND a.useable=#{useable} -->
+		<!-- <if test="user != null and user.id != null and user.id != ''">
+			AND u.id = #{user.id}
+		</if> -->
+		<!-- <if test="user != null and user.loginName != null and user.loginName != ''"> -->
+			 u.loginName = #{loginName} and a.beid = #{beid}
+		<!-- </if> -->
+		<!-- 数据范围过滤 -->
+		<!-- ${sqlMap.dsf}
+		ORDER BY o.code, a.name -->
+	</select>
+	
+	<select id="findListRole" resultMap="BaseResultMap">
+		SELECT <!-- DISTINCT -->
+			<include refid="Base_Column_List"/>
+		FROM bas_role a
+		LEFT JOIN bas_user_role ur ON ur.roleId = a.id
+		LEFT JOIN bas_user u ON u.userName = ur.userId
+		WHERE <!-- a.del_flag = #{DEL_FLAG_NORMAL} AND a.useable=#{useable} -->
+		<!-- <if test="user != null and user.id != null and user.id != ''">
+			AND u.id = #{user.id}
+		</if> -->
+		<!-- <if test="user != null and user.loginName != null and user.loginName != ''"> -->
+			 u.loginBame = #{loginName} and a.beid = #{beid}
+		<!-- </if> -->
+		<!-- 数据范围过滤 -->
+		<!-- ${sqlMap.dsf}
+		ORDER BY o.code, a.name -->
+	</select>
+	
+	<select id="findAllList" resultType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		SELECT *
+		FROM bas_role a where a.beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		</if>
+	</select>
+	
+	<select id="findAllListTotal" resultType="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM bas_role a where a.beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="getAllRoleByDelFlag" resultType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM bas_role a where a.enable = 1 and a.beid = #{beid}
+		<!-- WHERE a.del_flag = #{DEL_FLAG_NORMAL} -->
+		ORDER BY a.name
+	</select>
+	
+	<select id="isCanDeleteEntity" parameterType="com.digihealth.anesthesia.common.persistence.PKEntity" resultType="java.lang.Integer">
+		SELECT SUM(t.total) AS total FROM (
+		SELECT COUNT(*) AS total FROM bas_role_menu rm WHERE rm.roleId =
+		#{id,jdbcType=VARCHAR} AND rm.beid = #{beid,jdbcType=VARCHAR}
+		UNION
+		SELECT COUNT(*) AS total FROM bas_user_role ur WHERE ur.roleId =
+		#{id,jdbcType=VARCHAR} AND ur.beid = #{beid,jdbcType=VARCHAR}) t;
+	</select>
+    
+	<delete id="deleteByPrimaryKeyAndBeid" parameterType="com.digihealth.anesthesia.common.persistence.PKEntity">
+		delete from bas_role
+		where id = #{id,jdbcType=VARCHAR}
+		and beid = #{beid,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		insert into bas_role (id, beid, name,roleType,
+		description, enable)
+		values (#{id,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},#{roleType,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		insert into bas_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="beid != null">
+				beid,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="roleType != null">
+				roleType,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="enable != null">
+				enable,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="beid != null">
+				#{beid,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+				#{roleType,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="enable != null">
+				#{enable,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		update bas_role
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+				roleType = #{roleType,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="enable != null">
+				enable = #{enable,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+		and beid = #{beid,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.sysMng.po.BasRole">
+		update bas_role
+		set name = #{name,jdbcType=VARCHAR},
+		roleType = #{roleType,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		enable = #{enable,jdbcType=INTEGER}
+		where id = #{id,jdbcType=VARCHAR}
+		and beid = #{beid,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

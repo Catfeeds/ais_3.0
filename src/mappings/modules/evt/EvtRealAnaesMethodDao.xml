@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtRealAnaesMethodDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtRealAnaesMethod" >
+    <id column="realAnaMedId" property="realAnaMedId" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="anaMedId" property="anaMedId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="editName" property="editName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    realAnaMedId, docId, anaMedId, name, editName
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_real_anaes_method
+    where realAnaMedId = #{realAnaMedId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getSelectRealAnaesMethodList" resultType="com.digihealth.anesthesia.evt.formbean.EvtAnaesMethodFormBean">
+		SELECT 
+			b.*
+		FROM evt_real_anaes_method a inner join bas_anaes_method b on b.anaMedId = a.anaMedId where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.realAnaMedId = #{searchBean.id}
+		</if>
+	</select>
+	
+  <select id="searchRealAnaesMethodList" resultMap="BaseResultMap">
+		SELECT 
+			a.realAnaMedId,a.docId,a.anaMedId,b.name
+		FROM evt_real_anaes_method a left join bas_anaes_method b on b.anaMedId = a.anaMedId  where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.realAnaMedId = #{searchBean.id}
+		</if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_real_anaes_method
+    where realAnaMedId = #{realAnaMedId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByDocId">
+  	delete from evt_real_anaes_method
+    where docId = #{docId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtRealAnaesMethod" >
+    insert into evt_real_anaes_method (realAnaMedId, docId, anaMedId, 
+      name, editName)
+    values (#{realAnaMedId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{anaMedId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{editName,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtRealAnaesMethod" >
+    insert into evt_real_anaes_method
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="realAnaMedId != null" >
+        realAnaMedId,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="anaMedId != null" >
+        anaMedId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="editName != null" >
+        editName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="realAnaMedId != null" >
+        #{realAnaMedId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaMedId != null" >
+        #{anaMedId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="editName != null" >
+        #{editName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtRealAnaesMethod" >
+    update evt_real_anaes_method
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaMedId != null" >
+        anaMedId = #{anaMedId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="editName != null" >
+        editName = #{editName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where realAnaMedId = #{realAnaMedId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtRealAnaesMethod" >
+    update evt_real_anaes_method
+    set docId = #{docId,jdbcType=VARCHAR},
+      anaMedId = #{anaMedId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      editName = #{editName,jdbcType=VARCHAR}
+    where realAnaMedId = #{realAnaMedId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

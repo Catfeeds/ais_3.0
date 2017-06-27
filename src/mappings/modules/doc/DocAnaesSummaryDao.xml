@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesSummaryDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesSummary" >
+    <id column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="anaesImplSituation" property="anaesImplSituation" jdbcType="VARCHAR" />
+    <result column="anestSummary" property="anestSummary" jdbcType="VARCHAR" />
+    <result column="anesthetistId" property="anesthetistId" jdbcType="VARCHAR" />
+    <result column="operaDate" property="operaDate" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="bloodType" property="bloodType" jdbcType="VARCHAR" />
+    <result column="expCase" property="expCase" jdbcType="INTEGER" />
+    <result column="specialNote" property="specialNote" jdbcType="VARCHAR" />
+    <result column="muscleRecovery" property="muscleRecovery" jdbcType="INTEGER" />
+    <result column="coughReflex" property="coughReflex" jdbcType="INTEGER" />
+    <result column="directlRec" property="directlRec" jdbcType="INTEGER" />
+    <result column="consciou" property="consciou" jdbcType="INTEGER" />
+    <result column="anesPlane" property="anesPlane" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="controAnal" property="controAnal" jdbcType="INTEGER" />
+    <result column="leaveTo" property="leaveTo" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaSumId, regOptId, anaesImplSituation, anestSummary, anesthetistId, operaDate, processState, 
+    bloodType, expCase, specialNote, muscleRecovery, coughReflex, directlRec, consciou, 
+    anesPlane, remarks, controAnal, leaveTo
+  </sql>
+
+	<select id="searchAnaesSummaryList" resultType="com.digihealth.anesthesia.doc.po.DocAnaesSummary">
+		SELECT  *
+		FROM doc_anaes_summary a where 1=1
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.anaSumId = #{searchBean.id}
+		</if>
+		<if test="searchBean.regOptId != null and searchBean.regOptId != ''">
+			AND a.regOptId = #{searchBean.regOptId}
+		</if>
+	</select>
+		
+	<select id="getAnaesSummaryByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesSummary">
+		SELECT * FROM doc_anaes_summary a where a.regOptId = #{regOptId}
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_summary
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummary" >
+    insert into doc_anaes_summary (anaSumId, regOptId, anaesImplSituation, 
+      anestSummary, anesthetistId, operaDate, 
+      processState, bloodType, expCase, 
+      specialNote, muscleRecovery, coughReflex, 
+      directlRec, consciou, anesPlane, 
+      remarks, controAnal, leaveTo
+      )
+    values (#{anaSumId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{anaesImplSituation,jdbcType=VARCHAR}, 
+      #{anestSummary,jdbcType=VARCHAR}, #{anesthetistId,jdbcType=VARCHAR}, #{operaDate,jdbcType=VARCHAR}, 
+      #{processState,jdbcType=VARCHAR}, #{bloodType,jdbcType=VARCHAR}, #{expCase,jdbcType=INTEGER}, 
+      #{specialNote,jdbcType=VARCHAR}, #{muscleRecovery,jdbcType=INTEGER}, #{coughReflex,jdbcType=INTEGER}, 
+      #{directlRec,jdbcType=INTEGER}, #{consciou,jdbcType=INTEGER}, #{anesPlane,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{controAnal,jdbcType=INTEGER}, #{leaveTo,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummary" >
+    insert into doc_anaes_summary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="anaesImplSituation != null" >
+        anaesImplSituation,
+      </if>
+      <if test="anestSummary != null" >
+        anestSummary,
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId,
+      </if>
+      <if test="operaDate != null" >
+        operaDate,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="bloodType != null" >
+        bloodType,
+      </if>
+      <if test="expCase != null" >
+        expCase,
+      </if>
+      <if test="specialNote != null" >
+        specialNote,
+      </if>
+      <if test="muscleRecovery != null" >
+        muscleRecovery,
+      </if>
+      <if test="coughReflex != null" >
+        coughReflex,
+      </if>
+      <if test="directlRec != null" >
+        directlRec,
+      </if>
+      <if test="consciou != null" >
+        consciou,
+      </if>
+      <if test="anesPlane != null" >
+        anesPlane,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="controAnal != null" >
+        controAnal,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesImplSituation != null" >
+        #{anaesImplSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="anestSummary != null" >
+        #{anestSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDate != null" >
+        #{operaDate,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null" >
+        #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="expCase != null" >
+        #{expCase,jdbcType=INTEGER},
+      </if>
+      <if test="specialNote != null" >
+        #{specialNote,jdbcType=VARCHAR},
+      </if>
+      <if test="muscleRecovery != null" >
+        #{muscleRecovery,jdbcType=INTEGER},
+      </if>
+      <if test="coughReflex != null" >
+        #{coughReflex,jdbcType=INTEGER},
+      </if>
+      <if test="directlRec != null" >
+        #{directlRec,jdbcType=INTEGER},
+      </if>
+      <if test="consciou != null" >
+        #{consciou,jdbcType=INTEGER},
+      </if>
+      <if test="anesPlane != null" >
+        #{anesPlane,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="controAnal != null" >
+        #{controAnal,jdbcType=INTEGER},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummary" >
+    update doc_anaes_summary
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesImplSituation != null" >
+        anaesImplSituation = #{anaesImplSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="anestSummary != null" >
+        anestSummary = #{anestSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDate != null" >
+        operaDate = #{operaDate,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null" >
+        bloodType = #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="expCase != null" >
+        expCase = #{expCase,jdbcType=INTEGER},
+      </if>
+      <if test="specialNote != null" >
+        specialNote = #{specialNote,jdbcType=VARCHAR},
+      </if>
+      <if test="muscleRecovery != null" >
+        muscleRecovery = #{muscleRecovery,jdbcType=INTEGER},
+      </if>
+      <if test="coughReflex != null" >
+        coughReflex = #{coughReflex,jdbcType=INTEGER},
+      </if>
+      <if test="directlRec != null" >
+        directlRec = #{directlRec,jdbcType=INTEGER},
+      </if>
+      <if test="consciou != null" >
+        consciou = #{consciou,jdbcType=INTEGER},
+      </if>
+      <if test="anesPlane != null" >
+        anesPlane = #{anesPlane,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="controAnal != null" >
+        controAnal = #{controAnal,jdbcType=INTEGER},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=INTEGER},
+      </if>
+    </set>
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummary" >
+    update doc_anaes_summary
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      anaesImplSituation = #{anaesImplSituation,jdbcType=VARCHAR},
+      anestSummary = #{anestSummary,jdbcType=VARCHAR},
+      anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      operaDate = #{operaDate,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      bloodType = #{bloodType,jdbcType=VARCHAR},
+      expCase = #{expCase,jdbcType=INTEGER},
+      specialNote = #{specialNote,jdbcType=VARCHAR},
+      muscleRecovery = #{muscleRecovery,jdbcType=INTEGER},
+      coughReflex = #{coughReflex,jdbcType=INTEGER},
+      directlRec = #{directlRec,jdbcType=INTEGER},
+      consciou = #{consciou,jdbcType=INTEGER},
+      anesPlane = #{anesPlane,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      controAnal = #{controAnal,jdbcType=INTEGER},
+      leaveTo = #{leaveTo,jdbcType=INTEGER}
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasDefaultOperatorDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasDefaultOperator" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="operRoomId" property="operRoomId" jdbcType="VARCHAR" />
+    <result column="operRoomName" property="operRoomName" jdbcType="VARCHAR" />
+    <result column="instrnurseId1" property="instrnurseId1" jdbcType="VARCHAR" />
+    <result column="circunurseId1" property="circunurseId1" jdbcType="VARCHAR" />
+    <result column="anesthetistId" property="anesthetistId" jdbcType="VARCHAR" />
+    <result column="perfusiondoctorId" property="perfusiondoctorId" jdbcType="VARCHAR" />
+    <result column="instrnurseId2" property="instrnurseId2" jdbcType="VARCHAR" />
+    <result column="circunurseId2" property="circunurseId2" jdbcType="VARCHAR" />
+    <result column="healthNurse" property="healthNurse" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, operRoomId, operRoomName, instrnurseId1, circunurseId1, anesthetistId, perfusiondoctorId, 
+    instrnurseId2, circunurseId2, healthNurse, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_default_operator
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_default_operator
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasDefaultOperator" >
+    insert into bas_default_operator (id, operRoomId, operRoomName, 
+      instrnurseId1, circunurseId1, anesthetistId, 
+      perfusiondoctorId, instrnurseId2, circunurseId2, 
+      healthNurse, beid)
+    values (#{id,jdbcType=VARCHAR}, #{operRoomId,jdbcType=VARCHAR}, #{operRoomName,jdbcType=VARCHAR}, 
+      #{instrnurseId1,jdbcType=VARCHAR}, #{circunurseId1,jdbcType=VARCHAR}, #{anesthetistId,jdbcType=VARCHAR}, 
+      #{perfusiondoctorId,jdbcType=VARCHAR}, #{instrnurseId2,jdbcType=VARCHAR}, #{circunurseId2,jdbcType=VARCHAR}, 
+      #{healthNurse,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDefaultOperator" >
+    insert into bas_default_operator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="operRoomId != null" >
+        operRoomId,
+      </if>
+      <if test="operRoomName != null" >
+        operRoomName,
+      </if>
+      <if test="instrnurseId1 != null" >
+        instrnurseId1,
+      </if>
+      <if test="circunurseId1 != null" >
+        circunurseId1,
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId,
+      </if>
+      <if test="perfusiondoctorId != null" >
+        perfusiondoctorId,
+      </if>
+      <if test="instrnurseId2 != null" >
+        instrnurseId2,
+      </if>
+      <if test="circunurseId2 != null" >
+        circunurseId2,
+      </if>
+      <if test="healthNurse != null" >
+        healthNurse,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomId != null" >
+        #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomName != null" >
+        #{operRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId1 != null" >
+        #{instrnurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId1 != null" >
+        #{circunurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="perfusiondoctorId != null" >
+        #{perfusiondoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId2 != null" >
+        #{instrnurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId2 != null" >
+        #{circunurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="healthNurse != null" >
+        #{healthNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDefaultOperator" >
+    update bas_default_operator
+    <set >
+      <if test="operRoomId != null" >
+        operRoomId = #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomName != null" >
+        operRoomName = #{operRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId1 != null" >
+        instrnurseId1 = #{instrnurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId1 != null" >
+        circunurseId1 = #{circunurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="perfusiondoctorId != null" >
+        perfusiondoctorId = #{perfusiondoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId2 != null" >
+        instrnurseId2 = #{instrnurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId2 != null" >
+        circunurseId2 = #{circunurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="healthNurse != null" >
+        healthNurse = #{healthNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasDefaultOperator" >
+    update bas_default_operator
+    set operRoomId = #{operRoomId,jdbcType=VARCHAR},
+      operRoomName = #{operRoomName,jdbcType=VARCHAR},
+      instrnurseId1 = #{instrnurseId1,jdbcType=VARCHAR},
+      circunurseId1 = #{circunurseId1,jdbcType=VARCHAR},
+      anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      perfusiondoctorId = #{perfusiondoctorId,jdbcType=VARCHAR},
+      instrnurseId2 = #{instrnurseId2,jdbcType=VARCHAR},
+      circunurseId2 = #{circunurseId2,jdbcType=VARCHAR},
+      healthNurse = #{healthNurse,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.SearchDefaultOperatorFormBean">
+		SELECT a.operRoomId, a.operRoomName,
+		(select name from bas_user where bas_user.userName = a.instrnurseId1 and bas_user.beid = #{baseQuery.beid})instrnurseName1,instrnurseId1,
+		(select name from bas_user where bas_user.userName = a.circunurseId1 and bas_user.beid = #{baseQuery.beid})circunurseName1,circunurseId1,
+		(select name from bas_user where bas_user.userName = a.anesthetistId and bas_user.beid = #{baseQuery.beid})anesthetistName,anesthetistId,
+		(select name from bas_user where bas_user.userName = a.perfusiondoctorId and bas_user.beid = #{baseQuery.beid})perfusiondoctorName,perfusiondoctorId,
+		(select name from bas_user where bas_user.userName = a.instrnurseId2 and bas_user.beid = #{baseQuery.beid})instrnurseName2,instrnurseId2,
+		(select name from bas_user where bas_user.userName = a.circunurseId2 and bas_user.beid = #{baseQuery.beid})circunurseName2,circunurseId2,
+		(select name from bas_user where bas_user.userName = a.healthNurse and bas_user.beid = #{baseQuery.beid})healthnurseName,healthNurse
+		FROM bas_default_operator a
+		where 1 = 1 and a.beid = #{baseQuery.beid,jdbcType=VARCHAR}
+		<if test="baseQuery.operRoomId != null and baseQuery.operRoomId != ''">
+			AND a.operRoomId = #{baseQuery.operRoomId}
+		</if>
+	</select>
+	
+	<select id="getDefaultOperatorById" resultType="com.digihealth.anesthesia.basedata.po.BasDefaultOperator">
+		SELECT *
+		FROM bas_default_operator a
+		where 1 = 1 and a.beid = #{baseQuery.beid,jdbcType=VARCHAR}
+		<if test="baseQuery.operRoomId != null and baseQuery.operRoomId != ''">
+			AND a.operRoomId = #{baseQuery.operRoomId}
+		</if>
+	</select>
+	
+	<delete id="deleteDefaultOperator">
+		DELETE FROM bas_default_operator WHERE operRoomId = #{operRoomId} and beid = #{beid,jdbcType=VARCHAR}
+	</delete>
+
+</mapper>

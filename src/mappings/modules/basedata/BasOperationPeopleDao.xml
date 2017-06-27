@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasOperationPeopleDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasOperationPeople" >
+    <id column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="region" property="region" jdbcType="INTEGER" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    operatorId, code, name, enable, region, pinYin, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operation_people
+    where operatorId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasOperationPeople" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operation_people
+    where 1=1 
+    <if test="operatorId != '' and operatorId != null">AND operatorId = #{operatorId} </if>
+    <if test="code != '' and code !=null">AND code LIKE CONCAT('%',#{code},'%') </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="pinYin != '' and pinYin !=null">AND pinYin LIKE CONCAT('%',#{pinYin},'%') </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="region != null">AND region = #{region} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_operation_people
+    where operatorId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasOperationPeople" >
+    insert into bas_operation_people (operatorId, code, name, 
+      enable, region, pinYin, 
+      beid)
+    values (#{operatorId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER}, #{region,jdbcType=INTEGER}, #{pinYin,jdbcType=VARCHAR}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperationPeople" >
+    insert into bas_operation_people
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperationPeople" >
+    update bas_operation_people
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where operatorId = #{operatorId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasOperationPeople" >
+    update bas_operation_people
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      region = #{region,jdbcType=INTEGER},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where operatorId = #{operatorId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="getSelectOperPeopleList" resultType="com.digihealth.anesthesia.sysMng.formbean.UserInfoFormBean">
+		SELECT 
+			a.name,a.operatorId id
+		FROM bas_operation_people a where 1 = 1 and beid = #{baseQuery.beid}
+		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		</if>
+		<if test="baseQuery.enable != null and baseQuery.enable != ''">
+			AND a.enable = #{baseQuery.enable}
+		</if>
+	</select>
+    
+	<select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.OperPeopleFormBean">
+		SELECT 
+			a.*
+		FROM bas_operation_people a where 1 = 1 and beid = #{baseQuery.beid}
+		<if test="baseQuery !=null">
+		    <if test="baseQuery.name !=null and baseQuery.name!=''">
+		        and (name like CONCAT(CONCAT('%',#{baseQuery.name}),'%')  or pinyin like CONCAT(CONCAT('%',#{baseQuery.name}),'%') )
+		    </if>
+		    <if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			    AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		    </if>
+		    <if test="baseQuery.enable != null and baseQuery.enable != ''">
+			    AND a.enable = #{baseQuery.enable}
+		    </if>
+		</if>
+	</select>
+	
+	<select id="queryOperationPeopleList" resultType="com.digihealth.anesthesia.basedata.po.BasOperationPeople">
+		SELECT * FROM bas_operation_people where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryOperationPeopleListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_operation_people where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="queryOperationPeopleById" resultType="com.digihealth.anesthesia.basedata.po.BasOperationPeople">
+		SELECT * FROM bas_operation_people where operatorId = #{operatorId}
+	</select>
+	
+	<delete id="deleteOperationPeople">
+		delete from  bas_operation_people 
+		WHERE operatorId = #{operatorId}
+	</delete>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasOperationPeople">
+	select * from bas_operation_people where code = #{code} and beid = #{beid}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_operation_people set enable='0' where beid = #{beid};
+	</update>
+
+</mapper>

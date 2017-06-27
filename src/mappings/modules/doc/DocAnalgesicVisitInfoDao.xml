@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnalgesicVisitInfoDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnalgesicVisitInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="analgesicId" property="analgesicId" jdbcType="VARCHAR" />
+    <result column="visitTime" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="analgesiaScore" property="analgesiaScore" jdbcType="INTEGER" />
+    <result column="calmScore" property="calmScore" jdbcType="INTEGER" />
+    <result column="adverseReactions" property="adverseReactions" jdbcType="INTEGER" />
+    <result column="nausea" property="nausea" jdbcType="INTEGER" />
+    <result column="cyclicInhibition" property="cyclicInhibition" jdbcType="INTEGER" />
+    <result column="respiratory" property="respiratory" jdbcType="INTEGER" />
+    <result column="sleepiness" property="sleepiness" jdbcType="INTEGER" />
+    <result column="dizzy" property="dizzy" jdbcType="INTEGER" />
+    <result column="incapable" property="incapable" jdbcType="INTEGER" />
+    <result column="limbs" property="limbs" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="INTEGER" />
+    <result column="drugUse" property="drugUse" jdbcType="REAL" />
+    <result column="inquiryDoctor" property="inquiryDoctor" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, analgesicId, visitTime, analgesiaScore, calmScore, adverseReactions, 
+    nausea, cyclicInhibition, respiratory, sleepiness, dizzy, incapable, limbs, other, 
+    drugUse, inquiryDoctor
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_visit_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getByanalgesicId" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_visit_info
+    where analgesicId = #{analgesicId,jdbcType=VARCHAR}
+  </select>
+
+ <delete id="deleteByanalgesicId" parameterType="java.lang.String" >
+    delete from doc_analgesic_visit_info
+    where analgesicId = #{analgesicId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_analgesic_visit_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicVisitInfo" >
+    insert into doc_analgesic_visit_info (id, regOptId, analgesicId, 
+      visitTime, analgesiaScore, calmScore, 
+      adverseReactions, nausea, cyclicInhibition, 
+      respiratory, sleepiness, dizzy, 
+      incapable, limbs, other, 
+      drugUse, inquiryDoctor)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{analgesicId,jdbcType=VARCHAR}, 
+      #{visitTime,jdbcType=TIMESTAMP}, #{analgesiaScore,jdbcType=INTEGER}, #{calmScore,jdbcType=INTEGER}, 
+      #{adverseReactions,jdbcType=INTEGER}, #{nausea,jdbcType=INTEGER}, #{cyclicInhibition,jdbcType=INTEGER}, 
+      #{respiratory,jdbcType=INTEGER}, #{sleepiness,jdbcType=INTEGER}, #{dizzy,jdbcType=INTEGER}, 
+      #{incapable,jdbcType=INTEGER}, #{limbs,jdbcType=INTEGER}, #{other,jdbcType=INTEGER}, 
+      #{drugUse,jdbcType=REAL}, #{inquiryDoctor,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicVisitInfo" >
+    insert into doc_analgesic_visit_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId,
+      </if>
+      <if test="visitTime != null" >
+        visitTime,
+      </if>
+      <if test="analgesiaScore != null" >
+        analgesiaScore,
+      </if>
+      <if test="calmScore != null" >
+        calmScore,
+      </if>
+      <if test="adverseReactions != null" >
+        adverseReactions,
+      </if>
+      <if test="nausea != null" >
+        nausea,
+      </if>
+      <if test="cyclicInhibition != null" >
+        cyclicInhibition,
+      </if>
+      <if test="respiratory != null" >
+        respiratory,
+      </if>
+      <if test="sleepiness != null" >
+        sleepiness,
+      </if>
+      <if test="dizzy != null" >
+        dizzy,
+      </if>
+      <if test="incapable != null" >
+        incapable,
+      </if>
+      <if test="limbs != null" >
+        limbs,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="drugUse != null" >
+        drugUse,
+      </if>
+      <if test="inquiryDoctor != null" >
+        inquiryDoctor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="analgesiaScore != null" >
+        #{analgesiaScore,jdbcType=INTEGER},
+      </if>
+      <if test="calmScore != null" >
+        #{calmScore,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactions != null" >
+        #{adverseReactions,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="cyclicInhibition != null" >
+        #{cyclicInhibition,jdbcType=INTEGER},
+      </if>
+      <if test="respiratory != null" >
+        #{respiratory,jdbcType=INTEGER},
+      </if>
+      <if test="sleepiness != null" >
+        #{sleepiness,jdbcType=INTEGER},
+      </if>
+      <if test="dizzy != null" >
+        #{dizzy,jdbcType=INTEGER},
+      </if>
+      <if test="incapable != null" >
+        #{incapable,jdbcType=INTEGER},
+      </if>
+      <if test="limbs != null" >
+        #{limbs,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=INTEGER},
+      </if>
+      <if test="drugUse != null" >
+        #{drugUse,jdbcType=REAL},
+      </if>
+      <if test="inquiryDoctor != null" >
+        #{inquiryDoctor,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicVisitInfo" >
+    update doc_analgesic_visit_info
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="visitTime != null" >
+        visitTime = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="analgesiaScore != null" >
+        analgesiaScore = #{analgesiaScore,jdbcType=INTEGER},
+      </if>
+      <if test="calmScore != null" >
+        calmScore = #{calmScore,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactions != null" >
+        adverseReactions = #{adverseReactions,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        nausea = #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="cyclicInhibition != null" >
+        cyclicInhibition = #{cyclicInhibition,jdbcType=INTEGER},
+      </if>
+      <if test="respiratory != null" >
+        respiratory = #{respiratory,jdbcType=INTEGER},
+      </if>
+      <if test="sleepiness != null" >
+        sleepiness = #{sleepiness,jdbcType=INTEGER},
+      </if>
+      <if test="dizzy != null" >
+        dizzy = #{dizzy,jdbcType=INTEGER},
+      </if>
+      <if test="incapable != null" >
+        incapable = #{incapable,jdbcType=INTEGER},
+      </if>
+      <if test="limbs != null" >
+        limbs = #{limbs,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=INTEGER},
+      </if>
+      <if test="drugUse != null" >
+        drugUse = #{drugUse,jdbcType=REAL},
+      </if>
+      <if test="inquiryDoctor != null" >
+        inquiryDoctor = #{inquiryDoctor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicVisitInfo" >
+    update doc_analgesic_visit_info
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      visitTime = #{visitTime,jdbcType=TIMESTAMP},
+      analgesiaScore = #{analgesiaScore,jdbcType=INTEGER},
+      calmScore = #{calmScore,jdbcType=INTEGER},
+      adverseReactions = #{adverseReactions,jdbcType=INTEGER},
+      nausea = #{nausea,jdbcType=INTEGER},
+      cyclicInhibition = #{cyclicInhibition,jdbcType=INTEGER},
+      respiratory = #{respiratory,jdbcType=INTEGER},
+      sleepiness = #{sleepiness,jdbcType=INTEGER},
+      dizzy = #{dizzy,jdbcType=INTEGER},
+      incapable = #{incapable,jdbcType=INTEGER},
+      limbs = #{limbs,jdbcType=INTEGER},
+      other = #{other,jdbcType=INTEGER},
+      drugUse = #{drugUse,jdbcType=REAL},
+      inquiryDoctor = #{inquiryDoctor,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtOptRealOperDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtOptRealOper" >
+    <id column="optRealOperId" property="optRealOperId" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="operDefId" property="operDefId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="editName" property="editName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    optRealOperId, docId, operDefId, name, editName
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_opt_real_oper
+    where optRealOperId = #{optRealOperId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getSelectOptRealOperList" resultType="com.digihealth.anesthesia.basedata.formbean.OperDefFormBean">
+		SELECT 
+			b.*
+		FROM evt_opt_real_oper a left join bas_operdef b on a.operDefId = b.operDefId where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.optRealOperId = #{searchBean.id}
+		</if>
+		<if test="searchBean.beid != null and searchBean.beid != ''">
+			AND b.beid = #{searchBean.beid}
+		</if>
+	</select>
+	
+  <select id="searchOptRealOperList" resultType="com.digihealth.anesthesia.evt.po.EvtOptRealOper">
+		SELECT 
+			a.optRealOperId,a.docId,a.operDefId,b.name
+		FROM evt_opt_real_oper a left join bas_operdef b on a.operDefId=b.operDefId where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.optRealOperId = #{searchBean.id}
+		</if>
+		<if test="searchBean.beid != null and searchBean.beid != ''">
+			AND b.beid = #{searchBean.beid}
+		</if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_opt_real_oper
+    where optRealOperId = #{optRealOperId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByDocId">
+		delete from evt_opt_real_oper 
+		WHERE docId = #{docId}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtOptRealOper" >
+    insert into evt_opt_real_oper (optRealOperId, docId, operDefId, 
+      name, editName)
+    values (#{optRealOperId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{operDefId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{editName,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtOptRealOper" >
+    insert into evt_opt_real_oper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="optRealOperId != null" >
+        optRealOperId,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="operDefId != null" >
+        operDefId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="editName != null" >
+        editName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="optRealOperId != null" >
+        #{optRealOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="operDefId != null" >
+        #{operDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="editName != null" >
+        #{editName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtOptRealOper" >
+    update evt_opt_real_oper
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="operDefId != null" >
+        operDefId = #{operDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="editName != null" >
+        editName = #{editName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where optRealOperId = #{optRealOperId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtOptRealOper" >
+    update evt_opt_real_oper
+    set docId = #{docId,jdbcType=VARCHAR},
+      operDefId = #{operDefId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      editName = #{editName,jdbcType=VARCHAR}
+    where optRealOperId = #{optRealOperId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

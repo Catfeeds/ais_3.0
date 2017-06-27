@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPatOutRangeItemDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPatOutRangeItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="patOutRangeId" property="patOutRangeId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="itemCode" property="itemCode" jdbcType="VARCHAR" />
+    <result column="itemName" property="itemName" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="doctorId" property="doctorId" jdbcType="VARCHAR" />
+    <result column="doctorName" property="doctorName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, patOutRangeId, type, time, itemCode, itemName, reason, doctorId, doctorName
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pat_out_range_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPatOutRangeId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pat_out_range_item
+    where patOutRangeId = #{patOutRangeId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_pat_out_range_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPatOutRangeItem" >
+    insert into doc_pat_out_range_item (id, regOptId, patOutRangeId, 
+      type, time, itemCode, 
+      itemName, reason, doctorId, 
+      doctorName)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{patOutRangeId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{itemCode,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{doctorId,jdbcType=VARCHAR}, 
+      #{doctorName,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPatOutRangeItem" >
+    insert into doc_pat_out_range_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="patOutRangeId != null" >
+        patOutRangeId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="itemCode != null" >
+        itemCode,
+      </if>
+      <if test="itemName != null" >
+        itemName,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="doctorId != null" >
+        doctorId,
+      </if>
+      <if test="doctorName != null" >
+        doctorName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patOutRangeId != null" >
+        #{patOutRangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null" >
+        #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorName != null" >
+        #{doctorName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPatOutRangeItem" >
+    update doc_pat_out_range_item
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patOutRangeId != null" >
+        patOutRangeId = #{patOutRangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        itemCode = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        itemName = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null" >
+        doctorId = #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorName != null" >
+        doctorName = #{doctorName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPatOutRangeItem" >
+    update doc_pat_out_range_item
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      patOutRangeId = #{patOutRangeId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      itemCode = #{itemCode,jdbcType=VARCHAR},
+      itemName = #{itemName,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      doctorId = #{doctorId,jdbcType=VARCHAR},
+      doctorName = #{doctorName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

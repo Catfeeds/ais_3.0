@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasInstrumentDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInstrument" >
+    <id column="instrumentId" property="instrumentId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    instrumentId, code, name, type, pinYin, enable, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_instrument
+    where instrumentId = #{instrumentId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_instrument
+    where instrumentId = #{instrumentId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrument" >
+    insert into bas_instrument (instrumentId, code, name, 
+      type, pinYin, enable, 
+      beid)
+    values (#{instrumentId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrument" >
+    insert into bas_instrument
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="instrumentId != null" >
+        instrumentId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="instrumentId != null" >
+        #{instrumentId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrument" >
+    update bas_instrument
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where instrumentId = #{instrumentId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrument" >
+    update bas_instrument
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where instrumentId = #{instrumentId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="searchInstrumentByInstrumentId" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
+		SELECT 
+			*
+		FROM bas_instrument a where a.instrumentId = #{instrumentId} and a.enable ='1' 
+		order by a.name ASC
+	</select>
+	
+	<select id="searchInstrument" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
+		SELECT 
+			*
+		FROM bas_instrument a where 1=1 and a.beid =  #{baseQuery.beid}
+		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		</if>
+		<if test="baseQuery.enable != null and baseQuery.enable != ''">
+			AND a.enable = #{baseQuery.enable}
+		</if>
+		
+	</select>
+	
+	<select id="queryInstrumentByInstrsuitId" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
+	SELECT DISTINCT i.*,s.amount,s.instrSuitRelId FROM
+	bas_instrument i left join bas_instr_suit_rel s on i.instrumentId = s.instrumentId where i.enable='1' and s.instrsuitId = #{instrsuitId}
+	</select>
+	
+	<select id="queryInstrumentList" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
+	SELECT * FROM bas_instrument where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryInstrumentListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_instrument where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="searchInstrumentById" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
+	select * from bas_instrument where instrumentId = #{instrumentId}
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
+	select * from bas_instrument where code = #{code} and beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_instrument set enable='0' where beid = #{beid,jdbcType=VARCHAR};
+	</update>
+
+</mapper>

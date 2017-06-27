@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesPlanDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesPlan" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="specialCase" property="specialCase" jdbcType="VARCHAR" />
+    <result column="asa" property="asa" jdbcType="INTEGER" />
+    <result column="anaesMethodCode" property="anaesMethodCode" jdbcType="VARCHAR" />
+    <result column="anaesMethodName" property="anaesMethodName" jdbcType="VARCHAR" />
+    <result column="guardianship" property="guardianship" jdbcType="VARCHAR" />
+    <result column="inductionMethod" property="inductionMethod" jdbcType="VARCHAR" />
+    <result column="artificialAirway" property="artificialAirway" jdbcType="VARCHAR" />
+    <result column="puncPoint" property="puncPoint" jdbcType="INTEGER" />
+    <result column="nerveBlock" property="nerveBlock" jdbcType="VARCHAR" />
+    <result column="specialOperate" property="specialOperate" jdbcType="VARCHAR" />
+    <result column="anaesInstrument" property="anaesInstrument" jdbcType="VARCHAR" />
+    <result column="threadedPipe" property="threadedPipe" jdbcType="INTEGER" />
+    <result column="mask" property="mask" jdbcType="INTEGER" />
+    <result column="laryngoscope" property="laryngoscope" jdbcType="INTEGER" />
+    <result column="tracheaPipe" property="tracheaPipe" jdbcType="INTEGER" />
+    <result column="tracheaPipeId" property="tracheaPipeId" jdbcType="INTEGER" />
+    <result column="doubleChamber" property="doubleChamber" jdbcType="INTEGER" />
+    <result column="doubleChamberId" property="doubleChamberId" jdbcType="INTEGER" />
+    <result column="laryngealId" property="laryngealId" jdbcType="INTEGER" />
+    <result column="centralVenous" property="centralVenous" jdbcType="INTEGER" />
+    <result column="pressureSensor" property="pressureSensor" jdbcType="INTEGER" />
+    <result column="arterialPuncture" property="arterialPuncture" jdbcType="INTEGER" />
+    <result column="microPump" property="microPump" jdbcType="INTEGER" />
+    <result column="otherInstrument" property="otherInstrument" jdbcType="VARCHAR" />
+    <result column="localAnest" property="localAnest" jdbcType="VARCHAR" />
+    <result column="otherlocalAnest" property="otherlocalAnest" jdbcType="VARCHAR" />
+    <result column="sedatives" property="sedatives" jdbcType="VARCHAR" />
+    <result column="otherSedatives" property="otherSedatives" jdbcType="VARCHAR" />
+    <result column="analgesics" property="analgesics" jdbcType="VARCHAR" />
+    <result column="otherAnalgesics" property="otherAnalgesics" jdbcType="VARCHAR" />
+    <result column="muscleRelaxant" property="muscleRelaxant" jdbcType="VARCHAR" />
+    <result column="otherMuscleRelaxant" property="otherMuscleRelaxant" jdbcType="VARCHAR" />
+    <result column="intravenousAnest" property="intravenousAnest" jdbcType="VARCHAR" />
+    <result column="otherIntravenousAnest" property="otherIntravenousAnest" jdbcType="VARCHAR" />
+    <result column="inhalationAnest" property="inhalationAnest" jdbcType="VARCHAR" />
+    <result column="otherInhalationAnest" property="otherInhalationAnest" jdbcType="VARCHAR" />
+    <result column="adjuvantTherapy" property="adjuvantTherapy" jdbcType="VARCHAR" />
+    <result column="otherAdjuvantTherapy" property="otherAdjuvantTherapy" jdbcType="VARCHAR" />
+    <result column="aidMedication" property="aidMedication" jdbcType="VARCHAR" />
+    <result column="otherAidMedication" property="otherAidMedication" jdbcType="VARCHAR" />
+    <result column="infusion" property="infusion" jdbcType="VARCHAR" />
+    <result column="otherInfusion" property="otherInfusion" jdbcType="VARCHAR" />
+    <result column="analgesicPumpMethod" property="analgesicPumpMethod" jdbcType="VARCHAR" />
+    <result column="leaveTo" property="leaveTo" jdbcType="INTEGER" />
+    <result column="anaesDoctorId" property="anaesDoctorId" jdbcType="VARCHAR" />
+    <result column="anaesDoctorName" property="anaesDoctorName" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, processState, specialCase, asa, anaesMethodCode, anaesMethodName, guardianship, 
+    inductionMethod, artificialAirway, puncPoint, nerveBlock, specialOperate, anaesInstrument, 
+    threadedPipe, mask, laryngoscope, tracheaPipe, tracheaPipeId, doubleChamber, doubleChamberId, 
+    laryngealId, centralVenous, pressureSensor, arterialPuncture, microPump, otherInstrument, 
+    localAnest, otherlocalAnest, sedatives, otherSedatives, analgesics, otherAnalgesics, 
+    muscleRelaxant, otherMuscleRelaxant, intravenousAnest, otherIntravenousAnest, inhalationAnest, 
+    otherInhalationAnest, adjuvantTherapy, otherAdjuvantTherapy, aidMedication, otherAidMedication, 
+    infusion, otherInfusion, analgesicPumpMethod, leaveTo, anaesDoctorId, anaesDoctorName, 
+    date
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_plan
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_plan
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_plan
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPlan" >
+    insert into doc_anaes_plan (id, regOptId, processState, 
+      specialCase, asa, anaesMethodCode, 
+      anaesMethodName, guardianship, inductionMethod, 
+      artificialAirway, puncPoint, nerveBlock, 
+      specialOperate, anaesInstrument, threadedPipe, 
+      mask, laryngoscope, tracheaPipe, 
+      tracheaPipeId, doubleChamber, doubleChamberId, 
+      laryngealId, centralVenous, pressureSensor, 
+      arterialPuncture, microPump, otherInstrument, 
+      localAnest, otherlocalAnest, sedatives, 
+      otherSedatives, analgesics, otherAnalgesics, 
+      muscleRelaxant, otherMuscleRelaxant, intravenousAnest, 
+      otherIntravenousAnest, inhalationAnest, 
+      otherInhalationAnest, adjuvantTherapy, 
+      otherAdjuvantTherapy, aidMedication, otherAidMedication, 
+      infusion, otherInfusion, analgesicPumpMethod, 
+      leaveTo, anaesDoctorId, anaesDoctorName, 
+      date)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{specialCase,jdbcType=VARCHAR}, #{asa,jdbcType=INTEGER}, #{anaesMethodCode,jdbcType=VARCHAR}, 
+      #{anaesMethodName,jdbcType=VARCHAR}, #{guardianship,jdbcType=VARCHAR}, #{inductionMethod,jdbcType=VARCHAR}, 
+      #{artificialAirway,jdbcType=VARCHAR}, #{puncPoint,jdbcType=INTEGER}, #{nerveBlock,jdbcType=VARCHAR}, 
+      #{specialOperate,jdbcType=VARCHAR}, #{anaesInstrument,jdbcType=VARCHAR}, #{threadedPipe,jdbcType=INTEGER}, 
+      #{mask,jdbcType=INTEGER}, #{laryngoscope,jdbcType=INTEGER}, #{tracheaPipe,jdbcType=INTEGER}, 
+      #{tracheaPipeId,jdbcType=INTEGER}, #{doubleChamber,jdbcType=INTEGER}, #{doubleChamberId,jdbcType=INTEGER}, 
+      #{laryngealId,jdbcType=INTEGER}, #{centralVenous,jdbcType=INTEGER}, #{pressureSensor,jdbcType=INTEGER}, 
+      #{arterialPuncture,jdbcType=INTEGER}, #{microPump,jdbcType=INTEGER}, #{otherInstrument,jdbcType=VARCHAR}, 
+      #{localAnest,jdbcType=VARCHAR}, #{otherlocalAnest,jdbcType=VARCHAR}, #{sedatives,jdbcType=VARCHAR}, 
+      #{otherSedatives,jdbcType=VARCHAR}, #{analgesics,jdbcType=VARCHAR}, #{otherAnalgesics,jdbcType=VARCHAR}, 
+      #{muscleRelaxant,jdbcType=VARCHAR}, #{otherMuscleRelaxant,jdbcType=VARCHAR}, #{intravenousAnest,jdbcType=VARCHAR}, 
+      #{otherIntravenousAnest,jdbcType=VARCHAR}, #{inhalationAnest,jdbcType=VARCHAR}, 
+      #{otherInhalationAnest,jdbcType=VARCHAR}, #{adjuvantTherapy,jdbcType=VARCHAR}, 
+      #{otherAdjuvantTherapy,jdbcType=VARCHAR}, #{aidMedication,jdbcType=VARCHAR}, #{otherAidMedication,jdbcType=VARCHAR}, 
+      #{infusion,jdbcType=VARCHAR}, #{otherInfusion,jdbcType=VARCHAR}, #{analgesicPumpMethod,jdbcType=VARCHAR}, 
+      #{leaveTo,jdbcType=INTEGER}, #{anaesDoctorId,jdbcType=VARCHAR}, #{anaesDoctorName,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPlan" >
+    insert into doc_anaes_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="specialCase != null" >
+        specialCase,
+      </if>
+      <if test="asa != null" >
+        asa,
+      </if>
+      <if test="anaesMethodCode != null" >
+        anaesMethodCode,
+      </if>
+      <if test="anaesMethodName != null" >
+        anaesMethodName,
+      </if>
+      <if test="guardianship != null" >
+        guardianship,
+      </if>
+      <if test="inductionMethod != null" >
+        inductionMethod,
+      </if>
+      <if test="artificialAirway != null" >
+        artificialAirway,
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint,
+      </if>
+      <if test="nerveBlock != null" >
+        nerveBlock,
+      </if>
+      <if test="specialOperate != null" >
+        specialOperate,
+      </if>
+      <if test="anaesInstrument != null" >
+        anaesInstrument,
+      </if>
+      <if test="threadedPipe != null" >
+        threadedPipe,
+      </if>
+      <if test="mask != null" >
+        mask,
+      </if>
+      <if test="laryngoscope != null" >
+        laryngoscope,
+      </if>
+      <if test="tracheaPipe != null" >
+        tracheaPipe,
+      </if>
+      <if test="tracheaPipeId != null" >
+        tracheaPipeId,
+      </if>
+      <if test="doubleChamber != null" >
+        doubleChamber,
+      </if>
+      <if test="doubleChamberId != null" >
+        doubleChamberId,
+      </if>
+      <if test="laryngealId != null" >
+        laryngealId,
+      </if>
+      <if test="centralVenous != null" >
+        centralVenous,
+      </if>
+      <if test="pressureSensor != null" >
+        pressureSensor,
+      </if>
+      <if test="arterialPuncture != null" >
+        arterialPuncture,
+      </if>
+      <if test="microPump != null" >
+        microPump,
+      </if>
+      <if test="otherInstrument != null" >
+        otherInstrument,
+      </if>
+      <if test="localAnest != null" >
+        localAnest,
+      </if>
+      <if test="otherlocalAnest != null" >
+        otherlocalAnest,
+      </if>
+      <if test="sedatives != null" >
+        sedatives,
+      </if>
+      <if test="otherSedatives != null" >
+        otherSedatives,
+      </if>
+      <if test="analgesics != null" >
+        analgesics,
+      </if>
+      <if test="otherAnalgesics != null" >
+        otherAnalgesics,
+      </if>
+      <if test="muscleRelaxant != null" >
+        muscleRelaxant,
+      </if>
+      <if test="otherMuscleRelaxant != null" >
+        otherMuscleRelaxant,
+      </if>
+      <if test="intravenousAnest != null" >
+        intravenousAnest,
+      </if>
+      <if test="otherIntravenousAnest != null" >
+        otherIntravenousAnest,
+      </if>
+      <if test="inhalationAnest != null" >
+        inhalationAnest,
+      </if>
+      <if test="otherInhalationAnest != null" >
+        otherInhalationAnest,
+      </if>
+      <if test="adjuvantTherapy != null" >
+        adjuvantTherapy,
+      </if>
+      <if test="otherAdjuvantTherapy != null" >
+        otherAdjuvantTherapy,
+      </if>
+      <if test="aidMedication != null" >
+        aidMedication,
+      </if>
+      <if test="otherAidMedication != null" >
+        otherAidMedication,
+      </if>
+      <if test="infusion != null" >
+        infusion,
+      </if>
+      <if test="otherInfusion != null" >
+        otherInfusion,
+      </if>
+      <if test="analgesicPumpMethod != null" >
+        analgesicPumpMethod,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+      <if test="anaesDoctorId != null" >
+        anaesDoctorId,
+      </if>
+      <if test="anaesDoctorName != null" >
+        anaesDoctorName,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="specialCase != null" >
+        #{specialCase,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        #{asa,jdbcType=INTEGER},
+      </if>
+      <if test="anaesMethodCode != null" >
+        #{anaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethodName != null" >
+        #{anaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="guardianship != null" >
+        #{guardianship,jdbcType=VARCHAR},
+      </if>
+      <if test="inductionMethod != null" >
+        #{inductionMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="artificialAirway != null" >
+        #{artificialAirway,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint != null" >
+        #{puncPoint,jdbcType=INTEGER},
+      </if>
+      <if test="nerveBlock != null" >
+        #{nerveBlock,jdbcType=VARCHAR},
+      </if>
+      <if test="specialOperate != null" >
+        #{specialOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesInstrument != null" >
+        #{anaesInstrument,jdbcType=VARCHAR},
+      </if>
+      <if test="threadedPipe != null" >
+        #{threadedPipe,jdbcType=INTEGER},
+      </if>
+      <if test="mask != null" >
+        #{mask,jdbcType=INTEGER},
+      </if>
+      <if test="laryngoscope != null" >
+        #{laryngoscope,jdbcType=INTEGER},
+      </if>
+      <if test="tracheaPipe != null" >
+        #{tracheaPipe,jdbcType=INTEGER},
+      </if>
+      <if test="tracheaPipeId != null" >
+        #{tracheaPipeId,jdbcType=INTEGER},
+      </if>
+      <if test="doubleChamber != null" >
+        #{doubleChamber,jdbcType=INTEGER},
+      </if>
+      <if test="doubleChamberId != null" >
+        #{doubleChamberId,jdbcType=INTEGER},
+      </if>
+      <if test="laryngealId != null" >
+        #{laryngealId,jdbcType=INTEGER},
+      </if>
+      <if test="centralVenous != null" >
+        #{centralVenous,jdbcType=INTEGER},
+      </if>
+      <if test="pressureSensor != null" >
+        #{pressureSensor,jdbcType=INTEGER},
+      </if>
+      <if test="arterialPuncture != null" >
+        #{arterialPuncture,jdbcType=INTEGER},
+      </if>
+      <if test="microPump != null" >
+        #{microPump,jdbcType=INTEGER},
+      </if>
+      <if test="otherInstrument != null" >
+        #{otherInstrument,jdbcType=VARCHAR},
+      </if>
+      <if test="localAnest != null" >
+        #{localAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="otherlocalAnest != null" >
+        #{otherlocalAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="sedatives != null" >
+        #{sedatives,jdbcType=VARCHAR},
+      </if>
+      <if test="otherSedatives != null" >
+        #{otherSedatives,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesics != null" >
+        #{analgesics,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAnalgesics != null" >
+        #{otherAnalgesics,jdbcType=VARCHAR},
+      </if>
+      <if test="muscleRelaxant != null" >
+        #{muscleRelaxant,jdbcType=VARCHAR},
+      </if>
+      <if test="otherMuscleRelaxant != null" >
+        #{otherMuscleRelaxant,jdbcType=VARCHAR},
+      </if>
+      <if test="intravenousAnest != null" >
+        #{intravenousAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="otherIntravenousAnest != null" >
+        #{otherIntravenousAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="inhalationAnest != null" >
+        #{inhalationAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInhalationAnest != null" >
+        #{otherInhalationAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="adjuvantTherapy != null" >
+        #{adjuvantTherapy,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAdjuvantTherapy != null" >
+        #{otherAdjuvantTherapy,jdbcType=VARCHAR},
+      </if>
+      <if test="aidMedication != null" >
+        #{aidMedication,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAidMedication != null" >
+        #{otherAidMedication,jdbcType=VARCHAR},
+      </if>
+      <if test="infusion != null" >
+        #{infusion,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInfusion != null" >
+        #{otherInfusion,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicPumpMethod != null" >
+        #{analgesicPumpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="anaesDoctorId != null" >
+        #{anaesDoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesDoctorName != null" >
+        #{anaesDoctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPlan" >
+    update doc_anaes_plan
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="specialCase != null" >
+        specialCase = #{specialCase,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        asa = #{asa,jdbcType=INTEGER},
+      </if>
+      <if test="anaesMethodCode != null" >
+        anaesMethodCode = #{anaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethodName != null" >
+        anaesMethodName = #{anaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="guardianship != null" >
+        guardianship = #{guardianship,jdbcType=VARCHAR},
+      </if>
+      <if test="inductionMethod != null" >
+        inductionMethod = #{inductionMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="artificialAirway != null" >
+        artificialAirway = #{artificialAirway,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint = #{puncPoint,jdbcType=INTEGER},
+      </if>
+      <if test="nerveBlock != null" >
+        nerveBlock = #{nerveBlock,jdbcType=VARCHAR},
+      </if>
+      <if test="specialOperate != null" >
+        specialOperate = #{specialOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesInstrument != null" >
+        anaesInstrument = #{anaesInstrument,jdbcType=VARCHAR},
+      </if>
+      <if test="threadedPipe != null" >
+        threadedPipe = #{threadedPipe,jdbcType=INTEGER},
+      </if>
+      <if test="mask != null" >
+        mask = #{mask,jdbcType=INTEGER},
+      </if>
+      <if test="laryngoscope != null" >
+        laryngoscope = #{laryngoscope,jdbcType=INTEGER},
+      </if>
+      <if test="tracheaPipe != null" >
+        tracheaPipe = #{tracheaPipe,jdbcType=INTEGER},
+      </if>
+      <if test="tracheaPipeId != null" >
+        tracheaPipeId = #{tracheaPipeId,jdbcType=INTEGER},
+      </if>
+      <if test="doubleChamber != null" >
+        doubleChamber = #{doubleChamber,jdbcType=INTEGER},
+      </if>
+      <if test="doubleChamberId != null" >
+        doubleChamberId = #{doubleChamberId,jdbcType=INTEGER},
+      </if>
+      <if test="laryngealId != null" >
+        laryngealId = #{laryngealId,jdbcType=INTEGER},
+      </if>
+      <if test="centralVenous != null" >
+        centralVenous = #{centralVenous,jdbcType=INTEGER},
+      </if>
+      <if test="pressureSensor != null" >
+        pressureSensor = #{pressureSensor,jdbcType=INTEGER},
+      </if>
+      <if test="arterialPuncture != null" >
+        arterialPuncture = #{arterialPuncture,jdbcType=INTEGER},
+      </if>
+      <if test="microPump != null" >
+        microPump = #{microPump,jdbcType=INTEGER},
+      </if>
+      <if test="otherInstrument != null" >
+        otherInstrument = #{otherInstrument,jdbcType=VARCHAR},
+      </if>
+      <if test="localAnest != null" >
+        localAnest = #{localAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="otherlocalAnest != null" >
+        otherlocalAnest = #{otherlocalAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="sedatives != null" >
+        sedatives = #{sedatives,jdbcType=VARCHAR},
+      </if>
+      <if test="otherSedatives != null" >
+        otherSedatives = #{otherSedatives,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesics != null" >
+        analgesics = #{analgesics,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAnalgesics != null" >
+        otherAnalgesics = #{otherAnalgesics,jdbcType=VARCHAR},
+      </if>
+      <if test="muscleRelaxant != null" >
+        muscleRelaxant = #{muscleRelaxant,jdbcType=VARCHAR},
+      </if>
+      <if test="otherMuscleRelaxant != null" >
+        otherMuscleRelaxant = #{otherMuscleRelaxant,jdbcType=VARCHAR},
+      </if>
+      <if test="intravenousAnest != null" >
+        intravenousAnest = #{intravenousAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="otherIntravenousAnest != null" >
+        otherIntravenousAnest = #{otherIntravenousAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="inhalationAnest != null" >
+        inhalationAnest = #{inhalationAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInhalationAnest != null" >
+        otherInhalationAnest = #{otherInhalationAnest,jdbcType=VARCHAR},
+      </if>
+      <if test="adjuvantTherapy != null" >
+        adjuvantTherapy = #{adjuvantTherapy,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAdjuvantTherapy != null" >
+        otherAdjuvantTherapy = #{otherAdjuvantTherapy,jdbcType=VARCHAR},
+      </if>
+      <if test="aidMedication != null" >
+        aidMedication = #{aidMedication,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAidMedication != null" >
+        otherAidMedication = #{otherAidMedication,jdbcType=VARCHAR},
+      </if>
+      <if test="infusion != null" >
+        infusion = #{infusion,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInfusion != null" >
+        otherInfusion = #{otherInfusion,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicPumpMethod != null" >
+        analgesicPumpMethod = #{analgesicPumpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="anaesDoctorId != null" >
+        anaesDoctorId = #{anaesDoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesDoctorName != null" >
+        anaesDoctorName = #{anaesDoctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPlan" >
+    update doc_anaes_plan
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      specialCase = #{specialCase,jdbcType=VARCHAR},
+      asa = #{asa,jdbcType=INTEGER},
+      anaesMethodCode = #{anaesMethodCode,jdbcType=VARCHAR},
+      anaesMethodName = #{anaesMethodName,jdbcType=VARCHAR},
+      guardianship = #{guardianship,jdbcType=VARCHAR},
+      inductionMethod = #{inductionMethod,jdbcType=VARCHAR},
+      artificialAirway = #{artificialAirway,jdbcType=VARCHAR},
+      puncPoint = #{puncPoint,jdbcType=INTEGER},
+      nerveBlock = #{nerveBlock,jdbcType=VARCHAR},
+      specialOperate = #{specialOperate,jdbcType=VARCHAR},
+      anaesInstrument = #{anaesInstrument,jdbcType=VARCHAR},
+      threadedPipe = #{threadedPipe,jdbcType=INTEGER},
+      mask = #{mask,jdbcType=INTEGER},
+      laryngoscope = #{laryngoscope,jdbcType=INTEGER},
+      tracheaPipe = #{tracheaPipe,jdbcType=INTEGER},
+      tracheaPipeId = #{tracheaPipeId,jdbcType=INTEGER},
+      doubleChamber = #{doubleChamber,jdbcType=INTEGER},
+      doubleChamberId = #{doubleChamberId,jdbcType=INTEGER},
+      laryngealId = #{laryngealId,jdbcType=INTEGER},
+      centralVenous = #{centralVenous,jdbcType=INTEGER},
+      pressureSensor = #{pressureSensor,jdbcType=INTEGER},
+      arterialPuncture = #{arterialPuncture,jdbcType=INTEGER},
+      microPump = #{microPump,jdbcType=INTEGER},
+      otherInstrument = #{otherInstrument,jdbcType=VARCHAR},
+      localAnest = #{localAnest,jdbcType=VARCHAR},
+      otherlocalAnest = #{otherlocalAnest,jdbcType=VARCHAR},
+      sedatives = #{sedatives,jdbcType=VARCHAR},
+      otherSedatives = #{otherSedatives,jdbcType=VARCHAR},
+      analgesics = #{analgesics,jdbcType=VARCHAR},
+      otherAnalgesics = #{otherAnalgesics,jdbcType=VARCHAR},
+      muscleRelaxant = #{muscleRelaxant,jdbcType=VARCHAR},
+      otherMuscleRelaxant = #{otherMuscleRelaxant,jdbcType=VARCHAR},
+      intravenousAnest = #{intravenousAnest,jdbcType=VARCHAR},
+      otherIntravenousAnest = #{otherIntravenousAnest,jdbcType=VARCHAR},
+      inhalationAnest = #{inhalationAnest,jdbcType=VARCHAR},
+      otherInhalationAnest = #{otherInhalationAnest,jdbcType=VARCHAR},
+      adjuvantTherapy = #{adjuvantTherapy,jdbcType=VARCHAR},
+      otherAdjuvantTherapy = #{otherAdjuvantTherapy,jdbcType=VARCHAR},
+      aidMedication = #{aidMedication,jdbcType=VARCHAR},
+      otherAidMedication = #{otherAidMedication,jdbcType=VARCHAR},
+      infusion = #{infusion,jdbcType=VARCHAR},
+      otherInfusion = #{otherInfusion,jdbcType=VARCHAR},
+      analgesicPumpMethod = #{analgesicPumpMethod,jdbcType=VARCHAR},
+      leaveTo = #{leaveTo,jdbcType=INTEGER},
+      anaesDoctorId = #{anaesDoctorId,jdbcType=VARCHAR},
+      anaesDoctorName = #{anaesDoctorName,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

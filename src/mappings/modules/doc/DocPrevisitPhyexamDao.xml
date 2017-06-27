@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPrevisitPhyexamDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPrevisitPhyexam" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="preVisitId" property="preVisitId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="consciou" property="consciou" jdbcType="INTEGER" />
+    <result column="dyspnea" property="dyspnea" jdbcType="INTEGER" />
+    <result column="cyanosis" property="cyanosis" jdbcType="INTEGER" />
+    <result column="diffAirway" property="diffAirway" jdbcType="INTEGER" />
+    <result column="aperture" property="aperture" jdbcType="INTEGER" />
+    <result column="toothMobility" property="toothMobility" jdbcType="INTEGER" />
+    <result column="temp" property="temp" jdbcType="REAL" />
+    <result column="bloodPre" property="bloodPre" jdbcType="VARCHAR" />
+    <result column="heartrate" property="heartrate" jdbcType="INTEGER" />
+    <result column="breath" property="breath" jdbcType="INTEGER" />
+    <result column="pr" property="pr" jdbcType="REAL" />
+    <result column="headActivity" property="headActivity" jdbcType="INTEGER" />
+    <result column="mallampati" property="mallampati" jdbcType="INTEGER" />
+    <result column="cardiacWorkup" property="cardiacWorkup" jdbcType="INTEGER" />
+    <result column="cardiacWorkupRes" property="cardiacWorkupRes" jdbcType="VARCHAR" />
+    <result column="pulmExam" property="pulmExam" jdbcType="INTEGER" />
+    <result column="pulmExamRes" property="pulmExamRes" jdbcType="VARCHAR" />
+    <result column="hemivertebra" property="hemivertebra" jdbcType="INTEGER" />
+    <result column="intervSpace" property="intervSpace" jdbcType="INTEGER" />
+    <result column="puncPoint" property="puncPoint" jdbcType="INTEGER" />
+    <result column="bleFeel" property="bleFeel" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="bleFeelRes" property="bleFeelRes" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, preVisitId, regOptId, consciou, dyspnea, cyanosis, diffAirway, aperture, toothMobility, 
+    temp, bloodPre, heartrate, breath, pr, headActivity, mallampati, cardiacWorkup, 
+    cardiacWorkupRes, pulmExam, pulmExamRes, hemivertebra, intervSpace, puncPoint, bleFeel, 
+    other, bleFeelRes
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_previsit_phyexam
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+   <select id="selectByPreVisitId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_previsit_phyexam
+    where preVisitId = #{preVisitId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_previsit_phyexam
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitPhyexam" >
+    insert into doc_previsit_phyexam (id, preVisitId, regOptId, 
+      consciou, dyspnea, cyanosis, 
+      diffAirway, aperture, toothMobility, 
+      temp, bloodPre, heartrate, 
+      breath, pr, headActivity, 
+      mallampati, cardiacWorkup, cardiacWorkupRes, 
+      pulmExam, pulmExamRes, hemivertebra, 
+      intervSpace, puncPoint, bleFeel, 
+      other, bleFeelRes)
+    values (#{id,jdbcType=VARCHAR}, #{preVisitId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
+      #{consciou,jdbcType=INTEGER}, #{dyspnea,jdbcType=INTEGER}, #{cyanosis,jdbcType=INTEGER}, 
+      #{diffAirway,jdbcType=INTEGER}, #{aperture,jdbcType=INTEGER}, #{toothMobility,jdbcType=INTEGER}, 
+      #{temp,jdbcType=REAL}, #{bloodPre,jdbcType=VARCHAR}, #{heartrate,jdbcType=INTEGER}, 
+      #{breath,jdbcType=INTEGER}, #{pr,jdbcType=REAL}, #{headActivity,jdbcType=INTEGER}, 
+      #{mallampati,jdbcType=INTEGER}, #{cardiacWorkup,jdbcType=INTEGER}, #{cardiacWorkupRes,jdbcType=VARCHAR}, 
+      #{pulmExam,jdbcType=INTEGER}, #{pulmExamRes,jdbcType=VARCHAR}, #{hemivertebra,jdbcType=INTEGER}, 
+      #{intervSpace,jdbcType=INTEGER}, #{puncPoint,jdbcType=INTEGER}, #{bleFeel,jdbcType=INTEGER}, 
+      #{other,jdbcType=VARCHAR}, #{bleFeelRes,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitPhyexam" >
+    insert into doc_previsit_phyexam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="preVisitId != null" >
+        preVisitId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="consciou != null" >
+        consciou,
+      </if>
+      <if test="dyspnea != null" >
+        dyspnea,
+      </if>
+      <if test="cyanosis != null" >
+        cyanosis,
+      </if>
+      <if test="diffAirway != null" >
+        diffAirway,
+      </if>
+      <if test="aperture != null" >
+        aperture,
+      </if>
+      <if test="toothMobility != null" >
+        toothMobility,
+      </if>
+      <if test="temp != null" >
+        temp,
+      </if>
+      <if test="bloodPre != null" >
+        bloodPre,
+      </if>
+      <if test="heartrate != null" >
+        heartrate,
+      </if>
+      <if test="breath != null" >
+        breath,
+      </if>
+      <if test="pr != null" >
+        pr,
+      </if>
+      <if test="headActivity != null" >
+        headActivity,
+      </if>
+      <if test="mallampati != null" >
+        mallampati,
+      </if>
+      <if test="cardiacWorkup != null" >
+        cardiacWorkup,
+      </if>
+      <if test="cardiacWorkupRes != null" >
+        cardiacWorkupRes,
+      </if>
+      <if test="pulmExam != null" >
+        pulmExam,
+      </if>
+      <if test="pulmExamRes != null" >
+        pulmExamRes,
+      </if>
+      <if test="hemivertebra != null" >
+        hemivertebra,
+      </if>
+      <if test="intervSpace != null" >
+        intervSpace,
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint,
+      </if>
+      <if test="bleFeel != null" >
+        bleFeel,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="bleFeelRes != null" >
+        bleFeelRes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitId != null" >
+        #{preVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="consciou != null" >
+        #{consciou,jdbcType=INTEGER},
+      </if>
+      <if test="dyspnea != null" >
+        #{dyspnea,jdbcType=INTEGER},
+      </if>
+      <if test="cyanosis != null" >
+        #{cyanosis,jdbcType=INTEGER},
+      </if>
+      <if test="diffAirway != null" >
+        #{diffAirway,jdbcType=INTEGER},
+      </if>
+      <if test="aperture != null" >
+        #{aperture,jdbcType=INTEGER},
+      </if>
+      <if test="toothMobility != null" >
+        #{toothMobility,jdbcType=INTEGER},
+      </if>
+      <if test="temp != null" >
+        #{temp,jdbcType=REAL},
+      </if>
+      <if test="bloodPre != null" >
+        #{bloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="heartrate != null" >
+        #{heartrate,jdbcType=INTEGER},
+      </if>
+      <if test="breath != null" >
+        #{breath,jdbcType=INTEGER},
+      </if>
+      <if test="pr != null" >
+        #{pr,jdbcType=REAL},
+      </if>
+      <if test="headActivity != null" >
+        #{headActivity,jdbcType=INTEGER},
+      </if>
+      <if test="mallampati != null" >
+        #{mallampati,jdbcType=INTEGER},
+      </if>
+      <if test="cardiacWorkup != null" >
+        #{cardiacWorkup,jdbcType=INTEGER},
+      </if>
+      <if test="cardiacWorkupRes != null" >
+        #{cardiacWorkupRes,jdbcType=VARCHAR},
+      </if>
+      <if test="pulmExam != null" >
+        #{pulmExam,jdbcType=INTEGER},
+      </if>
+      <if test="pulmExamRes != null" >
+        #{pulmExamRes,jdbcType=VARCHAR},
+      </if>
+      <if test="hemivertebra != null" >
+        #{hemivertebra,jdbcType=INTEGER},
+      </if>
+      <if test="intervSpace != null" >
+        #{intervSpace,jdbcType=INTEGER},
+      </if>
+      <if test="puncPoint != null" >
+        #{puncPoint,jdbcType=INTEGER},
+      </if>
+      <if test="bleFeel != null" >
+        #{bleFeel,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="bleFeelRes != null" >
+        #{bleFeelRes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitPhyexam" >
+    update doc_previsit_phyexam
+    <set >
+      <if test="preVisitId != null" >
+        preVisitId = #{preVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="consciou != null" >
+        consciou = #{consciou,jdbcType=INTEGER},
+      </if>
+      <if test="dyspnea != null" >
+        dyspnea = #{dyspnea,jdbcType=INTEGER},
+      </if>
+      <if test="cyanosis != null" >
+        cyanosis = #{cyanosis,jdbcType=INTEGER},
+      </if>
+      <if test="diffAirway != null" >
+        diffAirway = #{diffAirway,jdbcType=INTEGER},
+      </if>
+      <if test="aperture != null" >
+        aperture = #{aperture,jdbcType=INTEGER},
+      </if>
+      <if test="toothMobility != null" >
+        toothMobility = #{toothMobility,jdbcType=INTEGER},
+      </if>
+      <if test="temp != null" >
+        temp = #{temp,jdbcType=REAL},
+      </if>
+      <if test="bloodPre != null" >
+        bloodPre = #{bloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="heartrate != null" >
+        heartrate = #{heartrate,jdbcType=INTEGER},
+      </if>
+      <if test="breath != null" >
+        breath = #{breath,jdbcType=INTEGER},
+      </if>
+      <if test="pr != null" >
+        pr = #{pr,jdbcType=REAL},
+      </if>
+      <if test="headActivity != null" >
+        headActivity = #{headActivity,jdbcType=INTEGER},
+      </if>
+      <if test="mallampati != null" >
+        mallampati = #{mallampati,jdbcType=INTEGER},
+      </if>
+      <if test="cardiacWorkup != null" >
+        cardiacWorkup = #{cardiacWorkup,jdbcType=INTEGER},
+      </if>
+      <if test="cardiacWorkupRes != null" >
+        cardiacWorkupRes = #{cardiacWorkupRes,jdbcType=VARCHAR},
+      </if>
+      <if test="pulmExam != null" >
+        pulmExam = #{pulmExam,jdbcType=INTEGER},
+      </if>
+      <if test="pulmExamRes != null" >
+        pulmExamRes = #{pulmExamRes,jdbcType=VARCHAR},
+      </if>
+      <if test="hemivertebra != null" >
+        hemivertebra = #{hemivertebra,jdbcType=INTEGER},
+      </if>
+      <if test="intervSpace != null" >
+        intervSpace = #{intervSpace,jdbcType=INTEGER},
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint = #{puncPoint,jdbcType=INTEGER},
+      </if>
+      <if test="bleFeel != null" >
+        bleFeel = #{bleFeel,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="bleFeelRes != null" >
+        bleFeelRes = #{bleFeelRes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitPhyexam" >
+    update doc_previsit_phyexam
+    set preVisitId = #{preVisitId,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      consciou = #{consciou,jdbcType=INTEGER},
+      dyspnea = #{dyspnea,jdbcType=INTEGER},
+      cyanosis = #{cyanosis,jdbcType=INTEGER},
+      diffAirway = #{diffAirway,jdbcType=INTEGER},
+      aperture = #{aperture,jdbcType=INTEGER},
+      toothMobility = #{toothMobility,jdbcType=INTEGER},
+      temp = #{temp,jdbcType=REAL},
+      bloodPre = #{bloodPre,jdbcType=VARCHAR},
+      heartrate = #{heartrate,jdbcType=INTEGER},
+      breath = #{breath,jdbcType=INTEGER},
+      pr = #{pr,jdbcType=REAL},
+      headActivity = #{headActivity,jdbcType=INTEGER},
+      mallampati = #{mallampati,jdbcType=INTEGER},
+      cardiacWorkup = #{cardiacWorkup,jdbcType=INTEGER},
+      cardiacWorkupRes = #{cardiacWorkupRes,jdbcType=VARCHAR},
+      pulmExam = #{pulmExam,jdbcType=INTEGER},
+      pulmExamRes = #{pulmExamRes,jdbcType=VARCHAR},
+      hemivertebra = #{hemivertebra,jdbcType=INTEGER},
+      intervSpace = #{intervSpace,jdbcType=INTEGER},
+      puncPoint = #{puncPoint,jdbcType=INTEGER},
+      bleFeel = #{bleFeel,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR},
+      bleFeelRes = #{bleFeelRes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

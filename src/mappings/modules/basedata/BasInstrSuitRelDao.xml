@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasInstrSuitRelDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel" >
+    <id column="instrSuitRelId" property="instrSuitRelId" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="instrumentId" property="instrumentId" jdbcType="VARCHAR" />
+    <result column="instrsuitId" property="instrsuitId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    instrSuitRelId, amount, instrumentId, instrsuitId, type
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_instr_suit_rel
+    where instrSuitRelId = #{instrSuitRelId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_instr_suit_rel
+    where instrSuitRelId = #{instrSuitRelId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel" >
+    insert into bas_instr_suit_rel (instrSuitRelId, amount, instrumentId, 
+      instrsuitId, type)
+    values (#{instrSuitRelId,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, #{instrumentId,jdbcType=VARCHAR}, 
+      #{instrsuitId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel" >
+    insert into bas_instr_suit_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="instrSuitRelId != null" >
+        instrSuitRelId,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="instrumentId != null" >
+        instrumentId,
+      </if>
+      <if test="instrsuitId != null" >
+        instrsuitId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="instrSuitRelId != null" >
+        #{instrSuitRelId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="instrumentId != null" >
+        #{instrumentId,jdbcType=VARCHAR},
+      </if>
+      <if test="instrsuitId != null" >
+        #{instrsuitId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel" >
+    update bas_instr_suit_rel
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="instrumentId != null" >
+        instrumentId = #{instrumentId,jdbcType=VARCHAR},
+      </if>
+      <if test="instrsuitId != null" >
+        instrsuitId = #{instrsuitId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where instrSuitRelId = #{instrSuitRelId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel" >
+    update bas_instr_suit_rel
+    set amount = #{amount,jdbcType=INTEGER},
+      instrumentId = #{instrumentId,jdbcType=VARCHAR},
+      instrsuitId = #{instrsuitId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where instrSuitRelId = #{instrSuitRelId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel">
+		SELECT 
+			a.*
+		FROM bas_instr_suit_rel a where 1 = 1
+		<if test="instrsuitId != null and instrsuitId != ''">
+			AND a.instrsuitId = #{instrsuitId}
+		</if>
+	</select>
+	
+	<delete id="deleteById" >
+	delete from bas_instr_suit_rel where instrSuitRelId = #{instrSuitRelId}
+	</delete>
+	
+	<delete id="deleteByInstrsuitId" parameterType = "java.util.List">
+	delete from bas_instr_suit_rel where instrsuitId = #{instrsuitId}
+	</delete>
+	
+	<select id="searchInstrumentCodeByInstrsuitCode" resultType="com.digihealth.anesthesia.basedata.po.BasInstrSuitRel">
+		SELECT * FROM bas_instr_suit_rel t
+		WHERE instrsuitId = #{instrsuitId}
+	</select>
+
+</mapper>

@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasDispatchDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasDispatch" >
+    <id column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="operRoomId" property="operRoomId" jdbcType="VARCHAR" />
+    <result column="operRoomName" property="operRoomName" jdbcType="VARCHAR" />
+    <result column="instrnurseId1" property="instrnurseId1" jdbcType="VARCHAR" />
+    <result column="circunurseId1" property="circunurseId1" jdbcType="VARCHAR" />
+    <result column="anesthetistId" property="anesthetistId" jdbcType="VARCHAR" />
+    <result column="circuAnesthetistId" property="circuAnesthetistId" jdbcType="VARCHAR" />
+    <result column="perfusionDoctorId" property="perfusionDoctorId" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="instrnurseId2" property="instrnurseId2" jdbcType="VARCHAR" />
+    <result column="circunurseId2" property="circunurseId2" jdbcType="VARCHAR" />
+    <result column="isHold" property="isHold" jdbcType="INTEGER" />
+    <result column="healthNurse" property="healthNurse" jdbcType="VARCHAR" />
+    <result column="optBody" property="optBody" jdbcType="VARCHAR" />
+    <result column="operRegDate" property="operRegDate" jdbcType="VARCHAR" />
+    <result column="pcs" property="pcs" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    regOptId, operRoomId, operRoomName, instrnurseId1, circunurseId1, anesthetistId, 
+    circuAnesthetistId, perfusionDoctorId, startTime, instrnurseId2, circunurseId2, isHold, 
+    healthNurse, optBody, operRegDate, pcs, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_dispatch
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_dispatch
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasDispatch" >
+    insert into bas_dispatch (regOptId, operRoomId, operRoomName, 
+      instrnurseId1, circunurseId1, anesthetistId, 
+      circuAnesthetistId, perfusionDoctorId, 
+      startTime, instrnurseId2, circunurseId2, 
+      isHold, healthNurse, optBody, 
+      operRegDate, pcs, beid
+      )
+    values (#{regOptId,jdbcType=VARCHAR}, #{operRoomId,jdbcType=VARCHAR}, #{operRoomName,jdbcType=VARCHAR}, 
+      #{instrnurseId1,jdbcType=VARCHAR}, #{circunurseId1,jdbcType=VARCHAR}, #{anesthetistId,jdbcType=VARCHAR}, 
+      #{circuAnesthetistId,jdbcType=VARCHAR}, #{perfusionDoctorId,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=VARCHAR}, #{instrnurseId2,jdbcType=VARCHAR}, #{circunurseId2,jdbcType=VARCHAR}, 
+      #{isHold,jdbcType=INTEGER}, #{healthNurse,jdbcType=VARCHAR}, #{optBody,jdbcType=VARCHAR}, 
+      #{operRegDate,jdbcType=VARCHAR}, #{pcs,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDispatch" >
+    insert into bas_dispatch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="operRoomId != null" >
+        operRoomId,
+      </if>
+      <if test="operRoomName != null" >
+        operRoomName,
+      </if>
+      <if test="instrnurseId1 != null" >
+        instrnurseId1,
+      </if>
+      <if test="circunurseId1 != null" >
+        circunurseId1,
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId,
+      </if>
+      <if test="circuAnesthetistId != null" >
+        circuAnesthetistId,
+      </if>
+      <if test="perfusionDoctorId != null" >
+        perfusionDoctorId,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="instrnurseId2 != null" >
+        instrnurseId2,
+      </if>
+      <if test="circunurseId2 != null" >
+        circunurseId2,
+      </if>
+      <if test="isHold != null" >
+        isHold,
+      </if>
+      <if test="healthNurse != null" >
+        healthNurse,
+      </if>
+      <if test="optBody != null" >
+        optBody,
+      </if>
+      <if test="operRegDate != null" >
+        operRegDate,
+      </if>
+      <if test="pcs != null" >
+        pcs,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomId != null" >
+        #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomName != null" >
+        #{operRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId1 != null" >
+        #{instrnurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId1 != null" >
+        #{circunurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="circuAnesthetistId != null" >
+        #{circuAnesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="perfusionDoctorId != null" >
+        #{perfusionDoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId2 != null" >
+        #{instrnurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId2 != null" >
+        #{circunurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="isHold != null" >
+        #{isHold,jdbcType=INTEGER},
+      </if>
+      <if test="healthNurse != null" >
+        #{healthNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="optBody != null" >
+        #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="operRegDate != null" >
+        #{operRegDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pcs != null" >
+        #{pcs,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDispatch" >
+    update bas_dispatch
+    <set >
+      <if test="operRoomId != null" >
+        operRoomId = #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomName != null" >
+        operRoomName = #{operRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId1 != null" >
+        instrnurseId1 = #{instrnurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId1 != null" >
+        circunurseId1 = #{circunurseId1,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="circuAnesthetistId != null" >
+        circuAnesthetistId = #{circuAnesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="perfusionDoctorId != null" >
+        perfusionDoctorId = #{perfusionDoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId2 != null" >
+        instrnurseId2 = #{instrnurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId2 != null" >
+        circunurseId2 = #{circunurseId2,jdbcType=VARCHAR},
+      </if>
+      <if test="isHold != null" >
+        isHold = #{isHold,jdbcType=INTEGER},
+      </if>
+      <if test="healthNurse != null" >
+        healthNurse = #{healthNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="optBody != null" >
+        optBody = #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="operRegDate != null" >
+        operRegDate = #{operRegDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pcs != null" >
+        pcs = #{pcs,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasDispatch" >
+    update bas_dispatch
+    set operRoomId = #{operRoomId,jdbcType=VARCHAR},
+      operRoomName = #{operRoomName,jdbcType=VARCHAR},
+      instrnurseId1 = #{instrnurseId1,jdbcType=VARCHAR},
+      circunurseId1 = #{circunurseId1,jdbcType=VARCHAR},
+      anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      circuAnesthetistId = #{circuAnesthetistId,jdbcType=VARCHAR},
+      perfusionDoctorId = #{perfusionDoctorId,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=VARCHAR},
+      instrnurseId2 = #{instrnurseId2,jdbcType=VARCHAR},
+      circunurseId2 = #{circunurseId2,jdbcType=VARCHAR},
+      isHold = #{isHold,jdbcType=INTEGER},
+      healthNurse = #{healthNurse,jdbcType=VARCHAR},
+      optBody = #{optBody,jdbcType=VARCHAR},
+      operRegDate = #{operRegDate,jdbcType=VARCHAR},
+      pcs = #{pcs,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.SearchDispatchFormBean">
+		SELECT 
+		a.startTime,
+		o.regionId,o.name as regOptName,o.hid, o.age,o.sex,o.ageMon,o.ageDay, o.designedOptName,o.designedAnaesMethodName,o.diagnosisName,m.name as operRoomName,a.operRoomId,o.bed,
+		o.realoperationName,o.operaDate,
+		IF(o.deptName IS NULL OR o.deptName = '' , (SELECT NAME FROM bas_dept t WHERE t.deptId = o.deptId ) ,o.deptName) deptName,
+		a.optBody,(select codeName from bas_sys_code where groupId='opt_body' and codeValue = a.optBody and beid = #{baseQuery.beid}) as opt_body_name,
+		(select name from bas_user where bas_user.userName = a.instrnurseId1 and beid = #{baseQuery.beid} )instrnurse_name1,instrnurseId1 ,
+		(select name from bas_user where bas_user.userName = a.circunurseId1 and beid = #{baseQuery.beid} )circunurse_name1,circunurseId1,
+		(select name from bas_user where bas_user.userName = a.anesthetistId and beid = #{baseQuery.beid} )anesthetist_name,anesthetistId,
+		(select name from bas_user where bas_user.userName = a.circuanesthetistId and beid = #{baseQuery.beid})circuanesthetist_name,circuanesthetistId,
+		(select name from bas_user where bas_user.userName = a.perfusionDoctorId and beid = #{baseQuery.beid})perfusiondoctor_name,perfusionDoctorId,
+		(select name from bas_user where bas_user.userName = a.instrnurseId2 and beid = #{baseQuery.beid} )instrnurse_name2,instrnurseId2,
+		(select name from bas_user where bas_user.userName = a.circunurseId2 and beid = #{baseQuery.beid})circunurse_name2,circunurseId2,
+		(select name from bas_user where bas_user.userName = a.healthnurse and beid = #{baseQuery.beid} )healthnurse_name,a.healthnurse,
+		o.operaDate , o.state ,a.isHold ,a.operRoomId,a.regOptId,o.emergency,a.pcs seq ,a.pcs,o.remark,
+		SUBSTR(o.operatorName,LOCATE(',',o.operatorName)+1) operatorName,o.isLocalAnaes,o.assistantName,
+		SUBSTRING(o.operatorName,LOCATE(',',o.operatorName)+1) operator_sec_name,
+		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.instrnurseId1 and beid = #{baseQuery.beid} ),
+		(select name from bas_user where bas_user.userName = a.instrnurseId2 and beid = #{baseQuery.beid} )) instrnurse_name,
+		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1 and beid = #{baseQuery.beid} ),
+		(select name from bas_user where bas_user.userName = a.circunurseId2 and beid = #{baseQuery.beid})) circunurse_name
+		FROM bas_dispatch a 
+		left join bas_reg_opt o on a.regOptId = o.regOptId and o.state !='08'
+		
+		left join bas_operroom m on a.operRoomId = m.operRoomId
+		where 1 = 1
+			 and a.beid = #{baseQuery.beid} and m.beid = #{baseQuery.beid}
+		<if test="baseQuery.state != null and baseQuery.state != ''">
+			 and b.state in <foreach collection="baseQuery.stateItems" item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach>
+		</if>
+		<if test="baseQuery.isHold != null and baseQuery.isHold != ''">
+			AND a.isHold = #{baseQuery.isHold}
+		</if>
+		
+		<if test="baseQuery.operDate != null and baseQuery.operDate != ''">
+			AND o.operaDate = #{baseQuery.operDate}
+		</if>
+		
+		<if test="baseQuery.operTime != null and baseQuery.operTime != ''">
+			AND a.startTime = #{baseQuery.operTime}
+		</if>
+		<if test="baseQuery.regOptId != null and baseQuery.regOptId != ''">
+			AND a.regOptId = #{baseQuery.regOptId}
+		</if>
+		<if test="baseQuery.name != null and baseQuery.name != ''">
+			AND o.name LIKE CONCAT(CONCAT('%',#{baseQuery.name}),'%')
+		</if>
+		 order by a.operRoomId,a.pcs asc
+		 <if test="baseQuery.pageNo != null and baseQuery.pageSize!= null">
+			 limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
+	</select>
+	
+	<select id="printOperNotice" resultType="com.digihealth.anesthesia.basedata.formbean.PrintNoticeFormBean" >
+	SELECT 
+		(select count(*) from bas_dispatch k,bas_reg_opt k1 where k.regOptId=k1.regOptId
+			and k1.operaDate = o.operaDate
+			and k.operRoomId=a.operRoomId
+			AND k.isHold = a.isHold	
+		) seq,
+		o.operaDate,a.startTime,(select br.`name` from b_region br where br.regionId = o.regionId) as region_name ,o.bed,o.hid, o.name as regOptName,o.age,o.sex,o.ageMon,o.ageDay,o.diagnosisName,o.height,o.hypersusceptibility,
+o.hbsag,o.hcv,o.hiv,o.hp,o.designedOptName,a.optBody,(select codeName from bas_sys_code where groupId='opt_body' and codeValue = a.optBody and beid = #{baseQuery.beid}) as opt_body_name,
+o.designedAnaesMethodName,(select name from bas_user where bas_user.userName = a.anesthetistId)anesthetist_name,
+ o.operatorName,o.assistantName,m.name as operRoomName,
+		o.realoperationName,o.deptName,o.remark,a.pcs,
+		(select name from bas_user where bas_user.userName = a.instrnurseId1)instrnurse_name1,instrnurseId1 ,
+		(select name from bas_user where bas_user.userName = a.circunurseId1)circunurse_name1,circunurseId1,
+		(select name from bas_user where bas_user.userName = a.circuanesthetistId)circuanesthetist_name,circuanesthetistId,
+		(select name from bas_user where bas_user.userName = a.instrnurseId2)instrnurse_name2,instrnurseId2,
+		(select name from bas_user where bas_user.userName = a.circunurseId2)circunurse_name2,circunurseId2,
+		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.instrnurseId1),(select name from bas_user where bas_user.userName = a.instrnurseId2)) instrnurse_name,
+		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1),(select name from bas_user where bas_user.userName = a.circunurseId2)) circunurse_name
+		FROM bas_dispatch a left join bas_reg_opt o on a.regOptId = o.regOptId
+		left join bas_operroom m on a.operRoomId = m.operRoomId
+		where 1 = 1
+			and o.state !='08' 
+			<if test="baseQuery.isHold != null and baseQuery.isHold != ''">
+			AND a.isHold = #{baseQuery.isHold}
+		</if>
+		
+		<if test="baseQuery.operDate != null and baseQuery.operDate != ''">
+			AND o.operaDate = #{baseQuery.operDate}
+		</if>
+	</select>
+	
+	<select id="getOperateInfoByInsideScreen" resultType="com.digihealth.anesthesia.basedata.formbean.PrintNoticeFormBean" >	
+		SELECT m.name as operRoomName,
+			(select count(*) from bas_dispatch k,bas_reg_opt k1 where k.regOptId=k1.regOptId
+				and k1.operaDate = o.operaDate 
+				and k.operRoomId=a.operRoomId
+				AND k.isHold = a.isHold	
+			) seq,o.deptName,o.name,o.designedOptName as realoperationName,o.designedAnaesMethodName,
+			(select name from bas_user where bas_user.userName = a.anesthetistId)anesthetist_name,
+			SUBSTRING(o.operatorName,LOCATE(',',o.operatorName)+1) operator_sec_name,
+			CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1),(select name from bas_user where bas_user.userName = a.circunurseId2)) circunurse_name	
+			FROM bas_dispatch a left join bas_reg_opt o on a.regOptId = o.regOptId
+			left join bas_operroom m on a.operRoomId = m.operRoomId
+			where 1 = 1
+				and o.state in ('03','04','05','06','07') 
+				and o.operaDate = CURDATE()
+			order by a.operRoomId,a.startTime asc
+	</select>
+	
+  <select id="getOperateInfoByOutsideScreen" resultType="com.digihealth.anesthesia.basedata.formbean.PrintNoticeFormBean" >	
+	SELECT 
+		o.deptName,o.bed,o.hid,IF(CHAR_LENGTH(o.name)>2,CONCAT(SUBSTRING(o.name,1,1),'*',SUBSTRING(o.name,CHAR_LENGTH(o.name),1)),CONCAT(SUBSTRING(o.name,1,1),'*')) as name,
+		o.sex,(select codeName from bas_sys_code where groupId = 'operation_state' and codeValue = o.state  and beid = #{baseQuery.beid}) as state,
+		(select codeName from bas_sys_code where groupId = 'leave_to' and codeValue = IFNULL((select leaveto from doc_anaes_pacu_rec where regOptId = o.regOptId),
+		(select leaveTo from doc_anaes_record where regOptId = o.regOptId and o.state=state))  and beid = #{baseQuery.beid}) leaveTo
+		FROM bas_dispatch a left join bas_reg_opt o on a.regOptId = o.regOptId
+		left join bas_operroom m on a.operRoomId = m.operRoomId
+		where 1 = 1
+			and o.state in ('03','04','05','06','07') 
+			and o.operaDate = CURDATE()
+		order by o.deptId,o.name,o.sex asc
+	</select>
+	
+	<select id="searchPersonTotalInOperRoomByStartTime" resultType="java.lang.Integer">
+		select count(*) from bas_dispatch,bas_reg_opt
+		 where bas_dispatch.regOptId=bas_reg_opt.regOptId 
+			and bas_reg_opt.operaDate=#{operDate} and bas_dispatch.startTime=#{startTime}
+		and bas_dispatch.operRoomId=#{roomId}
+		and bas_reg_opt.state !='08' 
+		and bas_reg_opt.beid = #{beid}
+	</select>
+	
+	<select id="checkOperateTimeBeUse" resultType="java.lang.Integer">
+		select count(*) from bas_dispatch,bas_reg_opt
+		 where bas_dispatch.regOptId=bas_reg_opt.regOptId 
+			and bas_reg_opt.operaDate=#{operDate} and bas_dispatch.startTime=#{startTime}
+		and bas_dispatch.operRoomId=#{roomId}
+		and bas_reg_opt.state in ('02','03','04') 
+		and bas_reg_opt.beid = #{beid}
+	</select>
+	<select id="getNotUseTimeList" resultType="com.digihealth.anesthesia.basedata.formbean.DispatchTimeFormbean">
+		select x.time,x.startTime from (
+		select 0 as time,'00:00' as startTime from dual union 
+		select 1 as time,'01:00' as startTime from dual union 
+		select 2 as time,'02:00' as startTime from dual union
+		select 3 as time,'03:00' as startTime from dual union
+		select 4 as time,'04:00' as startTime from dual union
+		select 5 as time,'05:00' as startTime from dual union
+		select 6 as time,'06:00' as startTime from dual union
+		select 7 as time,'07:00' as startTime from dual union
+		select 8 as time,'08:00' as startTime from dual union
+		select 9 as time,'09:00' as startTime from dual union
+		select 10 as time,'10:00' as startTime from dual union
+		select 11 as time,'11:00' as startTime from dual union
+		select 12 as time,'12:00' as startTime from dual union
+		select 13 as time,'13:00' as startTime from dual union
+		select 14 as time,'14:00' as startTime from dual union
+		select 15 as time,'15:00' as startTime from dual union
+		select 16 as time,'16:00' as startTime from dual union
+		select 17 as time,'17:00' as startTime from dual union
+		select 18 as time,'18:00' as startTime from dual union
+		select 19 as time,'19:00' as startTime from dual union
+		select 20 as time,'20:00' as startTime from dual union
+		select 21 as time,'21:00' as startTime from dual union
+		select 22 as time,'22:00' as startTime from dual union
+		select 23 as time,'23:00' as startTime from dual 
+		) x where x.time not in (
+			select startTime from bas_dispatch,bas_reg_opt
+					 where bas_dispatch.regOptId=bas_reg_opt.regOptId 
+						and bas_reg_opt.operaDate=#{operaDate}
+					and bas_dispatch.operRoomId=#{operRoomId}
+					and bas_reg_opt.state in ('02','03','04')
+					and bas_reg_opt.beid = #{beid}
+			)
+		<if test="withMyself != null and withMyself != ''">
+		UNION 
+		SELECT startTime AS TIME , IF(startTime &lt; 10 , CONCAT('0',startTime,':00'),CONCAT(startTime,':00')) startTime  
+		FROM bas_dispatch WHERE regOptId = #{regOptId} 
+		</if>
+	</select>
+	
+	<!-- 一天只有5台手术，包含术后和中止手术的 -->
+	<select id="getNoUsePcsList" resultType="com.digihealth.anesthesia.basedata.po.BasSysCode">
+		SELECT x.* FROM 
+		( SELECT codeName,codeValue FROM bas_sys_code WHERE groupId = 'pcs_type' and beid = #{beid} ORDER BY `order` ) `x` 
+		WHERE  x.codeValue  NOT IN (
+			SELECT IFNULL(bas_dispatch.pcs,-1) codeValue FROM bas_dispatch,bas_reg_opt
+			WHERE bas_dispatch.regOptId=bas_reg_opt.regOptId 
+			AND bas_reg_opt.operaDate=#{operaDate}
+			AND bas_dispatch.operRoomId=#{operRoomId}
+			AND bas_reg_opt.state IN ('02','03','04','06','07')
+			and bas_reg_opt.beid = #{beid}
+		)  
+		<if test="withMyself != null and withMyself != ''">
+		UNION 
+		SELECT pcs AS codeName,pcs AS codeValue 
+		FROM bas_dispatch WHERE regOptId =  #{regOptId}
+		</if>
+		order by codeValue 
+	</select>
+	
+	<delete id="deleteDispatchHold">
+		DELETE FROM bas_dispatch WHERE regOptId = #{regOptId}
+	</delete>
+	
+	<!-- 获取排程信息-->
+	<select id="getDispatchOper" resultType="com.digihealth.anesthesia.basedata.po.BasDispatch">
+		SELECT *
+		FROM bas_dispatch a
+		WHERE 
+			a.regOptId = #{regOptId}
+	</select>
+	
+	
+	<!-- 获取排程信息-->
+	<select id="getDispatchListByOperateDate" resultType="com.digihealth.anesthesia.basedata.po.BasDispatch">
+		select d.* from bas_dispatch d,bas_reg_opt o
+		where o.regOptId = d.regOptId
+		and o.state in ('02','03')
+		and o.operaDate = #{operatDate}
+		and o.beid = #{beid}
+	</select>
+	
+	<!-- 获取排程信息-->
+	<select id="getDispatchOperByRegOptId" resultType="com.digihealth.anesthesia.basedata.formbean.DispatchFormbean">
+		SELECT c.*,(select bsc.codeName from bas_sys_code bsc where bsc.groupId='opt_body' and bsc.codeValue=c.optBody and bsc.beid = #{beid}) as 'optBodyName',u1.name as "instrnurseName1",u3.name as "instrnurseName2",u2.name as "circunurseName1",u4.name as "circunurseName2",b.name as "anesthetistName",
+			u5.name as "circuanesthetistName",u6.name as "perfusiondoctorName",u7.name as "healthnurseName"
+		FROM bas_dispatch c left join bas_user b on c.anesthetistId = b.userName
+		left join bas_user u1 on c.instrnurseId1 = u1.userName left join bas_user u2 on c.circunurseId1 = u2.userName left join bas_user u3 on c.instrnurseId2 = u3.userName left join
+		bas_user u4 on c.circunurseId2 = u4.userName left join bas_user u5 on c.circuanesthetistId = u5.userName
+		left join bas_user u6 on c.perfusionDoctorId = u6.userName left join bas_user u7 on c.healthnurse = u7.userName
+		WHERE 
+			c.regOptId = #{regOptId} LIMIT 1
+	</select>
+	
+	<select id="searchPeopleNameByRegOptId"  resultType="com.digihealth.anesthesia.basedata.formbean.DispatchPeopleNameFormBean">
+	SELECT u1.name AS "instrnurseName1",u3.name AS "instrnurseName2",u2.name AS "circunurseName1",u4.name AS "circunurseName2",b.name AS "anesthetistName",
+			u5.name AS "circuanesthetistName",u6.name AS "perfusiondoctorName" FROM
+	bas_dispatch c LEFT JOIN bas_user b ON c.anesthetistId = b.userName AND b.beid = #{beid}
+		LEFT JOIN bas_user u1 ON c.instrnurseId1 = u1.userName AND u1.beid = #{beid} LEFT JOIN bas_user u2 ON c.circunurseId1 = u2.userName AND u2.beid = #{beid} LEFT JOIN bas_user u3 ON c.instrnurseId2 = u3.userName AND u3.beid = #{beid} LEFT JOIN
+		bas_user u4 ON c.circunurseId2 = u4.userName AND u4.beid = #{beid} LEFT JOIN bas_user u5 ON c.circuanesthetistId = u5.userName AND u5.beid = #{beid}
+		LEFT JOIN bas_user u6 ON c.perfusionDoctorId = u6.userName AND u6.beid = #{beid}
+		WHERE c.regOptId = #{regOptId}
+	</select>
+	
+	<select id="selectDispatchGbOproomId" resultType="com.digihealth.anesthesia.basedata.po.BasDispatch">
+	select d.operRoomId,ro.operaDate from bas_dispatch d 
+	     left join bas_reg_opt ro on d.regOptId = ro.regOptId  
+	     where d.operRoomId is not null and d.beid = ro.beid and d.beid = #{beid} and ro.operaDate = #{operaDate} GROUP BY d.operRoomId 
+	</select>
+	
+	
+	<select id="selectByOprroomOperDateStartTime" resultType="java.lang.Integer">
+		select count(*) from bas_dispatch d left join bas_reg_opt r on d.regOptId = r.regOptId where r.operaDate = #{operaDate} and d.operRoomId = #{operRoomId} and d.startTime = #{startTime}
+	</select>
+	
+	<select id="searchDistchByRegOptId" resultType="java.lang.Integer">
+		select count(*) from bas_dispatch where regOptId = #{regOptId}
+	</select>
+
+	<select id="searchAllDispatchList" resultType="com.digihealth.anesthesia.basedata.formbean.SearchListScheduleFormBean" >
+		SELECT o.regOptId,(select sc.codeName from bas_sys_code sc 
+		where sc.groupId='operat_category' and 
+		beid = #{baseQuery.beid} and
+		sc.codeValue=o.emergency) 
+		as emergencyName,o.deptId,o.`name`,o.sex,o.age,o.ageMon,o.ageDay,o.hid,o.regionName,o.isLocalAnaes,
+		o.deptName,o.bed,o.diagnosisName,o.designedOptName,o.designedAnaesMethodName,
+		o.operatorName,o.assistantName,o.operaDate,a.startTime,a.operRoomId,m.`name` as operRoomName,
+		a.pcs,a.instrnurseId1,a.instrnurseId2,a.circunurseId1,a.circunurseId2,a.optBody,o.remark,
+		a.anesthetistId,a.circuAnesthetistId,a.perfusionDoctorId 
+		FROM bas_dispatch a 
+		LEFT JOIN bas_reg_opt o 
+		ON a.`regOptId` = o.`regOptId` 
+		LEFT JOIN bas_operroom m ON a.operRoomId = m.operRoomId AND m.beid = #{baseQuery.beid}
+		WHERE 1 = 1
+		 AND a.beid = #{baseQuery.beid} AND o.state ='02'
+			<if test="baseQuery.type ==1 ">
+			AND ( (ISNULL(o.operaDate) OR LENGTH(TRIM(o.operaDate)) &lt; 1 )  OR  a.`startTime` IS  NULL 
+					OR a.`circunurseId1` IS NULL  OR a.`circunurseId1`='' or a.operRoomId IS NULL OR a.pcs IS NULL )
+			</if>
+			<if test="baseQuery.type ==2 ">
+			AND ( ( NOT(ISNULL( o.operaDate )) AND  LENGTH(TRIM(o.operaDate)) &gt; 0 ) 
+					AND  a.`startTime` IS NOT NULL  AND a.`circunurseId1` IS  NOT NULL and a.`circunurseId1`!=''
+					AND a.operRoomId IS NOT NULL AND  a.pcs IS NOT NULL  AND (a.anesthetistId IS NULL or a.anesthetistId ='' ) )
+			</if>
+			<if test="baseQuery.operDate != null and baseQuery.operDate != ''">
+			    AND o.operaDate = #{baseQuery.operDate}
+		    </if>
+		    <if test="baseQuery.name != null and baseQuery.name != ''">
+			    AND o.`name` LIKE CONCAT(CONCAT('%',#{baseQuery.name}),'%')
+		    </if>
+		    <if test="baseQuery.hid != null and baseQuery.hid != '' ">
+			    AND o.`hid`  = #{baseQuery.hid} 
+		    </if>
+		
+		ORDER BY o.deptId,a.operRoomId,a.startTime ASC
+		<if test="baseQuery.pageNo != null and baseQuery.pageSize!= null">
+			LIMIT #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
+	</select>
+</mapper>

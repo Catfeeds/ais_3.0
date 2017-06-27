@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocNursingDiagnosisDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocNursingDiagnosis" >
+    <id column="nursingDiagnosisId" property="nursingDiagnosisId" jdbcType="VARCHAR" />
+    <result column="perioperativeVisitId" property="perioperativeVisitId" jdbcType="VARCHAR" />
+    <result column="nursingDiagnosis" property="nursingDiagnosis" jdbcType="VARCHAR" />
+    <result column="measure" property="measure" jdbcType="VARCHAR" />
+    <result column="effectEvaluation" property="effectEvaluation" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    nursingDiagnosisId, perioperativeVisitId, nursingDiagnosis, measure, effectEvaluation
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_nursing_diagnosis
+    where nursingDiagnosisId = #{nursingDiagnosisId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_nursing_diagnosis
+    where nursingDiagnosisId = #{nursingDiagnosisId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocNursingDiagnosis" >
+    insert into doc_nursing_diagnosis (nursingDiagnosisId, perioperativeVisitId, 
+      nursingDiagnosis, measure, effectEvaluation
+      )
+    values (#{nursingDiagnosisId,jdbcType=VARCHAR}, #{perioperativeVisitId,jdbcType=VARCHAR}, 
+      #{nursingDiagnosis,jdbcType=VARCHAR}, #{measure,jdbcType=VARCHAR}, #{effectEvaluation,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocNursingDiagnosis" >
+    insert into doc_nursing_diagnosis
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nursingDiagnosisId != null" >
+        nursingDiagnosisId,
+      </if>
+      <if test="perioperativeVisitId != null" >
+        perioperativeVisitId,
+      </if>
+      <if test="nursingDiagnosis != null" >
+        nursingDiagnosis,
+      </if>
+      <if test="measure != null" >
+        measure,
+      </if>
+      <if test="effectEvaluation != null" >
+        effectEvaluation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nursingDiagnosisId != null" >
+        #{nursingDiagnosisId,jdbcType=VARCHAR},
+      </if>
+      <if test="perioperativeVisitId != null" >
+        #{perioperativeVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="nursingDiagnosis != null" >
+        #{nursingDiagnosis,jdbcType=VARCHAR},
+      </if>
+      <if test="measure != null" >
+        #{measure,jdbcType=VARCHAR},
+      </if>
+      <if test="effectEvaluation != null" >
+        #{effectEvaluation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocNursingDiagnosis" >
+    update doc_nursing_diagnosis
+    <set >
+      <if test="perioperativeVisitId != null" >
+        perioperativeVisitId = #{perioperativeVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="nursingDiagnosis != null" >
+        nursingDiagnosis = #{nursingDiagnosis,jdbcType=VARCHAR},
+      </if>
+      <if test="measure != null" >
+        measure = #{measure,jdbcType=VARCHAR},
+      </if>
+      <if test="effectEvaluation != null" >
+        effectEvaluation = #{effectEvaluation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nursingDiagnosisId = #{nursingDiagnosisId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocNursingDiagnosis" >
+    update doc_nursing_diagnosis
+    set perioperativeVisitId = #{perioperativeVisitId,jdbcType=VARCHAR},
+      nursingDiagnosis = #{nursingDiagnosis,jdbcType=VARCHAR},
+      measure = #{measure,jdbcType=VARCHAR},
+      effectEvaluation = #{effectEvaluation,jdbcType=VARCHAR}
+    where nursingDiagnosisId = #{nursingDiagnosisId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

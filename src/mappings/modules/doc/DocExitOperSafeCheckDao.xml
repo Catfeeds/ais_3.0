@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocExitOperSafeCheckDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck" >
+    <id column="exitOperId" property="exitOperId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="patientInfoConfirm" property="patientInfoConfirm" jdbcType="VARCHAR" />
+    <result column="realOperConfirm" property="realOperConfirm" jdbcType="VARCHAR" />
+    <result column="operMedBloodConfirm" property="operMedBloodConfirm" jdbcType="VARCHAR" />
+    <result column="operThingInventoryConfirm" property="operThingInventoryConfirm" jdbcType="VARCHAR" />
+    <result column="operSpecimenConfirm" property="operSpecimenConfirm" jdbcType="VARCHAR" />
+    <result column="skinDamageConfirm" property="skinDamageConfirm" jdbcType="VARCHAR" />
+    <result column="centralVenousCatheter" property="centralVenousCatheter" jdbcType="VARCHAR" />
+    <result column="perVenousCatheterTube" property="perVenousCatheterTube" jdbcType="VARCHAR" />
+    <result column="ductusArteriosus" property="ductusArteriosus" jdbcType="VARCHAR" />
+    <result column="fluidConduit" property="fluidConduit" jdbcType="VARCHAR" />
+    <result column="wDrainageTube" property="wDrainageTube" jdbcType="VARCHAR" />
+    <result column="stomach" property="stomach" jdbcType="VARCHAR" />
+    <result column="catheter" property="catheter" jdbcType="VARCHAR" />
+    <result column="other1" property="other1" jdbcType="VARCHAR" />
+    <result column="whereabouts" property="whereabouts" jdbcType="VARCHAR" />
+    <result column="other2" property="other2" jdbcType="VARCHAR" />
+    <result column="anesthetistId" property="anesthetistId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="circuNurseId" property="circuNurseId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="bc" property="bc" jdbcType="VARCHAR" />
+    <result column="wzwg" property="wzwg" jdbcType="VARCHAR" />
+    <result column="jwzwxcg" property="jwzwxcg" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    exitOperId, regOptId, patientInfoConfirm, realOperConfirm, operMedBloodConfirm, operThingInventoryConfirm, 
+    operSpecimenConfirm, skinDamageConfirm, centralVenousCatheter, perVenousCatheterTube, 
+    ductusArteriosus, fluidConduit, wDrainageTube, stomach, catheter, other1, whereabouts, 
+    other2, anesthetistId, operatorId, circuNurseId, processState, bc, wzwg, jwzwxcg
+  </sql>
+
+	<select id="searchExitOperCheckByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck">
+		SELECT DISTINCT *
+		FROM doc_exit_oper_safe_check d LEFT JOIN bas_reg_opt b ON d.regOptId = b.regOptId
+		WHERE d.regOptId = #{regOptId} and b.beid = #{beid}
+	</select>
+	
+	<select id="searchExitOperCheckById" resultType="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck">
+		SELECT DISTINCT *
+		FROM doc_exit_oper_safe_check d LEFT JOIN bas_reg_opt b ON d.regOptId = b.regOptId
+		WHERE d.exitOperId = #{id} AND b.beid = #{beid}
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_exit_oper_safe_check
+    where exitOperId = #{exitOperId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_exit_oper_safe_check
+    where exitOperId = #{exitOperId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck" >
+    insert into doc_exit_oper_safe_check (exitOperId, regOptId, patientInfoConfirm, 
+      realOperConfirm, operMedBloodConfirm, operThingInventoryConfirm, 
+      operSpecimenConfirm, skinDamageConfirm, 
+      centralVenousCatheter, perVenousCatheterTube, 
+      ductusArteriosus, fluidConduit, wDrainageTube, 
+      stomach, catheter, other1, 
+      whereabouts, other2, anesthetistId, 
+      operatorId, circuNurseId, processState, 
+      bc, wzwg, jwzwxcg)
+    values (#{exitOperId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{patientInfoConfirm,jdbcType=VARCHAR}, 
+      #{realOperConfirm,jdbcType=VARCHAR}, #{operMedBloodConfirm,jdbcType=VARCHAR}, #{operThingInventoryConfirm,jdbcType=VARCHAR}, 
+      #{operSpecimenConfirm,jdbcType=VARCHAR}, #{skinDamageConfirm,jdbcType=VARCHAR}, 
+      #{centralVenousCatheter,jdbcType=VARCHAR}, #{perVenousCatheterTube,jdbcType=VARCHAR}, 
+      #{ductusArteriosus,jdbcType=VARCHAR}, #{fluidConduit,jdbcType=VARCHAR}, #{wDrainageTube,jdbcType=VARCHAR}, 
+      #{stomach,jdbcType=VARCHAR}, #{catheter,jdbcType=VARCHAR}, #{other1,jdbcType=VARCHAR}, 
+      #{whereabouts,jdbcType=VARCHAR}, #{other2,jdbcType=VARCHAR}, #{anesthetistId,jdbcType=VARCHAR}, 
+      #{operatorId,jdbcType=VARCHAR}, #{circuNurseId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{bc,jdbcType=VARCHAR}, #{wzwg,jdbcType=VARCHAR}, #{jwzwxcg,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck" >
+    insert into doc_exit_oper_safe_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="exitOperId != null" >
+        exitOperId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="patientInfoConfirm != null" >
+        patientInfoConfirm,
+      </if>
+      <if test="realOperConfirm != null" >
+        realOperConfirm,
+      </if>
+      <if test="operMedBloodConfirm != null" >
+        operMedBloodConfirm,
+      </if>
+      <if test="operThingInventoryConfirm != null" >
+        operThingInventoryConfirm,
+      </if>
+      <if test="operSpecimenConfirm != null" >
+        operSpecimenConfirm,
+      </if>
+      <if test="skinDamageConfirm != null" >
+        skinDamageConfirm,
+      </if>
+      <if test="centralVenousCatheter != null" >
+        centralVenousCatheter,
+      </if>
+      <if test="perVenousCatheterTube != null" >
+        perVenousCatheterTube,
+      </if>
+      <if test="ductusArteriosus != null" >
+        ductusArteriosus,
+      </if>
+      <if test="fluidConduit != null" >
+        fluidConduit,
+      </if>
+      <if test="wDrainageTube != null" >
+        wDrainageTube,
+      </if>
+      <if test="stomach != null" >
+        stomach,
+      </if>
+      <if test="catheter != null" >
+        catheter,
+      </if>
+      <if test="other1 != null" >
+        other1,
+      </if>
+      <if test="whereabouts != null" >
+        whereabouts,
+      </if>
+      <if test="other2 != null" >
+        other2,
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="circuNurseId != null" >
+        circuNurseId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="bc != null" >
+        bc,
+      </if>
+      <if test="wzwg != null" >
+        wzwg,
+      </if>
+      <if test="jwzwxcg != null" >
+        jwzwxcg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="exitOperId != null" >
+        #{exitOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientInfoConfirm != null" >
+        #{patientInfoConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="realOperConfirm != null" >
+        #{realOperConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operMedBloodConfirm != null" >
+        #{operMedBloodConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operThingInventoryConfirm != null" >
+        #{operThingInventoryConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operSpecimenConfirm != null" >
+        #{operSpecimenConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="skinDamageConfirm != null" >
+        #{skinDamageConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="centralVenousCatheter != null" >
+        #{centralVenousCatheter,jdbcType=VARCHAR},
+      </if>
+      <if test="perVenousCatheterTube != null" >
+        #{perVenousCatheterTube,jdbcType=VARCHAR},
+      </if>
+      <if test="ductusArteriosus != null" >
+        #{ductusArteriosus,jdbcType=VARCHAR},
+      </if>
+      <if test="fluidConduit != null" >
+        #{fluidConduit,jdbcType=VARCHAR},
+      </if>
+      <if test="wDrainageTube != null" >
+        #{wDrainageTube,jdbcType=VARCHAR},
+      </if>
+      <if test="stomach != null" >
+        #{stomach,jdbcType=VARCHAR},
+      </if>
+      <if test="catheter != null" >
+        #{catheter,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="whereabouts != null" >
+        #{whereabouts,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="circuNurseId != null" >
+        #{circuNurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="bc != null" >
+        #{bc,jdbcType=VARCHAR},
+      </if>
+      <if test="wzwg != null" >
+        #{wzwg,jdbcType=VARCHAR},
+      </if>
+      <if test="jwzwxcg != null" >
+        #{jwzwxcg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck" >
+    update doc_exit_oper_safe_check
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientInfoConfirm != null" >
+        patientInfoConfirm = #{patientInfoConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="realOperConfirm != null" >
+        realOperConfirm = #{realOperConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operMedBloodConfirm != null" >
+        operMedBloodConfirm = #{operMedBloodConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operThingInventoryConfirm != null" >
+        operThingInventoryConfirm = #{operThingInventoryConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="operSpecimenConfirm != null" >
+        operSpecimenConfirm = #{operSpecimenConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="skinDamageConfirm != null" >
+        skinDamageConfirm = #{skinDamageConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="centralVenousCatheter != null" >
+        centralVenousCatheter = #{centralVenousCatheter,jdbcType=VARCHAR},
+      </if>
+      <if test="perVenousCatheterTube != null" >
+        perVenousCatheterTube = #{perVenousCatheterTube,jdbcType=VARCHAR},
+      </if>
+      <if test="ductusArteriosus != null" >
+        ductusArteriosus = #{ductusArteriosus,jdbcType=VARCHAR},
+      </if>
+      <if test="fluidConduit != null" >
+        fluidConduit = #{fluidConduit,jdbcType=VARCHAR},
+      </if>
+      <if test="wDrainageTube != null" >
+        wDrainageTube = #{wDrainageTube,jdbcType=VARCHAR},
+      </if>
+      <if test="stomach != null" >
+        stomach = #{stomach,jdbcType=VARCHAR},
+      </if>
+      <if test="catheter != null" >
+        catheter = #{catheter,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        other1 = #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="whereabouts != null" >
+        whereabouts = #{whereabouts,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        other2 = #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="circuNurseId != null" >
+        circuNurseId = #{circuNurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="bc != null" >
+        bc = #{bc,jdbcType=VARCHAR},
+      </if>
+      <if test="wzwg != null" >
+        wzwg = #{wzwg,jdbcType=VARCHAR},
+      </if>
+      <if test="jwzwxcg != null" >
+        jwzwxcg = #{jwzwxcg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where exitOperId = #{exitOperId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateExitOperCheck" parameterType="com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck" >
+    update doc_exit_oper_safe_check
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      patientInfoConfirm = #{patientInfoConfirm,jdbcType=VARCHAR},
+      realOperConfirm = #{realOperConfirm,jdbcType=VARCHAR},
+      operMedBloodConfirm = #{operMedBloodConfirm,jdbcType=VARCHAR},
+      operThingInventoryConfirm = #{operThingInventoryConfirm,jdbcType=VARCHAR},
+      operSpecimenConfirm = #{operSpecimenConfirm,jdbcType=VARCHAR},
+      skinDamageConfirm = #{skinDamageConfirm,jdbcType=VARCHAR},
+      centralVenousCatheter = #{centralVenousCatheter,jdbcType=VARCHAR},
+      perVenousCatheterTube = #{perVenousCatheterTube,jdbcType=VARCHAR},
+      ductusArteriosus = #{ductusArteriosus,jdbcType=VARCHAR},
+      fluidConduit = #{fluidConduit,jdbcType=VARCHAR},
+      wDrainageTube = #{wDrainageTube,jdbcType=VARCHAR},
+      stomach = #{stomach,jdbcType=VARCHAR},
+      catheter = #{catheter,jdbcType=VARCHAR},
+      other1 = #{other1,jdbcType=VARCHAR},
+      whereabouts = #{whereabouts,jdbcType=VARCHAR},
+      other2 = #{other2,jdbcType=VARCHAR},
+      anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      circuNurseId = #{circuNurseId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      bc = #{bc,jdbcType=VARCHAR},
+      wzwg = #{wzwg,jdbcType=VARCHAR},
+      jwzwxcg = #{jwzwxcg,jdbcType=VARCHAR}
+    where exitOperId = #{exitOperId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

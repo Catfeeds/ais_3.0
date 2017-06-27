@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasMedicalTakeReasonDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason" >
+    <id column="medTakeReasonId" property="medTakeReasonId" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    medTakeReasonId, reason, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_medical_take_reason
+    where medTakeReasonId = #{medTakeReasonId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteMedicalTakeReason" parameterType="java.lang.String" >
+    delete from bas_medical_take_reason
+    where medTakeReasonId = #{medTakeReasonId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason" >
+    insert into bas_medical_take_reason (medTakeReasonId, reason, beid
+      )
+    values (#{medTakeReasonId,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason" >
+    insert into bas_medical_take_reason
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="medTakeReasonId != null" >
+        medTakeReasonId,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="medTakeReasonId != null" >
+        #{medTakeReasonId,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason" >
+    update bas_medical_take_reason
+    <set >
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where medTakeReasonId = #{medTakeReasonId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason" >
+    update bas_medical_take_reason
+    set reason = #{reason,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where medTakeReasonId = #{medTakeReasonId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryMedicalTakeReasonList" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason">
+		SELECT * FROM bas_medical_take_reason where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryMedicalTakeReasonListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_medical_take_reason where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="queryMedicalTakeReasonById" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason">
+		SELECT * FROM bas_medical_take_reason where medTakeReasonId = #{medTakeReasonId}
+	</select>
+	
+	
+	<select id="queryMedicalTakeReasonByBeid" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason">
+		SELECT * FROM bas_medical_take_reason where beid = #{beid,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

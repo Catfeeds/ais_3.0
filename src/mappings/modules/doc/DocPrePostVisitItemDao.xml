@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPrePostVisitItemDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPrePostVisitItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="prePostId" property="prePostId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="itemCode" property="itemCode" jdbcType="VARCHAR" />
+    <result column="itemName" property="itemName" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="nurseId" property="nurseId" jdbcType="INTEGER" />
+    <result column="nurseName" property="nurseName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, prePostId, type, time, itemCode, itemName, reason, nurseId, nurseName
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pre_post_visit_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrePostId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pre_post_visit_item
+    where prePostId = #{prePostId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_pre_post_visit_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisitItem" >
+    insert into doc_pre_post_visit_item (id, regOptId, prePostId, 
+      type, time, itemCode, 
+      itemName, reason, nurseId, 
+      nurseName)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{prePostId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{itemCode,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{nurseId,jdbcType=INTEGER}, 
+      #{nurseName,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisitItem" >
+    insert into doc_pre_post_visit_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="prePostId != null" >
+        prePostId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="itemCode != null" >
+        itemCode,
+      </if>
+      <if test="itemName != null" >
+        itemName,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="nurseId != null" >
+        nurseId,
+      </if>
+      <if test="nurseName != null" >
+        nurseName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="prePostId != null" >
+        #{prePostId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseId != null" >
+        #{nurseId,jdbcType=INTEGER},
+      </if>
+      <if test="nurseName != null" >
+        #{nurseName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisitItem" >
+    update doc_pre_post_visit_item
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="prePostId != null" >
+        prePostId = #{prePostId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        itemCode = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        itemName = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseId != null" >
+        nurseId = #{nurseId,jdbcType=INTEGER},
+      </if>
+      <if test="nurseName != null" >
+        nurseName = #{nurseName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisitItem" >
+    update doc_pre_post_visit_item
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      prePostId = #{prePostId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      itemCode = #{itemCode,jdbcType=VARCHAR},
+      itemName = #{itemName,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      nurseId = #{nurseId,jdbcType=INTEGER},
+      nurseName = #{nurseName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

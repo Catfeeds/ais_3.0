@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtOperBodyEventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtOperBodyEvent" >
+    <id column="optBodyEventId" property="optBodyEventId" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="optBody" property="optBody" jdbcType="VARCHAR" />
+    <result column="optBodyOld" property="optBodyOld" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    optBodyEventId, docId, startTime, optBody, optBodyOld
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_oper_body_event
+    where optBodyEventId = #{optBodyEventId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryOperBodyEventList" resultType="com.digihealth.anesthesia.evt.formbean.OperBodyFormBean">
+		SELECT 
+			a.*,(select bas_sys_code.codeName from bas_sys_code where groupId = 'opt_body' and codeValue = a.optBody and beid = #{searchBean.beid}) as opt_body_name,
+			(select bas_sys_code.codeName from bas_sys_code where groupId = 'opt_body' and codeValue = a.optBodyOld and beid = #{searchBean.beid} ) as opt_body_old_name
+		FROM evt_oper_body_event a  where 1 = 1 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.optBodyEventId = #{searchBean.id}
+		</if>
+	</select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_oper_body_event
+    where optBodyEventId = #{optBodyEventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtOperBodyEvent" >
+    insert into evt_oper_body_event (optBodyEventId, docId, startTime, 
+      optBody, optBodyOld)
+    values (#{optBodyEventId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{optBody,jdbcType=VARCHAR}, #{optBodyOld,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtOperBodyEvent" >
+    insert into evt_oper_body_event
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="optBodyEventId != null" >
+        optBodyEventId,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="optBody != null" >
+        optBody,
+      </if>
+      <if test="optBodyOld != null" >
+        optBodyOld,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="optBodyEventId != null" >
+        #{optBodyEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optBody != null" >
+        #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="optBodyOld != null" >
+        #{optBodyOld,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtOperBodyEvent" >
+    update evt_oper_body_event
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optBody != null" >
+        optBody = #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="optBodyOld != null" >
+        optBodyOld = #{optBodyOld,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where optBodyEventId = #{optBodyEventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtOperBodyEvent" >
+    update evt_oper_body_event
+    set docId = #{docId,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      optBody = #{optBody,jdbcType=VARCHAR},
+      optBodyOld = #{optBodyOld,jdbcType=VARCHAR}
+    where optBodyEventId = #{optBodyEventId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

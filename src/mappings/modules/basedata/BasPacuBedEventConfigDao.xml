@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasPacuBedEventConfigDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasPacuBedEventConfig" >
+    <id column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+    <id column="eventId" property="eventId" jdbcType="VARCHAR" />
+    <id column="bedId" property="bedId" jdbcType="VARCHAR" />
+    <result column="optDisplay" property="optDisplay" jdbcType="VARCHAR" />
+    <result column="optCollect" property="optCollect" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    deviceId, eventId, bedId, optDisplay, optCollect, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_pacu_bed_event_config
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+      and bedId = #{bedId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from bas_pacu_bed_event_config
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+      and bedId = #{bedId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasPacuBedEventConfig" >
+    insert into bas_pacu_bed_event_config (deviceId, eventId, bedId, 
+      optDisplay, optCollect, beid
+      )
+    values (#{deviceId,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{bedId,jdbcType=VARCHAR}, 
+      #{optDisplay,jdbcType=VARCHAR}, #{optCollect,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasPacuBedEventConfig" >
+    insert into bas_pacu_bed_event_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+      <if test="eventId != null" >
+        eventId,
+      </if>
+      <if test="bedId != null" >
+        bedId,
+      </if>
+      <if test="optDisplay != null" >
+        optDisplay,
+      </if>
+      <if test="optCollect != null" >
+        optCollect,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="bedId != null" >
+        #{bedId,jdbcType=VARCHAR},
+      </if>
+      <if test="optDisplay != null" >
+        #{optDisplay,jdbcType=VARCHAR},
+      </if>
+      <if test="optCollect != null" >
+        #{optCollect,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasPacuBedEventConfig" >
+    update bas_pacu_bed_event_config
+    <set >
+      <if test="optDisplay != null" >
+        optDisplay = #{optDisplay,jdbcType=VARCHAR},
+      </if>
+      <if test="optCollect != null" >
+        optCollect = #{optCollect,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+      and bedId = #{bedId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasPacuBedEventConfig" >
+    update bas_pacu_bed_event_config
+    set optDisplay = #{optDisplay,jdbcType=VARCHAR},
+      optCollect = #{optCollect,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+      and bedId = #{bedId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByBedId" resultType="com.digihealth.anesthesia.basedata.formbean.PacuBedEventConfigFormBean">
+   	SELECT a.* ,(SELECT eventName FROM bas_pacu_monitor_config b WHERE a.eventId = b.eventId and b.beid = #{beid,jdbcType=VARCHAR}) eventName FROM bas_pacu_bed_event_config a 
+    where bedId = #{bedId,jdbcType=VARCHAR} 
+    and deviceId = #{deviceId,jdbcType=VARCHAR}
+    and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByBedId" >
+  	delete from bas_pacu_bed_event_config
+    where  bedId = #{bedId,jdbcType=VARCHAR}
+     and deviceId = #{deviceId,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

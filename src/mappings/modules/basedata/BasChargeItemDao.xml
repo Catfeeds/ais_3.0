@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasChargeItemDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasChargeItem" >
+    <id column="chargeItemId" property="chargeItemId" jdbcType="VARCHAR" />
+    <result column="chargeItemCode" property="chargeItemCode" jdbcType="VARCHAR" />
+    <result column="chargeItemName" property="chargeItemName" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="basicUnitAmount" property="basicUnitAmount" jdbcType="REAL" />
+    <result column="basicUnitPrice" property="basicUnitPrice" jdbcType="REAL" />
+    <result column="chargeType" property="chargeType" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    chargeItemId, chargeItemCode, chargeItemName, spec, pinYin, unit, price, type, enable, 
+    basicUnitAmount, basicUnitPrice, chargeType, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_charge_item
+    where chargeItemId = #{chargeItemId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_charge_item
+    where chargeItemId = #{chargeItemId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItem" >
+    insert into bas_charge_item (chargeItemId, chargeItemCode, chargeItemName, 
+      spec, pinYin, unit, 
+      price, type, enable, basicUnitAmount, 
+      basicUnitPrice, chargeType, beid
+      )
+    values (#{chargeItemId,jdbcType=VARCHAR}, #{chargeItemCode,jdbcType=VARCHAR}, #{chargeItemName,jdbcType=VARCHAR}, 
+      #{spec,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{price,jdbcType=REAL}, #{type,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{basicUnitAmount,jdbcType=REAL}, 
+      #{basicUnitPrice,jdbcType=REAL}, #{chargeType,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItem" >
+    insert into bas_charge_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chargeItemId != null" >
+        chargeItemId,
+      </if>
+      <if test="chargeItemCode != null" >
+        chargeItemCode,
+      </if>
+      <if test="chargeItemName != null" >
+        chargeItemName,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="basicUnitAmount != null" >
+        basicUnitAmount,
+      </if>
+      <if test="basicUnitPrice != null" >
+        basicUnitPrice,
+      </if>
+      <if test="chargeType != null" >
+        chargeType,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chargeItemId != null" >
+        #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemCode != null" >
+        #{chargeItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemName != null" >
+        #{chargeItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="basicUnitAmount != null" >
+        #{basicUnitAmount,jdbcType=REAL},
+      </if>
+      <if test="basicUnitPrice != null" >
+        #{basicUnitPrice,jdbcType=REAL},
+      </if>
+      <if test="chargeType != null" >
+        #{chargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItem" >
+    update bas_charge_item
+    <set >
+      <if test="chargeItemCode != null" >
+        chargeItemCode = #{chargeItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemName != null" >
+        chargeItemName = #{chargeItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="basicUnitAmount != null" >
+        basicUnitAmount = #{basicUnitAmount,jdbcType=REAL},
+      </if>
+      <if test="basicUnitPrice != null" >
+        basicUnitPrice = #{basicUnitPrice,jdbcType=REAL},
+      </if>
+      <if test="chargeType != null" >
+        chargeType = #{chargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where chargeItemId = #{chargeItemId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItem" >
+    update bas_charge_item
+    set chargeItemCode = #{chargeItemCode,jdbcType=VARCHAR},
+      chargeItemName = #{chargeItemName,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      type = #{type,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      basicUnitAmount = #{basicUnitAmount,jdbcType=REAL},
+      basicUnitPrice = #{basicUnitPrice,jdbcType=REAL},
+      chargeType = #{chargeType,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where chargeItemId = #{chargeItemId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.BasChargeItemFormBean">
+	SELECT *,chargeItemName as "name" FROM bas_charge_item where 1=1 and (type = '25' or type = '26')
+	 and enable='1' and beid = #{beid,jdbcType=VARCHAR} and pinyin LIKE CONCAT(CONCAT('%',#{pinyin}),'%')
+	</select>
+	
+	<select id="queryChargeItemList" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">
+	SELECT *,chargeItemName AS 'name' FROM bas_charge_item where 1=1 and beid = #{systemSearchFormBean.beid,jdbcType=VARCHAR} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="findListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_charge_item where 1=1 and beid = #{beid,jdbcType=VARCHAR} ${filter} 
+	</select>
+	
+	<select id="searchChargeItemById" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">
+	select * from bas_charge_item where chargeItemId = #{chargeItemId} and beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryChargeItemByChargePackagesId" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">
+		SELECT DISTINCT i.*,s.chgItemAmount,s.chgItmPkgId FROM
+		bas_charge_item i left join bas_charge_item_packages_rel s on i.chargeItemId = s.chargeItemId 
+		where i.enable='1' and s.chargePkgId = #{chargePkgId} and i.beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">
+	select * from bas_charge_item where chargeItemCode = #{code} and beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_charge_item set enable='0' where beid = #{beid,jdbcType=VARCHAR};
+	</update>
+
+</mapper>

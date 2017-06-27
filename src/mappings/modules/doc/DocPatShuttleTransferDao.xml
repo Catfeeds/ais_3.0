@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPatShuttleTransferDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="nameChk" property="nameChk" jdbcType="INTEGER" />
+    <result column="sexChk" property="sexChk" jdbcType="INTEGER" />
+    <result column="ageChk" property="ageChk" jdbcType="INTEGER" />
+    <result column="roomChk" property="roomChk" jdbcType="INTEGER" />
+    <result column="bedChk" property="bedChk" jdbcType="INTEGER" />
+    <result column="hidChk" property="hidChk" jdbcType="INTEGER" />
+    <result column="diagChk" property="diagChk" jdbcType="INTEGER" />
+    <result column="operTimeChk" property="operTimeChk" jdbcType="INTEGER" />
+    <result column="operNameChk" property="operNameChk" jdbcType="INTEGER" />
+    <result column="operBodyChk" property="operBodyChk" jdbcType="INTEGER" />
+    <result column="skinPlanChk" property="skinPlanChk" jdbcType="INTEGER" />
+    <result column="preCleanChk" property="preCleanChk" jdbcType="INTEGER" />
+    <result column="skinFullChk" property="skinFullChk" jdbcType="INTEGER" />
+    <result column="patCase" property="patCase" jdbcType="INTEGER" />
+    <result column="preMedChk" property="preMedChk" jdbcType="INTEGER" />
+    <result column="specMedChk" property="specMedChk" jdbcType="INTEGER" />
+    <result column="dressingChk" property="dressingChk" jdbcType="INTEGER" />
+    <result column="wearCapChk" property="wearCapChk" jdbcType="INTEGER" />
+    <result column="spireChk" property="spireChk" jdbcType="INTEGER" />
+    <result column="xPianChk" property="xPianChk" jdbcType="INTEGER" />
+    <result column="ctChk" property="ctChk" jdbcType="INTEGER" />
+    <result column="mriChk" property="mriChk" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="signUser" property="signUser" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" extends="BaseResultMap" >
+    <result column="worn" property="worn" jdbcType="LONGVARCHAR" />
+    <result column="goodsRemove" property="goodsRemove" jdbcType="LONGVARCHAR" />
+    <result column="preAdviceExec" property="preAdviceExec" jdbcType="LONGVARCHAR" />
+    <result column="veinBody" property="veinBody" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, nameChk, sexChk, ageChk, roomChk, bedChk, hidChk, diagChk, operTimeChk, 
+    operNameChk, operBodyChk, skinPlanChk, preCleanChk, skinFullChk, patCase, preMedChk, 
+    specMedChk, dressingChk, wearCapChk, spireChk, xPianChk, ctChk, mriChk, other, signUser, 
+    signTime, processState
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    worn, goodsRemove, preAdviceExec, veinBody
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_pat_shuttle_transfer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getPatShuttleTransferByRegOptId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_pat_shuttle_transfer
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_pat_shuttle_transfer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" >
+    insert into doc_pat_shuttle_transfer (id, regOptId, nameChk, 
+      sexChk, ageChk, roomChk, 
+      bedChk, hidChk, diagChk, 
+      operTimeChk, operNameChk, operBodyChk, 
+      skinPlanChk, preCleanChk, skinFullChk, 
+      patCase, preMedChk, specMedChk, 
+      dressingChk, wearCapChk, spireChk, 
+      xPianChk, ctChk, mriChk, 
+      other, signUser, signTime, 
+      processState, worn, goodsRemove, 
+      preAdviceExec, veinBody)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{nameChk,jdbcType=INTEGER}, 
+      #{sexChk,jdbcType=INTEGER}, #{ageChk,jdbcType=INTEGER}, #{roomChk,jdbcType=INTEGER}, 
+      #{bedChk,jdbcType=INTEGER}, #{hidChk,jdbcType=INTEGER}, #{diagChk,jdbcType=INTEGER}, 
+      #{operTimeChk,jdbcType=INTEGER}, #{operNameChk,jdbcType=INTEGER}, #{operBodyChk,jdbcType=INTEGER}, 
+      #{skinPlanChk,jdbcType=INTEGER}, #{preCleanChk,jdbcType=INTEGER}, #{skinFullChk,jdbcType=INTEGER}, 
+      #{patCase,jdbcType=INTEGER}, #{preMedChk,jdbcType=INTEGER}, #{specMedChk,jdbcType=INTEGER}, 
+      #{dressingChk,jdbcType=INTEGER}, #{wearCapChk,jdbcType=INTEGER}, #{spireChk,jdbcType=INTEGER}, 
+      #{xPianChk,jdbcType=INTEGER}, #{ctChk,jdbcType=INTEGER}, #{mriChk,jdbcType=INTEGER}, 
+      #{other,jdbcType=VARCHAR}, #{signUser,jdbcType=VARCHAR}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{processState,jdbcType=VARCHAR}, #{worn,jdbcType=LONGVARCHAR}, #{goodsRemove,jdbcType=LONGVARCHAR}, 
+      #{preAdviceExec,jdbcType=LONGVARCHAR}, #{veinBody,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" >
+    insert into doc_pat_shuttle_transfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="nameChk != null" >
+        nameChk,
+      </if>
+      <if test="sexChk != null" >
+        sexChk,
+      </if>
+      <if test="ageChk != null" >
+        ageChk,
+      </if>
+      <if test="roomChk != null" >
+        roomChk,
+      </if>
+      <if test="bedChk != null" >
+        bedChk,
+      </if>
+      <if test="hidChk != null" >
+        hidChk,
+      </if>
+      <if test="diagChk != null" >
+        diagChk,
+      </if>
+      <if test="operTimeChk != null" >
+        operTimeChk,
+      </if>
+      <if test="operNameChk != null" >
+        operNameChk,
+      </if>
+      <if test="operBodyChk != null" >
+        operBodyChk,
+      </if>
+      <if test="skinPlanChk != null" >
+        skinPlanChk,
+      </if>
+      <if test="preCleanChk != null" >
+        preCleanChk,
+      </if>
+      <if test="skinFullChk != null" >
+        skinFullChk,
+      </if>
+      <if test="patCase != null" >
+        patCase,
+      </if>
+      <if test="preMedChk != null" >
+        preMedChk,
+      </if>
+      <if test="specMedChk != null" >
+        specMedChk,
+      </if>
+      <if test="dressingChk != null" >
+        dressingChk,
+      </if>
+      <if test="wearCapChk != null" >
+        wearCapChk,
+      </if>
+      <if test="spireChk != null" >
+        spireChk,
+      </if>
+      <if test="xPianChk != null" >
+        xPianChk,
+      </if>
+      <if test="ctChk != null" >
+        ctChk,
+      </if>
+      <if test="mriChk != null" >
+        mriChk,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="signUser != null" >
+        signUser,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="worn != null" >
+        worn,
+      </if>
+      <if test="goodsRemove != null" >
+        goodsRemove,
+      </if>
+      <if test="preAdviceExec != null" >
+        preAdviceExec,
+      </if>
+      <if test="veinBody != null" >
+        veinBody,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="nameChk != null" >
+        #{nameChk,jdbcType=INTEGER},
+      </if>
+      <if test="sexChk != null" >
+        #{sexChk,jdbcType=INTEGER},
+      </if>
+      <if test="ageChk != null" >
+        #{ageChk,jdbcType=INTEGER},
+      </if>
+      <if test="roomChk != null" >
+        #{roomChk,jdbcType=INTEGER},
+      </if>
+      <if test="bedChk != null" >
+        #{bedChk,jdbcType=INTEGER},
+      </if>
+      <if test="hidChk != null" >
+        #{hidChk,jdbcType=INTEGER},
+      </if>
+      <if test="diagChk != null" >
+        #{diagChk,jdbcType=INTEGER},
+      </if>
+      <if test="operTimeChk != null" >
+        #{operTimeChk,jdbcType=INTEGER},
+      </if>
+      <if test="operNameChk != null" >
+        #{operNameChk,jdbcType=INTEGER},
+      </if>
+      <if test="operBodyChk != null" >
+        #{operBodyChk,jdbcType=INTEGER},
+      </if>
+      <if test="skinPlanChk != null" >
+        #{skinPlanChk,jdbcType=INTEGER},
+      </if>
+      <if test="preCleanChk != null" >
+        #{preCleanChk,jdbcType=INTEGER},
+      </if>
+      <if test="skinFullChk != null" >
+        #{skinFullChk,jdbcType=INTEGER},
+      </if>
+      <if test="patCase != null" >
+        #{patCase,jdbcType=INTEGER},
+      </if>
+      <if test="preMedChk != null" >
+        #{preMedChk,jdbcType=INTEGER},
+      </if>
+      <if test="specMedChk != null" >
+        #{specMedChk,jdbcType=INTEGER},
+      </if>
+      <if test="dressingChk != null" >
+        #{dressingChk,jdbcType=INTEGER},
+      </if>
+      <if test="wearCapChk != null" >
+        #{wearCapChk,jdbcType=INTEGER},
+      </if>
+      <if test="spireChk != null" >
+        #{spireChk,jdbcType=INTEGER},
+      </if>
+      <if test="xPianChk != null" >
+        #{xPianChk,jdbcType=INTEGER},
+      </if>
+      <if test="ctChk != null" >
+        #{ctChk,jdbcType=INTEGER},
+      </if>
+      <if test="mriChk != null" >
+        #{mriChk,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="signUser != null" >
+        #{signUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="worn != null" >
+        #{worn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="goodsRemove != null" >
+        #{goodsRemove,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preAdviceExec != null" >
+        #{preAdviceExec,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="veinBody != null" >
+        #{veinBody,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" >
+    update doc_pat_shuttle_transfer
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="nameChk != null" >
+        nameChk = #{nameChk,jdbcType=INTEGER},
+      </if>
+      <if test="sexChk != null" >
+        sexChk = #{sexChk,jdbcType=INTEGER},
+      </if>
+      <if test="ageChk != null" >
+        ageChk = #{ageChk,jdbcType=INTEGER},
+      </if>
+      <if test="roomChk != null" >
+        roomChk = #{roomChk,jdbcType=INTEGER},
+      </if>
+      <if test="bedChk != null" >
+        bedChk = #{bedChk,jdbcType=INTEGER},
+      </if>
+      <if test="hidChk != null" >
+        hidChk = #{hidChk,jdbcType=INTEGER},
+      </if>
+      <if test="diagChk != null" >
+        diagChk = #{diagChk,jdbcType=INTEGER},
+      </if>
+      <if test="operTimeChk != null" >
+        operTimeChk = #{operTimeChk,jdbcType=INTEGER},
+      </if>
+      <if test="operNameChk != null" >
+        operNameChk = #{operNameChk,jdbcType=INTEGER},
+      </if>
+      <if test="operBodyChk != null" >
+        operBodyChk = #{operBodyChk,jdbcType=INTEGER},
+      </if>
+      <if test="skinPlanChk != null" >
+        skinPlanChk = #{skinPlanChk,jdbcType=INTEGER},
+      </if>
+      <if test="preCleanChk != null" >
+        preCleanChk = #{preCleanChk,jdbcType=INTEGER},
+      </if>
+      <if test="skinFullChk != null" >
+        skinFullChk = #{skinFullChk,jdbcType=INTEGER},
+      </if>
+      <if test="patCase != null" >
+        patCase = #{patCase,jdbcType=INTEGER},
+      </if>
+      <if test="preMedChk != null" >
+        preMedChk = #{preMedChk,jdbcType=INTEGER},
+      </if>
+      <if test="specMedChk != null" >
+        specMedChk = #{specMedChk,jdbcType=INTEGER},
+      </if>
+      <if test="dressingChk != null" >
+        dressingChk = #{dressingChk,jdbcType=INTEGER},
+      </if>
+      <if test="wearCapChk != null" >
+        wearCapChk = #{wearCapChk,jdbcType=INTEGER},
+      </if>
+      <if test="spireChk != null" >
+        spireChk = #{spireChk,jdbcType=INTEGER},
+      </if>
+      <if test="xPianChk != null" >
+        xPianChk = #{xPianChk,jdbcType=INTEGER},
+      </if>
+      <if test="ctChk != null" >
+        ctChk = #{ctChk,jdbcType=INTEGER},
+      </if>
+      <if test="mriChk != null" >
+        mriChk = #{mriChk,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="signUser != null" >
+        signUser = #{signUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="worn != null" >
+        worn = #{worn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="goodsRemove != null" >
+        goodsRemove = #{goodsRemove,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preAdviceExec != null" >
+        preAdviceExec = #{preAdviceExec,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="veinBody != null" >
+        veinBody = #{veinBody,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" >
+    update doc_pat_shuttle_transfer
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      nameChk = #{nameChk,jdbcType=INTEGER},
+      sexChk = #{sexChk,jdbcType=INTEGER},
+      ageChk = #{ageChk,jdbcType=INTEGER},
+      roomChk = #{roomChk,jdbcType=INTEGER},
+      bedChk = #{bedChk,jdbcType=INTEGER},
+      hidChk = #{hidChk,jdbcType=INTEGER},
+      diagChk = #{diagChk,jdbcType=INTEGER},
+      operTimeChk = #{operTimeChk,jdbcType=INTEGER},
+      operNameChk = #{operNameChk,jdbcType=INTEGER},
+      operBodyChk = #{operBodyChk,jdbcType=INTEGER},
+      skinPlanChk = #{skinPlanChk,jdbcType=INTEGER},
+      preCleanChk = #{preCleanChk,jdbcType=INTEGER},
+      skinFullChk = #{skinFullChk,jdbcType=INTEGER},
+      patCase = #{patCase,jdbcType=INTEGER},
+      preMedChk = #{preMedChk,jdbcType=INTEGER},
+      specMedChk = #{specMedChk,jdbcType=INTEGER},
+      dressingChk = #{dressingChk,jdbcType=INTEGER},
+      wearCapChk = #{wearCapChk,jdbcType=INTEGER},
+      spireChk = #{spireChk,jdbcType=INTEGER},
+      xPianChk = #{xPianChk,jdbcType=INTEGER},
+      ctChk = #{ctChk,jdbcType=INTEGER},
+      mriChk = #{mriChk,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR},
+      signUser = #{signUser,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR},
+      worn = #{worn,jdbcType=LONGVARCHAR},
+      goodsRemove = #{goodsRemove,jdbcType=LONGVARCHAR},
+      preAdviceExec = #{preAdviceExec,jdbcType=LONGVARCHAR},
+      veinBody = #{veinBody,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer" >
+    update doc_pat_shuttle_transfer
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      nameChk = #{nameChk,jdbcType=INTEGER},
+      sexChk = #{sexChk,jdbcType=INTEGER},
+      ageChk = #{ageChk,jdbcType=INTEGER},
+      roomChk = #{roomChk,jdbcType=INTEGER},
+      bedChk = #{bedChk,jdbcType=INTEGER},
+      hidChk = #{hidChk,jdbcType=INTEGER},
+      diagChk = #{diagChk,jdbcType=INTEGER},
+      operTimeChk = #{operTimeChk,jdbcType=INTEGER},
+      operNameChk = #{operNameChk,jdbcType=INTEGER},
+      operBodyChk = #{operBodyChk,jdbcType=INTEGER},
+      skinPlanChk = #{skinPlanChk,jdbcType=INTEGER},
+      preCleanChk = #{preCleanChk,jdbcType=INTEGER},
+      skinFullChk = #{skinFullChk,jdbcType=INTEGER},
+      patCase = #{patCase,jdbcType=INTEGER},
+      preMedChk = #{preMedChk,jdbcType=INTEGER},
+      specMedChk = #{specMedChk,jdbcType=INTEGER},
+      dressingChk = #{dressingChk,jdbcType=INTEGER},
+      wearCapChk = #{wearCapChk,jdbcType=INTEGER},
+      spireChk = #{spireChk,jdbcType=INTEGER},
+      xPianChk = #{xPianChk,jdbcType=INTEGER},
+      ctChk = #{ctChk,jdbcType=INTEGER},
+      mriChk = #{mriChk,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR},
+      signUser = #{signUser,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

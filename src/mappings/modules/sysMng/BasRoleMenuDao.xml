@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.sysMng.dao.BasRoleMenuDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    <id column="menuId" property="menuId" jdbcType="VARCHAR" />
+    <id column="roleId" property="roleId" jdbcType="VARCHAR" />
+    <id column="beid" property="beid" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    menuId, roleId, beid, permission
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_role_menu
+    where menuId = #{menuId,jdbcType=VARCHAR}
+      and roleId = #{roleId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_role_menu t where 1=1 
+    <if test="menuId != '' and menuId != null">AND menuId = #{menuId} </if>
+    <if test="roleId != '' and roleId != null">AND roleId = #{roleId} </if>
+	<if test="permission != '' and permission != null">AND permission LIKE CONCAT('%',#{permission},'%') </if>
+    <if test="beid != '' and beid != null">AND t.beid = #{beid} </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    delete from bas_role_menu
+    where menuId = #{menuId,jdbcType=VARCHAR}
+      and roleId = #{roleId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByMenuId">
+    delete from bas_role_menu
+    where menuId = #{menuId,jdbcType=VARCHAR} and beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByRoleId" >
+    delete from bas_role_menu
+    where menuId in(select id from bas_menu where module = #{module,jdbcType=VARCHAR} AND beid = #{beid,jdbcType=VARCHAR}) 
+    and roleId = #{roleId,jdbcType=VARCHAR} and beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    insert into bas_role_menu (menuId, roleId, beid, permission)
+    values (#{menuId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR},
+	#{permission,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    insert into bas_role_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menuId,
+      </if>
+      <if test="roleId != null" >
+        roleId,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    update bas_role_menu
+    <set >
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menuId = #{menuId,jdbcType=VARCHAR}
+      and roleId = #{roleId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.sysMng.po.BasRoleMenu" >
+    update bas_role_menu
+    set permission = #{permission,jdbcType=VARCHAR}
+    where menuId = #{menuId,jdbcType=VARCHAR}
+      and roleId = #{roleId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

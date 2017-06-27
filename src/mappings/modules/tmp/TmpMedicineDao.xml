@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.tmp.dao.TmpMedicineDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.tmp.po.TmpMedicine" >
+    <id column="medTempId" property="medTempId" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="medTempName" property="medTempName" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="createName" property="createName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    medTempId, createTime, createUser, medTempName, pinYin, createName, type, remark
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tmp_medicine
+    where medTempId = #{medTempId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from tmp_medicine
+    where medTempId = #{medTempId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.tmp.po.TmpMedicine" >
+    insert into tmp_medicine (medTempId, createTime, createUser, 
+      medTempName, pinYin, createName, 
+      type, remark)
+    values (#{medTempId,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{medTempName,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpMedicine" >
+    insert into tmp_medicine
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="medTempId != null" >
+        medTempId,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="medTempName != null" >
+        medTempName,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="createName != null" >
+        createName,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="medTempId != null" >
+        #{medTempId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="medTempName != null" >
+        #{medTempName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpMedicine" >
+    update tmp_medicine
+    <set >
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="medTempName != null" >
+        medTempName = #{medTempName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        createName = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where medTempId = #{medTempId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.tmp.po.TmpMedicine" >
+    update tmp_medicine
+    set createTime = #{createTime,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      medTempName = #{medTempName,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      createName = #{createName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where medTempId = #{medTempId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectMedTempOrderById" resultType="com.digihealth.anesthesia.tmp.po.TmpMedicine">
+    select * from tmp_medicine order by medTempId DESC
+    </select>
+    
+    <select id="queryMedTempList" resultType="com.digihealth.anesthesia.tmp.po.TmpMedicine">
+	SELECT * FROM tmp_medicine where 1=1 ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryMedTempListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM tmp_medicine where 1=1 ${filter} 
+	</select>
+	
+	<select id="searchMedTempById" resultType="com.digihealth.anesthesia.tmp.po.TmpMedicine">
+	select * from tmp_medicine where medTempId = #{medTempId}
+	</select>
+
+</mapper>

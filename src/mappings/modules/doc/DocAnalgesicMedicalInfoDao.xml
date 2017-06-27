@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnalgesicMedicalInfoDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnalgesicMedicalInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="analgesicId" property="analgesicId" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="mainteAmount" property="mainteAmount" jdbcType="REAL" />
+    <result column="mainteUnit" property="mainteUnit" jdbcType="VARCHAR" />
+    <result column="addAmount" property="addAmount" jdbcType="REAL" />
+    <result column="addUnit" property="addUnit" jdbcType="VARCHAR" />
+    <result column="lockTime" property="lockTime" jdbcType="REAL" />
+    <result column="lockUnit" property="lockUnit" jdbcType="VARCHAR" />
+    <result column="medId" property="medId" jdbcType="VARCHAR" />
+    <result column="medName" property="medName" jdbcType="VARCHAR" />
+    <result column="inquiryDoctor" property="inquiryDoctor" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, analgesicId, time, mainteAmount, mainteUnit, addAmount, addUnit, lockTime, 
+    lockUnit, medId, medName, inquiryDoctor
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_medical_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getByanalgesicId" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_medical_info
+    where analgesicId = #{analgesicId,jdbcType=VARCHAR}
+  </select>
+
+ <delete id="deleteByanalgesicId" parameterType="java.lang.String" >
+    delete from doc_analgesic_medical_info
+    where analgesicId = #{analgesicId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_analgesic_medical_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicMedicalInfo" >
+    insert into doc_analgesic_medical_info (id, regOptId, analgesicId, 
+      time, mainteAmount, mainteUnit, 
+      addAmount, addUnit, lockTime, 
+      lockUnit, medId, medName, 
+      inquiryDoctor)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{analgesicId,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{mainteAmount,jdbcType=REAL}, #{mainteUnit,jdbcType=VARCHAR}, 
+      #{addAmount,jdbcType=REAL}, #{addUnit,jdbcType=VARCHAR}, #{lockTime,jdbcType=REAL}, 
+      #{lockUnit,jdbcType=VARCHAR}, #{medId,jdbcType=VARCHAR}, #{medName,jdbcType=VARCHAR}, 
+      #{inquiryDoctor,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicMedicalInfo" >
+    insert into doc_analgesic_medical_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="mainteAmount != null" >
+        mainteAmount,
+      </if>
+      <if test="mainteUnit != null" >
+        mainteUnit,
+      </if>
+      <if test="addAmount != null" >
+        addAmount,
+      </if>
+      <if test="addUnit != null" >
+        addUnit,
+      </if>
+      <if test="lockTime != null" >
+        lockTime,
+      </if>
+      <if test="lockUnit != null" >
+        lockUnit,
+      </if>
+      <if test="medId != null" >
+        medId,
+      </if>
+      <if test="medName != null" >
+        medName,
+      </if>
+      <if test="inquiryDoctor != null" >
+        inquiryDoctor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mainteAmount != null" >
+        #{mainteAmount,jdbcType=REAL},
+      </if>
+      <if test="mainteUnit != null" >
+        #{mainteUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="addAmount != null" >
+        #{addAmount,jdbcType=REAL},
+      </if>
+      <if test="addUnit != null" >
+        #{addUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="lockTime != null" >
+        #{lockTime,jdbcType=REAL},
+      </if>
+      <if test="lockUnit != null" >
+        #{lockUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="medId != null" >
+        #{medId,jdbcType=VARCHAR},
+      </if>
+      <if test="medName != null" >
+        #{medName,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryDoctor != null" >
+        #{inquiryDoctor,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicMedicalInfo" >
+    update doc_analgesic_medical_info
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mainteAmount != null" >
+        mainteAmount = #{mainteAmount,jdbcType=REAL},
+      </if>
+      <if test="mainteUnit != null" >
+        mainteUnit = #{mainteUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="addAmount != null" >
+        addAmount = #{addAmount,jdbcType=REAL},
+      </if>
+      <if test="addUnit != null" >
+        addUnit = #{addUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="lockTime != null" >
+        lockTime = #{lockTime,jdbcType=REAL},
+      </if>
+      <if test="lockUnit != null" >
+        lockUnit = #{lockUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="medId != null" >
+        medId = #{medId,jdbcType=VARCHAR},
+      </if>
+      <if test="medName != null" >
+        medName = #{medName,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryDoctor != null" >
+        inquiryDoctor = #{inquiryDoctor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicMedicalInfo" >
+    update doc_analgesic_medical_info
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      mainteAmount = #{mainteAmount,jdbcType=REAL},
+      mainteUnit = #{mainteUnit,jdbcType=VARCHAR},
+      addAmount = #{addAmount,jdbcType=REAL},
+      addUnit = #{addUnit,jdbcType=VARCHAR},
+      lockTime = #{lockTime,jdbcType=REAL},
+      lockUnit = #{lockUnit,jdbcType=VARCHAR},
+      medId = #{medId,jdbcType=VARCHAR},
+      medName = #{medName,jdbcType=VARCHAR},
+      inquiryDoctor = #{inquiryDoctor,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

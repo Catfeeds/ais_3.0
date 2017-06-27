@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.sysMng.dao.BasMenuDao">
+	<resultMap id="BaseResultMap" type="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="beid" property="beid" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="target" property="target" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="isLeftMenu" property="isLeftMenu" jdbcType="INTEGER" />
+		<result column="direct" property="direct" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
+		<result column="permission" property="permission" jdbcType="VARCHAR" />
+		<result column="urlType" property="urlType" jdbcType="VARCHAR" />
+		<result column="module" property="module" jdbcType="VARCHAR" />
+		<result column="docTableId" property="docTableId" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="enable" property="enable" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, beid, name, type, icon, target, url, isLeftMenu,direct,
+		parentId, parentIds,
+		permission,
+		enable, urlType, module,docTableId, sort
+	</sql>
+
+	<sql id="menuJoins">
+		LEFT JOIN bas_menu p ON p.id = a.parentId
+	</sql>
+
+	<select id="selectEntityList" resultMap="BaseResultMap"
+		parameterType="com.digihealth.anesthesia.sysMng.formbean.BasMenuFormBean">
+		select
+		<include refid="Base_Column_List" />
+		from bas_menu
+		where 1=1
+		<if test="name != '' and name != null">AND name = #{name} </if>
+		<if test="type != null">AND type = #{type} </if>
+		<if test="target != '' and target != null">AND target = #{target} </if>
+		<if test="url != '' and url != null">AND url = #{url} </if>
+		<if test="isLeftMenu != null">AND isLeftMenu = #{isLeftMenu} </if>
+		<if test="parentId !=null">AND parentId = #{parentId} </if>
+		<if test="permission != '' and permission != null">AND permission LIKE CONCAT('%',#{permission},'%') </if>
+		<if test="urlType != '' and urlType != null">AND urlType = #{urlType} </if>
+		<if test="module != '' and module != null">AND module = #{module} </if>
+		<if test="enable !=null">AND enable = #{enable} </if>
+		<if test="beid != '' and beid != null">AND beid = #{beid} </if>
+		ORDER BY sort ASC 
+		<if test="pageSize != null and pageSize != 0">LIMIT #{pageNo},#{pageSize}</if>
+	</select>
+
+	<select id="findMenu" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		select * from bas_menu where
+		parentId = 0 and enable = 1 and beid = #{beid}
+	</select>
+
+	<select id="findMenuByIds" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		select
+		m.id, m.beid, m.name, m.type, m.icon, m.target, m.url,
+		m.isLeftMenu,m.direct,
+		m.parentId, m.parentIds,
+		rm.permission,
+		m.enable,
+		m.urlType, m.module, m.sort
+		from bas_menu m join bas_role_menu rm on
+		m.id = rm.menuId
+		where rm.roleId = #{roleId} and (m.parentId = 0 or
+		m.parentId in
+		<foreach collection="ids" item="item" index="index" open="("
+			separator="," close=")">#{item}</foreach>
+		)
+		and (m.enable = 1 or m.isLeftMenu = 0) AND m.enable = 1 ORDER BY m.target
+		and m.beid = #{beid}
+		ASC,m.parentId ASC,m.sort ASC;
+	</select>
+
+	<select id="findMenuByRoleId" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		select * from bas_menu
+		m join bas_role_menu rm on m.id = rm.menuId where rm.roleId =
+		#{roleId}
+		and m.enable = 1 and m.beid = #{beid} ORDER BY target ASC,sort ASC
+	</select>
+
+	<select id="findMenuIsLeft" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		select * from bas_menu
+		where enable = 1 and isLeftMenu = 0 order by sort asc;
+	</select>
+
+	<select id="findMenuThr" resultType="java.util.Map">
+		SELECT parentId,parentIds
+		FROM bas_menu WHERE isLeftMenu=0 and enable = 1 and beid = #{beid} GROUP BY parentId,parentIds;
+	</select>
+
+	<select id="get" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM bas_menu a
+		<include refid="menuJoins" />
+		WHERE a.id = #{id} and a.del_flag='1'
+	</select>
+
+	<select id="findAllMenu"
+		resultType="com.digihealth.anesthesia.basedata.formbean.FindAllMenuFormBean">
+		SELECT id,beid,parent_id,parent_ids,name FROM bas_menu
+		where del_flag =1
+	</select>
+
+	<select id="findAllList" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM bas_menu a
+		<include refid="menuJoins" />
+		ORDER BY a.sort
+	</select>
+
+	<select id="findByParentIdsLike" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		SELECT
+		a.id,
+		a.parentId AS "parent.id",
+		a.parentIds
+		FROM bas_menu a
+		WHERE a.del_flag
+		= #{DEL_FLAG_NORMAL} AND a.parentIds
+		LIKE #{parentIds}
+		ORDER BY a.sort
+	</select>
+
+	<select id="findByUserId" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		SELECT DISTINCT
+		<include refid="Base_Column_List" />
+		FROM bas_menu a
+		LEFT JOIN bas_menu p ON p.id = a.parentId
+		JOIN
+		bas_role_menu
+		rm ON rm.menuId = a.id
+		JOIN bas_role r ON r.id = rm.roleId
+		AND
+		r.useable='1'
+		JOIN bas_user_role ur ON ur.roleId = r.id
+		JOIN bas_user u
+		ON
+		u.userName = ur.userId AND u.userName = #{userId}
+		ORDER BY a.sort
+	</select>
+
+	<select id="findByRoleId" resultType="java.lang.String">
+		SELECT DISTINCT
+		a.url
+		FROM
+		bas_menu a
+		LEFT JOIN bas_menu p ON p.id = a.parentId
+		JOIN bas_role_menu
+		rm ON rm.menuId = a.id
+		WHERE rm.roleId = #{id}
+	</select>
+
+	<select id="findAllByRoleId" resultType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		SELECT DISTINCT
+		<include refid="Base_Column_List" />
+		FROM bas_menu a
+		LEFT JOIN bas_menu p ON p.id = a.parentId
+		JOIN
+		bas_role_menu rm ON rm.menuId = a.id
+		WHERE rm.roleId = #{id}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from bas_menu
+		where id = #{id,jdbcType=VARCHAR}
+		and beid =
+		#{beid,jdbcType=VARCHAR}
+	</select>
+	
+ <select id="selectMenuTree" resultType="com.digihealth.anesthesia.sysMng.formbean.BasMenuFormBean">
+   SELECT 
+    t.id, t.beid, t.`name` AS "name", t.type, t.icon, t.target, t.url, t.isLeftMenu,t.`direct`, t.parentId AS "pId",
+    (SELECT m2.`name` FROM bas_menu m2 WHERE m2.id = t.parentId AND m2.beid = t.beid) AS pName, t.parentIds, t.permission,t.module, t.docTableId,
+    t.`enable` AS "enable", t.urlType, t.sort, b.`name` AS "beName"
+    FROM bas_menu t,bas_bus_entity b 
+    WHERE t.beid = b.beid
+    and t.beid = #{beid,jdbcType=VARCHAR}
+    and t.module = #{module,jdbcType=VARCHAR}
+    order by t.parentId,t.sort
+  </select>
+  
+  <select id="findSubMenuById" resultMap="BaseResultMap" >
+   select <include refid = "Base_Column_List" /> from bas_menu
+     where parentId = #{parentId,jdbcType=VARCHAR}
+     and beid = #{beid,jdbcType=VARCHAR}
+     order by sort
+  </select>
+  
+  
+  <select id="findSubMenuByBeid" resultMap="BaseResultMap" >
+   select <include refid = "Base_Column_List" /> from bas_menu
+     where  beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+	<delete id="deleteByPrimaryKey" parameterType="com.digihealth.anesthesia.common.persistence.PKEntity">
+		delete from bas_menu where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyAndBeid" parameterType="com.digihealth.anesthesia.common.persistence.PKEntity">
+		delete from bas_menu where id = #{id,jdbcType=VARCHAR} and beid = #{beid,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		insert into bas_menu (id,
+		beid, name,
+		type, icon, target,
+		url, isLeftMenu,direct, parentId,
+		parentIds,
+		permission, enable,
+		urlType, module, docTableId,sort
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{icon,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR}, #{isLeftMenu,jdbcType=INTEGER},#{direct,jdbcType=VARCHAR},
+		#{parentId,jdbcType=VARCHAR},
+		#{parentIds,jdbcType=VARCHAR},
+		#{permission,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},
+		#{urlType,jdbcType=VARCHAR}, #{module,jdbcType=VARCHAR},
+		#{docTableId,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		insert into bas_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="beid != null">
+				beid,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="target != null">
+				target,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="isLeftMenu != null">
+				isLeftMenu,
+			</if>
+			<if test="direct != null">
+				direct,
+			</if>
+			<if test="parentId != null">
+				parentId,
+			</if>
+			<if test="parentIds != null">
+				parentIds,
+			</if>
+			<if test="permission != null">
+				permission,
+			</if>
+			<if test="enable != null">
+				enable,
+			</if>
+			<if test="urlType != null">
+				urlType,
+			</if>
+			<if test="module != null">
+				module,
+			</if>
+			<if test="docTableId != null">
+				docTableId,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="beid != null">
+				#{beid,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="target != null">
+				#{target,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="isLeftMenu != null">
+				#{isLeftMenu,jdbcType=INTEGER},
+			</if>
+			<if test="direct != null">
+				#{direct,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="permission != null">
+				#{permission,jdbcType=VARCHAR},
+			</if>
+			<if test="enable != null">
+				#{enable,jdbcType=INTEGER},
+			</if>
+			<if test="urlType != null">
+				#{urlType,jdbcType=VARCHAR},
+			</if>
+			<if test="module != null">
+				#{module,jdbcType=VARCHAR},
+			</if>
+			<if test="docTableId != null">
+				#{docTableId,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		update bas_menu
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="target != null">
+				target = #{target,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="isLeftMenu != null">
+				isLeftMenu = #{isLeftMenu,jdbcType=INTEGER},
+			</if>
+			<if test="direct != null">
+				direct = #{direct,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parentId = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentIds != null">
+				parentIds = #{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="permission != null">
+				permission = #{permission,jdbcType=VARCHAR},
+			</if>
+			<if test="enable != null">
+				enable = #{enable,jdbcType=INTEGER},
+			</if>
+			<if test="urlType != null">
+				urlType = #{urlType,jdbcType=VARCHAR},
+			</if>
+			<if test="module != null">
+				module = #{module,jdbcType=VARCHAR},
+			</if>
+			<if test="docTableId != null">
+				docTableId = #{docTableId,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+		and beid = #{beid,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.sysMng.po.BasMenu">
+		update bas_menu
+		set name = #{name,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER},
+		icon = #{icon,jdbcType=VARCHAR},
+		target = #{target,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		isLeftMenu =
+		#{isLeftMenu,jdbcType=INTEGER},
+		direct = #{direct,jdbcType=VARCHAR},
+		parentId =
+		#{parentId,jdbcType=VARCHAR},
+		parentIds =
+		#{parentIds,jdbcType=VARCHAR},
+		permission =
+		#{permission,jdbcType=VARCHAR},
+		enable = #{enable,jdbcType=INTEGER},
+		urlType = #{urlType,jdbcType=VARCHAR},
+		module =
+		#{module,jdbcType=VARCHAR},
+		docTableId = 
+		#{docTableId,jdbcType=VARCHAR},
+		sort = #{sort,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=VARCHAR}
+		and beid = #{beid,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

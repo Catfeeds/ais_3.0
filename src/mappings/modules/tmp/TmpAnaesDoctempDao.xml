@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.tmp.dao.TmpAnaesDoctempDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="medTempName" property="medTempName" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="createName" property="createName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="docType" property="docType" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" extends="BaseResultMap" >
+    <result column="tempJson" property="tempJson" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, createTime, createUser, medTempName, pinYin, createName, type, remark, docType
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    tempJson
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tmp_anaes_doctemp
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAnaesDoctempByForbean" resultType="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp">
+	select * from
+	(
+		select 
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+	    from tmp_anaes_doctemp where 1 = 1
+	    <if test="searchFormBean.createUser != null and searchFormBean.createUser != ''" >
+		       AND createUser = #{searchFormBean.createUser}
+		</if>
+		<if test="searchFormBean.type != null and searchFormBean.type != ''" >
+		       AND type = #{searchFormBean.type}
+		</if>
+		<if test="searchFormBean.docType != null" >
+		       AND docType = #{searchFormBean.docType}
+		</if>
+		<if test="searchFormBean.type != 1" >
+		       OR type = 2
+		</if>
+	) a where 1 = 1
+	<if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+			 AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+		  </if>
+		</foreach>
+	</if>
+  	order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  	<if test="searchFormBean.pageSize != null" >
+	      limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	</if>
+	</select>
+	
+	<select id="selectAnaesDoctempTotalByForbean" resultType="java.lang.Integer">
+	  	select count(*) from
+	  	(
+		  	select * from tmp_anaes_doctemp where 1 = 1 
+			<if test="searchFormBean.createUser != null and searchFormBean.createUser != ''" >
+		       AND createUser = #{searchFormBean.createUser}
+			</if>
+			<if test="searchFormBean.type != null and searchFormBean.type != ''" >
+			       AND type = #{searchFormBean.type}
+			</if>
+			<if test="searchFormBean.docType != null" >
+		           AND docType = #{searchFormBean.docType}
+			</if>
+			<if test="searchFormBean.type != 1" >
+			       OR type = 2
+			</if>
+		) a where 1 = 1
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+			  <if test="filter.field != null and filter.field != '' ">
+				 AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+			  </if>
+			</foreach>
+		</if>
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tmp_anaes_doctemp
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" >
+    insert into tmp_anaes_doctemp (id, createTime, createUser, 
+      medTempName, pinYin, createName, 
+      type, remark, docType, 
+      tempJson)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{medTempName,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{docType,jdbcType=INTEGER}, 
+      #{tempJson,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" >
+    insert into tmp_anaes_doctemp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="medTempName != null" >
+        medTempName,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="createName != null" >
+        createName,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+      <if test="tempJson != null" >
+        tempJson,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="medTempName != null" >
+        #{medTempName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=INTEGER},
+      </if>
+      <if test="tempJson != null" >
+        #{tempJson,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" >
+    update tmp_anaes_doctemp
+    <set >
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="medTempName != null" >
+        medTempName = #{medTempName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        createName = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        docType = #{docType,jdbcType=INTEGER},
+      </if>
+      <if test="tempJson != null" >
+        tempJson = #{tempJson,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" >
+    update tmp_anaes_doctemp
+    set createTime = #{createTime,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      medTempName = #{medTempName,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      createName = #{createName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      docType = #{docType,jdbcType=INTEGER},
+      tempJson = #{tempJson,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.tmp.po.TmpAnaesDoctemp" >
+    update tmp_anaes_doctemp
+    set createTime = #{createTime,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      medTempName = #{medTempName,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      createName = #{createName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      docType = #{docType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

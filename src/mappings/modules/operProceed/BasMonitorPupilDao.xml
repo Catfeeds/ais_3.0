@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.operProceed.dao.BasMonitorPupilDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.operProceed.po.BasMonitorPupil" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="left" property="left" jdbcType="VARCHAR" />
+    <result column="right" property="right" jdbcType="VARCHAR" />
+    <result column="lightReaction" property="lightReaction" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="amendFlag" property="amendFlag" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, `time`, `left`, `right`, lightReaction, state, amendFlag, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_pupil
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_monitor_pupil
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorPupil" >
+    insert into bas_monitor_pupil (id, regOptId, `time`, 
+      `left`, `right`, lightReaction, 
+      state, amendFlag, beid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{left,jdbcType=VARCHAR}, #{right,jdbcType=VARCHAR}, #{lightReaction,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{amendFlag,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorPupil" >
+    insert into bas_monitor_pupil
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="time != null" >
+        `time`,
+      </if>
+      <if test="left != null" >
+        `left`,
+      </if>
+      <if test="right != null" >
+        `right`,
+      </if>
+      <if test="lightReaction != null" >
+        lightReaction,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="amendFlag != null" >
+        amendFlag,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="left != null" >
+        #{left,jdbcType=VARCHAR},
+      </if>
+      <if test="right != null" >
+        #{right,jdbcType=VARCHAR},
+      </if>
+      <if test="lightReaction != null" >
+        #{lightReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="amendFlag != null" >
+        #{amendFlag,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorPupil" >
+    update bas_monitor_pupil
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        `time` = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="left != null" >
+        `left` = #{left,jdbcType=VARCHAR},
+      </if>
+      <if test="right != null" >
+        `right` = #{right,jdbcType=VARCHAR},
+      </if>
+      <if test="lightReaction != null" >
+        lightReaction = #{lightReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="amendFlag != null" >
+        amendFlag = #{amendFlag,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorPupil" >
+    update bas_monitor_pupil
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=TIMESTAMP},
+      `left` = #{left,jdbcType=VARCHAR},
+      `right` = #{right,jdbcType=VARCHAR},
+      lightReaction = #{lightReaction,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      amendFlag = #{amendFlag,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getPupilList" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_pupil a 
+    where a.regOptId = #{regOptId}
+    AND a.time &gt;= #{startTime} 
+  	AND a.time &lt;= #{endTime}
+    order by a.`time` 
+  </select>
+
+</mapper>

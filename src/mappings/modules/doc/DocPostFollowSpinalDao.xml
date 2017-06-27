@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPostFollowSpinalDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal" >
+    <id column="spinalFollowId" property="spinalFollowId" jdbcType="VARCHAR" />
+    <result column="postFollowId" property="postFollowId" jdbcType="VARCHAR" />
+    <result column="observeTime" property="observeTime" jdbcType="TIMESTAMP" />
+    <result column="lumbago" property="lumbago" jdbcType="INTEGER" />
+    <result column="nausea" property="nausea" jdbcType="INTEGER" />
+    <result column="vomit" property="vomit" jdbcType="INTEGER" />
+    <result column="limbsFeelImp" property="limbsFeelImp" jdbcType="INTEGER" />
+    <result column="limbsMoveImp" property="limbsMoveImp" jdbcType="INTEGER" />
+    <result column="cognitObstacle" property="cognitObstacle" jdbcType="INTEGER" />
+    <result column="vistorId" property="vistorId" jdbcType="VARCHAR" />
+    <result column="leftLimbsFeelImp" property="leftLimbsFeelImp" jdbcType="INTEGER" />
+    <result column="rightLimbsFeelImp" property="rightLimbsFeelImp" jdbcType="INTEGER" />
+    <result column="leftMoveFeelImp" property="leftMoveFeelImp" jdbcType="INTEGER" />
+    <result column="rightMoveFeelImp" property="rightMoveFeelImp" jdbcType="INTEGER" />
+    <result column="severeHeadache" property="severeHeadache" jdbcType="INTEGER" />
+    <result column="consciousness" property="consciousness" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    spinalFollowId, postFollowId, observeTime, lumbago, nausea, vomit, limbsFeelImp, 
+    limbsMoveImp, cognitObstacle, vistorId, leftLimbsFeelImp, rightLimbsFeelImp, leftMoveFeelImp, 
+    rightMoveFeelImp, severeHeadache, consciousness
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_post_follow_spinal
+    where spinalFollowId = #{spinalFollowId,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getInfoByPostFollowId" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal" parameterType="map" >
+    select a.* ,u.name vistorName
+    from doc_post_follow_spinal a left join bas_user u on a.vistorId = u.userName
+    where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </select>
+
+ <delete id="deleteByPostFollowId" parameterType="java.lang.String" >
+    delete from doc_post_follow_spinal where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_post_follow_spinal
+    where spinalFollowId = #{spinalFollowId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal" >
+    insert into doc_post_follow_spinal (spinalFollowId, postFollowId, observeTime, 
+      lumbago, nausea, vomit, 
+      limbsFeelImp, limbsMoveImp, cognitObstacle, 
+      vistorId, leftLimbsFeelImp, rightLimbsFeelImp, 
+      leftMoveFeelImp, rightMoveFeelImp, severeHeadache, 
+      consciousness)
+    values (#{spinalFollowId,jdbcType=VARCHAR}, #{postFollowId,jdbcType=VARCHAR}, #{observeTime,jdbcType=TIMESTAMP}, 
+      #{lumbago,jdbcType=INTEGER}, #{nausea,jdbcType=INTEGER}, #{vomit,jdbcType=INTEGER}, 
+      #{limbsFeelImp,jdbcType=INTEGER}, #{limbsMoveImp,jdbcType=INTEGER}, #{cognitObstacle,jdbcType=INTEGER}, 
+      #{vistorId,jdbcType=VARCHAR}, #{leftLimbsFeelImp,jdbcType=INTEGER}, #{rightLimbsFeelImp,jdbcType=INTEGER}, 
+      #{leftMoveFeelImp,jdbcType=INTEGER}, #{rightMoveFeelImp,jdbcType=INTEGER}, #{severeHeadache,jdbcType=INTEGER}, 
+      #{consciousness,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal" >
+    insert into doc_post_follow_spinal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="spinalFollowId != null" >
+        spinalFollowId,
+      </if>
+      <if test="postFollowId != null" >
+        postFollowId,
+      </if>
+      <if test="observeTime != null" >
+        observeTime,
+      </if>
+      <if test="lumbago != null" >
+        lumbago,
+      </if>
+      <if test="nausea != null" >
+        nausea,
+      </if>
+      <if test="vomit != null" >
+        vomit,
+      </if>
+      <if test="limbsFeelImp != null" >
+        limbsFeelImp,
+      </if>
+      <if test="limbsMoveImp != null" >
+        limbsMoveImp,
+      </if>
+      <if test="cognitObstacle != null" >
+        cognitObstacle,
+      </if>
+      <if test="vistorId != null" >
+        vistorId,
+      </if>
+      <if test="leftLimbsFeelImp != null" >
+        leftLimbsFeelImp,
+      </if>
+      <if test="rightLimbsFeelImp != null" >
+        rightLimbsFeelImp,
+      </if>
+      <if test="leftMoveFeelImp != null" >
+        leftMoveFeelImp,
+      </if>
+      <if test="rightMoveFeelImp != null" >
+        rightMoveFeelImp,
+      </if>
+      <if test="severeHeadache != null" >
+        severeHeadache,
+      </if>
+      <if test="consciousness != null" >
+        consciousness,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="spinalFollowId != null" >
+        #{spinalFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="postFollowId != null" >
+        #{postFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="observeTime != null" >
+        #{observeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lumbago != null" >
+        #{lumbago,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="vomit != null" >
+        #{vomit,jdbcType=INTEGER},
+      </if>
+      <if test="limbsFeelImp != null" >
+        #{limbsFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="limbsMoveImp != null" >
+        #{limbsMoveImp,jdbcType=INTEGER},
+      </if>
+      <if test="cognitObstacle != null" >
+        #{cognitObstacle,jdbcType=INTEGER},
+      </if>
+      <if test="vistorId != null" >
+        #{vistorId,jdbcType=VARCHAR},
+      </if>
+      <if test="leftLimbsFeelImp != null" >
+        #{leftLimbsFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="rightLimbsFeelImp != null" >
+        #{rightLimbsFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="leftMoveFeelImp != null" >
+        #{leftMoveFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="rightMoveFeelImp != null" >
+        #{rightMoveFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="severeHeadache != null" >
+        #{severeHeadache,jdbcType=INTEGER},
+      </if>
+      <if test="consciousness != null" >
+        #{consciousness,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal" >
+    update doc_post_follow_spinal
+    <set >
+      <if test="postFollowId != null" >
+        postFollowId = #{postFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="observeTime != null" >
+        observeTime = #{observeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lumbago != null" >
+        lumbago = #{lumbago,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        nausea = #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="vomit != null" >
+        vomit = #{vomit,jdbcType=INTEGER},
+      </if>
+      <if test="limbsFeelImp != null" >
+        limbsFeelImp = #{limbsFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="limbsMoveImp != null" >
+        limbsMoveImp = #{limbsMoveImp,jdbcType=INTEGER},
+      </if>
+      <if test="cognitObstacle != null" >
+        cognitObstacle = #{cognitObstacle,jdbcType=INTEGER},
+      </if>
+      <if test="vistorId != null" >
+        vistorId = #{vistorId,jdbcType=VARCHAR},
+      </if>
+      <if test="leftLimbsFeelImp != null" >
+        leftLimbsFeelImp = #{leftLimbsFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="rightLimbsFeelImp != null" >
+        rightLimbsFeelImp = #{rightLimbsFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="leftMoveFeelImp != null" >
+        leftMoveFeelImp = #{leftMoveFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="rightMoveFeelImp != null" >
+        rightMoveFeelImp = #{rightMoveFeelImp,jdbcType=INTEGER},
+      </if>
+      <if test="severeHeadache != null" >
+        severeHeadache = #{severeHeadache,jdbcType=INTEGER},
+      </if>
+      <if test="consciousness != null" >
+        consciousness = #{consciousness,jdbcType=INTEGER},
+      </if>
+    </set>
+    where spinalFollowId = #{spinalFollowId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal" >
+    update doc_post_follow_spinal
+    set postFollowId = #{postFollowId,jdbcType=VARCHAR},
+      observeTime = #{observeTime,jdbcType=TIMESTAMP},
+      lumbago = #{lumbago,jdbcType=INTEGER},
+      nausea = #{nausea,jdbcType=INTEGER},
+      vomit = #{vomit,jdbcType=INTEGER},
+      limbsFeelImp = #{limbsFeelImp,jdbcType=INTEGER},
+      limbsMoveImp = #{limbsMoveImp,jdbcType=INTEGER},
+      cognitObstacle = #{cognitObstacle,jdbcType=INTEGER},
+      vistorId = #{vistorId,jdbcType=VARCHAR},
+      leftLimbsFeelImp = #{leftLimbsFeelImp,jdbcType=INTEGER},
+      rightLimbsFeelImp = #{rightLimbsFeelImp,jdbcType=INTEGER},
+      leftMoveFeelImp = #{leftMoveFeelImp,jdbcType=INTEGER},
+      rightMoveFeelImp = #{rightMoveFeelImp,jdbcType=INTEGER},
+      severeHeadache = #{severeHeadache,jdbcType=INTEGER},
+      consciousness = #{consciousness,jdbcType=INTEGER}
+    where spinalFollowId = #{spinalFollowId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

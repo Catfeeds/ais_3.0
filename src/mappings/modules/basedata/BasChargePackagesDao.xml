@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasChargePackagesDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasChargePackages" >
+    <id column="chargePkgId" property="chargePkgId" jdbcType="VARCHAR" />
+    <result column="chargePackagesCode" property="chargePackagesCode" jdbcType="VARCHAR" />
+    <result column="chargePackagesName" property="chargePackagesName" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    chargePkgId, chargePackagesCode, chargePackagesName, pinYin, type, enable, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_charge_packages
+    where chargePkgId = #{chargePkgId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_charge_packages
+    where chargePkgId = #{chargePkgId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasChargePackages" >
+    insert into bas_charge_packages (chargePkgId, chargePackagesCode, 
+      chargePackagesName, pinYin, type, 
+      enable, beid)
+    values (#{chargePkgId,jdbcType=VARCHAR}, #{chargePackagesCode,jdbcType=VARCHAR}, 
+      #{chargePackagesName,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasChargePackages" >
+    insert into bas_charge_packages
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chargePkgId != null" >
+        chargePkgId,
+      </if>
+      <if test="chargePackagesCode != null" >
+        chargePackagesCode,
+      </if>
+      <if test="chargePackagesName != null" >
+        chargePackagesName,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chargePkgId != null" >
+        #{chargePkgId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePackagesCode != null" >
+        #{chargePackagesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePackagesName != null" >
+        #{chargePackagesName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasChargePackages" >
+    update bas_charge_packages
+    <set >
+      <if test="chargePackagesCode != null" >
+        chargePackagesCode = #{chargePackagesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePackagesName != null" >
+        chargePackagesName = #{chargePackagesName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where chargePkgId = #{chargePkgId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasChargePackages" >
+    update bas_charge_packages
+    set chargePackagesCode = #{chargePackagesCode,jdbcType=VARCHAR},
+      chargePackagesName = #{chargePackagesName,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where chargePkgId = #{chargePkgId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="searchChargePackagesOrderId" resultType="com.digihealth.anesthesia.basedata.po.BasChargePackages">
+	SELECT DISTINCT * FROM bas_charge_packages  where beid = #{beid,jdbcType=VARCHAR} order by chargePkgId DESC
+	</select>
+	
+	<select id="queryChargePackagesList"
+		resultType="com.digihealth.anesthesia.basedata.po.BasChargePackages">
+		SELECT * FROM bas_charge_packages where 1=1 and beid = #{systemSearchFormBean.beid,jdbcType=VARCHAR} ${filter}
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		<if
+			test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+			limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		</if>
+	</select>
+	
+	<select id="queryChargePackagesListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_charge_packages where 1=1 and beid = #{systemSearchFormBean.beid,jdbcType=VARCHAR} ${filter}
+	</select>
+	
+	<select id="searchChargePackagesById"
+		resultType="com.digihealth.anesthesia.basedata.po.BasChargePackages">
+		select * from bas_charge_packages where chargePkgId = #{chargePkgId}
+	</select>
+
+</mapper>

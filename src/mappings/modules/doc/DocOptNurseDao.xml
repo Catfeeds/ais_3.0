@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocOptNurseDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocOptNurse" >
+    <id column="optNurseId" property="optNurseId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="specimenName" property="specimenName" jdbcType="VARCHAR" />
+    <result column="infusion" property="infusion" jdbcType="INTEGER" />
+    <result column="bleeding" property="bleeding" jdbcType="INTEGER" />
+    <result column="urine" property="urine" jdbcType="INTEGER" />
+    <result column="bloodType" property="bloodType" jdbcType="VARCHAR" />
+    <result column="bloodComponents" property="bloodComponents" jdbcType="VARCHAR" />
+    <result column="blood" property="blood" jdbcType="INTEGER" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+    <result column="instrnuseId" property="instrnuseId" jdbcType="VARCHAR" />
+    <result column="circunurseId" property="circunurseId" jdbcType="VARCHAR" />
+    <result column="doctorConfirm" property="doctorConfirm" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="inOperRoomTime" property="inOperRoomTime" jdbcType="TIMESTAMP" />
+    <result column="outOperRoomTime" property="outOperRoomTime" jdbcType="TIMESTAMP" />
+    <result column="asepticPackage" property="asepticPackage" jdbcType="INTEGER" />
+    <result column="bagChemistry" property="bagChemistry" jdbcType="INTEGER" />
+    <result column="implant" property="implant" jdbcType="INTEGER" />
+    <result column="biologicalMonitor" property="biologicalMonitor" jdbcType="INTEGER" />
+    <result column="excepCase" property="excepCase" jdbcType="VARCHAR" />
+    <result column="preInstrnurseId" property="preInstrnurseId" jdbcType="VARCHAR" />
+    <result column="postInstrnurseId" property="postInstrnurseId" jdbcType="VARCHAR" />
+    <result column="midInstrnurseId" property="midInstrnurseId" jdbcType="VARCHAR" />
+    <result column="preCircunurseId" property="preCircunurseId" jdbcType="VARCHAR" />
+    <result column="postCircunurseId" property="postCircunurseId" jdbcType="VARCHAR" />
+    <result column="midCircunurseId" property="midCircunurseId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    optNurseId, regOptId, specimenName, infusion, bleeding, urine, bloodType, bloodComponents, 
+    blood, operatorId, operatorName, instrnuseId, circunurseId, doctorConfirm, processState, 
+    inOperRoomTime, outOperRoomTime, asepticPackage, bagChemistry, implant, biologicalMonitor, 
+    excepCase, preInstrnurseId, postInstrnurseId, midInstrnurseId, preCircunurseId, postCircunurseId, 
+    midCircunurseId
+  </sql>
+
+	<select id="searchOptNurseByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocOptNurse">
+		SELECT DISTINCT * FROM doc_opt_nurse d WHERE d.regOptId = #{regOptId}
+	</select>
+	
+	<select id="searchOptNurseById" resultType="com.digihealth.anesthesia.doc.po.DocOptNurse">
+		SELECT DISTINCT * FROM doc_opt_nurse d WHERE d.optNurseId = #{id}
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_opt_nurse
+    where optNurseId = #{optNurseId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_opt_nurse
+    where optNurseId = #{optNurseId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurse" >
+    insert into doc_opt_nurse (optNurseId, regOptId, specimenName, 
+      infusion, bleeding, urine, 
+      bloodType, bloodComponents, blood, 
+      operatorId, operatorName, instrnuseId, 
+      circunurseId, doctorConfirm, processState, 
+      inOperRoomTime, outOperRoomTime, asepticPackage, 
+      bagChemistry, implant, biologicalMonitor, 
+      excepCase, preInstrnurseId, postInstrnurseId, 
+      midInstrnurseId, preCircunurseId, postCircunurseId, 
+      midCircunurseId)
+    values (#{optNurseId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{specimenName,jdbcType=VARCHAR}, 
+      #{infusion,jdbcType=INTEGER}, #{bleeding,jdbcType=INTEGER}, #{urine,jdbcType=INTEGER}, 
+      #{bloodType,jdbcType=VARCHAR}, #{bloodComponents,jdbcType=VARCHAR}, #{blood,jdbcType=INTEGER}, 
+      #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{instrnuseId,jdbcType=VARCHAR}, 
+      #{circunurseId,jdbcType=VARCHAR}, #{doctorConfirm,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{inOperRoomTime,jdbcType=TIMESTAMP}, #{outOperRoomTime,jdbcType=TIMESTAMP}, #{asepticPackage,jdbcType=INTEGER}, 
+      #{bagChemistry,jdbcType=INTEGER}, #{implant,jdbcType=INTEGER}, #{biologicalMonitor,jdbcType=INTEGER}, 
+      #{excepCase,jdbcType=VARCHAR}, #{preInstrnurseId,jdbcType=VARCHAR}, #{postInstrnurseId,jdbcType=VARCHAR}, 
+      #{midInstrnurseId,jdbcType=VARCHAR}, #{preCircunurseId,jdbcType=VARCHAR}, #{postCircunurseId,jdbcType=VARCHAR}, 
+      #{midCircunurseId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurse" >
+    insert into doc_opt_nurse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="optNurseId != null" >
+        optNurseId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="specimenName != null" >
+        specimenName,
+      </if>
+      <if test="infusion != null" >
+        infusion,
+      </if>
+      <if test="bleeding != null" >
+        bleeding,
+      </if>
+      <if test="urine != null" >
+        urine,
+      </if>
+      <if test="bloodType != null" >
+        bloodType,
+      </if>
+      <if test="bloodComponents != null" >
+        bloodComponents,
+      </if>
+      <if test="blood != null" >
+        blood,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="operatorName != null" >
+        operatorName,
+      </if>
+      <if test="instrnuseId != null" >
+        instrnuseId,
+      </if>
+      <if test="circunurseId != null" >
+        circunurseId,
+      </if>
+      <if test="doctorConfirm != null" >
+        doctorConfirm,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime,
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime,
+      </if>
+      <if test="asepticPackage != null" >
+        asepticPackage,
+      </if>
+      <if test="bagChemistry != null" >
+        bagChemistry,
+      </if>
+      <if test="implant != null" >
+        implant,
+      </if>
+      <if test="biologicalMonitor != null" >
+        biologicalMonitor,
+      </if>
+      <if test="excepCase != null" >
+        excepCase,
+      </if>
+      <if test="preInstrnurseId != null" >
+        preInstrnurseId,
+      </if>
+      <if test="postInstrnurseId != null" >
+        postInstrnurseId,
+      </if>
+      <if test="midInstrnurseId != null" >
+        midInstrnurseId,
+      </if>
+      <if test="preCircunurseId != null" >
+        preCircunurseId,
+      </if>
+      <if test="postCircunurseId != null" >
+        postCircunurseId,
+      </if>
+      <if test="midCircunurseId != null" >
+        midCircunurseId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="optNurseId != null" >
+        #{optNurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="specimenName != null" >
+        #{specimenName,jdbcType=VARCHAR},
+      </if>
+      <if test="infusion != null" >
+        #{infusion,jdbcType=INTEGER},
+      </if>
+      <if test="bleeding != null" >
+        #{bleeding,jdbcType=INTEGER},
+      </if>
+      <if test="urine != null" >
+        #{urine,jdbcType=INTEGER},
+      </if>
+      <if test="bloodType != null" >
+        #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodComponents != null" >
+        #{bloodComponents,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        #{blood,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnuseId != null" >
+        #{instrnuseId,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId != null" >
+        #{circunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorConfirm != null" >
+        #{doctorConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="inOperRoomTime != null" >
+        #{inOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outOperRoomTime != null" >
+        #{outOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asepticPackage != null" >
+        #{asepticPackage,jdbcType=INTEGER},
+      </if>
+      <if test="bagChemistry != null" >
+        #{bagChemistry,jdbcType=INTEGER},
+      </if>
+      <if test="implant != null" >
+        #{implant,jdbcType=INTEGER},
+      </if>
+      <if test="biologicalMonitor != null" >
+        #{biologicalMonitor,jdbcType=INTEGER},
+      </if>
+      <if test="excepCase != null" >
+        #{excepCase,jdbcType=VARCHAR},
+      </if>
+      <if test="preInstrnurseId != null" >
+        #{preInstrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="postInstrnurseId != null" >
+        #{postInstrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="midInstrnurseId != null" >
+        #{midInstrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="preCircunurseId != null" >
+        #{preCircunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="postCircunurseId != null" >
+        #{postCircunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="midCircunurseId != null" >
+        #{midCircunurseId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurse" >
+    update doc_opt_nurse
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="specimenName != null" >
+        specimenName = #{specimenName,jdbcType=VARCHAR},
+      </if>
+      <if test="infusion != null" >
+        infusion = #{infusion,jdbcType=INTEGER},
+      </if>
+      <if test="bleeding != null" >
+        bleeding = #{bleeding,jdbcType=INTEGER},
+      </if>
+      <if test="urine != null" >
+        urine = #{urine,jdbcType=INTEGER},
+      </if>
+      <if test="bloodType != null" >
+        bloodType = #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodComponents != null" >
+        bloodComponents = #{bloodComponents,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        blood = #{blood,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        operatorName = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnuseId != null" >
+        instrnuseId = #{instrnuseId,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId != null" >
+        circunurseId = #{circunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorConfirm != null" >
+        doctorConfirm = #{doctorConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime = #{inOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime = #{outOperRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asepticPackage != null" >
+        asepticPackage = #{asepticPackage,jdbcType=INTEGER},
+      </if>
+      <if test="bagChemistry != null" >
+        bagChemistry = #{bagChemistry,jdbcType=INTEGER},
+      </if>
+      <if test="implant != null" >
+        implant = #{implant,jdbcType=INTEGER},
+      </if>
+      <if test="biologicalMonitor != null" >
+        biologicalMonitor = #{biologicalMonitor,jdbcType=INTEGER},
+      </if>
+      <if test="excepCase != null" >
+        excepCase = #{excepCase,jdbcType=VARCHAR},
+      </if>
+      <if test="preInstrnurseId != null" >
+        preInstrnurseId = #{preInstrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="postInstrnurseId != null" >
+        postInstrnurseId = #{postInstrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="midInstrnurseId != null" >
+        midInstrnurseId = #{midInstrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="preCircunurseId != null" >
+        preCircunurseId = #{preCircunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="postCircunurseId != null" >
+        postCircunurseId = #{postCircunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="midCircunurseId != null" >
+        midCircunurseId = #{midCircunurseId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where optNurseId = #{optNurseId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurse" >
+    update doc_opt_nurse
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      specimenName = #{specimenName,jdbcType=VARCHAR},
+      infusion = #{infusion,jdbcType=INTEGER},
+      bleeding = #{bleeding,jdbcType=INTEGER},
+      urine = #{urine,jdbcType=INTEGER},
+      bloodType = #{bloodType,jdbcType=VARCHAR},
+      bloodComponents = #{bloodComponents,jdbcType=VARCHAR},
+      blood = #{blood,jdbcType=INTEGER},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      operatorName = #{operatorName,jdbcType=VARCHAR},
+      instrnuseId = #{instrnuseId,jdbcType=VARCHAR},
+      circunurseId = #{circunurseId,jdbcType=VARCHAR},
+      doctorConfirm = #{doctorConfirm,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      inOperRoomTime = #{inOperRoomTime,jdbcType=TIMESTAMP},
+      outOperRoomTime = #{outOperRoomTime,jdbcType=TIMESTAMP},
+      asepticPackage = #{asepticPackage,jdbcType=INTEGER},
+      bagChemistry = #{bagChemistry,jdbcType=INTEGER},
+      implant = #{implant,jdbcType=INTEGER},
+      biologicalMonitor = #{biologicalMonitor,jdbcType=INTEGER},
+      excepCase = #{excepCase,jdbcType=VARCHAR},
+      preInstrnurseId = #{preInstrnurseId,jdbcType=VARCHAR},
+      postInstrnurseId = #{postInstrnurseId,jdbcType=VARCHAR},
+      midInstrnurseId = #{midInstrnurseId,jdbcType=VARCHAR},
+      preCircunurseId = #{preCircunurseId,jdbcType=VARCHAR},
+      postCircunurseId = #{postCircunurseId,jdbcType=VARCHAR},
+      midCircunurseId = #{midCircunurseId,jdbcType=VARCHAR}
+    where optNurseId = #{optNurseId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

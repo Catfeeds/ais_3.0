@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesPacuObserveRecDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesPacuObserveRec" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pacuRecId" property="pacuRecId" jdbcType="VARCHAR" />
+    <result column="hr" property="hr" jdbcType="REAL" />
+    <result column="r" property="r" jdbcType="REAL" />
+    <result column="bp" property="bp" jdbcType="REAL" />
+    <result column="spo2" property="spo2" jdbcType="REAL" />
+    <result column="oxInhalMeth" property="oxInhalMeth" jdbcType="INTEGER" />
+    <result column="oxFlow" property="oxFlow" jdbcType="REAL" />
+    <result column="consLev" property="consLev" jdbcType="INTEGER" />
+    <result column="airwayPatency" property="airwayPatency" jdbcType="INTEGER" />
+    <result column="physicalActivity" property="physicalActivity" jdbcType="INTEGER" />
+    <result column="fluidInfusion" property="fluidInfusion" jdbcType="INTEGER" />
+    <result column="catheter" property="catheter" jdbcType="INTEGER" />
+    <result column="upd" property="upd" jdbcType="REAL" />
+    <result column="urineCharac" property="urineCharac" jdbcType="VARCHAR" />
+    <result column="cryingDegree" property="cryingDegree" jdbcType="INTEGER" />
+    <result column="nauseaVomit" property="nauseaVomit" jdbcType="INTEGER" />
+    <result column="shivering" property="shivering" jdbcType="INTEGER" />
+    <result column="painScore" property="painScore" jdbcType="INTEGER" />
+    <result column="woundCondition" property="woundCondition" jdbcType="VARCHAR" />
+    <result column="drainageCharac" property="drainageCharac" jdbcType="VARCHAR" />
+    <result column="drainageFlow" property="drainageFlow" jdbcType="REAL" />
+    <result column="obserRec" property="obserRec" jdbcType="VARCHAR" />
+    <result column="medType" property="medType" jdbcType="INTEGER" />
+    <result column="medId" property="medId" jdbcType="VARCHAR" />
+    <result column="medName" property="medName" jdbcType="VARCHAR" />
+    <result column="medFlow" property="medFlow" jdbcType="REAL" />
+    <result column="medUnit" property="medUnit" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="TIMESTAMP" />
+    <result column="hypertension" property="hypertension" jdbcType="REAL" />
+    <result column="hypopiesia" property="hypopiesia" jdbcType="REAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, pacuRecId, hr, r, bp, spo2, oxInhalMeth, oxFlow, consLev, airwayPatency, physicalActivity, 
+    fluidInfusion, catheter, upd, urineCharac, cryingDegree, nauseaVomit, shivering, 
+    painScore, woundCondition, drainageCharac, drainageFlow, obserRec, medType, medId, 
+    medName, medFlow, medUnit, sign, recordTime, hypertension, hypopiesia
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_pacu_observe_rec
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_pacu_observe_rec
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuObserveRec" >
+    insert into doc_anaes_pacu_observe_rec (id, pacuRecId, hr, 
+      r, bp, spo2, oxInhalMeth, 
+      oxFlow, consLev, airwayPatency, 
+      physicalActivity, fluidInfusion, catheter, 
+      upd, urineCharac, cryingDegree, 
+      nauseaVomit, shivering, painScore, 
+      woundCondition, drainageCharac, drainageFlow, 
+      obserRec, medType, medId, 
+      medName, medFlow, medUnit, 
+      sign, recordTime, hypertension, 
+      hypopiesia)
+    values (#{id,jdbcType=VARCHAR}, #{pacuRecId,jdbcType=VARCHAR}, #{hr,jdbcType=REAL}, 
+      #{r,jdbcType=REAL}, #{bp,jdbcType=REAL}, #{spo2,jdbcType=REAL}, #{oxInhalMeth,jdbcType=INTEGER}, 
+      #{oxFlow,jdbcType=REAL}, #{consLev,jdbcType=INTEGER}, #{airwayPatency,jdbcType=INTEGER}, 
+      #{physicalActivity,jdbcType=INTEGER}, #{fluidInfusion,jdbcType=INTEGER}, #{catheter,jdbcType=INTEGER}, 
+      #{upd,jdbcType=REAL}, #{urineCharac,jdbcType=VARCHAR}, #{cryingDegree,jdbcType=INTEGER}, 
+      #{nauseaVomit,jdbcType=INTEGER}, #{shivering,jdbcType=INTEGER}, #{painScore,jdbcType=INTEGER}, 
+      #{woundCondition,jdbcType=VARCHAR}, #{drainageCharac,jdbcType=VARCHAR}, #{drainageFlow,jdbcType=REAL}, 
+      #{obserRec,jdbcType=VARCHAR}, #{medType,jdbcType=INTEGER}, #{medId,jdbcType=VARCHAR}, 
+      #{medName,jdbcType=VARCHAR}, #{medFlow,jdbcType=REAL}, #{medUnit,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=VARCHAR}, #{recordTime,jdbcType=TIMESTAMP}, #{hypertension,jdbcType=REAL}, 
+      #{hypopiesia,jdbcType=REAL})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuObserveRec" >
+    insert into doc_anaes_pacu_observe_rec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pacuRecId != null" >
+        pacuRecId,
+      </if>
+      <if test="hr != null" >
+        hr,
+      </if>
+      <if test="r != null" >
+        r,
+      </if>
+      <if test="bp != null" >
+        bp,
+      </if>
+      <if test="spo2 != null" >
+        spo2,
+      </if>
+      <if test="oxInhalMeth != null" >
+        oxInhalMeth,
+      </if>
+      <if test="oxFlow != null" >
+        oxFlow,
+      </if>
+      <if test="consLev != null" >
+        consLev,
+      </if>
+      <if test="airwayPatency != null" >
+        airwayPatency,
+      </if>
+      <if test="physicalActivity != null" >
+        physicalActivity,
+      </if>
+      <if test="fluidInfusion != null" >
+        fluidInfusion,
+      </if>
+      <if test="catheter != null" >
+        catheter,
+      </if>
+      <if test="upd != null" >
+        upd,
+      </if>
+      <if test="urineCharac != null" >
+        urineCharac,
+      </if>
+      <if test="cryingDegree != null" >
+        cryingDegree,
+      </if>
+      <if test="nauseaVomit != null" >
+        nauseaVomit,
+      </if>
+      <if test="shivering != null" >
+        shivering,
+      </if>
+      <if test="painScore != null" >
+        painScore,
+      </if>
+      <if test="woundCondition != null" >
+        woundCondition,
+      </if>
+      <if test="drainageCharac != null" >
+        drainageCharac,
+      </if>
+      <if test="drainageFlow != null" >
+        drainageFlow,
+      </if>
+      <if test="obserRec != null" >
+        obserRec,
+      </if>
+      <if test="medType != null" >
+        medType,
+      </if>
+      <if test="medId != null" >
+        medId,
+      </if>
+      <if test="medName != null" >
+        medName,
+      </if>
+      <if test="medFlow != null" >
+        medFlow,
+      </if>
+      <if test="medUnit != null" >
+        medUnit,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="recordTime != null" >
+        recordTime,
+      </if>
+      <if test="hypertension != null" >
+        hypertension,
+      </if>
+      <if test="hypopiesia != null" >
+        hypopiesia,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pacuRecId != null" >
+        #{pacuRecId,jdbcType=VARCHAR},
+      </if>
+      <if test="hr != null" >
+        #{hr,jdbcType=REAL},
+      </if>
+      <if test="r != null" >
+        #{r,jdbcType=REAL},
+      </if>
+      <if test="bp != null" >
+        #{bp,jdbcType=REAL},
+      </if>
+      <if test="spo2 != null" >
+        #{spo2,jdbcType=REAL},
+      </if>
+      <if test="oxInhalMeth != null" >
+        #{oxInhalMeth,jdbcType=INTEGER},
+      </if>
+      <if test="oxFlow != null" >
+        #{oxFlow,jdbcType=REAL},
+      </if>
+      <if test="consLev != null" >
+        #{consLev,jdbcType=INTEGER},
+      </if>
+      <if test="airwayPatency != null" >
+        #{airwayPatency,jdbcType=INTEGER},
+      </if>
+      <if test="physicalActivity != null" >
+        #{physicalActivity,jdbcType=INTEGER},
+      </if>
+      <if test="fluidInfusion != null" >
+        #{fluidInfusion,jdbcType=INTEGER},
+      </if>
+      <if test="catheter != null" >
+        #{catheter,jdbcType=INTEGER},
+      </if>
+      <if test="upd != null" >
+        #{upd,jdbcType=REAL},
+      </if>
+      <if test="urineCharac != null" >
+        #{urineCharac,jdbcType=VARCHAR},
+      </if>
+      <if test="cryingDegree != null" >
+        #{cryingDegree,jdbcType=INTEGER},
+      </if>
+      <if test="nauseaVomit != null" >
+        #{nauseaVomit,jdbcType=INTEGER},
+      </if>
+      <if test="shivering != null" >
+        #{shivering,jdbcType=INTEGER},
+      </if>
+      <if test="painScore != null" >
+        #{painScore,jdbcType=INTEGER},
+      </if>
+      <if test="woundCondition != null" >
+        #{woundCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="drainageCharac != null" >
+        #{drainageCharac,jdbcType=VARCHAR},
+      </if>
+      <if test="drainageFlow != null" >
+        #{drainageFlow,jdbcType=REAL},
+      </if>
+      <if test="obserRec != null" >
+        #{obserRec,jdbcType=VARCHAR},
+      </if>
+      <if test="medType != null" >
+        #{medType,jdbcType=INTEGER},
+      </if>
+      <if test="medId != null" >
+        #{medId,jdbcType=VARCHAR},
+      </if>
+      <if test="medName != null" >
+        #{medName,jdbcType=VARCHAR},
+      </if>
+      <if test="medFlow != null" >
+        #{medFlow,jdbcType=REAL},
+      </if>
+      <if test="medUnit != null" >
+        #{medUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hypertension != null" >
+        #{hypertension,jdbcType=REAL},
+      </if>
+      <if test="hypopiesia != null" >
+        #{hypopiesia,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuObserveRec" >
+    update doc_anaes_pacu_observe_rec
+    <set >
+      <if test="pacuRecId != null" >
+        pacuRecId = #{pacuRecId,jdbcType=VARCHAR},
+      </if>
+      <if test="hr != null" >
+        hr = #{hr,jdbcType=REAL},
+      </if>
+      <if test="r != null" >
+        r = #{r,jdbcType=REAL},
+      </if>
+      <if test="bp != null" >
+        bp = #{bp,jdbcType=REAL},
+      </if>
+      <if test="spo2 != null" >
+        spo2 = #{spo2,jdbcType=REAL},
+      </if>
+      <if test="oxInhalMeth != null" >
+        oxInhalMeth = #{oxInhalMeth,jdbcType=INTEGER},
+      </if>
+      <if test="oxFlow != null" >
+        oxFlow = #{oxFlow,jdbcType=REAL},
+      </if>
+      <if test="consLev != null" >
+        consLev = #{consLev,jdbcType=INTEGER},
+      </if>
+      <if test="airwayPatency != null" >
+        airwayPatency = #{airwayPatency,jdbcType=INTEGER},
+      </if>
+      <if test="physicalActivity != null" >
+        physicalActivity = #{physicalActivity,jdbcType=INTEGER},
+      </if>
+      <if test="fluidInfusion != null" >
+        fluidInfusion = #{fluidInfusion,jdbcType=INTEGER},
+      </if>
+      <if test="catheter != null" >
+        catheter = #{catheter,jdbcType=INTEGER},
+      </if>
+      <if test="upd != null" >
+        upd = #{upd,jdbcType=REAL},
+      </if>
+      <if test="urineCharac != null" >
+        urineCharac = #{urineCharac,jdbcType=VARCHAR},
+      </if>
+      <if test="cryingDegree != null" >
+        cryingDegree = #{cryingDegree,jdbcType=INTEGER},
+      </if>
+      <if test="nauseaVomit != null" >
+        nauseaVomit = #{nauseaVomit,jdbcType=INTEGER},
+      </if>
+      <if test="shivering != null" >
+        shivering = #{shivering,jdbcType=INTEGER},
+      </if>
+      <if test="painScore != null" >
+        painScore = #{painScore,jdbcType=INTEGER},
+      </if>
+      <if test="woundCondition != null" >
+        woundCondition = #{woundCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="drainageCharac != null" >
+        drainageCharac = #{drainageCharac,jdbcType=VARCHAR},
+      </if>
+      <if test="drainageFlow != null" >
+        drainageFlow = #{drainageFlow,jdbcType=REAL},
+      </if>
+      <if test="obserRec != null" >
+        obserRec = #{obserRec,jdbcType=VARCHAR},
+      </if>
+      <if test="medType != null" >
+        medType = #{medType,jdbcType=INTEGER},
+      </if>
+      <if test="medId != null" >
+        medId = #{medId,jdbcType=VARCHAR},
+      </if>
+      <if test="medName != null" >
+        medName = #{medName,jdbcType=VARCHAR},
+      </if>
+      <if test="medFlow != null" >
+        medFlow = #{medFlow,jdbcType=REAL},
+      </if>
+      <if test="medUnit != null" >
+        medUnit = #{medUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        recordTime = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hypertension != null" >
+        hypertension = #{hypertension,jdbcType=REAL},
+      </if>
+      <if test="hypopiesia != null" >
+        hypopiesia = #{hypopiesia,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuObserveRec" >
+    update doc_anaes_pacu_observe_rec
+    set pacuRecId = #{pacuRecId,jdbcType=VARCHAR},
+      hr = #{hr,jdbcType=REAL},
+      r = #{r,jdbcType=REAL},
+      bp = #{bp,jdbcType=REAL},
+      spo2 = #{spo2,jdbcType=REAL},
+      oxInhalMeth = #{oxInhalMeth,jdbcType=INTEGER},
+      oxFlow = #{oxFlow,jdbcType=REAL},
+      consLev = #{consLev,jdbcType=INTEGER},
+      airwayPatency = #{airwayPatency,jdbcType=INTEGER},
+      physicalActivity = #{physicalActivity,jdbcType=INTEGER},
+      fluidInfusion = #{fluidInfusion,jdbcType=INTEGER},
+      catheter = #{catheter,jdbcType=INTEGER},
+      upd = #{upd,jdbcType=REAL},
+      urineCharac = #{urineCharac,jdbcType=VARCHAR},
+      cryingDegree = #{cryingDegree,jdbcType=INTEGER},
+      nauseaVomit = #{nauseaVomit,jdbcType=INTEGER},
+      shivering = #{shivering,jdbcType=INTEGER},
+      painScore = #{painScore,jdbcType=INTEGER},
+      woundCondition = #{woundCondition,jdbcType=VARCHAR},
+      drainageCharac = #{drainageCharac,jdbcType=VARCHAR},
+      drainageFlow = #{drainageFlow,jdbcType=REAL},
+      obserRec = #{obserRec,jdbcType=VARCHAR},
+      medType = #{medType,jdbcType=INTEGER},
+      medId = #{medId,jdbcType=VARCHAR},
+      medName = #{medName,jdbcType=VARCHAR},
+      medFlow = #{medFlow,jdbcType=REAL},
+      medUnit = #{medUnit,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      recordTime = #{recordTime,jdbcType=TIMESTAMP},
+      hypertension = #{hypertension,jdbcType=REAL},
+      hypopiesia = #{hypopiesia,jdbcType=REAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPacuRecId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_pacu_observe_rec
+    where 1 = 1
+    <if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+				</if>
+			</foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+  </select>
+  
+  <select id="selectPacuObByPacuRecId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_pacu_observe_rec
+    where 1 = 1 and pacuRecId = #{pacuRecId}
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+  </select>
+  
+  <select id="getObserveRecordByTime" resultType="com.digihealth.anesthesia.doc.po.DocAnaesPacuObserveRec">
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_pacu_observe_rec
+    where pacuRecId = #{pacuRecId,jdbcType=VARCHAR} and recordTime = #{recordTime,jdbcType=TIMESTAMP}
+  </select>
+
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasRowStyleDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasRowStyle" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="rowNum" property="rowNum" jdbcType="INTEGER" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, type, rowNum, style, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_row_style
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_row_style
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRowStyle" >
+    insert into bas_row_style (id, type, rowNum, 
+      style, beid)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{rowNum,jdbcType=INTEGER}, 
+      #{style,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRowStyle" >
+    insert into bas_row_style
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="rowNum != null" >
+        rowNum,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="rowNum != null" >
+        #{rowNum,jdbcType=INTEGER},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRowStyle" >
+    update bas_row_style
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="rowNum != null" >
+        rowNum = #{rowNum,jdbcType=INTEGER},
+      </if>
+      <if test="style != null" >
+        style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasRowStyle" >
+    update bas_row_style
+    set type = #{type,jdbcType=INTEGER},
+      rowNum = #{rowNum,jdbcType=INTEGER},
+      style = #{style,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getRowStyleByRowNum" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasRowStyle" >
+    select * from bas_row_style
+    where type = #{type,jdbcType=INTEGER} 
+    and rowNum = #{rowNum,jdbcType=INTEGER}
+    and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+
+<select id="findList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+     *
+    from b_row_style
+    where type = #{type,jdbcType=INTEGER}
+    and beid = #{beid,jdbcType=VARCHAR}
+    order by rowNum asc
+  </select>
+
+</mapper>

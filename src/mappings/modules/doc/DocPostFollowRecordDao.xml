@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPostFollowRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" >
+    <id column="postFollowId" property="postFollowId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="bloodPressure" property="bloodPressure" jdbcType="VARCHAR" />
+    <result column="pulse" property="pulse" jdbcType="VARCHAR" />
+    <result column="generalExceptCase" property="generalExceptCase" jdbcType="VARCHAR" />
+    <result column="spinalExceptCase" property="spinalExceptCase" jdbcType="VARCHAR" />
+    <result column="analgesicExceptCase" property="analgesicExceptCase" jdbcType="VARCHAR" />
+    <result column="anesthetistId" property="anesthetistId" jdbcType="VARCHAR" />
+    <result column="secondIntubat" property="secondIntubat" jdbcType="INTEGER" />
+    <result column="intubatTime" property="intubatTime" jdbcType="TIMESTAMP" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="isDeath" property="isDeath" jdbcType="INTEGER" />
+    <result column="deathTime" property="deathTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    postFollowId, regOptId, bloodPressure, pulse, generalExceptCase, spinalExceptCase, 
+    analgesicExceptCase, anesthetistId, secondIntubat, intubatTime, processState, isDeath, 
+    deathTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_post_follow_record
+    where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="searchFollowRecordByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" parameterType="map" >
+    select a.*,b.name as anesName
+    from doc_post_follow_record a left join bas_user b on a.anesthetistId = b.userName
+    where a.regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_post_follow_record
+    where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" >
+    insert into doc_post_follow_record (postFollowId, regOptId, bloodPressure, 
+      pulse, generalExceptCase, spinalExceptCase, 
+      analgesicExceptCase, anesthetistId, secondIntubat, 
+      intubatTime, processState, isDeath, 
+      deathTime)
+    values (#{postFollowId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{bloodPressure,jdbcType=VARCHAR}, 
+      #{pulse,jdbcType=VARCHAR}, #{generalExceptCase,jdbcType=VARCHAR}, #{spinalExceptCase,jdbcType=VARCHAR}, 
+      #{analgesicExceptCase,jdbcType=VARCHAR}, #{anesthetistId,jdbcType=VARCHAR}, #{secondIntubat,jdbcType=INTEGER}, 
+      #{intubatTime,jdbcType=TIMESTAMP}, #{processState,jdbcType=VARCHAR}, #{isDeath,jdbcType=INTEGER}, 
+      #{deathTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" >
+    insert into doc_post_follow_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="postFollowId != null" >
+        postFollowId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="bloodPressure != null" >
+        bloodPressure,
+      </if>
+      <if test="pulse != null" >
+        pulse,
+      </if>
+      <if test="generalExceptCase != null" >
+        generalExceptCase,
+      </if>
+      <if test="spinalExceptCase != null" >
+        spinalExceptCase,
+      </if>
+      <if test="analgesicExceptCase != null" >
+        analgesicExceptCase,
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId,
+      </if>
+      <if test="secondIntubat != null" >
+        secondIntubat,
+      </if>
+      <if test="intubatTime != null" >
+        intubatTime,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="isDeath != null" >
+        isDeath,
+      </if>
+      <if test="deathTime != null" >
+        deathTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="postFollowId != null" >
+        #{postFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodPressure != null" >
+        #{bloodPressure,jdbcType=VARCHAR},
+      </if>
+      <if test="pulse != null" >
+        #{pulse,jdbcType=VARCHAR},
+      </if>
+      <if test="generalExceptCase != null" >
+        #{generalExceptCase,jdbcType=VARCHAR},
+      </if>
+      <if test="spinalExceptCase != null" >
+        #{spinalExceptCase,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicExceptCase != null" >
+        #{analgesicExceptCase,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="secondIntubat != null" >
+        #{secondIntubat,jdbcType=INTEGER},
+      </if>
+      <if test="intubatTime != null" >
+        #{intubatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeath != null" >
+        #{isDeath,jdbcType=INTEGER},
+      </if>
+      <if test="deathTime != null" >
+        #{deathTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" >
+    update doc_post_follow_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodPressure != null" >
+        bloodPressure = #{bloodPressure,jdbcType=VARCHAR},
+      </if>
+      <if test="pulse != null" >
+        pulse = #{pulse,jdbcType=VARCHAR},
+      </if>
+      <if test="generalExceptCase != null" >
+        generalExceptCase = #{generalExceptCase,jdbcType=VARCHAR},
+      </if>
+      <if test="spinalExceptCase != null" >
+        spinalExceptCase = #{spinalExceptCase,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicExceptCase != null" >
+        analgesicExceptCase = #{analgesicExceptCase,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistId != null" >
+        anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="secondIntubat != null" >
+        secondIntubat = #{secondIntubat,jdbcType=INTEGER},
+      </if>
+      <if test="intubatTime != null" >
+        intubatTime = #{intubatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeath != null" >
+        isDeath = #{isDeath,jdbcType=INTEGER},
+      </if>
+      <if test="deathTime != null" >
+        deathTime = #{deathTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" >
+    update doc_post_follow_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      bloodPressure = #{bloodPressure,jdbcType=VARCHAR},
+      pulse = #{pulse,jdbcType=VARCHAR},
+      generalExceptCase = #{generalExceptCase,jdbcType=VARCHAR},
+      spinalExceptCase = #{spinalExceptCase,jdbcType=VARCHAR},
+      analgesicExceptCase = #{analgesicExceptCase,jdbcType=VARCHAR},
+      anesthetistId = #{anesthetistId,jdbcType=VARCHAR},
+      secondIntubat = #{secondIntubat,jdbcType=INTEGER},
+      intubatTime = #{intubatTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR},
+      isDeath = #{isDeath,jdbcType=INTEGER},
+      deathTime = #{deathTime,jdbcType=TIMESTAMP}
+    where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

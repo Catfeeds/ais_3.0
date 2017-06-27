@@ -1,0 +1,1763 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digihealth.anesthesia.research.dao.StatisticsDao">
+   
+    <select id="statisAnaesOptNum" resultType="com.digihealth.anesthesia.research.formbean.StatisAnaesOptFormBean">
+		select count(distinct t.regOptId) as total,t2.anaMedId as
+		cate1,EXTRACT(YEAR FROM t3.anaesStartTime) as
+		anaesStartTime,extract(MONTH FROM t3.anaesStartTime) as
+		anaesEndTime,t3.anaesStartTime as time
+		from bas_reg_opt t,
+		evt_real_anaes_method t1,
+		bas_anaes_method t2,
+		doc_anaes_record t3
+		WHERE 1 =1
+		<if test="startTime != null and startTime != ''">
+			AND t3.anaesStartTime &gt;= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			AND t3.outOperRoomTime &lt;= #{endTime}
+		</if>
+		AND t.state in ('06','07')
+		and t.beid = #{beid}
+		and t.regOptId = t3.regOptId
+		and t3.anaRecordId = t1.docId
+		and t1.anaMedId = t2.anaMedId
+		group by t2.cate1,EXTRACT(YEAR FROM t3.anaesStartTime),extract(MONTH FROM
+		t3.anaesStartTime),t3.anaesStartTime
+	</select>
+    
+    <select id="searchRealMed" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+		select DISTINCT ram.anaMedId,am.name,am.code,am.cate1,am.cate2,am.cate3
+		from evt_real_anaes_method ram left join doc_anaes_record ar on
+		ram.docId = ar.anaRecordId LEFT JOIN bas_reg_opt t ON t.regOptId=t.beid left join bas_anaes_method am
+		on ram.anaMedId = am.anaMedId where 1 =1
+		AND am.beid = #{beid} AND t.beid = #{beid}
+		<if test="startTime != null and startTime != ''">
+			AND ar.inOperRoomTime &gt;= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			AND ar.outOperRoomTime &lt;= #{endTime}
+		</if>
+	</select>
+    
+    <select id="searchWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+        SELECT EXTRACT(YEAR FROM t3.anaesStartTime) AS YEAR,EXTRACT(MONTH FROM t3.anaesStartTime) AS MONTH,
+            SUM(FLOOR((TO_SECONDS(t3.anaesEndTime) - TO_SECONDS(t3.anaesStartTime)) / 60)) AS TIME
+                        FROM bas_reg_opt t,
+                             doc_anaes_record t3,
+                                evt_participant t2
+            WHERE 1 =1 
+                AND t3.anaesStartTime &gt;= #{startTime}
+                AND t3.anaesEndTime &lt;= #{endTime}
+            AND t.state IN ('06','07') AND t.beid = #{beid}
+            AND t.regOptId = t3.regOptId AND t3.anaRecordId = t2.docId 
+                             AND t2.userLoginName=#{loginName} and t2.role !='O'
+                             group by extract(MONTH FROM t3.anaesStartTime)
+    </select>
+    
+    <select id="searchAnaesDoctorWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+        <!-- select EXTRACT(YEAR FROM t3.anaes_start_time) as year,extract(MONTH FROM t3.anaes_start_time) as month,
+            IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t3.out_oper_room_time,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t3.anaes_start_time,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+                        from b_reg_opt t,
+                             d_anaes_record t3,
+                                s_participant t2
+            WHERE 1 =1 
+                AND t3.anaes_start_time &gt;= #{startTime}
+                AND t3.anaes_start_time &lt;= #{endTime}
+            AND t.state in ('06','07') and t.is_local_anaes = '0'
+            and t.reg_opt_id = t3.reg_opt_id and t3.ana_record_id = t2.doc_id and t3.flag = '1'
+                             and t2.user_login_name=#{loginName} and t2.role !='O'
+                             group by extract(MONTH FROM t3.anaes_start_time) -->
+                             select EXTRACT(YEAR FROM t3.anaesStartTime) as year,extract(MONTH FROM t3.anaesStartTime) as month,
+			IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t3.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t3.anaesStartTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+						from bas_reg_opt t,
+							 doc_anaes_record t3,
+							 	evt_participant t2
+			WHERE 1 =1 
+				AND t3.anaesStartTime &gt;= #{startTime}
+				AND t3.anaesStartTime &lt;= #{endTime}
+			AND t.state in ('06','07') and t.isLocalAnaes = '0'
+			and t.beid = #{beid}
+			and t.regOptId = t3.regOptId and t3.anaRecordId = t2.docId 
+							 and t2.userLoginName=#{loginName} and t2.role !='O'
+							 group by extract(MONTH FROM t3.anaesStartTime)
+    </select>
+    
+    <select id="searchHomeAnaesDoctorWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.HomeAnaesDoctorWorkingTimeFormBean">
+	<!-- select EXTRACT(YEAR FROM t.anaes_start_time) as year,extract(MONTH FROM t.anaes_start_time) as month,t.anaes_start_time,
+t.inOperRoomTime,t.out_oper_room_time,t.oper_start_time,t.oper_end_time,d.anesthetist_id,d.circuanesthetist_id,t1.reg_opt_id
+ from d_anaes_record t LEFT JOIN s_shift_change ssc on t.ana_record_id = ssc.doc_id LEFT JOIN b_reg_opt t1 on t.reg_opt_id = t1.reg_opt_id LEFT JOIN b_dispatch d on t1.reg_opt_id = d.reg_opt_id where t.anaes_start_time  &gt;= #{startTime} and t.anaes_start_time&lt;= #{endTime}
+and t1.state = '06' and t1.is_local_anaes = '0' and ssc.doc_id is  null -->
+	SELECT EXTRACT(YEAR FROM t.anaesStartTime) AS YEAR,EXTRACT(MONTH FROM t.anaesStartTime) AS MONTH,t.anaesStartTime,
+t.inOperRoomTime,t.outOperRoomTime,t.operStartTime,t.operEndTime,d.anesthetistId,d.circuanesthetistId,t1.regOptId
+ FROM doc_anaes_record t LEFT JOIN evt_shift_change ssc ON t.anaRecordId = ssc.docId LEFT JOIN bas_reg_opt t1 ON t.regOptId = t1.regOptId LEFT JOIN bas_dispatch d ON t1.regOptId = d.regOptId WHERE t.anaesStartTime &gt;= #{startTime} and t.anaesStartTime&lt;= #{endTime}
+and t1.state in ('06','07') and t1.beid = #{beid} and t1.isLocalAnaes = '0' and ssc.docId is  null
+	</select>
+	
+	<select id="searchAllHomeAnaesDoctorWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.HomeAnaesDoctorWorkingTimeFormBean">
+	<!-- select EXTRACT(YEAR FROM t.anaes_start_time) as year,extract(MONTH FROM t.anaes_start_time) as month,t.anaes_start_time,
+t.inOperRoomTime,t.out_oper_room_time,t.oper_start_time,t.oper_end_time,d.anesthetist_id,d.circuanesthetist_id,t1.reg_opt_id
+ from d_anaes_record t LEFT JOIN b_reg_opt t1 on t.reg_opt_id = t1.reg_opt_id LEFT JOIN b_dispatch d on t1.reg_opt_id = d.reg_opt_id where t.anaes_start_time  &gt;= #{startTime} and t.anaes_start_time&lt;= #{endTime}
+and t1.state = '06' and t1.is_local_anaes = '0' -->
+SELECT EXTRACT(YEAR FROM t.anaesStartTime) AS YEAR,EXTRACT(MONTH FROM t.anaesStartTime) AS MONTH,t.anaesStartTime,
+t.inOperRoomTime,t.outOperRoomTime,t.operStartTime,t.operEndTime,d.anesthetistId,d.circuanesthetistId,t1.regOptId
+ FROM doc_anaes_record t LEFT JOIN bas_reg_opt t1 ON t.regOptId = t1.regOptId LEFT JOIN bas_dispatch d ON t1.regOptId = d.regOptId WHERE t.anaesStartTime &gt;= #{startTime} and t.anaesStartTime &lt;= #{endTime}
+and t1.state  in ('06','07') and t1.isLocalAnaes = '0' and t1.beid = #{beid}
+	
+	</select>
+	
+	<select id="searchHomeAnaesDoctorShiftWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.HomeAnaesDoctorWorkingTimeFormBean">
+	<!-- select EXTRACT(YEAR FROM t.anaes_start_time) as year,
+extract(MONTH FROM t.anaes_start_time) as month,
+t.anaes_start_time,
+t.inOperRoomTime,
+t.out_oper_room_time,
+t.oper_start_time,
+t.oper_end_time,
+t1.reg_opt_id,
+ssc.shift_changed_people_id,
+ssc.shift_change_time,
+ssc.shift_change_people_id,
+ssc.times
+ from s_shift_change ssc LEFT join d_anaes_record t on ssc.doc_id = t.ana_record_id LEFT JOIN b_reg_opt t1 on t.reg_opt_id = t1.reg_opt_id where t.anaes_start_time   &gt;= #{startTime} and t.anaes_start_time&lt;= #{endTime}
+and t1.state = '06' and t1.is_local_anaes = '0' ORDER BY t1.reg_opt_id,shift_change_time; -->
+SELECT EXTRACT(YEAR FROM t.anaesStartTime) AS YEAR,
+EXTRACT(MONTH FROM t.anaesStartTime) AS MONTH,
+t.anaesStartTime,
+t.inOperRoomTime,
+t.outOperRoomTime,
+t.operStartTime,
+t.operEndTime,
+t1.regOptId,
+ssc.shiftChangedPeopleId,
+ssc.shiftChangeTime,
+ssc.shiftChangePeopleId,
+ssc.times
+ FROM evt_shift_change ssc LEFT JOIN doc_anaes_record t ON ssc.docId = t.anaRecordId LEFT JOIN bas_reg_opt t1 ON t.regOptId = t1.regOptId WHERE t.anaesStartTime &gt;= #{startTime} and t.anaesStartTime&lt;= #{endTime}
+and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORDER BY t1.regOptId,shiftChangeTime;
+	</select>
+	
+	<select id="searchLgNurseQmWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+		select EXTRACT(YEAR FROM t1.inOperRoomTime) as year,extract(MONTH FROM t1.inOperRoomTime) as month,
+			IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t1.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t1.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+						from bas_reg_opt t,
+							 doc_opt_nurse_record t1,
+								doc_opt_nurse t2
+			WHERE 1 =1 
+				AND t1.inOperRoomTime &gt;= #{startTime}
+				AND t1.inOperRoomTime &lt;= #{endTime}
+			AND t.state = '06' and t.regOptId = t2.regOptId 
+			and t.regOptId = t1.regOptId and t.isLocalAnaes = '0'
+							 and ((FIND_IN_SET(#{loginName},t2.instrnuseId))  or (FIND_IN_SET(#{loginName},t2.circunurseId)))
+							 group by extract(MONTH FROM t1.inOperRoomTime)
+	</select>
+	
+	<select id="searchLgNurseJmWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+		select EXTRACT(YEAR FROM t1.inOperRoomTime) as year,extract(MONTH FROM t1.inOperRoomTime) as month,
+			IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t1.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t1.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+						from bas_reg_opt t,
+							 doc_opt_nurse_record t1,
+								doc_opt_nurse t2
+			WHERE 1 =1 
+				AND t1.inOperRoomTime &gt;= #{startTime}
+				AND t1.inOperRoomTime &lt;= #{endTime}
+			AND t.state = '06' and t.regOptId = t2.regOptId 
+			and t.regOptId = t1.regOptId and t.isLocalAnaes = '1'
+							 and ((FIND_IN_SET(#{loginName},t2.instrnuseId))  or (FIND_IN_SET(#{loginName},t2.circunurseId)))
+							 group by extract(MONTH FROM t1.inOperRoomTime)
+	</select>
+    
+    <select id="searchNurseQmWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+        select EXTRACT(YEAR FROM t3.inOperRoomTime) as year,extract(MONTH FROM t3.inOperRoomTime) as month,
+            IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t3.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t3.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+                        from bas_reg_opt t,
+                             doc_anaes_record t3,
+                                evt_participant t2
+            WHERE 1 =1 
+                AND t3.inOperRoomTime &gt;= #{startTime}
+                AND t3.inOperRoomTime &lt;= #{endTime}
+            AND t.state in ('06','07') and t.isLocalAnaes = '0'
+            and t.beid = #{beid}
+            and t.regOptId = t3.regOptId and t3.anaRecordId = t2.docId 
+                             and t2.userLoginName=#{loginName} and t2.role !='O'
+                             group by extract(MONTH FROM t3.inOperRoomTime)
+    </select>
+    
+    <select id="searchNurseJmWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+        select EXTRACT(YEAR FROM t2.inOperRoomTime) as year,extract(MONTH FROM t2.inOperRoomTime) as month,
+            IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t2.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t2.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+                        from bas_reg_opt t,
+                                bas_dispatch t1,
+                                doc_opt_nurse t2
+            WHERE 1 =1 
+                AND t2.inOperRoomTime &gt;= #{startTime}
+                AND t2.inOperRoomTime &lt;= #{endTime}
+            AND t.state in ('06','07') and t.isLocalAnaes = '1'
+            and t.beid = #{beid}
+            and t.regOptId = t1.regOptId and t1.regOptId = t2.regOptId 
+                             and (t1.instrnurseId1=#{loginName} or t1.instrnurseId2 = #{loginName} or t1.circunurseId1 = #{loginName} or t1.circunurseId2 = #{loginName})
+                             group by extract(MONTH FROM t2.inOperRoomTime)
+    </select>
+    
+    <select id="searchConsultationTime" resultType="com.digihealth.anesthesia.research.formbean.WorkingTimeFormBean" >
+        select EXTRACT(YEAR FROM t3.startTime) as year,extract(MONTH FROM t3.startTime) as month,
+            IFNULL(sum(FLOOR((TO_SECONDS(DATE_FORMAT(t3.endTime,'%Y-%m-%d %H:%i:00')) 
+- TO_SECONDS(DATE_FORMAT(t3.startTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS time
+                        from  bas_consultation t3
+            WHERE 1 =1 
+                AND t3.startTime &gt;= #{startTime}
+                AND t3.endTime &lt;= #{endTime}
+            and t3.createUser=#{loginName} and t3.beid = #{beid}
+                             group by extract(MONTH FROM t3.startTime)
+    </select>
+    
+    <select id="searchMedicineGroupMedicineId" resultType="com.digihealth.anesthesia.research.formbean.SearchMedicineType">
+    select t.medicine_id,m.name from s_medicalevent t left join b_medicine m on t.medicine_id =  m.medicine_id where t.starttime &gt;= #{startTime} and t.starttime &lt;= #{endTime} group by t.medicine_id order by t.medicine_id ASC;
+    </select>
+    
+    <select id="searchMedicineByUser" resultType="com.digihealth.anesthesia.research.formbean.SearchMedicineType">
+    select sum(t.dosage) as "dosage",t.medicine_id,m.name from s_medicalevent t left join b_medicine m on t.medicine_id =  m.medicine_id where t.starttime &gt;= #{startTime} and t.starttime &lt;= #{endTime} and t.createuser = #{loginName} group by t.medicine_id order by t.medicine_id ASC;
+    </select>
+    
+    <select id="searchRegionOperatCountByOptlev" resultType="com.digihealth.anesthesia.research.formbean.SearchRegionOperatCountByOptlev">
+        select x.*,x.fst+x.sec+x.thd+x.fou as total from (
+            select r.regionId,r.regionName,
+            (select count(*) from bas_reg_opt where 
+            bas_reg_opt.state in ('06','07') and bas_reg_opt.regionId=r.regionId
+            and bas_reg_opt.optLevel='一级'
+            and bas_reg_opt.beid = #{searchFormBean.beid}
+            and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime} 
+            ) fst,
+            (select count(*) from bas_reg_opt where 
+            bas_reg_opt.state in ('06','07') and bas_reg_opt.regionId=r.regionId
+            and bas_reg_opt.optLevel='二级'
+            and bas_reg_opt.beid = #{searchFormBean.beid}
+            and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}     
+            ) sec,
+            (select count(*) from bas_reg_opt where 
+            bas_reg_opt.state in ('06','07') and bas_reg_opt.regionId=r.regionId
+            and bas_reg_opt.optLevel='三级'
+            and bas_reg_opt.beid = #{searchFormBean.beid}
+            and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime} 
+            ) thd,
+            (select count(*) from bas_reg_opt where 
+            bas_reg_opt.state in ('06','07') and bas_reg_opt.regionId=r.regionId
+            and bas_reg_opt.optLevel='四级'
+            and bas_reg_opt.beid = #{searchFormBean.beid}
+            and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}     
+            ) fou
+            from (
+            select regionId,if(regionId=0,'无',regionName) regionName,count(regionId) from bas_reg_opt b 
+            where b.state in ('06','07')
+            and b.beid = #{searchFormBean.beid}
+            group by b.regionId) r )x
+    </select>
+    <select id="searchRegionOperatCountByAsalev" resultType="com.digihealth.anesthesia.research.formbean.SearchRegionOperatCountByAsalev">
+            select x.*,x.fst + x.sec + x.thd + x.fou + fif + six as total from (
+			select r.regionId,r.regionName,
+			(
+			select count(*) from doc_anaes_record , bas_reg_opt where doc_anaes_record.regOptId = bas_reg_opt.regOptId 
+			and bas_reg_opt.state in ('06','07')
+			and bas_reg_opt.regionId=r.regionId
+			and doc_anaes_record.asaLevel='1'
+			and bas_reg_opt.beid = #{searchFormBean.beid}
+			and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}
+			) fst,
+			(
+			select count(*) from doc_anaes_record , bas_reg_opt  where doc_anaes_record.regOptId = bas_reg_opt.regOptId 
+			and bas_reg_opt.state in ('06','07')
+			and bas_reg_opt.regionId=r.regionId
+			and doc_anaes_record.asaLevel='2'
+			and bas_reg_opt.beid = #{searchFormBean.beid}
+			and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}
+			) sec,
+			(
+			select count(*) from doc_anaes_record , bas_reg_opt  where doc_anaes_record.regOptId = bas_reg_opt.regOptId 
+			and bas_reg_opt.state in ('06','07')
+			and bas_reg_opt.regionId=r.regionId
+			and doc_anaes_record.asaLevel='3'
+			and bas_reg_opt.beid = #{searchFormBean.beid}
+			and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}
+			) thd,
+			(
+			select count(*) from doc_anaes_record , bas_reg_opt  where doc_anaes_record.regOptId = bas_reg_opt.regOptId 
+			and bas_reg_opt.state in ('06','07')
+			and bas_reg_opt.regionId=r.regionId
+			and doc_anaes_record.asaLevel='4'
+			and bas_reg_opt.beid = #{searchFormBean.beid}
+			and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}
+			) fou,
+			(
+			select count(*) from doc_anaes_record , bas_reg_opt  where doc_anaes_record.regOptId = bas_reg_opt.regOptId 
+			and bas_reg_opt.state in ('06','07')
+			and bas_reg_opt.regionId=r.regionId
+			and doc_anaes_record.asaLevel='5'
+			and bas_reg_opt.beid = #{searchFormBean.beid}
+			and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}
+			) fif,
+			(
+			select count(*) from doc_anaes_record , bas_reg_opt  where doc_anaes_record.regOptId = bas_reg_opt.regOptId 
+			and bas_reg_opt.state in ('06','07')
+			and bas_reg_opt.regionId=r.regionId
+			and doc_anaes_record.asaLevel='6'
+			and bas_reg_opt.beid = #{searchFormBean.beid}
+			and bas_reg_opt.operaDate &gt;= #{searchFormBean.startTime} and bas_reg_opt.operaDate &lt;= #{searchFormBean.endTime}
+			) six
+			from (
+			select regionId,if(regionId=0,'无',regionName) regionName from bas_reg_opt b 
+			inner join doc_anaes_record d on d.regOptId = b.regOptId 
+			where b.state in ('06','07') and d.asaLevel != ''
+			and b.beid = #{searchFormBean.beid}
+			group by b.regionId) r )x
+    </select>
+    
+    <select id="searchRegionOperatCompdiag" resultType="com.digihealth.anesthesia.research.formbean.SearchRegionOperatCompdiag">
+        SELECT b.`name`,b.age,b.sex,b.regionName,b.hid,b.bed,x1.diagnosisName,x1.diagnosisName2 FROM (
+		SELECT t1.*,IFNULL(t2.diagnosisCode,'') diagnosisCode2,IFNULL(t2.diagnosisName,'') diagnosisName2  FROM (
+		SELECT b.regOptId,func_sortString(b.diagnosisCode,',') diagnosisCode,diagnosisName FROM bas_reg_opt b WHERE b.state IN ('05','06','07') AND b.beid = #{searchFormBean.beid}) t1 LEFT JOIN (
+		SELECT d.regOptId,x2.diagnosisCode,x2.diagnosisName FROM doc_anaes_record d,
+		(
+		SELECT docId,GROUP_CONCAT(evt_opt_latter_diag.diagDefId ORDER BY evt_opt_latter_diag.diagDefId ASC) diagnosisCode,
+		GROUP_CONCAT(bas_diagnosedef.`name`) diagnosisName
+		 FROM evt_opt_latter_diag,bas_diagnosedef 
+		WHERE evt_opt_latter_diag.diagDefId = bas_diagnosedef.diagDefId
+		 GROUP BY docId
+		) x2
+		WHERE d.anaRecordId = x2.docId ) t2 ON t1.regOptId  = t2.regOptId 
+		WHERE t1.diagnosisCode != IFNULL(t2.diagnosisCode,'')
+		) x1,bas_reg_opt b WHERE x1.regOptId = b.regOptId
+		AND b.isLocalAnaes = 0 
+        and b.beid = #{searchFormBean.beid}
+        and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+    </select>
+    
+    <select id="searchBadEventInfoList" resultType="com.digihealth.anesthesia.research.formbean.SearchBadEventInfo">
+        SELECT x.*,b.regionName,b.`name`,b.age,d.anaRecordId doc_id,b.deptName FROM (
+            SELECT regOptId,lapseReason,technologyReason,surgeryReason FROM doc_bad_event WHERE processState ='END' 
+            AND (lapseReason='true' OR technologyReason='true' OR surgeryReason='true'))x,bas_reg_opt b,doc_anaes_record d
+            WHERE x.regOptId =  b.regOptId
+            AND (x.regOptId =  d.regOptId)
+            AND b.beid = #{beid}
+        and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+    </select>
+    
+    <select id="countAnaesDocUpdateObserveTime" resultType="com.digihealth.anesthesia.research.formbean.AnaesDocObserveTimeCount">
+        SELECT bas_user.name,x.total FROM (
+            SELECT COUNT(*) total,userId FROM 
+                    bas_monitor_display_change_his a
+                where SUBSTR(time,1,10) &gt;= #{searchFormBean.startTime} and SUBSTR(time,1,10) &lt;= #{searchFormBean.endTime}
+              GROUP BY userId) x,bas_user
+            WHERE x.userId = bas_user.userName and bas_user.beid = #{searchFormBean.beid}
+</select>
+
+
+<select id="searchAnalgesicRegInfoList" resultType="com.digihealth.anesthesia.research.formbean.SearchAnaesRegInfo">
+    SELECT anaesRecord.* FROM (
+            SELECT b.regOptId, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,p.analgesicMethod, b.isLocalAnaes,d.anaRecordId ,b.operatorName,
+(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag, 
+( IF(b.isLocalAnaes = 0 , 
+(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper soro WHERE d.anaRecordId = soro.docId ),
+(SELECT operationName FROM doc_opt_nurse_record  t WHERE t.regOptId = b.regOptId ) ) )opt_real_oper,
+(IF(b.isLocalAnaes =0 ,
+(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method sram WHERE d.anaRecordId = sram.`docId`  ORDER BY sram.`anaMedId` ),
+(SELECT designedAnaesMethodName FROM doc_opt_nurse_record t WHERE t.regOptId = b.regOptId))) real_anaes_method,
+(SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName) anaes_doc FROM bas_reg_opt b,doc_analgesic_record p,doc_anaes_record d   
+            WHERE b.regOptId=d.regOptId 
+            AND b.regOptId =p.regOptId
+            AND b.state IN ('06','07') AND b.beid = #{searchFormBean.beid}) anaesRecord
+        WHERE 1 = 1
+        <if test="filters != null">
+            <foreach collection="filters" item="filter" open=" " close=" " >
+                <if test="filter.field != null and filter.field != '' ">
+                    <choose>
+                        <when test="filter.field == 'startTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &gt;= #{filter.value}
+                            </if>
+                        </when>
+                        <when test="filter.field == 'endTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &lt;= #{filter.value}
+                            </if>
+                        </when>
+                        <otherwise>
+                            <if test="filter.value != null and filter.value != ''">
+                                AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+                            </if>
+                        </otherwise>
+                    </choose>
+                </if>
+            </foreach>
+        </if>
+        order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+        <if test="searchFormBean.pageSize != null" >
+           limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+        </if>
+</select>
+
+<select id="searchTotalAnalgesicRegInfoList" resultType="java.lang.Integer">
+    select count(*) from (
+            SELECT b.regOptId, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,p.analgesicMethod,
+                (SELECT GROUP_CONCAT(name) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName) anaes_doc
+            FROM bas_reg_opt b,doc_analgesic_record p,doc_anaes_record d  
+            WHERE b.regOptId=d.regOptId 
+            and b.regOptId =p.regOptId
+            AND b.state IN ('06','07') and b.beid = #{searchFormBean.beid}) anaes_record
+        where 1 = 1 
+        <if test="filters != null">
+            <foreach collection="filters" item="filter" open=" " close=" " >
+                <if test="filter.field != null and filter.field != '' ">
+                    <choose>
+                        <when test="filter.field == 'startTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &gt;= #{filter.value}
+                            </if>
+                        </when>
+                        <when test="filter.field == 'endTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &lt;= #{filter.value}
+                            </if>
+                        </when>
+                        <otherwise>
+                            <if test="filter.value != null and filter.value != ''">
+                                AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+                            </if>
+                        </otherwise>
+                    </choose>
+                </if>
+            </foreach>
+        </if>
+</select>
+
+
+    <select id="searchAnaesRegInfoList" resultType="com.digihealth.anesthesia.research.formbean.SearchAnaesRegInfo">
+        SELECT anaesRecord.*,IF(anaesRecord.operAnaesTime>0,anaesRecord.operAnaesTime,0) anaes_time FROM (
+            SELECT b.regOptId, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+                FLOOR(
+                    (IFNULL(TO_SECONDS((SELECT t2.occurtime FROM evt_anaesevent t2 WHERE t2.docId = d.anaRecordId AND t2.code = '7')),0) - 
+                    IFNULL(TO_SECONDS((SELECT t1.occurtime FROM evt_anaesevent t1 WHERE t1.docId = d.anaRecordId AND t1.code = '2')),0)
+                )/60) operAnaesTime,
+                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) anaes_doc,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) shift_anaes_doc
+            FROM bas_reg_opt b,doc_anaes_record d  
+            WHERE b.regOptId=d.regOptId 
+            AND b.state IN ('06','07') AND b.beid = #{searchFormBean.beid}) anaesRecord
+        WHERE 1 = 1 
+        <if test="filters != null">
+            <foreach collection="filters" item="filter" open=" " close=" " >
+                <if test="filter.field != null and filter.field != '' ">
+                    <choose>
+                        <when test="filter.field == 'startTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &gt;= #{filter.value}
+                            </if>
+                        </when>
+                        <when test="filter.field == 'endTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &lt;= #{filter.value}
+                            </if>
+                        </when>
+                        <otherwise>
+                            <if test="filter.value != null and filter.value != ''">
+                                AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+                            </if>
+                        </otherwise>
+                    </choose>
+                </if>
+            </foreach>
+        </if>
+        order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+        <if test="searchFormBean.pageSize != null" >
+           limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+        </if>
+    </select>
+    
+    
+    <select id="searchTotalByAnaesRegInfoList" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+            SELECT d.anaRecordId, b.operaDate,b.name,b.sex,b.age,b.hid,b.bed,b.regionName,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+                FLOOR(
+                    (IFNULL(TO_SECONDS((SELECT t2.occurtime FROM evt_anaesevent t2 WHERE t2.docId = d.anaRecordId AND t2.code = '7')),0) - 
+                    IFNULL(TO_SECONDS((SELECT t1.occurtime FROM evt_anaesevent t1 WHERE t1.docId = d.anaRecordId AND t1.code = '2')),0)
+                )/60) anaes_time,
+                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{beid}) anaes_doc,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{beid}) shift_anaes_doc
+            FROM bas_reg_opt b,doc_anaes_record d  
+            WHERE b.regOptId=d.regOptId 
+            AND b.state IN ('06','07') AND b.beid = #{beid}) anaes_record 
+        WHERE 1 = 1 
+        <if test="filters != null">
+            <foreach collection="filters" item="filter" open=" " close=" " >
+                <if test="filter.field != null and filter.field != '' ">
+                    <choose>
+                        <when test="filter.field == 'startTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &gt;= #{filter.value}
+                            </if>
+                        </when>
+                        <when test="filter.field == 'endTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &lt;= #{filter.value}
+                            </if>
+                        </when>
+                        <otherwise>
+                            <if test="filter.value != null and filter.value != ''">
+                                AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+                            </if>
+                        </otherwise>
+                    </choose>
+                </if>
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="searchPatGroupByDept" resultType="com.digihealth.anesthesia.research.formbean.AnaesDocObserveTimeCount">
+        select count(*) total,t.deptName name from doc_anaes_record r,bas_reg_opt t 
+        where r.regOptId=t.regOptId and t.beid = #{beid}
+        <if test="filters != null">
+                <foreach collection="filters" item="filter" open=" " close=" " >
+                    <if test="filter.field != null and filter.field != '' ">
+                        <choose>
+                        <when test="filter.field == 'startTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &gt;= #{filter.value}
+                            </if>
+                        </when>
+                        <when test="filter.field == 'endTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &lt;= #{filter.value}
+                            </if>
+                        </when>
+                        <otherwise>
+                            <if test="filter.value != null and filter.value != ''">
+                                AND ${filter.field} = #{filter.value}
+                            </if>
+                        </otherwise>
+                    </choose>
+                    </if>
+                </foreach>
+            </if>
+        GROUP BY t.deptId
+        order by t.deptId
+    </select>
+    
+    
+    <select id="searchPatGroupByAnaesDoc" resultType="com.digihealth.anesthesia.research.formbean.AnaesDocObserveTimeCount">
+        select count(*) total,d.anesthetistId,(select c.name from bas_user c where d.anesthetistId = c.userName AND c.beid = #{beid}) name from doc_anaes_record r,bas_dispatch d,bas_reg_opt t 
+            where r.regOptId=d.regOptId 
+            and r.regOptId=t.regOptId 
+            and t.beid = #{beid}
+        <if test="filters != null">
+                <foreach collection="filters" item="filter" open=" " close=" " >
+                    <if test="filter.field != null and filter.field != '' ">
+                        <choose>
+                        <when test="filter.field == 'startTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &gt;= #{filter.value}
+                            </if>
+                        </when>
+                        <when test="filter.field == 'endTime' ">
+                            <if test="filter.value != null and filter.value != ''">
+                                and operaDate &lt;= #{filter.value}
+                            </if>
+                        </when>
+                        <otherwise>
+                            <if test="filter.value != null and filter.value != ''">
+                                AND ${filter.field} = #{filter.value}
+                            </if>
+                        </otherwise>
+                    </choose>
+                    </if>
+                </foreach>
+            </if>
+        GROUP BY d.anesthetistId
+        order by d.anesthetistId
+    </select>
+    
+    
+    <select id="searchDeptOperatCountBySteward" resultType="com.digihealth.anesthesia.research.formbean.SearchDeptOperatCountBySteward">
+		select r.dept_id,r.dept_name,
+			(select count(*) from (
+			  select * from (
+				select b.reg_opt_id,ifnull(consLev+airwayPatency+physicalActivity,0) steward,o.dept_id,a.pacuRecId
+					From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+					where a.pacuRecId = b.id
+						and b.reg_opt_id = o.reg_opt_id
+						and b.processState = '2'
+						and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}
+					ORDER BY a.recordTime desc
+				 ) y group by y.pacuRecId
+				) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+				and x.steward = 0 
+				and x.dept_id = r.dept_id
+			) zer,
+		(select count(*) from (
+				select * from (
+						select b.reg_opt_id,consLev+airwayPatency+physicalActivity steward,o.dept_id,a.pacuRecId
+							From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+							where a.pacuRecId = b.id
+								and b.reg_opt_id = o.reg_opt_id
+								and b.processState = '2'
+								and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}
+							ORDER BY a.recordTime desc
+						 ) y group by y.pacuRecId
+						) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+						and x.steward = 1 
+						and x.dept_id = r.dept_id
+					) fst,
+
+		(select count(*) from (
+			select * from (
+				select b.reg_opt_id,consLev+airwayPatency+physicalActivity steward,o.dept_id,a.pacuRecId
+					From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+					where a.pacuRecId = b.id
+						and b.reg_opt_id = o.reg_opt_id
+						and b.processState = '2'
+						and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}
+					ORDER BY a.recordTime desc
+				 ) y group by y.pacuRecId
+				) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+				and x.steward = 2
+				and x.dept_id = r.dept_id
+			) sec,
+
+		(select count(*) from (
+			select * from (
+				select b.reg_opt_id,consLev+airwayPatency+physicalActivity steward,o.dept_id,a.pacuRecId
+					From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+					where a.pacuRecId = b.id
+						and b.reg_opt_id = o.reg_opt_id
+						and b.processState = '2'
+						and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}
+					ORDER BY a.recordTime desc
+				 ) y group by y.pacuRecId
+				) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+				and x.steward = 3 
+				and x.dept_id = r.dept_id
+			) thd,
+
+		(select count(*) from (
+			select * from (
+				select b.reg_opt_id,consLev+airwayPatency+physicalActivity steward,o.dept_id,a.pacuRecId
+					From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+					where a.pacuRecId = b.id
+						and b.reg_opt_id = o.reg_opt_id
+						and b.processState = '2'
+						and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}
+					ORDER BY a.recordTime desc
+				 ) y group by y.pacuRecId
+				) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+				and x.steward = 4 
+				and x.dept_id = r.dept_id
+			) fou,
+
+		(select count(*) from (
+			select * from (
+				select b.reg_opt_id,consLev+airwayPatency+physicalActivity steward,o.dept_id,a.pacuRecId
+					From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+					where a.pacuRecId = b.id
+						and b.reg_opt_id = o.reg_opt_id
+						and b.processState = '2'
+						and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}		
+					ORDER BY a.recordTime desc
+				 ) y group by y.pacuRecId
+				) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+				and x.steward = 5 
+				and x.dept_id = r.dept_id
+			) fif,
+
+		(select count(*) from (
+			select * from (
+				select b.reg_opt_id,consLev+airwayPatency+physicalActivity steward,o.dept_id,a.pacuRecId
+					From b_anaes_pacu_observe_rec a,d_anaes_pacu_rec b,b_reg_opt o 
+					where a.pacuRecId = b.id
+						and b.reg_opt_id = o.reg_opt_id
+						and b.processState = '2'
+						and a.recordTime &gt;= #{searchFormBean.startTime} and a.recordTime &lt;= #{searchFormBean.endTime}
+					ORDER BY a.recordTime desc
+				 ) y group by y.pacuRecId
+				) x,b_reg_opt b where x.reg_opt_id=b.reg_opt_id
+				and x.steward = 6 
+				and x.dept_id = r.dept_id
+			) six
+	from (select dept_id,if(dept_id=0,'无',dept_name) dept_name,count(dept_id) from d_anaes_pacu_rec p1,b_reg_opt p2
+			where p1.reg_opt_id = p2.reg_opt_id
+				and p1.processState = '2'
+			group by p2.dept_id) r
+	</select>
+        
+    <select id="searchDeptCountByAnalgesic" resultType="com.digihealth.anesthesia.research.formbean.StaticDeptCountByAnalgesic">
+        select * ,(pcia+pcea+pcsa+pcna) total from (
+            select r.deptId,r.deptName,
+                (select count(*) from doc_analgesic_record a ,bas_reg_opt b 
+                where a.regOptId=b.regOptId  and a.analgesicMethod = '1' and r.deptId = b.deptId
+                and b.state in ('06','07')
+                and b.beid = #{searchFormBean.beid}
+                and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+                ) pcia,
+            
+                (select count(*) from doc_analgesic_record a ,bas_reg_opt b 
+                where a.regOptId=b.regOptId and a.analgesicMethod = '2'  and r.deptId = b.deptId
+                and b.state in ('06','07')
+                and b.beid = #{searchFormBean.beid}
+                and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+                ) pcea,
+            
+                (select count(*) from doc_analgesic_record a ,bas_reg_opt b 
+                where a.regOptId=b.regOptId  and a.analgesicMethod = '3' and r.deptId = b.deptId
+                and b.state in ('06','07')
+                and b.beid = #{searchFormBean.beid}
+                and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+                 ) pcsa,
+            
+                (select count(*) from doc_analgesic_record a ,bas_reg_opt b 
+                where a.regOptId=b.regOptId  and a.analgesicMethod = '4' and r.deptId = b.deptId
+                and b.state in ('06','07')
+                and b.beid = #{searchFormBean.beid}
+                and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+                ) pcna
+               from (select b.deptId,deptName from doc_analgesic_record a ,bas_reg_opt b where a.regOptId=b.regOptId
+                and b.state in ('06','07')
+                and b.beid = #{searchFormBean.beid}
+                and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+            GROUP BY deptId ) r
+        ) x
+    </select>
+
+    <select id="searchAnaecDocCountByAnalgesic" resultType="com.digihealth.anesthesia.research.formbean.StaticAnaesDocCountByAnalgesic">
+    SELECT * ,(pcia+pcea+pcsa+pcna) total FROM (
+        SELECT r.anesthetistId,r.anesthetistName,
+            (SELECT COUNT(*) FROM doc_analgesic_record a ,bas_dispatch b ,bas_reg_opt c 
+            WHERE a.regOptId=b.regOptId
+            AND a.analgesicMethod = '1'
+            AND r.anesthetistid = b.anesthetistid
+            AND a.regOptId = c.regOptId
+            AND c.state IN ('06','07')
+            AND c.beid = #{searchFormBean.beid}
+            AND c.operaDate &gt;= #{searchFormBean.startTime} AND c.operaDate &lt;= #{searchFormBean.endTime}
+            ) pcia,
+            (SELECT COUNT(*) FROM doc_analgesic_record a ,bas_dispatch b ,bas_reg_opt c 
+            WHERE a.regOptId=b.regOptId
+            AND a.analgesicMethod = '2'
+            AND r.anesthetistId = b.anesthetistId
+            AND a.regOptId = c.regOptId
+            AND c.state IN ('06','07')
+            AND c.beid = #{searchFormBean.beid}
+            AND c.operaDate &gt;= #{searchFormBean.startTime} AND c.operaDate &lt;= #{searchFormBean.endTime}
+            ) pcea,
+            (SELECT COUNT(*) FROM doc_analgesic_record a ,bas_dispatch b ,bas_reg_opt c  
+            WHERE a.regOptId=b.regOptId
+            AND a.analgesicMethod = '3'
+            AND r.anesthetistId = b.anesthetistId
+            AND a.regOptId = c.regOptId
+            AND c.state IN ('06','07')
+            AND c.beid = #{searchFormBean.beid}
+            AND c.operaDate &gt;= #{searchFormBean.startTime} AND c.operaDate &lt;= #{searchFormBean.endTime}
+             ) pcsa,
+            (SELECT COUNT(*) FROM doc_analgesic_record a ,bas_dispatch b ,bas_reg_opt c 
+            WHERE a.regOptId=b.regOptId
+            AND a.analgesicMethod = '4'
+            AND r.anesthetistId = b.anesthetistId
+            AND a.regOptId = c.regOptId
+            AND c.state IN ('06','07')
+            AND c.beid = #{searchFormBean.beid}
+            AND c.operaDate &gt;= #{searchFormBean.startTime} AND c.operaDate &lt;= #{searchFormBean.endTime}
+            ) pcna
+        FROM (SELECT b.anesthetistId,(SELECT NAME FROM bas_user WHERE b.anesthetistId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) anesthetistName FROM doc_analgesic_record a ,bas_dispatch b
+            WHERE a.regOptId=b.regOptId AND b.beid = #{searchFormBean.beid}
+            GROUP BY b.anesthetistId ) r
+    ) x
+    </select>
+    
+    
+    <select id="getDeptAnaesCntGroupByAnaesMethod" resultType="com.digihealth.anesthesia.research.formbean.AnaesCntByAnaesMethod">
+        select anaMedId ana_med,(select name from bas_anaes_method m where m.anaMedId=s.anaMedId AND m.beid = #{searchFormBean.beid}) ana_med_name ,count(*) total
+			 From bas_reg_opt b,doc_anaes_record d,evt_real_anaes_method s
+			 where b.state  in ('06','07')
+			 and b.deptId = #{searchFormBean.deptId}
+			 and b.beid = #{searchFormBean.beid}
+			 and b.regOptId = d.regOptId
+			 and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+			 and d.anaRecordId = s.docId
+			GROUP BY s.anaMedId
+		
+		union ALL
+		
+			select c.anaMedId ,c.name ana_med_name,COUNT(1) total 
+			from bas_reg_opt b,bas_anaes_method c
+			where b.designedAnaesMethodCode = c.anaMedId
+			and b.state  in ('06','07')
+			and b.isLocalAnaes = '1'
+			and b.beid = #{searchFormBean.beid}
+			and b.deptId = #{searchFormBean.deptId}
+			and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+    </select>
+    <select id="getAnaesDocAnaesCntGroupByAnaesMethod" resultType="com.digihealth.anesthesia.research.formbean.AnaesCntByAnaesMethod">
+        select anaMedId ana_med,(select name from bas_anaes_method m where m.anaMedId=s.anaMedId AND m.beid = #{searchFormBean.beid}) ana_med_name ,count(*) total
+         From bas_reg_opt b,doc_anaes_record d,bas_dispatch c ,evt_real_anaes_method s
+         where b.state  in ('06','07') 
+         and c.anesthetistId = #{searchFormBean.id}
+         and c.regOptId = d.regOptId
+         and b.regOptId = d.regOptId
+         and b.beid = #{searchFormBean.beid}
+         and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
+         and d.anaRecordId = s.docId
+        GROUP BY s.anaMedId
+    </select>   
+    
+    
+    <select id="searchOperByDept" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByDept">
+    SELECT a.deptId,a.name deptName,IFNULL(b.total,0) total FROM 
+    (SELECT * FROM bas_dept WHERE ENABLE ='1') a
+    LEFT JOIN
+    (SELECT deptId,deptName,COUNT(*) total FROM bas_reg_opt 
+    where operaDate &gt;= #{searchFormBean.startTime} 
+    and operaDate &lt;= #{searchFormBean.endTime}
+    AND state IN ('06','07') AND beid=#{searchFormBean.beid}
+    GROUP BY deptId) b
+    ON a.deptId = b.deptId AND a.beid=#{searchFormBean.beid}
+    ORDER BY a.deptId ASC;
+    </select>
+    
+    <select id="searchOperByOperator" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByOperator">
+    SELECT a.operatorId,a.name operator_name,IFNULL(b.total,0) total FROM 
+    (SELECT * FROM bas_operation_people 
+        WHERE 1 = 1
+        <if test="searchFormBean.operatorId != null and searchFormBean.operatorId != ''">
+            AND operatorId = #{searchFormBean.operatorId}
+        </if>
+         AND beid = #{searchFormBean.beid}
+        ) a
+    LEFT JOIN
+    (SELECT operatorId,operatorName,COUNT(*) total FROM bas_reg_opt 
+    where operaDate &gt;= #{searchFormBean.startTime} and operaDate &lt;= #{searchFormBean.endTime}
+    and state in ('06','07') 
+    GROUP BY operatorId) b
+    ON a.operatorId = b.operatorId
+    ORDER BY a.operatorId ASC;
+    </select>
+    
+    <select id="searchOperatorJMWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByOperator" >
+        SELECT a.operatorId,a.name operatorName,IFNULL(b.time,0) TIME,IFNULL(b.total,0) total,IFNULL(FLOOR(b.time/b.total),0) average FROM 
+    (SELECT * FROM bas_operation_people
+        WHERE 1 = 1
+        <if test="searchFormBean.operatorId != null and searchFormBean.operatorId != ''">
+            AND operatorId = #{searchFormBean.operatorId}
+        </if>
+        AND beid = #{searchFormBean.beid}
+    ) a
+    LEFT JOIN
+    (SELECT t.operatorId,t.operatorName,
+        IFNULL(SUM(FLOOR((TO_SECONDS(DATE_FORMAT(t1.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+            - TO_SECONDS(DATE_FORMAT(t1.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS TIME,COUNT(*) total
+        FROM bas_reg_opt t, doc_opt_nurse_record t1
+        WHERE 1 =1 
+        AND t.operaDate &gt;= #{searchFormBean.startTime}
+        AND t.operaDate &lt;= #{searchFormBean.endTime}
+        AND t.state in ('06','07') 
+        AND t.isLocalAnaes = '1'
+        AND t.regOptId = t1.regOptId 
+        AND t.beid = #{searchFormBean.beid}
+        GROUP BY t.operatorId) b
+        ON a.operatorId = b.operatorId
+        ORDER BY a.operatorId ASC;
+    </select>
+    
+    <select id="searchOperatorQMWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByOperator" >
+        SELECT a.operatorId,a.name operator_name,IFNULL(b.time,0) TIME,IFNULL(b.total,0) total,IFNULL(FLOOR(b.time/b.total),0) average FROM 
+    (SELECT * FROM bas_operation_people
+        WHERE 1 = 1
+        <if test="searchFormBean.operatorId != null and searchFormBean.operatorId != ''">
+            AND operatorId = #{searchFormBean.operatorId}
+        </if>
+        AND beid = #{searchFormBean.beid}
+    ) a
+    LEFT JOIN
+    (SELECT t2.userLoginName,
+        IFNULL(SUM(FLOOR((TO_SECONDS(DATE_FORMAT(t1.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+            - TO_SECONDS(DATE_FORMAT(t1.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS TIME,COUNT(*) total
+        FROM bas_reg_opt t, doc_anaes_record t1, evt_participant t2
+        WHERE 1 =1 
+        AND t.operaDate &gt;= #{searchFormBean.startTime}
+        AND t.operaDate &lt;= #{searchFormBean.endTime}
+        AND t.state in ('06','07') 
+        AND t.isLocalAnaes = '0'
+        AND t.regOptId = t1.regOptId 
+        AND t1.anaRecordId = t2.docId
+        AND t.beid = #{searchFormBean.beid}
+        GROUP BY t2.userLoginName) b
+        ON a.operatorId = b.userLoginName
+        ORDER BY a.operatorId ASC;
+    </select>
+    
+    <select id="searchOperByNurse" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByNurse" >
+    SELECT IFNULL(COUNT(*),0) total  FROM( 
+	SELECT t.regOptId FROM bas_reg_opt t,bas_dispatch t1, doc_opt_nurse_record t2
+            WHERE 1 =1 
+            AND t.state IN ('06','07') 
+            AND t.isLocalAnaes = '1'
+            AND t.regOptId = t1.regOptId 
+            AND t1.regOptId = t2.regOptId 
+            AND t.operaDate &gt;= #{searchFormBean.startTime}
+    		AND t.operaDate &lt;= #{searchFormBean.endTime}
+    		AND t.beid = #{searchFormBean.beid}
+            AND (t1.instrnurseId1=#{searchFormBean.nurseId} or t1.instrnurseId2 = #{searchFormBean.nurseId} or t1.circunurseId1 = #{searchFormBean.nurseId} or t1.circunurseId2 = #{searchFormBean.nurseId})
+	union all
+	SELECT t.regOptId FROM bas_reg_opt t,doc_anaes_record t2,(SELECT * FROM evt_participant GROUP BY docId,userLoginName) t3
+            WHERE 1 =1 
+            AND t.state IN ('06','07') 
+            AND t.isLocalAnaes = '0'
+            AND t.regOptId = t2.regOptId 
+            AND t2.anaRecordId = t3.docId
+            AND t.operaDate &gt;= #{searchFormBean.startTime}
+    		AND t.operaDate &lt;= #{searchFormBean.endTime}
+    		AND t.beid = #{searchFormBean.beid}
+            AND t3.userLoginName=#{searchFormBean.nurseId}) a
+    </select>
+    
+    <select id="searchNurseJMWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByNurse" >
+    SELECT a.time TIME,a.total total,IFNULL(FLOOR(a.time/a.total),0) average FROM 
+        (SELECT IFNULL(SUM(FLOOR((TO_SECONDS(DATE_FORMAT(t2.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+        - TO_SECONDS(DATE_FORMAT(t2.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS TIME,IFNULL(COUNT(*),0) total
+            FROM bas_reg_opt t,bas_dispatch t1, doc_opt_nurse_record t2
+            WHERE 1 =1 
+            AND t.operaDate &gt;= #{searchFormBean.startTime}
+            AND t.operaDate &lt;= #{searchFormBean.endTime}
+            AND t.state in ('06','07') 
+            AND t.isLocalAnaes = '1'
+            AND t.regOptId = t1.regOptId 
+            AND t1.regOptId = t2.regOptId 
+            and t.beid = #{searchFormBean.beid}
+            AND (t1.instrnurseId1=#{searchFormBean.nurseId} or t1.instrnurseId2 = #{searchFormBean.nurseId} or t1.circunurseId1 = #{searchFormBean.nurseId} or t1.circunurseId2 = #{searchFormBean.nurseId})) a;
+    </select>
+    
+    <select id="searchNurseQMWorkingTime" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByNurse" >
+    SELECT a.time TIME,a.total total,IFNULL(FLOOR(a.time/a.total),0) average FROM 
+        (SELECT IFNULL(SUM(FLOOR((TO_SECONDS(DATE_FORMAT(t2.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+        - TO_SECONDS(DATE_FORMAT(t2.inOperRoomTime,'%Y-%m-%d %H:%i:00'))) / 60)),0) AS TIME,IFNULL(COUNT(*),0) total
+            FROM bas_reg_opt t,doc_anaes_record t2,(SELECT * FROM evt_participant GROUP BY docId,userLoginName) t3
+            WHERE 1 =1 
+            AND t.operaDate &gt;= #{searchFormBean.startTime}
+            AND t.operaDate &lt;= #{searchFormBean.endTime}
+            AND t.state in ('06','07') 
+            AND t.isLocalAnaes = '0'
+            AND t.regOptId = t2.regOptId 
+            AND t2.anaRecordId = t3.docId
+            AND t.beid = #{searchFormBean.beid}
+            AND t3.userLoginName=2=#{searchFormBean.nurseId}) a;
+    </select>
+    
+    
+    <select id="searchOperByASALevel" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByASALevel" >   
+    SELECT a.codeValue asaLevel,IFNULL(b.total,0) total FROM
+        (SELECT * FROM bas_sys_code t WHERE t.groupId = 'asa_level' and beid = #{searchFormBean.beid}) a
+        LEFT JOIN
+        (SELECT t1.asaLevel asaLevel,COUNT(*) total FROM doc_anaes_record t1, bas_reg_opt t2,bas_dispatch t3
+            WHERE t1.regOptId = t2.regOptId AND t2.regOptId = t3.regOptId
+            AND t2.state IN ('06','07') 
+            AND t2.operaDate &gt;= #{searchFormBean.startTime}
+            AND t2.operaDate &lt;= #{searchFormBean.endTime}
+            <if test="searchFormBean.operRoomId != null and searchFormBean.operRoomId != ''">
+                AND t3.operRoomId = #{searchFormBean.operRoomId}
+            </if>
+            <if test="searchFormBean.leaveTo != null and searchFormBean.leaveTo != ''">
+                AND t1.leaveTo = #{searchFormBean.leaveTo}
+            </if>
+             AND t2.beid=#{searchFormBean.beid}
+            GROUP BY t1.asaLevel) b 
+        ON a.codeValue = b.asaLevel;
+    </select>
+    
+    <select id="searchOperByAnalgesic" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t1.regOptId) FROM bas_reg_opt t1,doc_anaes_summary t2,bas_dispatch t3,evt_participant t4,doc_anaes_record t5
+            WHERE t1.`regOptId` = t2.`regOptId` 
+            AND t1.`regOptId` = t3.`regOptId` 
+            AND t1.`regOptId` = t5.`regOptId`
+            AND t4.docId = t5.anaRecordId
+            AND t1.state IN ('06','07') 
+            AND t2.controAnal = 0
+            AND t1.operaDate &gt;= #{searchFormBean.startTime}
+            AND t1.operaDate &lt;= #{searchFormBean.endTime}
+            <if test="searchFormBean.operRoomId != null and searchFormBean.operRoomId != ''">
+                AND t3.operRoomId = #{searchFormBean.operRoomId}
+            </if>
+            <if test="searchFormBean.anesthetistId != null and searchFormBean.anesthetistId != ''">
+                AND (t3.anesthetistId = #{searchFormBean.anesthetistId} OR t4.userLoginName = #{searchFormBean.anesthetistId})
+            </if>
+            AND t1.beid= #{searchFormBean.beid}
+    </select>
+    <select id="searchOperByOperSource" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t1.regOptId) FROM bas_reg_opt t1,bas_dispatch t2,evt_participant t3,doc_anaes_record t4
+            WHERE t1.`regOptId` = t2.`regOptId` 
+            AND t1.regOptId = t4.regOptId
+            AND t3.docId = t4.anaRecordId
+            AND t1.state in ('06','07') 
+            AND t1.`operSource` = #{searchFormBean.operSource}
+            AND t1.operaDate &gt;= #{searchFormBean.startTime}
+            AND t1.operaDate &lt;= #{searchFormBean.endTime}
+            <if test="searchFormBean.operRoomId != null and searchFormBean.operRoomId != ''">
+                AND t2.operRoomId = #{searchFormBean.operRoomId}
+            </if>
+            <if test="searchFormBean.anesthetistId != null and searchFormBean.anesthetistId != ''">
+                AND (t2.anesthetistId = #{searchFormBean.anesthetistId} OR t3.userLoginName = #{searchFormBean.anesthetistId})
+            </if>
+            AND t1.beid= #{searchFormBean.beid}
+    </select>
+    
+    <select id="searchOperByCondition" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+        SELECT t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,t1.regOptId,
+		(SELECT NAME FROM bas_user s WHERE s.userName = t2.anesthetistId AND s.beid = #{searchFormBean.beid}) AS anesthetistName ,
+		t1.isLocalAnaes,t1.deptName,t3.asaLevel,(SELECT codeName FROM bas_sys_code WHERE groupId = 'operat_category' AND codeValue=t1.emergency AND beid = #{searchFormBean.beid}) emergency,
+		CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+		IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t3.anaRecordId)) anaesMethodName,t3.anaesStartTime
+		FROM bas_reg_opt t1,bas_dispatch t2 ,doc_anaes_record t3
+		WHERE t1.regOptId = t2.regOptId
+		AND t1.regOptId = t3.regOptId
+		AND t1.state IN ('05','06','07')
+		<if test="searchFormBean.emergency != null and searchFormBean.emergency != ''">
+			AND t1.emergency = #{searchFormBean.emergency}
+		</if> 
+		<if test="searchFormBean.isLocalAnaes != null and searchFormBean.isLocalAnaes != ''">
+			AND t1.isLocalAnaes = #{searchFormBean.isLocalAnaes}
+		</if>
+		AND t1.beid = #{searchFormBean.beid}
+		AND t1.operaDate &gt;= #{searchFormBean.startTime}
+		AND t1.operaDate &lt;= #{searchFormBean.endTime}
+		ORDER BY t1.operaDate DESC
+    </select>
+    
+    <select id="searchToICUOper" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+        SELECT t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+            (SELECT NAME FROM bas_user s WHERE s.userName = t3.anesthetistId and s.beid = #{beid}) AS anesthetistName 
+          FROM bas_reg_opt t1,doc_anaes_summary t2,bas_dispatch t3
+          WHERE t1.state in ('06','07')
+          AND t1.regOptId = t3.regOptId
+          AND t1.regOptId = t2.regOptId 
+          AND t1.isLocalAnaes = 0 
+          AND t2.leaveTo = 2
+          and t1.beid = #{beid}
+          AND t1.operaDate &gt;= #{searchFormBean.startTime}
+          AND t1.operaDate &lt;= #{searchFormBean.endTime}
+          ORDER BY t1.operaDate DESC
+    </select>
+    
+    <select id="searchCancleOperAfterAnaes" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+        SELECT t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+            (SELECT NAME FROM bas_user s WHERE s.userName = t3.anesthetistId AND s.beid=#{searchFormBean.beid}) AS anesthetistName 
+          FROM bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+          WHERE t1.regOptId = t2.regOptId 
+          AND t1.regOptId = t3.regOptId 
+          AND t1.state = '08'
+          AND t1.beid = #{searchFormBean.beid}
+          AND EXISTS(SELECT * FROM evt_anaesevent s WHERE t2.anaRecordId = s.docId AND s.code = 2)
+          AND NOT EXISTS(SELECT * FROM evt_anaesevent s WHERE t2.anaRecordId = s.docId AND s.code = 4)
+          AND t1.operaDate &gt;= #{searchFormBean.startTime}
+          AND t1.operaDate &lt;= #{searchFormBean.endTime}
+          ORDER BY t1.operaDate DESC
+    </select>
+    
+    <select id="searchVenipunctyreList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+        SELECT DISTINCT t1.regOptId,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+        (SELECT NAME FROM bas_user s WHERE s.userName = t2.anesthetistId AND s.beid = #{searchFormBean.beid}) AS anesthetistName 
+        FROM bas_reg_opt t1,bas_dispatch t2 ,doc_anaes_record t3,evt_anaesevent t4
+        WHERE t1.regOptId = t2.regOptId 
+        AND t1.regOptId = t3.regOptId
+        AND t3.anaRecordId = t4.docId
+        AND t1.state IN ('06','07')
+        AND t4.code = 12
+        AND t1.operaDate &gt;= #{searchFormBean.startTime}
+        AND t1.operaDate &lt;= #{searchFormBean.endTime}
+        AND t1.beid = #{searchFormBean.beid}
+        ORDER BY t1.operaDate DESC
+    </select>
+
+    <select id="searchASALevelOper" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+        SELECT t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+            (SELECT NAME FROM bas_user s WHERE s.userName = t3.anesthetistId AND s.beid = #{searchFormBean.beid}) AS anesthetistName
+        FROM bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+        WHERE t1.regOptId = t2.regOptId
+        AND t1.regOptId = t3.regOptId
+        AND t1.state IN ('06','07')
+        AND t1.beid = #{searchFormBean.beid}
+        AND t2.asaLevel = #{searchFormBean.asaLevel}
+        AND t1.operaDate &gt;= #{searchFormBean.startTime}
+        AND t1.operaDate &lt;= #{searchFormBean.endTime}
+        ORDER BY t1.operaDate DESC
+    </select>
+    
+    
+    <select id="searchAutograftBloodTrans400mlInfo" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">        
+        SELECT a.name,a.sex,a.age,a.hid,a.operaDate,a.operatorName,a.designedOptName,
+            (SELECT NAME FROM bas_user s WHERE s.userName = c.anesthetistId AND s.beid = #{searchFormBean.beid}) AS anesthetistName
+             FROM bas_reg_opt a,doc_anaes_record b ,bas_dispatch c
+        WHERE a.regOptId = b.regOptId
+        AND a.regOptId = c.regOptId
+        AND a.operaDate &gt;= #{searchFormBean.startTime}
+        AND a.operaDate &lt;= #{searchFormBean.endTime}
+        AND a.beid = #{searchFormBean.beid}
+        AND EXISTS (
+            SELECT 1 FROM (
+            SELECT a.docId FROM evt_inevent a,bas_io_defination b 
+            WHERE a.ioDefId=b.ioDefId
+            AND b.autoBlood = 1 AND b.beid = #{searchFormBean.beid}
+            GROUP BY a.docId HAVING SUM(dosageAmount) >= 400
+            ) k WHERE k.docId = b.anaRecordId
+        )
+        ORDER BY a.operaDate DESC
+    </select>
+    
+    
+    <select id="searchBloodTrans400mlInfo" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">     
+        SELECT a.name,a.sex,a.age,a.hid,a.operaDate,a.operatorName,a.designedOptName,
+            (SELECT NAME FROM bas_user s WHERE s.userName = c.anesthetistId AND s.beid = #{searchFormBean.beid}) AS anesthetistName
+             FROM bas_reg_opt a,doc_anaes_record b ,bas_dispatch c
+        WHERE a.regOptId = b.regOptId
+        AND a.regOptId = c.regOptId
+        AND a.operaDate &gt;= #{searchFormBean.startTime}
+        AND a.operaDate &lt;= #{searchFormBean.endTime}
+        AND a.beid = #{searchFormBean.beid}
+        AND EXISTS (
+            SELECT 1 FROM (
+            SELECT a.docId FROM evt_inevent a,bas_io_defination b 
+            WHERE a.ioDefId=b.ioDefId
+            AND b.beid = #{searchFormBean.beid}
+            AND TYPE ='I' AND subType=2 
+            group by a.docId HAVING sum(dosageAmount) &gt;= 400
+            ) k WHERE k.docId = b.anaRecordId
+        )
+        ORDER BY a.operaDate DESC
+    </select>
+
+	<select id="searchHomeQMTimes" resultType="java.lang.Integer">
+		SELECT IFNULL(COUNT(1),0) FROM bas_reg_opt t1,doc_anaes_record t2,(select * from evt_participant GROUP BY docId,userLoginName) t3 
+		WHERE t1.regOptId = t2.regOptId 
+		  AND t2.anaRecordId = t3.docId 
+		  AND t1.state IN ('04', '05', '06', '07') 
+		  AND t1.isLocalAnaes = '0'
+		  AND t3.userLoginName = #{loginName} 
+		  AND t1.operaDate &gt;= #{startTime} 
+		  AND t1.operaDate &lt;= #{endTime} 
+	</select>
+	
+	<select id="searchHomeNurseJMTimes" resultType="java.lang.Integer">
+		SELECT IFNULL(COUNT(1),0) FROM bas_reg_opt t1,bas_dispatch t2 
+		WHERE t1.`regOptId` = t2.`regOptId` 
+		  AND t1.`isLocalAnaes` = '1' 
+		  AND t1.`state` IN ('04', '05', '06', '07') 
+		  AND t1.operaDate &gt;= #{startTime} 
+		  AND t1.operaDate &lt;= #{endTime}
+		  AND t1.isLocalAnaes = '1'
+		  AND (t2.instrnurseId1 = #{loginName} or t2.instrnurseId2 = #{loginName} or t2.circunurseId1 = #{loginName} or t2.circunurseId2 = #{loginName})
+	</select>
+	
+	<select id="searchEntryPacuPatCount" resultType="java.lang.Integer">
+		SELECT IFNULL(COUNT(1),0) FROM doc_anaes_pacu_rec d, bas_reg_opt t
+		WHERE d.regOptId=t.regOptId 
+		AND t.beid = #{beid} 
+		AND DATE_FORMAT(d.enterTime,'%Y-%m') = #{startTime}
+	</select>
+	
+	<select id="searchStewardScoCount" resultType="java.lang.Integer">
+		SELECT IFNULL(COUNT(1),0) FROM (
+			SELECT * FROM (
+					SELECT b.regOptId,IFNULL(consLev+airwayPatency+physicalActivity,0) steward,a.pacuRecId
+						FROM doc_anaes_pacu_observe_rec a,doc_anaes_pacu_rec b,bas_reg_opt o 
+						WHERE a.pacuRecId = b.id
+							AND b.regOptId = o.regOptId
+							AND b.processState = 'END'
+							AND o.beid = #{beid} 
+							AND DATE_FORMAT(a.recordTime,'%Y-%m') = #{startTime}
+						ORDER BY a.recordTime desc
+					 ) y group by y.pacuRecId HAVING y.steward >=4
+		) x
+	</select>
+	
+	<select id="countAnesNumByWihtAnesType" resultType="com.digihealth.anesthesia.research.formbean.SearchAnesTypeFormBean">
+		 SELECT COUNT(regOptId) total_num ,ROUND(IFNULL(SUM(difMinute)/COUNT(regOptId),0),0) avg_time FROM (
+			SELECT t2.anaRecordId docId,t1.regOptId,ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(t2.anaesEndTime,t2.outOperRoomTime)) - UNIX_TIMESTAMP(IFNULL(t2.anaesStartTime,t2.inOperRoomTime)))/60,0),2) difMinute
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+			   WHERE t1.regOptId=t2.regOptId
+				AND t1.regOptId=t3.regOptId
+				AND t1.state IN ('05','06','07')
+				AND t1.operaDate &gt;= #{searchFormBean.startTime}
+				AND t1.operaDate &lt;= #{searchFormBean.endTime}
+				AND t1.beid = #{searchFormBean.beid}
+				AND (SELECT COUNT(1) FROM evt_real_anaes_method s WHERE docId = t2.anaRecordId ) > 1
+				<if test="searchFormBean.anesDocId !=null and searchFormBean.anesDocId != ''">
+					and t3.anesthetistId = #{searchFormBean.anesDocId}
+				</if>
+		)x
+	</select>	
+	
+	<select id="countAnesNumByAnesType" resultType="com.digihealth.anesthesia.research.formbean.SearchAnesTypeFormBean">
+	  SELECT COUNT(regOptId) total_num ,ROUND(IFNULL(SUM(difMinute),0),0) avg_time FROM (
+		SELECT t2.anaRecordId docId,t1.regOptId,ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(t2.anaesEndTime,t2.outOperRoomTime)) - UNIX_TIMESTAMP(IFNULL(t2.anaesStartTime,t2.inOperRoomTime)))/60,0),2) difMinute
+					FROM 
+						bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+					   WHERE t1.regOptId=t2.regOptId
+						AND t1.regOptId=t3.regOptId
+						AND t1.state IN ('05','06','07')
+						AND (SELECT COUNT(1) FROM evt_real_anaes_method s WHERE docId = t2.anaRecordId ) = 1 
+						AND t1.isLocalAnaes = '0'
+						AND t1.beid = #{searchFormBean.beid}
+						AND t1.operaDate &gt;= #{searchFormBean.startTime}
+						AND t1.operaDate &lt;= #{searchFormBean.endTime}	
+						<if test="searchFormBean.anesDocId !=null and searchFormBean.anesDocId != ''">
+							and t3.anesthetistId = #{searchFormBean.anesDocId}
+						</if>
+						
+		) x ,evt_real_anaes_method x1,bas_anaes_method x2
+		WHERE x.docId = x1.docId
+		AND x1.anaMedId = x2.anaMedId
+		and x2.anesType =  #{searchFormBean.type}
+	</select>
+	
+	<select id="countAnesNumByOtherAnesType" resultType="com.digihealth.anesthesia.research.formbean.SearchAnesTypeFormBean">
+	 SELECT COUNT(regOptId) total_num ,ROUND(IFNULL(SUM(difMinute),0),0) avg_time FROM (
+			SELECT t2.anaRecordId docId,t1.regOptId,ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(t2.anaesEndTime,t2.outOperRoomTime)) - UNIX_TIMESTAMP(IFNULL(t2.anaesStartTime,t2.inOperRoomTime)))/60,0),2) difMinute
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+			   WHERE t1.regOptId=t2.regOptId
+				AND t1.regOptId=t3.regOptId
+				AND t1.state IN ('05','06','07')
+				AND t1.isLocalAnaes = '1'
+				AND t1.beid = #{searchFormBean.beid}
+				AND t1.operaDate &gt;= #{searchFormBean.startTime}
+				AND t1.operaDate &lt;= #{searchFormBean.endTime}	
+
+			UNION ALL
+			
+			SELECT x.regOptId,x.docId,difMinute FROM (
+				SELECT t2.anaRecordId docId,t1.regOptId,ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(t2.anaesEndTime,t2.outOperRoomTime)) - UNIX_TIMESTAMP(IFNULL(t2.anaesStartTime,t2.inOperRoomTime)))/60,0),2) difMinute
+							FROM 
+								bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+								 WHERE t1.regOptId=t2.regOptId
+								AND t1.regOptId=t3.regOptId
+								AND t1.state IN ('05','06','07')
+								AND (SELECT COUNT(1) FROM evt_real_anaes_method s WHERE docId = t2.anaRecordId ) = 1 
+								AND t1.isLocalAnaes = '0'
+								AND t1.beid = #{searchFormBean.beid}
+								AND t1.operaDate &gt;= #{searchFormBean.startTime}
+								AND t1.operaDate &lt;= #{searchFormBean.endTime}	
+								
+				) x ,evt_real_anaes_method x1,bas_anaes_method x2
+				WHERE x.docId = x1.docId
+				AND x1.anaMedId = x2.anaMedId
+				and x2.anesType =  '3'
+		) y
+	</select>
+	
+	<select id="searchOperByCPRNum" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t1.regOptId) FROM bas_reg_opt t1,bas_dispatch t3,evt_participant t4,doc_anaes_record t5
+            WHERE t1.`regOptId` = t3.`regOptId` 
+            AND t1.`regOptId` = t5.`regOptId`
+            AND t4.docId = t5.anaRecordId
+            AND t1.state IN ('05','06','07') 
+            AND t1.operaDate &gt;= #{searchFormBean.startTime}
+            AND t1.operaDate &lt;= #{searchFormBean.endTime}
+            AND t1.beid = #{searchFormBean.beid}
+            <if test="searchFormBean.code != null and searchFormBean.code != ''">
+            	 AND EXISTS(SELECT 1 FROM evt_anaesevent s WHERE s.docId = t5.anaRecordId AND s.code =  #{searchFormBean.code}
+            	<if test="searchFormBean.isSuccess != null and searchFormBean.isSuccess != ''">
+            		and s.isSuccess =  #{searchFormBean.isSuccess} 
+            	</if>
+               )
+            </if>
+            <if test="searchFormBean.operRoomId != null and searchFormBean.operRoomId != ''">
+                AND t3.operRoomId = #{searchFormBean.operRoomId}
+            </if>
+            <if test="searchFormBean.anesthetistId != null and searchFormBean.anesthetistId != ''">
+                AND (t3.anesthetistId = #{searchFormBean.anesthetistId} OR t4.userLoginName = #{searchFormBean.anesthetistId})
+            </if>
+    </select>
+    
+	<select id="searchEnterPacuNum" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+			(SELECT u.`name` FROM bas_user u WHERE u.userName=t2.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,DATE_FORMAT(t.enterTime,'%Y-%m-%d %H:%i:%s') enterTime,DATE_FORMAT(t.exitTime,'%Y-%m-%d %H:%i:%s')exitTime,t.enterTemp,
+			CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t3.anaRecordId)) anaesMethodName
+		FROM doc_anaes_pacu_rec t,bas_reg_opt t1,bas_dispatch t2,doc_anaes_record t3 
+		WHERE t.regOptId = t1.regOptId AND t2.regOptId = t1.regOptId 
+			AND t1.regOptId = t3.regOptId
+			AND t1.beid = #{searchFormBean.beid}
+			AND t1.operaDate &gt;= #{searchFormBean.startTime}
+		AND t1.operaDate &lt;= #{searchFormBean.endTime} and t1.state in ('05','06','07') and t1.isLocalAnaes='0'
+	</select>
+	
+	<select id="searchAnaesPacuDelayRate" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+	SELECT * FROM (
+		SELECT t1.regOptId, IFNULL(FLOOR((TO_SECONDS(DATE_FORMAT(t.exitTime,'%Y-%m-%d %H:%i:00')) 
+		- TO_SECONDS(DATE_FORMAT(t.enterTime,'%Y-%m-%d %H:%i:00'))) / 60),0) AS TIME,
+		t1.state,t1.isLocalAnaes,t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+		(SELECT u.`name` FROM bas_user u WHERE u.userName=t2.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName,t.enterTime,t.exitTime,
+		CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurse_name,
+		IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t3.anaRecordId)) anaesMethodName
+		 FROM doc_anaes_pacu_rec t,bas_reg_opt t1,bas_dispatch t2,doc_anaes_record t3 
+				WHERE t.regOptId = t1.regOptId AND t2.regOptId = t1.regOptId 
+					AND t1.regOptId = t3.regOptId AND t1.beid = #{searchFormBean.beid}
+		) t WHERE t.time>180
+		 AND t.operaDate &gt;= #{searchFormBean.startTime}
+		AND t.operaDate &lt;= #{searchFormBean.endTime} 
+		and t.state in ('05','06','07') and t.isLocalAnaes='0'
+	</select>
+	
+	<select id="searchAnaesPacuLowTemp" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+	SELECT t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+			(SELECT u.`name` FROM bas_user u WHERE u.userName=t2.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,DATE_FORMAT(t.enterTime,'%Y-%m-%d %H:%i:%s') enterTime,DATE_FORMAT(t.exitTime,'%Y-%m-%d %H:%i:%s')exitTime,t.enterTemp,
+			CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t3.anaRecordId)) anaesMethodName
+		FROM doc_anaes_pacu_rec t,bas_reg_opt t1,bas_dispatch t2,doc_anaes_record t3 
+		WHERE t.regOptId = t1.regOptId AND t2.regOptId = t1.regOptId 
+			AND t1.regOptId = t3.regOptId
+			AND t1.beid = #{searchFormBean.beid}
+			and t.enterTemp &lt; 35.5 
+			and t1.state in ('05','06','07') and t1.isLocalAnaes='0'
+		AND t1.operaDate &gt;= #{searchFormBean.startTime}
+		AND t1.operaDate &lt;= #{searchFormBean.endTime} 
+	</select>
+	
+ 	<select id="searchAnesSecondIntubatList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+ 		SELECT 
+				t1.regOptId,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t2.anaRecordId docId,t1.operatorName,t1.designedOptName,
+				(SELECT NAME FROM bas_user WHERE bas_user.userName = t3.anesthetistId AND bas_user.beid = #{searchFormBean.beid})  anesthetist_name,DATE_FORMAT(t4.intubatTime,'%Y-%m-%d %H:%i:%s') intubatTime,t4.secondIntubat,
+				CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+				IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3,doc_post_follow_record t4,
+				(SELECT MAX(occurtime) occurtime,docId FROM evt_anaesevent s WHERE s.code = '6' GROUP BY docId ) t5
+			   WHERE t1.regOptId=t2.regOptId
+				AND t1.regOptId=t3.regOptId
+				AND t1.regOptId = t4.regOptId
+				AND t2.anaRecordId = t5.docId
+				AND t1.beid = #{searchFormBean.beid}
+				AND t1.state in ('05','06','07')
+        		and t4.secondIntubat = 1
+				and IFNULL(FLOOR((TO_SECONDS(DATE_FORMAT(t4.intubatTime,'%Y-%m-%d %H:%i:00')) - TO_SECONDS(DATE_FORMAT(t5.occurtime,'%Y-%m-%d %H:%i:00'))) / 60),0) &lt; 360
+				AND t1.operaDate &gt;= #{searchFormBean.startTime}
+				AND t1.operaDate &lt;= #{searchFormBean.endTime}
+	</select>
+	
+	<select id="searchAnesExtubatList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT x.*,x1.secondIntubat,DATE_FORMAT(x1.intubatTime,'%Y-%m-%d %H:%i:%s') intubatTime FROM (
+			SELECT 
+				t1.regOptId,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t2.anaRecordId docId,t1.operatorName,t1.designedOptName,
+				(SELECT NAME FROM bas_user WHERE bas_user.userName = t3.anesthetistId AND bas_user.beid = #{searchFormBean.beid})  anesthetistName ,
+				CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+				IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3,
+				(SELECT MAX(occurtime) occurtime,docId FROM evt_anaesevent s WHERE s.code = '6' GROUP BY docId ) t4
+			   WHERE t1.regOptId=t2.regOptId
+				AND t1.regOptId=t3.regOptId
+				AND t2.anaRecordId = t4.docId
+				AND t1.beid = #{searchFormBean.beid}
+				AND t1.state in ('05','06','07')
+				AND t1.operaDate &gt;= #{searchFormBean.startTime}
+				AND t1.operaDate &lt;= #{searchFormBean.endTime}	
+			) x LEFT JOIN doc_post_follow_record x1 on x.regOptId = x1.regOptId
+	</select>
+	
+	<select id="searchOptAllergicReactionList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+	select x.*,DATE_FORMAT(x2.allergicReactionTime,'%Y-%m-%d %H:%i:%s') allergicReactionTime,concat_ws(',',x2.failureContents,x2.airwayContents) contents from (
+			SELECT 
+				t1.regOptId,t1.beid,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t2.anaRecordId docId,t1.operatorName,t1.designedOptName,
+				(select name from bas_user where bas_user.userName = t3.anesthetistId and bas_user.beid = #{searchFormBean.beid})  anesthetistName,
+				concat_ws(',',(select name from bas_user s where s.userName = t3.circunurseId1 and s.beid = #{searchFormBean.beid}),(select name from bas_user s where s.userName = t3.circunurseId2 and s.beid = #{searchFormBean.beid})) circunurseName,
+				IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(select group_concat(name) from evt_real_anaes_method m where m.docId = t2.anaRecordId)) anaesMethodName
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+			   where t1.regOptId=t2.regOptId
+				and t1.regOptId=t3.regOptId
+				and t1.beid = #{searchFormBean.beid}
+				AND t1.state in ('05','06','07')
+				AND t1.operaDate &gt;= #{searchFormBean.startTime}
+				AND t1.operaDate &lt;= #{searchFormBean.endTime}		
+		) x,doc_anaes_summary x1,doc_anaes_summary_allergic_reaction x2
+		where x.regOptId=x1.regOptId
+		and x1.anaSumId=x2.anaSumId
+		and x.beid = #{searchFormBean.beid}
+		and (x2.circulatFailure=1 or x2.airwayResp=1 or x2.obviousRash=1 or x2.adrenaline=1)
+	</select>
+	
+	<select id="searchOtherAnesList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+	  SELECT x.* FROM (
+		SELECT 
+						DISTINCT t1.regOptId,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t2.anaRecordId docId,t1.operatorName,t1.designedOptName,
+						(SELECT NAME FROM bas_user WHERE bas_user.userName = t3.anesthetistId AND bas_user.beid = #{searchFormBean.beid})  anesthetistName,
+						CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+						IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName 
+					FROM 
+						bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+					   WHERE t1.regOptId=t2.regOptId
+						AND t1.regOptId=t3.regOptId
+						AND t1.beid = #{searchFormBean.beid}
+						AND t1.state in ('05','06','07')
+						AND (SELECT COUNT(1) FROM evt_real_anaes_method s WHERE docId = t2.anaRecordId ) = 1 
+						AND t1.isLocalAnaes = '0'
+						AND t1.operaDate &gt;= #{searchFormBean.startTime}
+						AND t1.operaDate &lt;= #{searchFormBean.endTime}	
+						
+		) x ,evt_real_anaes_method x1,bas_anaes_method x2
+		WHERE x.docId = x1.docId
+		AND x1.anaMedId = x2.anaMedId
+		AND x2.beid = #{searchFormBean.beid}
+		AND x2.anesType = #{searchFormBean.type}
+	</select>
+	
+	<select id="searchSpinalAneshrListInHours" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowSpinal">	
+		SELECT b.* FROM doc_post_follow_record a,doc_post_follow_spinal b
+			WHERE a.postFollowId=b.postFollowId
+	      AND a.regOptId = #{searchFormBean.regOptId}
+	      and FLOOR(TO_SECONDS(DATE_FORMAT(b.observeTime,'%Y-%m-%d %H:%i:00')) 
+	            - TO_SECONDS(DATE_FORMAT(#{searchFormBean.startTime},'%Y-%m-%d %H:%i:00')))/60/60 &gt; #{hours}
+			order by b.observeTime desc
+	</select>
+	
+	<select id="searchExtubat72hrHoarseList" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowGeneral">	
+		SELECT b.* FROM doc_post_follow_record a,doc_post_follow_general b
+			WHERE a.postFollowId=b.postFollowId
+	      AND a.regOptId = #{searchFormBean.regOptId}
+	      and FLOOR(TO_SECONDS(DATE_FORMAT(b.observeTime,'%Y-%m-%d %H:%i:00')) 
+	            - TO_SECONDS(DATE_FORMAT(#{searchFormBean.startTime},'%Y-%m-%d %H:%i:00')))/60/60 &lt; 72
+			order by b.observeTime desc limit 1
+	</select>
+	
+	<select id="searchOutpatientOperateList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT 
+				t1.regOptId,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t2.anaRecordId docId,t1.operatorName,t1.designedOptName,
+				(SELECT NAME FROM bas_user WHERE bas_user.userName = t3.anesthetistId AND bas_user.beid = #{searchBean.beid}) anesthetistName
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3 
+			   WHERE t1.regOptId=t2.regOptId
+				AND t1.regOptId=t3.regOptId
+				AND t1.state IN ('05','06','07')
+				AND t1.beid = #{searchBean.beid}
+				AND t1.operSource = #{searchBean.operSource}
+				AND t1.operaDate &gt;= #{searchBean.startTime}
+				AND t1.operaDate &lt;= #{searchBean.endTime}	
+				<if test="searchBean.operRoomId != null and searchBean.operRoomId != ''">
+                	AND t3.operRoomId = #{searchBean.operRoomId}
+            	</if>	
+	</select>
+	
+	<select id="queryTotalAnaesRegDetailList" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+			SELECT d.anaRecordId, b.operaDate,b.name,b.sex,b.age,b.hid,b.bed,b.regionName
+			FROM bas_reg_opt b,doc_anaes_record d  
+			WHERE b.regOptId=d.regOptId 
+			AND b.state IN ('05','06','07') AND b.beid = #{beid}) anaesRecord 
+		where 1 = 1 
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+					</choose>
+				</if>
+			</foreach>
+		</if>
+	</select>
+	
+    <select id="queryAnaesRegDetailList" resultType="com.digihealth.anesthesia.research.formbean.SearchAnaesRegInfo">
+		SELECT anaesRecord.*,IF(anaesRecord.operAnaesTime>0,anaesRecord.operAnaesTime,0) anaesTime FROM (
+			SELECT b.regOptId, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,b.operatorName,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) optLatterDiag,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) optRealOper,
+				ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(anaesEndTime,outOperRoomTime)) - UNIX_TIMESTAMP(anaesStartTime))/60,0),2) operAnaesTime,
+				(SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) anaesDoc,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) shiftAnaesDoc
+			FROM bas_reg_opt b,doc_anaes_record d  
+			WHERE b.regOptId=d.regOptId 
+			AND   b.state IN ('05','06','07') AND b.beid = #{searchFormBean.beid}) anaesRecord
+		WHERE 1 = 1 
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+					</choose>
+				</if>
+			</foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+	</select>
+	
+	<select id="queryOperateDetailByDeptTotal" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+			SELECT d.anaRecordId, b.operaDate,b.name,b.sex,b.age,b.hid,b.bed,b.regionName,b.deptId,b.deptName,b.operatorId
+			FROM bas_reg_opt b,doc_anaes_record d  
+			WHERE b.regOptId=d.regOptId 
+			AND b.state IN ('05','06','07') AND b.beid = #{searchFormBean.beid}) anaesRecord 
+		WHERE 1 = 1
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} = #{filter.value}
+							</if>
+						</otherwise>
+					</choose>
+				</if>
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="queryOperateDetailByDept" resultType="com.digihealth.anesthesia.research.formbean.SearchAnaesRegInfo">
+		SELECT anaesRecord.* FROM (
+			SELECT b.regOptId, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,b.deptId,b.deptName,b.operatorName,b.operatorId,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) optLatterDiag,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) optRealOper,
+				ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(operEndTime,d.outOperRoomTime)) - UNIX_TIMESTAMP(operStartTime))/60,0),2) operTime,
+				(SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) anaesDoc,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) shiftAnaesDoc
+			FROM bas_reg_opt b,doc_anaes_record d  
+			WHERE b.regOptId=d.regOptId 
+			AND   b.state IN ('05','06','07') AND b.beid = #{searchFormBean.beid}) anaesRecord
+		WHERE 1 = 1 
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} = #{filter.value}
+							</if>
+						</otherwise>
+					</choose>
+				</if>
+			</foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+	</select>
+	
+	<select id="searchHospitalKeyOperationNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM bas_reg_opt t WHERE state IN ('05','06','07')  
+		AND t.operaDate &gt;= #{searchFormBean.startTime} 
+		AND t.operaDate &lt;= #{searchFormBean.endTime}
+		<if test="searchFormBean.operatorId != null and searchFormBean.operatorId != ''">
+			AND t.operatorId =  #{searchFormBean.operatorId}
+		</if>
+		AND t.beid = #{searchFormBean.beid}
+		AND t.isLocalAnaes = 0 
+	</select>
+	
+	<select id="searchDeathNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM bas_reg_opt t , doc_anaes_record d 
+		WHERE t.`regOptId` = d.`regOptId` 
+		AND t.state IN ('05','06','07') 
+		AND t.operaDate &gt;= #{searchFormBean.startTime} 
+		AND t.operaDate &lt;= #{searchFormBean.endTime} 
+		<if test="searchFormBean.operatorId != null and searchFormBean.operatorId != ''">
+			AND t.operatorId =  #{searchFormBean.operatorId}
+		</if>
+		AND t.beid = #{searchFormBean.beid}
+		AND t.isLocalAnaes = 0 
+		AND d.`leaveTo` = '4' 
+	</select>
+	
+	<select id="searchAnes24hrCardiacArrest" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT t4.*,'是' cardiacArrest FROM (
+			SELECT  IFNULL(FLOOR((TO_SECONDS(DATE_FORMAT(t.occurtime,'%Y-%m-%d %H:%i:00'))- TO_SECONDS(DATE_FORMAT(t2.anaesStartTime,'%Y-%m-%d %H:%i:00'))) / 60),0) AS TIME,
+					DATE_FORMAT(t2.anaesStartTime,'%Y-%m-%d %H:%i:%s') anaesStartTime,t.docId,t1.regOptId,
+					DATE_FORMAT(t.occurtime,'%Y-%m-%d %H:%i:%s') cardiacArrestTime,t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+					(SELECT u.`name` FROM bas_user u WHERE u.userName=t5.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,
+				    CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t5.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t5.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			 		IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName
+			FROM (SELECT MIN(occurtime) occurtime,docId FROM evt_anaesevent WHERE CODE = '31' GROUP BY docId) t,doc_anaes_record t2,bas_reg_opt t1,bas_dispatch t5 
+			WHERE t.docId = t2.anaRecordId AND t2.regOptId = t1.regOptId 
+					AND t1.regOptId = t5.regOptId 
+					AND t1.beid = #{searchFormBean.beid}
+					AND t1.operaDate &gt;= #{searchFormBean.startTime}
+					AND t1.operaDate &lt;= #{searchFormBean.endTime} 
+					and t1.state in ('05','06','07')
+			) t4 where t4.time &lt;= 1440
+	</select>
+	
+	<select id="search24HourDeathRate" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT t.*,'是' isDeath
+			FROM (SELECT t1.regOptId, IFNULL(FLOOR((TO_SECONDS(DATE_FORMAT(t.outOperRoomTime,'%Y-%m-%d %H:%i:00')) 
+				- TO_SECONDS(DATE_FORMAT(t.anaesStartTime,'%Y-%m-%d %H:%i:00'))) / 60),0) AS operDeathTime, t.outOperRoomTime,t3.isDeath death,
+				IFNULL(FLOOR((TO_SECONDS(DATE_FORMAT(t3.deathTime,'%Y-%m-%d %H:%i:00')) 
+				- TO_SECONDS(DATE_FORMAT(t.anaesStartTime,'%Y-%m-%d %H:%i:00'))) / 60),0) AS followDeathTime,
+				t1.state,t1.isLocalAnaes,t1.`name`,t1.sex,t1.age,t.leaveTo,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+				(SELECT u.`name` FROM bas_user u WHERE u.userName=t2.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,
+			 IF(t.leaveTo='4',DATE_FORMAT(t3.deathTime,'%Y-%m-%d %H:%i:%s'),DATE_FORMAT(t.anaesStartTime,'%Y-%m-%d %H:%i:%s')) deathTime,
+			 CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t2.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			 IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t.anaRecordId)) anaesMethodName
+			FROM doc_anaes_record t,bas_reg_opt t1,bas_dispatch t2 ,doc_post_follow_record t3
+			WHERE t.regOptId = t1.regOptId 
+			AND t2.regOptId = t1.regOptId 
+			AND t.regOptId = t3.regOptId 
+			AND t1.beid = #{searchFormBean.beid}
+			) t 
+			where ((t.operDeathTime &lt;= 1440 and t.leaveTo='4') or (t.death = 1 and t.followDeathTime &lt;= 1440))
+			and t.state in ('05','06','07') and t.isLocalAnaes='0'
+			AND t.operaDate &gt;= #{searchFormBean.startTime}
+			AND t.operaDate &lt;= #{searchFormBean.endTime} 
+	</select>
+	
+	<select id="searchQmFjgIcuNum" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">	
+		SELECT t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+			(SELECT u.`name` FROM bas_user u WHERE u.userName=t3.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,
+			CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName,
+			CASE t4.leaveto WHEN 1 THEN '病房'
+		  WHEN 2 THEN 'ICU' ELSE '' END
+			AS planTo,'ICU' actualTo 
+		FROM bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3 ,doc_anaes_plan t4
+		WHERE t2.regOptId = t1.regOptId AND t3.regOptId = t1.regOptId
+		AND t2.regOptId = t4.regOptId 
+		AND t1.beid = #{searchFormBean.beid}
+		AND t1.state IN ('05','06','07') 
+		AND t1.isLocalAnaes ='0' 
+		AND t2.leaveTo ='3'
+		AND t4.leaveto != 2
+		AND t1.operaDate &gt;= #{searchFormBean.startTime}
+		AND t1.operaDate &lt;= #{searchFormBean.endTime}
+		
+		UNION all
+		
+		SELECT t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+			(SELECT u.`name` FROM bas_user u WHERE u.userName=t3.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,
+			CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			t1.designedAnaesMethodName,
+			CASE t4.leaveto WHEN 1 THEN '病房'
+		  WHEN 2 THEN 'ICU' ELSE '' END
+			AS planTo,'ICU' actualTo 
+		FROM doc_opt_care_record t,bas_reg_opt t1,bas_dispatch t3 ,doc_anaes_plan t4
+		WHERE t.regOptId = t1.regOptId 
+		AND t3.regOptId = t1.regOptId 
+		AND t1.regOptId = t4.regOptId 
+		AND t.leaveTo ='3'
+		AND t1.beid = #{searchFormBean.beid}
+		AND t1.state IN ('05','06','07') 
+		AND t1.isLocalAnaes ='1'
+		AND t4.leaveto != 2
+		AND t1.operaDate &gt;= #{searchFormBean.startTime}
+		AND t1.operaDate &lt;= #{searchFormBean.endTime}
+	</select>
+	
+	<select id="searchQmIcuNum" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+			(SELECT u.`name` FROM bas_user u WHERE u.userName=t3.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,
+			CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			t1.designedAnaesMethodName,
+			CASE t4.leaveto WHEN 1 THEN '病房'
+		  WHEN 2 THEN 'ICU' ELSE '' END
+			AS planTo,'ICU' actualTo 
+		FROM doc_opt_care_record t,bas_reg_opt t1,bas_dispatch t3 ,doc_anaes_plan t4
+		WHERE t.regOptId = t1.regOptId 
+		AND t3.regOptId = t1.regOptId 
+		AND t1.regOptId = t4.regOptId 
+		AND t.leaveTo ='3' 
+		AND t1.beid = #{searchFormBean.beid}
+		AND t1.state IN ('05','06','07') 
+		AND t1.isLocalAnaes ='1'
+		AND t1.operaDate &gt;= #{searchFormBean.startTime}
+		AND t1.operaDate &lt;= #{searchFormBean.endTime}
+	</select>
+	
+	<select id="searchJmIcuNum" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT t1.`name`,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t1.operatorName,t1.designedOptName,
+			(SELECT u.`name` FROM bas_user u WHERE u.userName=t3.anesthetistId AND u.beid = #{searchFormBean.beid}) AS anesthetistName ,
+			CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+			IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName,
+			CASE t4.leaveto WHEN 1 THEN '病房'
+		  WHEN 2 THEN 'ICU' ELSE '' END
+			AS planTo,'ICU' actualTo 
+		FROM bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3 ,doc_anaes_plan t4
+		WHERE t2.regOptId = t1.regOptId AND t3.regOptId = t1.regOptId
+		AND t2.regOptId = t4.regOptId 
+		AND t1.beid = #{searchFormBean.beid}
+		AND t1.state IN ('05','06','07') 
+		AND t1.isLocalAnaes ='0' 
+		AND t2.leaveTo ='3'
+	</select>
+	
+	<select id="searchReunitWihtAnesList" resultType="com.digihealth.anesthesia.research.formbean.SearchOperFormBean">
+		SELECT 
+				t1.regOptId,t1.name,t1.sex,t1.age,t1.ageMon,t1.ageDay,t1.hid,t1.operaDate,t2.anaRecordId docId,t1.operatorName,t1.designedOptName,
+				(SELECT NAME FROM bas_user WHERE bas_user.userName = t3.anesthetistId AND bas_user.beid = #{searchFormBean.beid})  anesthetistName,
+				CONCAT_WS(',',(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId1 AND s.beid = #{searchFormBean.beid}),(SELECT NAME FROM bas_user s WHERE s.userName = t3.circunurseId2 AND s.beid = #{searchFormBean.beid})) circunurseName,
+				IF(t1.isLocalAnaes > 0,t1.designedAnaesMethodName,(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method m WHERE m.docId = t2.anaRecordId)) anaesMethodName 
+			FROM 
+				bas_reg_opt t1,doc_anaes_record t2,bas_dispatch t3
+			   WHERE t1.regOptId=t2.regOptId
+				AND t1.regOptId=t3.regOptId
+				AND t1.beid = #{searchFormBean.beid}
+				AND t1.state IN ('05','06','07')
+				AND (SELECT COUNT(1) FROM evt_real_anaes_method s WHERE docId = t2.anaRecordId ) > 1
+				AND t1.operaDate &gt;= #{searchFormBean.startTime}
+				AND t1.operaDate &lt;= #{searchFormBean.endTime}	
+	</select>	
+</mapper>

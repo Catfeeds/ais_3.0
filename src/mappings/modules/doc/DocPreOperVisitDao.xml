@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPreOperVisitDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPreOperVisit" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="assistMeasure" property="assistMeasure" jdbcType="INTEGER" />
+    <result column="assistDetail" property="assistDetail" jdbcType="VARCHAR" />
+    <result column="SBP" property="SBP" jdbcType="INTEGER" />
+    <result column="DBP" property="DBP" jdbcType="INTEGER" />
+    <result column="P" property="p" jdbcType="INTEGER" />
+    <result column="R" property="r" jdbcType="INTEGER" />
+    <result column="drugAddiction" property="drugAddiction" jdbcType="INTEGER" />
+    <result column="allergic" property="allergic" jdbcType="INTEGER" />
+    <result column="deformity" property="deformity" jdbcType="INTEGER" />
+    <result column="cervicalVertebra" property="cervicalVertebra" jdbcType="INTEGER" />
+    <result column="dehisceHard" property="dehisceHard" jdbcType="INTEGER" />
+    <result column="aperture" property="aperture" jdbcType="INTEGER" />
+    <result column="denture" property="denture" jdbcType="INTEGER" />
+    <result column="dyspnea" property="dyspnea" jdbcType="INTEGER" />
+    <result column="mallampatis" property="mallampatis" jdbcType="INTEGER" />
+    <result column="heartLevel" property="heartLevel" jdbcType="INTEGER" />
+    <result column="hypertension" property="hypertension" jdbcType="INTEGER" />
+    <result column="coronary" property="coronary" jdbcType="INTEGER" />
+    <result column="ecg" property="ecg" jdbcType="INTEGER" />
+    <result column="lungFunc" property="lungFunc" jdbcType="INTEGER" />
+    <result column="lungDisease" property="lungDisease" jdbcType="INTEGER" />
+    <result column="endocrine" property="endocrine" jdbcType="INTEGER" />
+    <result column="nervous" property="nervous" jdbcType="INTEGER" />
+    <result column="rabat" property="rabat" jdbcType="INTEGER" />
+    <result column="liverFunc" property="liverFunc" jdbcType="INTEGER" />
+    <result column="renalFunc" property="renalFunc" jdbcType="INTEGER" />
+    <result column="electrolytic" property="electrolytic" jdbcType="INTEGER" />
+    <result column="assistCheckOther" property="assistCheckOther" jdbcType="VARCHAR" />
+    <result column="fasting" property="fasting" jdbcType="INTEGER" />
+    <result column="banDrink" property="banDrink" jdbcType="INTEGER" />
+    <result column="otherDocord" property="otherDocord" jdbcType="VARCHAR" />
+    <result column="asa" property="asa" jdbcType="INTEGER" />
+    <result column="riskLevel" property="riskLevel" jdbcType="INTEGER" />
+    <result column="otherSituation" property="otherSituation" jdbcType="VARCHAR" />
+    <result column="anesthetistSign" property="anesthetistSign" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, processState, assistMeasure, assistDetail, SBP, DBP, P, R, drugAddiction, 
+    allergic, deformity, cervicalVertebra, dehisceHard, aperture, denture, dyspnea, mallampatis, 
+    heartLevel, hypertension, coronary, ecg, lungFunc, lungDisease, endocrine, nervous, 
+    rabat, liverFunc, renalFunc, electrolytic, assistCheckOther, fasting, banDrink, otherDocord, 
+    asa, riskLevel, otherSituation, anesthetistSign, time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pre_oper_visit
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pre_oper_visit
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_pre_oper_visit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPreOperVisit" >
+    insert into doc_pre_oper_visit (id, regOptId, processState, 
+      assistMeasure, assistDetail, SBP, 
+      DBP, P, R, drugAddiction, 
+      allergic, deformity, cervicalVertebra, 
+      dehisceHard, aperture, denture, 
+      dyspnea, mallampatis, heartLevel, 
+      hypertension, coronary, ecg, 
+      lungFunc, lungDisease, endocrine, 
+      nervous, rabat, liverFunc, 
+      renalFunc, electrolytic, assistCheckOther, 
+      fasting, banDrink, otherDocord, 
+      asa, riskLevel, otherSituation, 
+      anesthetistSign, time)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{assistMeasure,jdbcType=INTEGER}, #{assistDetail,jdbcType=VARCHAR}, #{SBP,jdbcType=INTEGER}, 
+      #{DBP,jdbcType=INTEGER}, #{p,jdbcType=INTEGER}, #{r,jdbcType=INTEGER}, #{drugAddiction,jdbcType=INTEGER}, 
+      #{allergic,jdbcType=INTEGER}, #{deformity,jdbcType=INTEGER}, #{cervicalVertebra,jdbcType=INTEGER}, 
+      #{dehisceHard,jdbcType=INTEGER}, #{aperture,jdbcType=INTEGER}, #{denture,jdbcType=INTEGER}, 
+      #{dyspnea,jdbcType=INTEGER}, #{mallampatis,jdbcType=INTEGER}, #{heartLevel,jdbcType=INTEGER}, 
+      #{hypertension,jdbcType=INTEGER}, #{coronary,jdbcType=INTEGER}, #{ecg,jdbcType=INTEGER}, 
+      #{lungFunc,jdbcType=INTEGER}, #{lungDisease,jdbcType=INTEGER}, #{endocrine,jdbcType=INTEGER}, 
+      #{nervous,jdbcType=INTEGER}, #{rabat,jdbcType=INTEGER}, #{liverFunc,jdbcType=INTEGER}, 
+      #{renalFunc,jdbcType=INTEGER}, #{electrolytic,jdbcType=INTEGER}, #{assistCheckOther,jdbcType=VARCHAR}, 
+      #{fasting,jdbcType=INTEGER}, #{banDrink,jdbcType=INTEGER}, #{otherDocord,jdbcType=VARCHAR}, 
+      #{asa,jdbcType=INTEGER}, #{riskLevel,jdbcType=INTEGER}, #{otherSituation,jdbcType=VARCHAR}, 
+      #{anesthetistSign,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPreOperVisit" >
+    insert into doc_pre_oper_visit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="assistMeasure != null" >
+        assistMeasure,
+      </if>
+      <if test="assistDetail != null" >
+        assistDetail,
+      </if>
+      <if test="SBP != null" >
+        SBP,
+      </if>
+      <if test="DBP != null" >
+        DBP,
+      </if>
+      <if test="p != null" >
+        P,
+      </if>
+      <if test="r != null" >
+        R,
+      </if>
+      <if test="drugAddiction != null" >
+        drugAddiction,
+      </if>
+      <if test="allergic != null" >
+        allergic,
+      </if>
+      <if test="deformity != null" >
+        deformity,
+      </if>
+      <if test="cervicalVertebra != null" >
+        cervicalVertebra,
+      </if>
+      <if test="dehisceHard != null" >
+        dehisceHard,
+      </if>
+      <if test="aperture != null" >
+        aperture,
+      </if>
+      <if test="denture != null" >
+        denture,
+      </if>
+      <if test="dyspnea != null" >
+        dyspnea,
+      </if>
+      <if test="mallampatis != null" >
+        mallampatis,
+      </if>
+      <if test="heartLevel != null" >
+        heartLevel,
+      </if>
+      <if test="hypertension != null" >
+        hypertension,
+      </if>
+      <if test="coronary != null" >
+        coronary,
+      </if>
+      <if test="ecg != null" >
+        ecg,
+      </if>
+      <if test="lungFunc != null" >
+        lungFunc,
+      </if>
+      <if test="lungDisease != null" >
+        lungDisease,
+      </if>
+      <if test="endocrine != null" >
+        endocrine,
+      </if>
+      <if test="nervous != null" >
+        nervous,
+      </if>
+      <if test="rabat != null" >
+        rabat,
+      </if>
+      <if test="liverFunc != null" >
+        liverFunc,
+      </if>
+      <if test="renalFunc != null" >
+        renalFunc,
+      </if>
+      <if test="electrolytic != null" >
+        electrolytic,
+      </if>
+      <if test="assistCheckOther != null" >
+        assistCheckOther,
+      </if>
+      <if test="fasting != null" >
+        fasting,
+      </if>
+      <if test="banDrink != null" >
+        banDrink,
+      </if>
+      <if test="otherDocord != null" >
+        otherDocord,
+      </if>
+      <if test="asa != null" >
+        asa,
+      </if>
+      <if test="riskLevel != null" >
+        riskLevel,
+      </if>
+      <if test="otherSituation != null" >
+        otherSituation,
+      </if>
+      <if test="anesthetistSign != null" >
+        anesthetistSign,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="assistMeasure != null" >
+        #{assistMeasure,jdbcType=INTEGER},
+      </if>
+      <if test="assistDetail != null" >
+        #{assistDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="SBP != null" >
+        #{SBP,jdbcType=INTEGER},
+      </if>
+      <if test="DBP != null" >
+        #{DBP,jdbcType=INTEGER},
+      </if>
+      <if test="p != null" >
+        #{p,jdbcType=INTEGER},
+      </if>
+      <if test="r != null" >
+        #{r,jdbcType=INTEGER},
+      </if>
+      <if test="drugAddiction != null" >
+        #{drugAddiction,jdbcType=INTEGER},
+      </if>
+      <if test="allergic != null" >
+        #{allergic,jdbcType=INTEGER},
+      </if>
+      <if test="deformity != null" >
+        #{deformity,jdbcType=INTEGER},
+      </if>
+      <if test="cervicalVertebra != null" >
+        #{cervicalVertebra,jdbcType=INTEGER},
+      </if>
+      <if test="dehisceHard != null" >
+        #{dehisceHard,jdbcType=INTEGER},
+      </if>
+      <if test="aperture != null" >
+        #{aperture,jdbcType=INTEGER},
+      </if>
+      <if test="denture != null" >
+        #{denture,jdbcType=INTEGER},
+      </if>
+      <if test="dyspnea != null" >
+        #{dyspnea,jdbcType=INTEGER},
+      </if>
+      <if test="mallampatis != null" >
+        #{mallampatis,jdbcType=INTEGER},
+      </if>
+      <if test="heartLevel != null" >
+        #{heartLevel,jdbcType=INTEGER},
+      </if>
+      <if test="hypertension != null" >
+        #{hypertension,jdbcType=INTEGER},
+      </if>
+      <if test="coronary != null" >
+        #{coronary,jdbcType=INTEGER},
+      </if>
+      <if test="ecg != null" >
+        #{ecg,jdbcType=INTEGER},
+      </if>
+      <if test="lungFunc != null" >
+        #{lungFunc,jdbcType=INTEGER},
+      </if>
+      <if test="lungDisease != null" >
+        #{lungDisease,jdbcType=INTEGER},
+      </if>
+      <if test="endocrine != null" >
+        #{endocrine,jdbcType=INTEGER},
+      </if>
+      <if test="nervous != null" >
+        #{nervous,jdbcType=INTEGER},
+      </if>
+      <if test="rabat != null" >
+        #{rabat,jdbcType=INTEGER},
+      </if>
+      <if test="liverFunc != null" >
+        #{liverFunc,jdbcType=INTEGER},
+      </if>
+      <if test="renalFunc != null" >
+        #{renalFunc,jdbcType=INTEGER},
+      </if>
+      <if test="electrolytic != null" >
+        #{electrolytic,jdbcType=INTEGER},
+      </if>
+      <if test="assistCheckOther != null" >
+        #{assistCheckOther,jdbcType=VARCHAR},
+      </if>
+      <if test="fasting != null" >
+        #{fasting,jdbcType=INTEGER},
+      </if>
+      <if test="banDrink != null" >
+        #{banDrink,jdbcType=INTEGER},
+      </if>
+      <if test="otherDocord != null" >
+        #{otherDocord,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        #{asa,jdbcType=INTEGER},
+      </if>
+      <if test="riskLevel != null" >
+        #{riskLevel,jdbcType=INTEGER},
+      </if>
+      <if test="otherSituation != null" >
+        #{otherSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistSign != null" >
+        #{anesthetistSign,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPreOperVisit" >
+    update doc_pre_oper_visit
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="assistMeasure != null" >
+        assistMeasure = #{assistMeasure,jdbcType=INTEGER},
+      </if>
+      <if test="assistDetail != null" >
+        assistDetail = #{assistDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="SBP != null" >
+        SBP = #{SBP,jdbcType=INTEGER},
+      </if>
+      <if test="DBP != null" >
+        DBP = #{DBP,jdbcType=INTEGER},
+      </if>
+      <if test="p != null" >
+        P = #{p,jdbcType=INTEGER},
+      </if>
+      <if test="r != null" >
+        R = #{r,jdbcType=INTEGER},
+      </if>
+      <if test="drugAddiction != null" >
+        drugAddiction = #{drugAddiction,jdbcType=INTEGER},
+      </if>
+      <if test="allergic != null" >
+        allergic = #{allergic,jdbcType=INTEGER},
+      </if>
+      <if test="deformity != null" >
+        deformity = #{deformity,jdbcType=INTEGER},
+      </if>
+      <if test="cervicalVertebra != null" >
+        cervicalVertebra = #{cervicalVertebra,jdbcType=INTEGER},
+      </if>
+      <if test="dehisceHard != null" >
+        dehisceHard = #{dehisceHard,jdbcType=INTEGER},
+      </if>
+      <if test="aperture != null" >
+        aperture = #{aperture,jdbcType=INTEGER},
+      </if>
+      <if test="denture != null" >
+        denture = #{denture,jdbcType=INTEGER},
+      </if>
+      <if test="dyspnea != null" >
+        dyspnea = #{dyspnea,jdbcType=INTEGER},
+      </if>
+      <if test="mallampatis != null" >
+        mallampatis = #{mallampatis,jdbcType=INTEGER},
+      </if>
+      <if test="heartLevel != null" >
+        heartLevel = #{heartLevel,jdbcType=INTEGER},
+      </if>
+      <if test="hypertension != null" >
+        hypertension = #{hypertension,jdbcType=INTEGER},
+      </if>
+      <if test="coronary != null" >
+        coronary = #{coronary,jdbcType=INTEGER},
+      </if>
+      <if test="ecg != null" >
+        ecg = #{ecg,jdbcType=INTEGER},
+      </if>
+      <if test="lungFunc != null" >
+        lungFunc = #{lungFunc,jdbcType=INTEGER},
+      </if>
+      <if test="lungDisease != null" >
+        lungDisease = #{lungDisease,jdbcType=INTEGER},
+      </if>
+      <if test="endocrine != null" >
+        endocrine = #{endocrine,jdbcType=INTEGER},
+      </if>
+      <if test="nervous != null" >
+        nervous = #{nervous,jdbcType=INTEGER},
+      </if>
+      <if test="rabat != null" >
+        rabat = #{rabat,jdbcType=INTEGER},
+      </if>
+      <if test="liverFunc != null" >
+        liverFunc = #{liverFunc,jdbcType=INTEGER},
+      </if>
+      <if test="renalFunc != null" >
+        renalFunc = #{renalFunc,jdbcType=INTEGER},
+      </if>
+      <if test="electrolytic != null" >
+        electrolytic = #{electrolytic,jdbcType=INTEGER},
+      </if>
+      <if test="assistCheckOther != null" >
+        assistCheckOther = #{assistCheckOther,jdbcType=VARCHAR},
+      </if>
+      <if test="fasting != null" >
+        fasting = #{fasting,jdbcType=INTEGER},
+      </if>
+      <if test="banDrink != null" >
+        banDrink = #{banDrink,jdbcType=INTEGER},
+      </if>
+      <if test="otherDocord != null" >
+        otherDocord = #{otherDocord,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        asa = #{asa,jdbcType=INTEGER},
+      </if>
+      <if test="riskLevel != null" >
+        riskLevel = #{riskLevel,jdbcType=INTEGER},
+      </if>
+      <if test="otherSituation != null" >
+        otherSituation = #{otherSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthetistSign != null" >
+        anesthetistSign = #{anesthetistSign,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPreOperVisit" >
+    update doc_pre_oper_visit
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      assistMeasure = #{assistMeasure,jdbcType=INTEGER},
+      assistDetail = #{assistDetail,jdbcType=VARCHAR},
+      SBP = #{SBP,jdbcType=INTEGER},
+      DBP = #{DBP,jdbcType=INTEGER},
+      P = #{p,jdbcType=INTEGER},
+      R = #{r,jdbcType=INTEGER},
+      drugAddiction = #{drugAddiction,jdbcType=INTEGER},
+      allergic = #{allergic,jdbcType=INTEGER},
+      deformity = #{deformity,jdbcType=INTEGER},
+      cervicalVertebra = #{cervicalVertebra,jdbcType=INTEGER},
+      dehisceHard = #{dehisceHard,jdbcType=INTEGER},
+      aperture = #{aperture,jdbcType=INTEGER},
+      denture = #{denture,jdbcType=INTEGER},
+      dyspnea = #{dyspnea,jdbcType=INTEGER},
+      mallampatis = #{mallampatis,jdbcType=INTEGER},
+      heartLevel = #{heartLevel,jdbcType=INTEGER},
+      hypertension = #{hypertension,jdbcType=INTEGER},
+      coronary = #{coronary,jdbcType=INTEGER},
+      ecg = #{ecg,jdbcType=INTEGER},
+      lungFunc = #{lungFunc,jdbcType=INTEGER},
+      lungDisease = #{lungDisease,jdbcType=INTEGER},
+      endocrine = #{endocrine,jdbcType=INTEGER},
+      nervous = #{nervous,jdbcType=INTEGER},
+      rabat = #{rabat,jdbcType=INTEGER},
+      liverFunc = #{liverFunc,jdbcType=INTEGER},
+      renalFunc = #{renalFunc,jdbcType=INTEGER},
+      electrolytic = #{electrolytic,jdbcType=INTEGER},
+      assistCheckOther = #{assistCheckOther,jdbcType=VARCHAR},
+      fasting = #{fasting,jdbcType=INTEGER},
+      banDrink = #{banDrink,jdbcType=INTEGER},
+      otherDocord = #{otherDocord,jdbcType=VARCHAR},
+      asa = #{asa,jdbcType=INTEGER},
+      riskLevel = #{riskLevel,jdbcType=INTEGER},
+      otherSituation = #{otherSituation,jdbcType=VARCHAR},
+      anesthetistSign = #{anesthetistSign,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

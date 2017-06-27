@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocGeneralAnaesDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocGeneralAnaes" >
+    <id column="generalAnaesId" property="generalAnaesId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="induce" property="induce" jdbcType="VARCHAR" />
+    <result column="isSoberIntubation" property="isSoberIntubation" jdbcType="VARCHAR" />
+    <result column="glottisExpClass" property="glottisExpClass" jdbcType="VARCHAR" />
+    <result column="isIntubation" property="isIntubation" jdbcType="VARCHAR" />
+    <result column="catheterId" property="catheterId" jdbcType="VARCHAR" />
+    <result column="succCnt" property="succCnt" jdbcType="VARCHAR" />
+    <result column="steward" property="steward" jdbcType="VARCHAR" />
+    <result column="anaesEffect" property="anaesEffect" jdbcType="VARCHAR" />
+    <result column="isWake" property="isWake" jdbcType="VARCHAR" />
+    <result column="pharyngealReflex" property="pharyngealReflex" jdbcType="VARCHAR" />
+    <result column="cyanosis" property="cyanosis" jdbcType="VARCHAR" />
+    <result column="canAnswer" property="canAnswer" jdbcType="VARCHAR" />
+    <result column="excitement" property="excitement" jdbcType="VARCHAR" />
+    <result column="vomiting" property="vomiting" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    generalAnaesId, anaSumId, induce, isSoberIntubation, glottisExpClass, isIntubation, 
+    catheterId, succCnt, steward, anaesEffect, isWake, pharyngealReflex, cyanosis, canAnswer, 
+    excitement, vomiting
+  </sql>
+
+	<select id="searchGeneralAnaesList" resultType="com.digihealth.anesthesia.doc.po.DocGeneralAnaes">
+		SELECT *
+		FROM doc_general_anaes a where 1 = 1
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.generalAnaesId = #{searchBean.id}
+		</if>
+		<if test="searchBean.anaSumId != null and searchBean.anaSumId != ''">
+			AND a.anaSumId = #{searchBean.anaSumId}
+		</if>
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_general_anaes
+    where generalAnaesId = #{generalAnaesId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_general_anaes
+    where generalAnaesId = #{generalAnaesId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocGeneralAnaes" >
+    insert into doc_general_anaes (generalAnaesId, anaSumId, induce, 
+      isSoberIntubation, glottisExpClass, isIntubation, 
+      catheterId, succCnt, steward, 
+      anaesEffect, isWake, pharyngealReflex, 
+      cyanosis, canAnswer, excitement, 
+      vomiting)
+    values (#{generalAnaesId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{induce,jdbcType=VARCHAR}, 
+      #{isSoberIntubation,jdbcType=VARCHAR}, #{glottisExpClass,jdbcType=VARCHAR}, #{isIntubation,jdbcType=VARCHAR}, 
+      #{catheterId,jdbcType=VARCHAR}, #{succCnt,jdbcType=VARCHAR}, #{steward,jdbcType=VARCHAR}, 
+      #{anaesEffect,jdbcType=VARCHAR}, #{isWake,jdbcType=VARCHAR}, #{pharyngealReflex,jdbcType=VARCHAR}, 
+      #{cyanosis,jdbcType=VARCHAR}, #{canAnswer,jdbcType=VARCHAR}, #{excitement,jdbcType=VARCHAR}, 
+      #{vomiting,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocGeneralAnaes" >
+    insert into doc_general_anaes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="generalAnaesId != null" >
+        generalAnaesId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="induce != null" >
+        induce,
+      </if>
+      <if test="isSoberIntubation != null" >
+        isSoberIntubation,
+      </if>
+      <if test="glottisExpClass != null" >
+        glottisExpClass,
+      </if>
+      <if test="isIntubation != null" >
+        isIntubation,
+      </if>
+      <if test="catheterId != null" >
+        catheterId,
+      </if>
+      <if test="succCnt != null" >
+        succCnt,
+      </if>
+      <if test="steward != null" >
+        steward,
+      </if>
+      <if test="anaesEffect != null" >
+        anaesEffect,
+      </if>
+      <if test="isWake != null" >
+        isWake,
+      </if>
+      <if test="pharyngealReflex != null" >
+        pharyngealReflex,
+      </if>
+      <if test="cyanosis != null" >
+        cyanosis,
+      </if>
+      <if test="canAnswer != null" >
+        canAnswer,
+      </if>
+      <if test="excitement != null" >
+        excitement,
+      </if>
+      <if test="vomiting != null" >
+        vomiting,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="generalAnaesId != null" >
+        #{generalAnaesId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="induce != null" >
+        #{induce,jdbcType=VARCHAR},
+      </if>
+      <if test="isSoberIntubation != null" >
+        #{isSoberIntubation,jdbcType=VARCHAR},
+      </if>
+      <if test="glottisExpClass != null" >
+        #{glottisExpClass,jdbcType=VARCHAR},
+      </if>
+      <if test="isIntubation != null" >
+        #{isIntubation,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterId != null" >
+        #{catheterId,jdbcType=VARCHAR},
+      </if>
+      <if test="succCnt != null" >
+        #{succCnt,jdbcType=VARCHAR},
+      </if>
+      <if test="steward != null" >
+        #{steward,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesEffect != null" >
+        #{anaesEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="isWake != null" >
+        #{isWake,jdbcType=VARCHAR},
+      </if>
+      <if test="pharyngealReflex != null" >
+        #{pharyngealReflex,jdbcType=VARCHAR},
+      </if>
+      <if test="cyanosis != null" >
+        #{cyanosis,jdbcType=VARCHAR},
+      </if>
+      <if test="canAnswer != null" >
+        #{canAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="excitement != null" >
+        #{excitement,jdbcType=VARCHAR},
+      </if>
+      <if test="vomiting != null" >
+        #{vomiting,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocGeneralAnaes" >
+    update doc_general_anaes
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="induce != null" >
+        induce = #{induce,jdbcType=VARCHAR},
+      </if>
+      <if test="isSoberIntubation != null" >
+        isSoberIntubation = #{isSoberIntubation,jdbcType=VARCHAR},
+      </if>
+      <if test="glottisExpClass != null" >
+        glottisExpClass = #{glottisExpClass,jdbcType=VARCHAR},
+      </if>
+      <if test="isIntubation != null" >
+        isIntubation = #{isIntubation,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterId != null" >
+        catheterId = #{catheterId,jdbcType=VARCHAR},
+      </if>
+      <if test="succCnt != null" >
+        succCnt = #{succCnt,jdbcType=VARCHAR},
+      </if>
+      <if test="steward != null" >
+        steward = #{steward,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesEffect != null" >
+        anaesEffect = #{anaesEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="isWake != null" >
+        isWake = #{isWake,jdbcType=VARCHAR},
+      </if>
+      <if test="pharyngealReflex != null" >
+        pharyngealReflex = #{pharyngealReflex,jdbcType=VARCHAR},
+      </if>
+      <if test="cyanosis != null" >
+        cyanosis = #{cyanosis,jdbcType=VARCHAR},
+      </if>
+      <if test="canAnswer != null" >
+        canAnswer = #{canAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="excitement != null" >
+        excitement = #{excitement,jdbcType=VARCHAR},
+      </if>
+      <if test="vomiting != null" >
+        vomiting = #{vomiting,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where generalAnaesId = #{generalAnaesId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocGeneralAnaes" >
+    update doc_general_anaes
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      induce = #{induce,jdbcType=VARCHAR},
+      isSoberIntubation = #{isSoberIntubation,jdbcType=VARCHAR},
+      glottisExpClass = #{glottisExpClass,jdbcType=VARCHAR},
+      isIntubation = #{isIntubation,jdbcType=VARCHAR},
+      catheterId = #{catheterId,jdbcType=VARCHAR},
+      succCnt = #{succCnt,jdbcType=VARCHAR},
+      steward = #{steward,jdbcType=VARCHAR},
+      anaesEffect = #{anaesEffect,jdbcType=VARCHAR},
+      isWake = #{isWake,jdbcType=VARCHAR},
+      pharyngealReflex = #{pharyngealReflex,jdbcType=VARCHAR},
+      cyanosis = #{cyanosis,jdbcType=VARCHAR},
+      canAnswer = #{canAnswer,jdbcType=VARCHAR},
+      excitement = #{excitement,jdbcType=VARCHAR},
+      vomiting = #{vomiting,jdbcType=VARCHAR}
+    where generalAnaesId = #{generalAnaesId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

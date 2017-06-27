@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digihealth.anesthesia.inspect.dao.PatInspectItemDao">
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInspectItem">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="recId" jdbcType="VARCHAR" property="recId" />
+    <result column="no" jdbcType="INTEGER" property="no" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="val" jdbcType="VARCHAR" property="val" />
+    <result column="refVal" jdbcType="VARCHAR" property="refVal" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, recId, no, name, val, refVal, unit, result
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pat_inspect_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+ <select id="getPatInspectItemList" resultType="com.digihealth.anesthesia.basedata.po.BasInspectItem">
+	select 
+    <include refid="Base_Column_List" />
+    from pat_inspect_item
+		where 1 = 1 
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+				</if>
+			</foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+	</select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pat_inspect_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectItem">
+    insert into pat_inspect_item (id, recId, no, 
+      name, val, refVal, 
+      unit, result)
+    values (#{id,jdbcType=VARCHAR}, #{recId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{val,jdbcType=VARCHAR}, #{refVal,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectItem">
+    insert into pat_inspect_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="recId != null">
+        recId,
+      </if>
+      <if test="no != null">
+        no,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="val != null">
+        val,
+      </if>
+      <if test="refVal != null">
+        refVal,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="recId != null">
+        #{recId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        #{no,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="val != null">
+        #{val,jdbcType=VARCHAR},
+      </if>
+      <if test="refVal != null">
+        #{refVal,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectItem">
+    update pat_inspect_item
+    <set>
+      <if test="recId != null">
+        recId = #{recId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        no = #{no,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="val != null">
+        val = #{val,jdbcType=VARCHAR},
+      </if>
+      <if test="refVal != null">
+        refVal = #{refVal,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectItem">
+    update pat_inspect_item
+    set recId = #{recId,jdbcType=VARCHAR},
+      no = #{no,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      val = #{val,jdbcType=VARCHAR},
+      refVal = #{refVal,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

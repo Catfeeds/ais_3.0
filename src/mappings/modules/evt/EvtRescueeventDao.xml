@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtRescueeventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtRescueevent" >
+    <id column="rescueEventId" property="rescueEventId" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="currentState" property="currentState" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    rescueEventId, startTime, endTime, docId, model, currentState
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_rescueevent
+    where rescueEventId = #{rescueEventId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="searchRescueeventList" resultMap="BaseResultMap">
+		SELECT 
+			a.*
+		FROM evt_rescueevent a where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.rescueEventId = #{searchBean.id}
+		</if>
+		 <if test="searchBean.currentState != null and searchBean.currentState != ''">
+			AND a.currentState = #{searchBean.currentState}
+		</if>
+	</select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_rescueevent
+    where rescueEventId = #{rescueEventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtRescueevent" >
+    insert into evt_rescueevent (rescueEventId, startTime, endTime, 
+      docId, model, currentState
+      )
+    values (#{rescueEventId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{docId,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{currentState,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtRescueevent" >
+    insert into evt_rescueevent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rescueEventId != null" >
+        rescueEventId,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="currentState != null" >
+        currentState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rescueEventId != null" >
+        #{rescueEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="currentState != null" >
+        #{currentState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtRescueevent" >
+    update evt_rescueevent
+    <set >
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="currentState != null" >
+        currentState = #{currentState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where rescueEventId = #{rescueEventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtRescueevent" >
+    update evt_rescueevent
+    set startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      docId = #{docId,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      currentState = #{currentState,jdbcType=INTEGER}
+    where rescueEventId = #{rescueEventId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateCurrentState">
+		UPDATE evt_rescueevent SET 
+			currentState = #{currentState}
+		WHERE docId = #{docId}
+  </update>
+
+</mapper>

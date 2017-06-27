@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocSafeCheckDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocSafeCheck" >
+    <id column="safCheckId" property="safCheckId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="VARCHAR" />
+    <result column="circunurseId" property="circunurseId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    safCheckId, regOptId, remarks, signTime, circunurseId, processState
+  </sql>
+
+	<select id="searchSafeCheckByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocSafeCheck">
+		SELECT DISTINCT *
+		FROM doc_safe_check d left join bas_reg_opt b on d.regOptId=b.regOptId 
+		WHERE d.regOptId = #{regOptId} and b.beid = #{beid}
+	</select>
+	
+	<select id="searchSafeCheckById" resultType="com.digihealth.anesthesia.doc.po.DocSafeCheck">
+		SELECT DISTINCT *
+		FROM doc_safe_check d
+		WHERE d.safCheckId = #{id}
+	</select>
+	
+	<update id="updateSafeCheck">
+		UPDATE doc_safe_check SET
+		remarks = #{safeCheck.remarks},
+		signTime = #{safeCheck.signTime},
+		circunurseId = #{safeCheck.circunurseId},
+		processState = #{safeCheck.processState}
+		where safCheckId = #{safeCheck.safCheckId}
+	</update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_safe_check
+    where safCheckId = #{safCheckId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_safe_check
+    where safCheckId = #{safCheckId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocSafeCheck" >
+    insert into doc_safe_check (safCheckId, regOptId, remarks, 
+      signTime, circunurseId, processState
+      )
+    values (#{safCheckId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{signTime,jdbcType=VARCHAR}, #{circunurseId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocSafeCheck" >
+    insert into doc_safe_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="safCheckId != null" >
+        safCheckId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+      <if test="circunurseId != null" >
+        circunurseId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="safCheckId != null" >
+        #{safCheckId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId != null" >
+        #{circunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocSafeCheck" >
+    update doc_safe_check
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=VARCHAR},
+      </if>
+      <if test="circunurseId != null" >
+        circunurseId = #{circunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where safCheckId = #{safCheckId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocSafeCheck" >
+    update doc_safe_check
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=VARCHAR},
+      circunurseId = #{circunurseId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR}
+    where safCheckId = #{safCheckId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocNurseInterviewRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="patientMind" property="patientMind" jdbcType="INTEGER" />
+    <result column="interviewUser" property="interviewUser" jdbcType="INTEGER" />
+    <result column="interviewRelation" property="interviewRelation" jdbcType="VARCHAR" />
+    <result column="interviewTime" property="interviewTime" jdbcType="TIMESTAMP" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" extends="BaseResultMap" >
+    <result column="medicalRecord" property="medicalRecord" jdbcType="LONGVARCHAR" />
+    <result column="conditionIntroduce" property="conditionIntroduce" jdbcType="LONGVARCHAR" />
+    <result column="prePrepareCase" property="prePrepareCase" jdbcType="LONGVARCHAR" />
+    <result column="preOperExplain" property="preOperExplain" jdbcType="LONGVARCHAR" />
+    <result column="operPressureSore" property="operPressureSore" jdbcType="LONGVARCHAR" />
+    <result column="preventPressureMeasure" property="preventPressureMeasure" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, patientMind, interviewUser, interviewRelation, interviewTime, processState
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    medicalRecord, conditionIntroduce, prePrepareCase, preOperExplain, operPressureSore, 
+    preventPressureMeasure
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_nurse_interview_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_nurse_interview_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" >
+    insert into doc_nurse_interview_record (id, regOptId, patientMind, 
+      interviewUser, interviewRelation, interviewTime, 
+      processState, medicalRecord, conditionIntroduce, 
+      prePrepareCase, preOperExplain, 
+      operPressureSore, preventPressureMeasure
+      )
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{patientMind,jdbcType=INTEGER}, 
+      #{interviewUser,jdbcType=INTEGER}, #{interviewRelation,jdbcType=VARCHAR}, #{interviewTime,jdbcType=TIMESTAMP}, 
+      #{processState,jdbcType=VARCHAR}, #{medicalRecord,jdbcType=LONGVARCHAR}, #{conditionIntroduce,jdbcType=LONGVARCHAR}, 
+      #{prePrepareCase,jdbcType=LONGVARCHAR}, #{preOperExplain,jdbcType=LONGVARCHAR}, 
+      #{operPressureSore,jdbcType=LONGVARCHAR}, #{preventPressureMeasure,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" >
+    insert into doc_nurse_interview_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="patientMind != null" >
+        patientMind,
+      </if>
+      <if test="interviewUser != null" >
+        interviewUser,
+      </if>
+      <if test="interviewRelation != null" >
+        interviewRelation,
+      </if>
+      <if test="interviewTime != null" >
+        interviewTime,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="medicalRecord != null" >
+        medicalRecord,
+      </if>
+      <if test="conditionIntroduce != null" >
+        conditionIntroduce,
+      </if>
+      <if test="prePrepareCase != null" >
+        prePrepareCase,
+      </if>
+      <if test="preOperExplain != null" >
+        preOperExplain,
+      </if>
+      <if test="operPressureSore != null" >
+        operPressureSore,
+      </if>
+      <if test="preventPressureMeasure != null" >
+        preventPressureMeasure,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientMind != null" >
+        #{patientMind,jdbcType=INTEGER},
+      </if>
+      <if test="interviewUser != null" >
+        #{interviewUser,jdbcType=INTEGER},
+      </if>
+      <if test="interviewRelation != null" >
+        #{interviewRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewTime != null" >
+        #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalRecord != null" >
+        #{medicalRecord,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="conditionIntroduce != null" >
+        #{conditionIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="prePrepareCase != null" >
+        #{prePrepareCase,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preOperExplain != null" >
+        #{preOperExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operPressureSore != null" >
+        #{operPressureSore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preventPressureMeasure != null" >
+        #{preventPressureMeasure,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" >
+    update doc_nurse_interview_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientMind != null" >
+        patientMind = #{patientMind,jdbcType=INTEGER},
+      </if>
+      <if test="interviewUser != null" >
+        interviewUser = #{interviewUser,jdbcType=INTEGER},
+      </if>
+      <if test="interviewRelation != null" >
+        interviewRelation = #{interviewRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewTime != null" >
+        interviewTime = #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalRecord != null" >
+        medicalRecord = #{medicalRecord,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="conditionIntroduce != null" >
+        conditionIntroduce = #{conditionIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="prePrepareCase != null" >
+        prePrepareCase = #{prePrepareCase,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preOperExplain != null" >
+        preOperExplain = #{preOperExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operPressureSore != null" >
+        operPressureSore = #{operPressureSore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preventPressureMeasure != null" >
+        preventPressureMeasure = #{preventPressureMeasure,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" >
+    update doc_nurse_interview_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      patientMind = #{patientMind,jdbcType=INTEGER},
+      interviewUser = #{interviewUser,jdbcType=INTEGER},
+      interviewRelation = #{interviewRelation,jdbcType=VARCHAR},
+      interviewTime = #{interviewTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR},
+      medicalRecord = #{medicalRecord,jdbcType=LONGVARCHAR},
+      conditionIntroduce = #{conditionIntroduce,jdbcType=LONGVARCHAR},
+      prePrepareCase = #{prePrepareCase,jdbcType=LONGVARCHAR},
+      preOperExplain = #{preOperExplain,jdbcType=LONGVARCHAR},
+      operPressureSore = #{operPressureSore,jdbcType=LONGVARCHAR},
+      preventPressureMeasure = #{preventPressureMeasure,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocNurseInterviewRecord" >
+    update doc_nurse_interview_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      patientMind = #{patientMind,jdbcType=INTEGER},
+      interviewUser = #{interviewUser,jdbcType=INTEGER},
+      interviewRelation = #{interviewRelation,jdbcType=VARCHAR},
+      interviewTime = #{interviewTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

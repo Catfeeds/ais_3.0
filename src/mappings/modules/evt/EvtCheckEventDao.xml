@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtCheckEventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtCheckEvent" >
+    <id column="cheEventId" property="cheEventId" jdbcType="VARCHAR" />
+    <result column="cheEventName" property="cheEventName" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="occurTime" property="occurTime" jdbcType="TIMESTAMP" />
+    <result column="resultSummary" property="resultSummary" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    cheEventId, cheEventName, docId, occurTime, resultSummary
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_checkevent
+    where cheEventId = #{cheEventId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="searchCheckeventList" resultType="com.digihealth.anesthesia.evt.po.EvtCheckEvent">
+		SELECT 
+			a.*
+		FROM evt_checkevent a where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.cheEventId = #{searchBean.id}
+		</if>
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_checkevent
+    where cheEventId = #{cheEventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEvent" >
+    insert into evt_checkevent (cheEventId, cheEventName, docId, occurTime, 
+      resultSummary)
+    values (#{cheEventId,jdbcType=VARCHAR}, #{cheEventName,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{occurTime,jdbcType=TIMESTAMP}, 
+      #{resultSummary,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEvent" >
+    insert into evt_checkevent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheEventId != null" >
+        cheEventId,
+      </if>
+      <if test="cheEventName != null" >
+        cheEventName,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="occurTime != null" >
+        occurTime,
+      </if>
+      <if test="resultSummary != null" >
+        resultSummary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheEventId != null" >
+        #{cheEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="cheEventName != null" >
+        #{cheEventName,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="occurTime != null" >
+        #{occurTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultSummary != null" >
+        #{resultSummary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+	
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEvent" >
+    update evt_checkevent
+    <set >
+      <if test="cheEventName != null" >
+        cheEventName = #{cheEventName,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="occurTime != null" >
+        occurTime = #{occurTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultSummary != null" >
+        resultSummary = #{resultSummary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cheEventId = #{cheEventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtCheckEvent" >
+    update evt_checkevent
+    set cheEventName = #{cheEventName,jdbcType=VARCHAR},
+      docId = #{docId,jdbcType=VARCHAR},
+      occurTime = #{occurTime,jdbcType=TIMESTAMP},
+      resultSummary = #{resultSummary,jdbcType=VARCHAR}
+    where cheEventId = #{cheEventId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

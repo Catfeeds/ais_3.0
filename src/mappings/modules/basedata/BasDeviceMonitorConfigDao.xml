@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasDeviceMonitorConfigDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasDeviceMonitorConfig" >
+    <id column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+    <id column="eventId" property="eventId" jdbcType="VARCHAR" />
+    <result column="optional" property="optional" jdbcType="VARCHAR" />
+    <result column="roomId" property="roomId" jdbcType="VARCHAR" />
+    <result column="paraId" property="paraId" jdbcType="VARCHAR" />
+    <result column="paraName" property="paraName" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    deviceId, eventId, optional, roomId, paraId, paraName, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_device_monitor_config
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from bas_device_monitor_config
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceMonitorConfig" >
+    insert into bas_device_monitor_config (deviceId, eventId, optional, 
+      roomId, paraId, paraName, 
+      beid)
+    values (#{deviceId,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{optional,jdbcType=VARCHAR}, 
+      #{roomId,jdbcType=VARCHAR}, #{paraId,jdbcType=VARCHAR}, #{paraName,jdbcType=VARCHAR}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceMonitorConfig" >
+    insert into bas_device_monitor_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+      <if test="eventId != null" >
+        eventId,
+      </if>
+      <if test="optional != null" >
+        optional,
+      </if>
+      <if test="roomId != null" >
+        roomId,
+      </if>
+      <if test="paraId != null" >
+        paraId,
+      </if>
+      <if test="paraName != null" >
+        paraName,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="optional != null" >
+        #{optional,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraId != null" >
+        #{paraId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraName != null" >
+        #{paraName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceMonitorConfig" >
+    update bas_device_monitor_config
+    <set >
+      <if test="optional != null" >
+        optional = #{optional,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        roomId = #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraId != null" >
+        paraId = #{paraId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraName != null" >
+        paraName = #{paraName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceMonitorConfig" >
+    update bas_device_monitor_config
+    set optional = #{optional,jdbcType=VARCHAR},
+      roomId = #{roomId,jdbcType=VARCHAR},
+      paraId = #{paraId,jdbcType=VARCHAR},
+      paraName = #{paraName,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+      and eventId = #{eventId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getDeviceMonitorConfigList" resultType="com.digihealth.anesthesia.basedata.formbean.BasDeviceMonitorConfigFormBean">
+		select a.*,b.eventDesc,b.eventName from bas_device_monitor_config a left join bas_monitor_config b 
+		on a.eventId = b.eventId and a.beid = b.beid
+		WHERE b.position != '-1'
+		and a.beid = #{beid}
+		<if test="deviceId != null and deviceId != ''">
+			AND a.deviceId = #{deviceId}
+		</if>
+		<if test="optional != null and optional != ''">
+			AND a.optional = #{optional}
+		</if>	
+	</select>
+	
+	<update id="update">
+		update bas_device_monitor_config set 
+			optional = #{optional}
+		where deviceId = #{deviceId,jdbcType=VARCHAR}
+      	and eventId = #{eventId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

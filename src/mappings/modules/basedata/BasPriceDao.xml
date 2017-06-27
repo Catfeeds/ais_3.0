@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasPriceDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasPrice" >
+    <id column="priceId" property="priceId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="hisMedicineCode" property="hisMedicineCode" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="minPackageUnit" property="minPackageUnit" jdbcType="VARCHAR" />
+    <result column="priceMinPackage" property="priceMinPackage" jdbcType="REAL" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="pharmaciesCode" property="pharmaciesCode" jdbcType="VARCHAR" />
+    <result column="pharmaciesName" property="pharmaciesName" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    priceId, code, hisMedicineCode, spec, firm, batch, minPackageUnit, priceMinPackage, 
+    enable, pharmaciesCode, pharmaciesName, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_price
+    where priceId = #{priceId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_price
+    where priceId = #{priceId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasPrice" >
+    insert into bas_price (priceId, code, hisMedicineCode, 
+      spec, firm, batch, 
+      minPackageUnit, priceMinPackage, enable, 
+      pharmaciesCode, pharmaciesName, beid
+      )
+    values (#{priceId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{hisMedicineCode,jdbcType=VARCHAR}, 
+      #{spec,jdbcType=VARCHAR}, #{firm,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, 
+      #{minPackageUnit,jdbcType=VARCHAR}, #{priceMinPackage,jdbcType=REAL}, #{enable,jdbcType=INTEGER}, 
+      #{pharmaciesCode,jdbcType=VARCHAR}, #{pharmaciesName,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasPrice" >
+    insert into bas_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="priceId != null" >
+        priceId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="hisMedicineCode != null" >
+        hisMedicineCode,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit,
+      </if>
+      <if test="priceMinPackage != null" >
+        priceMinPackage,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="pharmaciesCode != null" >
+        pharmaciesCode,
+      </if>
+      <if test="pharmaciesName != null" >
+        pharmaciesName,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="priceId != null" >
+        #{priceId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="hisMedicineCode != null" >
+        #{hisMedicineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageUnit != null" >
+        #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMinPackage != null" >
+        #{priceMinPackage,jdbcType=REAL},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="pharmaciesCode != null" >
+        #{pharmaciesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pharmaciesName != null" >
+        #{pharmaciesName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasPrice" >
+    update bas_price
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="hisMedicineCode != null" >
+        hisMedicineCode = #{hisMedicineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMinPackage != null" >
+        priceMinPackage = #{priceMinPackage,jdbcType=REAL},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="pharmaciesCode != null" >
+        pharmaciesCode = #{pharmaciesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pharmaciesName != null" >
+        pharmaciesName = #{pharmaciesName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where priceId = #{priceId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasPrice" >
+    update bas_price
+    set code = #{code,jdbcType=VARCHAR},
+      hisMedicineCode = #{hisMedicineCode,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      priceMinPackage = #{priceMinPackage,jdbcType=REAL},
+      enable = #{enable,jdbcType=INTEGER},
+      pharmaciesCode = #{pharmaciesCode,jdbcType=VARCHAR},
+      pharmaciesName = #{pharmaciesName,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where priceId = #{priceId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="searchPriceList" resultType="com.digihealth.anesthesia.basedata.po.BasPrice">
+		SELECT * FROM bas_price a where 1 = 1 and beid = #{baseQuery.beid,jdbcType=VARCHAR}
+		<if test="baseQuery.enable != null and baseQuery.enable != ''">
+			AND a.enable = #{baseQuery.enable}
+		</if>
+		<if test="baseQuery.code != null and baseQuery.code != ''">
+			AND a.code = #{baseQuery.code}
+		</if>
+		<if test="baseQuery.pageSize !=null and baseQuery.pageSize!=''">
+		    limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
+	</select>
+	
+	<select id="queryPriceList" resultType="com.digihealth.anesthesia.basedata.po.BasPrice">
+		SELECT * FROM bas_price where 1=1 and beid = #{systemSearchFormBean.beid,jdbcType=VARCHAR} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryPriceListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_price where 1=1 and beid = #{systemSearchFormBean.beid,jdbcType=VARCHAR} ${filter} 
+	</select>
+	
+	<select id="queryPriceByPriceId" resultType="com.digihealth.anesthesia.basedata.po.BasPrice">
+		SELECT * FROM bas_price where priceId = #{priceId}
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasPrice">
+	select * from bas_price where code = #{code} and beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_price set enable='0' where beid = #{beid,jdbcType=VARCHAR};
+	</update>
+
+</mapper>

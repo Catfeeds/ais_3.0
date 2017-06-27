@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasRoutingAccessControlDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasRoutingAccessControl" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="clazzUri" property="clazzUri" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="aliasName" property="aliasName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, beid, uri, clazzUri, method, aliasName, description
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_routing_access_control
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllRac" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from bas_routing_access_control
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_routing_access_control
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRoutingAccessControl" >
+    insert into bas_routing_access_control (id, beid, uri, 
+      clazzUri, method, aliasName, 
+      description)
+    values (#{id,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, 
+      #{clazzUri,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{aliasName,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRoutingAccessControl" >
+    insert into bas_routing_access_control
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="uri != null" >
+        uri,
+      </if>
+      <if test="clazzUri != null" >
+        clazzUri,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="aliasName != null" >
+        aliasName,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzUri != null" >
+        #{clazzUri,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="aliasName != null" >
+        #{aliasName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRoutingAccessControl" >
+    update bas_routing_access_control
+    <set >
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzUri != null" >
+        clazzUri = #{clazzUri,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="aliasName != null" >
+        aliasName = #{aliasName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasRoutingAccessControl" >
+    update bas_routing_access_control
+    set beid = #{beid,jdbcType=VARCHAR},
+      uri = #{uri,jdbcType=VARCHAR},
+      clazzUri = #{clazzUri,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      aliasName = #{aliasName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

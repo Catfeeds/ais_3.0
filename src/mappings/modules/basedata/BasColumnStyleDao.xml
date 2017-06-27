@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasColumnStyleDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasColumnStyle" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="column" property="column" jdbcType="VARCHAR" />
+    <result column="columnName" property="columnName" jdbcType="VARCHAR" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+    <result column="displayState" property="displayState" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, type, column, columnName, style, displayState, sort, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_column_style
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_column_style
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasColumnStyle" >
+    insert into bas_column_style (id, type, column, 
+      columnName, style, displayState, 
+      sort, beid)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{column,jdbcType=VARCHAR}, 
+      #{columnName,jdbcType=VARCHAR}, #{style,jdbcType=VARCHAR}, #{displayState,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasColumnStyle" >
+    insert into bas_column_style
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="column != null" >
+        column,
+      </if>
+      <if test="columnName != null" >
+        columnName,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+      <if test="displayState != null" >
+        displayState,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="column != null" >
+        #{column,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null" >
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="displayState != null" >
+        #{displayState,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasColumnStyle" >
+    update bas_column_style
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="column != null" >
+        column = #{column,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null" >
+        columnName = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="displayState != null" >
+        displayState = #{displayState,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasColumnStyle" >
+    update bas_column_style
+    set type = #{type,jdbcType=INTEGER},
+      column = #{column,jdbcType=VARCHAR},
+      columnName = #{columnName,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR},
+      displayState = #{displayState,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="findList" resultMap="BaseResultMap">
+    select 
+   		*
+    from bas_column_style
+    where type = #{type,jdbcType=INTEGER} and beid = #{beid,jdbcType=VARCHAR}
+    order by sort asc
+  </select>
+
+</mapper>

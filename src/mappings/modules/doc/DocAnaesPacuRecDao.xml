@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesPacuRecDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="bedId" property="bedId" jdbcType="INTEGER" />
+    <result column="pacuRoomId" property="pacuRoomId" jdbcType="INTEGER" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="enterTime" property="enterTime" jdbcType="TIMESTAMP" />
+    <result column="exitTime" property="exitTime" jdbcType="TIMESTAMP" />
+    <result column="finishTime" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="leaveTo" property="leaveTo" jdbcType="INTEGER" />
+    <result column="portablePipe" property="portablePipe" jdbcType="VARCHAR" />
+    <result column="anaesType" property="anaesType" jdbcType="VARCHAR" />
+    <result column="portableRes" property="portableRes" jdbcType="VARCHAR" />
+    <result column="portableResOther" property="portableResOther" jdbcType="VARCHAR" />
+    <result column="stewardScore" property="stewardScore" jdbcType="INTEGER" />
+    <result column="docSign" property="docSign" jdbcType="VARCHAR" />
+    <result column="nurseSign" property="nurseSign" jdbcType="VARCHAR" />
+    <result column="enterTemp" property="enterTemp" jdbcType="REAL" />
+    <result column="anabioticState" property="anabioticState" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, bedId, pacuRoomId, processState, enterTime, exitTime, finishTime, leaveTo, 
+    portablePipe, anaesType, portableRes, portableResOther, stewardScore, docSign, nurseSign, 
+    enterTemp, anabioticState
+  </sql>
+
+  <select id="getAnaesPacuRecByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_pacu_rec
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+
+  <select id="selectPacuByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec">
+  select * from doc_anaes_pacu_rec where regOptId = #{regOptId}
+  </select>
+
+<select id="getAnaesPacuRecCard" resultType="com.digihealth.anesthesia.doc.formbean.AnaesPacuRecFormBean" > 
+		SELECT r.*,p.* FROM (
+			SELECT a.id bedId,a.name bed_name,a.roomId ,b.name room_name,b.beid FROM bas_region_bed a,bas_operroom b 
+			WHERE a.roomId=b.operRoomId
+				AND b.enable='1'
+				AND b.roomType='02'
+				AND a.status != -1 
+				AND a.beid = #{beid}
+			) r LEFT JOIN
+			(	SELECT anaes_pacu_rec.* FROM (
+						SELECT p.id,p.regOptId,p.pacuRoomId,p.processState,p.enterTime,p.exitTime,p.finishTime,p.leaveTo,
+								p.portablePipe,p.anaesType,p.portableRes,p.portableResOther,p.stewardScore,p.docSign,p.nurseSign,p.anabioticState,
+								b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,p.bedId pacuBed,b.optLevel,
+								(SELECT codeName FROM bas_sys_code WHERE bas_sys_code.groupId='operat_level' AND codeValue = b.optLevel AND beid = #{beid}) operat_level_name,
+							(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+							(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+							(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method a WHERE a.docId = d.anaRecordId ORDER BY a.realAnaMedId ) anaes_method
+						FROM doc_anaes_pacu_rec p,doc_anaes_record d ,bas_reg_opt b
+						WHERE p.regOptId=b.regOptId 
+						AND (b.state = '05' OR b.state ='06')
+						AND b.beid = #{beid}
+						AND p.regOptId=d.regOptId
+						) anaes_pacu_rec
+					WHERE anaes_pacu_rec.anabioticState = 1) p
+			ON r.bedId = p.pacuBed WHERE 1=1 AND r.beid = #{beid} ORDER BY r.bed_name ASC
+</select>
+  <select id="searchAnaesPacuRecList" resultType="com.digihealth.anesthesia.doc.formbean.AnaesPacuRecFormBean" >
+   		SELECT anaes_pacu_rec.* FROM (
+			SELECT p.*, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,b.optLevel,c.operRoomId,
+				(SELECT NAME FROM bas_operroom WHERE operRoomId = c.operRoomId AND beid = #{beid}) oper_room_name,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method a WHERE a.docId = d.anaRecordId ORDER BY a.realAnaMedId ) anaes_method
+			FROM doc_anaes_pacu_rec p,doc_anaes_record d ,bas_reg_opt b ,bas_dispatch c
+			WHERE p.regOptId=b.regOptId 
+			AND p.regOptId=d.regOptId
+			AND b.regOptId=c.regOptId
+			AND b.beid = #{beid}
+			) anaes_pacu_rec
+		WHERE 1 = 1 
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					<choose>
+						<when test="filter.field == 'starttime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endtime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &lt;= #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+					</choose>
+				</if>
+			</foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+  </select>
+  
+  <select id="searchTotalAnaesPacuRecList" resultType="java.lang.Integer" >
+   	SELECT COUNT(*) FROM (
+			SELECT p.*, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,b.optLevel,c.operRoomId,
+				(SELECT NAME FROM bas_operroom WHERE operRoomId = c.operRoomId AND beid = #{beid}) oper_room_name,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+				(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method a WHERE a.docId = d.anaRecordId ORDER BY a.realAnaMedId ) anaes_method
+			FROM doc_anaes_pacu_rec p,doc_anaes_record d ,bas_reg_opt b ,bas_dispatch c
+			WHERE p.regOptId=b.regOptId 
+			AND p.regOptId=d.regOptId
+			AND b.regOptId=c.regOptId
+			AND b.beid = #{beid}
+			) anaes_pacu_rec
+		WHERE 1 = 1  
+		<if test="filters != null">
+			<foreach collection="filters" item="filter" open=" " close=" " >
+				<if test="filter.field != null and filter.field != '' ">
+					<choose>
+						<when test="filter.field == 'starttime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endtime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &lt;= #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+					</choose>
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_pacu_rec
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_pacu_rec
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec" >
+    insert into doc_anaes_pacu_rec (id, regOptId, bedId, 
+      pacuRoomId, processState, enterTime, 
+      exitTime, finishTime, leaveTo, 
+      portablePipe, anaesType, portableRes, 
+      portableResOther, stewardScore, docSign, 
+      nurseSign, enterTemp, anabioticState
+      )
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{bedId,jdbcType=INTEGER}, 
+      #{pacuRoomId,jdbcType=INTEGER}, #{processState,jdbcType=VARCHAR}, #{enterTime,jdbcType=TIMESTAMP}, 
+      #{exitTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{leaveTo,jdbcType=INTEGER}, 
+      #{portablePipe,jdbcType=VARCHAR}, #{anaesType,jdbcType=VARCHAR}, #{portableRes,jdbcType=VARCHAR}, 
+      #{portableResOther,jdbcType=VARCHAR}, #{stewardScore,jdbcType=INTEGER}, #{docSign,jdbcType=VARCHAR}, 
+      #{nurseSign,jdbcType=VARCHAR}, #{enterTemp,jdbcType=REAL}, #{anabioticState,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec" >
+    insert into doc_anaes_pacu_rec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="bedId != null" >
+        bedId,
+      </if>
+      <if test="pacuRoomId != null" >
+        pacuRoomId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="enterTime != null" >
+        enterTime,
+      </if>
+      <if test="exitTime != null" >
+        exitTime,
+      </if>
+      <if test="finishTime != null" >
+        finishTime,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+      <if test="portablePipe != null" >
+        portablePipe,
+      </if>
+      <if test="anaesType != null" >
+        anaesType,
+      </if>
+      <if test="portableRes != null" >
+        portableRes,
+      </if>
+      <if test="portableResOther != null" >
+        portableResOther,
+      </if>
+      <if test="stewardScore != null" >
+        stewardScore,
+      </if>
+      <if test="docSign != null" >
+        docSign,
+      </if>
+      <if test="nurseSign != null" >
+        nurseSign,
+      </if>
+      <if test="enterTemp != null" >
+        enterTemp,
+      </if>
+      <if test="anabioticState != null" >
+        anabioticState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="bedId != null" >
+        #{bedId,jdbcType=INTEGER},
+      </if>
+      <if test="pacuRoomId != null" >
+        #{pacuRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTime != null" >
+        #{enterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitTime != null" >
+        #{exitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="portablePipe != null" >
+        #{portablePipe,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesType != null" >
+        #{anaesType,jdbcType=VARCHAR},
+      </if>
+      <if test="portableRes != null" >
+        #{portableRes,jdbcType=VARCHAR},
+      </if>
+      <if test="portableResOther != null" >
+        #{portableResOther,jdbcType=VARCHAR},
+      </if>
+      <if test="stewardScore != null" >
+        #{stewardScore,jdbcType=INTEGER},
+      </if>
+      <if test="docSign != null" >
+        #{docSign,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseSign != null" >
+        #{nurseSign,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTemp != null" >
+        #{enterTemp,jdbcType=REAL},
+      </if>
+      <if test="anabioticState != null" >
+        #{anabioticState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec" >
+    update doc_anaes_pacu_rec
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="bedId != null" >
+        bedId = #{bedId,jdbcType=INTEGER},
+      </if>
+      <if test="pacuRoomId != null" >
+        pacuRoomId = #{pacuRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTime != null" >
+        enterTime = #{enterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exitTime != null" >
+        exitTime = #{exitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        finishTime = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="portablePipe != null" >
+        portablePipe = #{portablePipe,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesType != null" >
+        anaesType = #{anaesType,jdbcType=VARCHAR},
+      </if>
+      <if test="portableRes != null" >
+        portableRes = #{portableRes,jdbcType=VARCHAR},
+      </if>
+      <if test="portableResOther != null" >
+        portableResOther = #{portableResOther,jdbcType=VARCHAR},
+      </if>
+      <if test="stewardScore != null" >
+        stewardScore = #{stewardScore,jdbcType=INTEGER},
+      </if>
+      <if test="docSign != null" >
+        docSign = #{docSign,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseSign != null" >
+        nurseSign = #{nurseSign,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTemp != null" >
+        enterTemp = #{enterTemp,jdbcType=REAL},
+      </if>
+      <if test="anabioticState != null" >
+        anabioticState = #{anabioticState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec" >
+    update doc_anaes_pacu_rec
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      bedId = #{bedId,jdbcType=INTEGER},
+      pacuRoomId = #{pacuRoomId,jdbcType=INTEGER},
+      processState = #{processState,jdbcType=VARCHAR},
+      enterTime = #{enterTime,jdbcType=TIMESTAMP},
+      exitTime = #{exitTime,jdbcType=TIMESTAMP},
+      finishTime = #{finishTime,jdbcType=TIMESTAMP},
+      leaveTo = #{leaveTo,jdbcType=INTEGER},
+      portablePipe = #{portablePipe,jdbcType=VARCHAR},
+      anaesType = #{anaesType,jdbcType=VARCHAR},
+      portableRes = #{portableRes,jdbcType=VARCHAR},
+      portableResOther = #{portableResOther,jdbcType=VARCHAR},
+      stewardScore = #{stewardScore,jdbcType=INTEGER},
+      docSign = #{docSign,jdbcType=VARCHAR},
+      nurseSign = #{nurseSign,jdbcType=VARCHAR},
+      enterTemp = #{enterTemp,jdbcType=REAL},
+      anabioticState = #{anabioticState,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updatePacuRecEnterRoomTime">
+  	update doc_anaes_pacu_rec 
+  	set enterTime = #{enterTime}
+  	where id = #{pacuRecId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

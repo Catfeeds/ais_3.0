@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPostOperRegardDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPostOperRegard" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="explain" property="explain" jdbcType="INTEGER" />
+    <result column="preOperOptbody" property="preOperOptbody" jdbcType="INTEGER" />
+    <result column="coverWarm" property="coverWarm" jdbcType="INTEGER" />
+    <result column="operingOptbodyComfort" property="operingOptbodyComfort" jdbcType="INTEGER" />
+    <result column="postOperRestore" property="postOperRestore" jdbcType="INTEGER" />
+    <result column="byInterviewHelp" property="byInterviewHelp" jdbcType="INTEGER" />
+    <result column="satisfacation" property="satisfacation" jdbcType="INTEGER" />
+    <result column="sugest" property="sugest" jdbcType="VARCHAR" />
+    <result column="interviewUser" property="interviewUser" jdbcType="INTEGER" />
+    <result column="interviewRelation" property="interviewRelation" jdbcType="VARCHAR" />
+    <result column="interviewTime" property="interviewTime" jdbcType="TIMESTAMP" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, explain, preOperOptbody, coverWarm, operingOptbodyComfort, postOperRestore, 
+    byInterviewHelp, satisfacation, sugest, interviewUser, interviewRelation, interviewTime, 
+    processState
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_post_oper_regard
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_post_oper_regard
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPostOperRegard" >
+    insert into doc_post_oper_regard (id, regOptId, explain, 
+      preOperOptbody, coverWarm, operingOptbodyComfort, 
+      postOperRestore, byInterviewHelp, satisfacation, 
+      sugest, interviewUser, interviewRelation, 
+      interviewTime, processState)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{explain,jdbcType=INTEGER}, 
+      #{preOperOptbody,jdbcType=INTEGER}, #{coverWarm,jdbcType=INTEGER}, #{operingOptbodyComfort,jdbcType=INTEGER}, 
+      #{postOperRestore,jdbcType=INTEGER}, #{byInterviewHelp,jdbcType=INTEGER}, #{satisfacation,jdbcType=INTEGER}, 
+      #{sugest,jdbcType=VARCHAR}, #{interviewUser,jdbcType=INTEGER}, #{interviewRelation,jdbcType=VARCHAR}, 
+      #{interviewTime,jdbcType=TIMESTAMP}, #{processState,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostOperRegard" >
+    insert into doc_post_oper_regard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="explain != null" >
+        explain,
+      </if>
+      <if test="preOperOptbody != null" >
+        preOperOptbody,
+      </if>
+      <if test="coverWarm != null" >
+        coverWarm,
+      </if>
+      <if test="operingOptbodyComfort != null" >
+        operingOptbodyComfort,
+      </if>
+      <if test="postOperRestore != null" >
+        postOperRestore,
+      </if>
+      <if test="byInterviewHelp != null" >
+        byInterviewHelp,
+      </if>
+      <if test="satisfacation != null" >
+        satisfacation,
+      </if>
+      <if test="sugest != null" >
+        sugest,
+      </if>
+      <if test="interviewUser != null" >
+        interviewUser,
+      </if>
+      <if test="interviewRelation != null" >
+        interviewRelation,
+      </if>
+      <if test="interviewTime != null" >
+        interviewTime,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null" >
+        #{explain,jdbcType=INTEGER},
+      </if>
+      <if test="preOperOptbody != null" >
+        #{preOperOptbody,jdbcType=INTEGER},
+      </if>
+      <if test="coverWarm != null" >
+        #{coverWarm,jdbcType=INTEGER},
+      </if>
+      <if test="operingOptbodyComfort != null" >
+        #{operingOptbodyComfort,jdbcType=INTEGER},
+      </if>
+      <if test="postOperRestore != null" >
+        #{postOperRestore,jdbcType=INTEGER},
+      </if>
+      <if test="byInterviewHelp != null" >
+        #{byInterviewHelp,jdbcType=INTEGER},
+      </if>
+      <if test="satisfacation != null" >
+        #{satisfacation,jdbcType=INTEGER},
+      </if>
+      <if test="sugest != null" >
+        #{sugest,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewUser != null" >
+        #{interviewUser,jdbcType=INTEGER},
+      </if>
+      <if test="interviewRelation != null" >
+        #{interviewRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewTime != null" >
+        #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostOperRegard" >
+    update doc_post_oper_regard
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null" >
+        explain = #{explain,jdbcType=INTEGER},
+      </if>
+      <if test="preOperOptbody != null" >
+        preOperOptbody = #{preOperOptbody,jdbcType=INTEGER},
+      </if>
+      <if test="coverWarm != null" >
+        coverWarm = #{coverWarm,jdbcType=INTEGER},
+      </if>
+      <if test="operingOptbodyComfort != null" >
+        operingOptbodyComfort = #{operingOptbodyComfort,jdbcType=INTEGER},
+      </if>
+      <if test="postOperRestore != null" >
+        postOperRestore = #{postOperRestore,jdbcType=INTEGER},
+      </if>
+      <if test="byInterviewHelp != null" >
+        byInterviewHelp = #{byInterviewHelp,jdbcType=INTEGER},
+      </if>
+      <if test="satisfacation != null" >
+        satisfacation = #{satisfacation,jdbcType=INTEGER},
+      </if>
+      <if test="sugest != null" >
+        sugest = #{sugest,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewUser != null" >
+        interviewUser = #{interviewUser,jdbcType=INTEGER},
+      </if>
+      <if test="interviewRelation != null" >
+        interviewRelation = #{interviewRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewTime != null" >
+        interviewTime = #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPostOperRegard" >
+    update doc_post_oper_regard
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      explain = #{explain,jdbcType=INTEGER},
+      preOperOptbody = #{preOperOptbody,jdbcType=INTEGER},
+      coverWarm = #{coverWarm,jdbcType=INTEGER},
+      operingOptbodyComfort = #{operingOptbodyComfort,jdbcType=INTEGER},
+      postOperRestore = #{postOperRestore,jdbcType=INTEGER},
+      byInterviewHelp = #{byInterviewHelp,jdbcType=INTEGER},
+      satisfacation = #{satisfacation,jdbcType=INTEGER},
+      sugest = #{sugest,jdbcType=VARCHAR},
+      interviewUser = #{interviewUser,jdbcType=INTEGER},
+      interviewRelation = #{interviewRelation,jdbcType=VARCHAR},
+      interviewTime = #{interviewTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

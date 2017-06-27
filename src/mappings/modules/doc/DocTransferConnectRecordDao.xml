@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocTransferConnectRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="consciousCondition" property="consciousCondition" jdbcType="INTEGER" />
+    <result column="definiteCase" property="definiteCase" jdbcType="VARCHAR" />
+    <result column="stomachTube" property="stomachTube" jdbcType="INTEGER" />
+    <result column="urineTube" property="urineTube" jdbcType="INTEGER" />
+    <result column="tracheaTube" property="tracheaTube" jdbcType="INTEGER" />
+    <result column="medicalRecord" property="medicalRecord" jdbcType="INTEGER" />
+    <result column="drug" property="drug" jdbcType="VARCHAR" />
+    <result column="inRoomTime" property="inRoomTime" jdbcType="TIMESTAMP" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="joinNurse1" property="joinNurse1" jdbcType="VARCHAR" />
+    <result column="joinNurse2" property="joinNurse2" jdbcType="VARCHAR" />
+    <result column="joinTime" property="joinTime" jdbcType="TIMESTAMP" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" extends="BaseResultMap" >
+    <result column="skinCase" property="skinCase" jdbcType="LONGVARCHAR" />
+    <result column="iconPiece" property="iconPiece" jdbcType="LONGVARCHAR" />
+    <result column="transfusion" property="transfusion" jdbcType="LONGVARCHAR" />
+    <result column="drainageTube" property="drainageTube" jdbcType="LONGVARCHAR" />
+    <result column="operingMedical" property="operingMedical" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, consciousCondition, definiteCase, stomachTube, urineTube, tracheaTube, 
+    medicalRecord, drug, inRoomTime, other, joinNurse1, joinNurse2, joinTime, processState
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    skinCase, iconPiece, transfusion, drainageTube, operingMedical
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_transfer_connect_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_transfer_connect_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" >
+    insert into doc_transfer_connect_record (id, regOptId, consciousCondition, 
+      definiteCase, stomachTube, urineTube, 
+      tracheaTube, medicalRecord, drug, 
+      inRoomTime, other, joinNurse1, 
+      joinNurse2, joinTime, processState, 
+      skinCase, iconPiece, transfusion, 
+      drainageTube, operingMedical)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{consciousCondition,jdbcType=INTEGER}, 
+      #{definiteCase,jdbcType=VARCHAR}, #{stomachTube,jdbcType=INTEGER}, #{urineTube,jdbcType=INTEGER}, 
+      #{tracheaTube,jdbcType=INTEGER}, #{medicalRecord,jdbcType=INTEGER}, #{drug,jdbcType=VARCHAR}, 
+      #{inRoomTime,jdbcType=TIMESTAMP}, #{other,jdbcType=VARCHAR}, #{joinNurse1,jdbcType=VARCHAR}, 
+      #{joinNurse2,jdbcType=VARCHAR}, #{joinTime,jdbcType=TIMESTAMP}, #{processState,jdbcType=VARCHAR}, 
+      #{skinCase,jdbcType=LONGVARCHAR}, #{iconPiece,jdbcType=LONGVARCHAR}, #{transfusion,jdbcType=LONGVARCHAR}, 
+      #{drainageTube,jdbcType=LONGVARCHAR}, #{operingMedical,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" >
+    insert into doc_transfer_connect_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="consciousCondition != null" >
+        consciousCondition,
+      </if>
+      <if test="definiteCase != null" >
+        definiteCase,
+      </if>
+      <if test="stomachTube != null" >
+        stomachTube,
+      </if>
+      <if test="urineTube != null" >
+        urineTube,
+      </if>
+      <if test="tracheaTube != null" >
+        tracheaTube,
+      </if>
+      <if test="medicalRecord != null" >
+        medicalRecord,
+      </if>
+      <if test="drug != null" >
+        drug,
+      </if>
+      <if test="inRoomTime != null" >
+        inRoomTime,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="joinNurse1 != null" >
+        joinNurse1,
+      </if>
+      <if test="joinNurse2 != null" >
+        joinNurse2,
+      </if>
+      <if test="joinTime != null" >
+        joinTime,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="skinCase != null" >
+        skinCase,
+      </if>
+      <if test="iconPiece != null" >
+        iconPiece,
+      </if>
+      <if test="transfusion != null" >
+        transfusion,
+      </if>
+      <if test="drainageTube != null" >
+        drainageTube,
+      </if>
+      <if test="operingMedical != null" >
+        operingMedical,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="consciousCondition != null" >
+        #{consciousCondition,jdbcType=INTEGER},
+      </if>
+      <if test="definiteCase != null" >
+        #{definiteCase,jdbcType=VARCHAR},
+      </if>
+      <if test="stomachTube != null" >
+        #{stomachTube,jdbcType=INTEGER},
+      </if>
+      <if test="urineTube != null" >
+        #{urineTube,jdbcType=INTEGER},
+      </if>
+      <if test="tracheaTube != null" >
+        #{tracheaTube,jdbcType=INTEGER},
+      </if>
+      <if test="medicalRecord != null" >
+        #{medicalRecord,jdbcType=INTEGER},
+      </if>
+      <if test="drug != null" >
+        #{drug,jdbcType=VARCHAR},
+      </if>
+      <if test="inRoomTime != null" >
+        #{inRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="joinNurse1 != null" >
+        #{joinNurse1,jdbcType=VARCHAR},
+      </if>
+      <if test="joinNurse2 != null" >
+        #{joinNurse2,jdbcType=VARCHAR},
+      </if>
+      <if test="joinTime != null" >
+        #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="skinCase != null" >
+        #{skinCase,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="iconPiece != null" >
+        #{iconPiece,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="transfusion != null" >
+        #{transfusion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="drainageTube != null" >
+        #{drainageTube,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operingMedical != null" >
+        #{operingMedical,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" >
+    update doc_transfer_connect_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="consciousCondition != null" >
+        consciousCondition = #{consciousCondition,jdbcType=INTEGER},
+      </if>
+      <if test="definiteCase != null" >
+        definiteCase = #{definiteCase,jdbcType=VARCHAR},
+      </if>
+      <if test="stomachTube != null" >
+        stomachTube = #{stomachTube,jdbcType=INTEGER},
+      </if>
+      <if test="urineTube != null" >
+        urineTube = #{urineTube,jdbcType=INTEGER},
+      </if>
+      <if test="tracheaTube != null" >
+        tracheaTube = #{tracheaTube,jdbcType=INTEGER},
+      </if>
+      <if test="medicalRecord != null" >
+        medicalRecord = #{medicalRecord,jdbcType=INTEGER},
+      </if>
+      <if test="drug != null" >
+        drug = #{drug,jdbcType=VARCHAR},
+      </if>
+      <if test="inRoomTime != null" >
+        inRoomTime = #{inRoomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="joinNurse1 != null" >
+        joinNurse1 = #{joinNurse1,jdbcType=VARCHAR},
+      </if>
+      <if test="joinNurse2 != null" >
+        joinNurse2 = #{joinNurse2,jdbcType=VARCHAR},
+      </if>
+      <if test="joinTime != null" >
+        joinTime = #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="skinCase != null" >
+        skinCase = #{skinCase,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="iconPiece != null" >
+        iconPiece = #{iconPiece,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="transfusion != null" >
+        transfusion = #{transfusion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="drainageTube != null" >
+        drainageTube = #{drainageTube,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operingMedical != null" >
+        operingMedical = #{operingMedical,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" >
+    update doc_transfer_connect_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      consciousCondition = #{consciousCondition,jdbcType=INTEGER},
+      definiteCase = #{definiteCase,jdbcType=VARCHAR},
+      stomachTube = #{stomachTube,jdbcType=INTEGER},
+      urineTube = #{urineTube,jdbcType=INTEGER},
+      tracheaTube = #{tracheaTube,jdbcType=INTEGER},
+      medicalRecord = #{medicalRecord,jdbcType=INTEGER},
+      drug = #{drug,jdbcType=VARCHAR},
+      inRoomTime = #{inRoomTime,jdbcType=TIMESTAMP},
+      other = #{other,jdbcType=VARCHAR},
+      joinNurse1 = #{joinNurse1,jdbcType=VARCHAR},
+      joinNurse2 = #{joinNurse2,jdbcType=VARCHAR},
+      joinTime = #{joinTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR},
+      skinCase = #{skinCase,jdbcType=LONGVARCHAR},
+      iconPiece = #{iconPiece,jdbcType=LONGVARCHAR},
+      transfusion = #{transfusion,jdbcType=LONGVARCHAR},
+      drainageTube = #{drainageTube,jdbcType=LONGVARCHAR},
+      operingMedical = #{operingMedical,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocTransferConnectRecord" >
+    update doc_transfer_connect_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      consciousCondition = #{consciousCondition,jdbcType=INTEGER},
+      definiteCase = #{definiteCase,jdbcType=VARCHAR},
+      stomachTube = #{stomachTube,jdbcType=INTEGER},
+      urineTube = #{urineTube,jdbcType=INTEGER},
+      tracheaTube = #{tracheaTube,jdbcType=INTEGER},
+      medicalRecord = #{medicalRecord,jdbcType=INTEGER},
+      drug = #{drug,jdbcType=VARCHAR},
+      inRoomTime = #{inRoomTime,jdbcType=TIMESTAMP},
+      other = #{other,jdbcType=VARCHAR},
+      joinNurse1 = #{joinNurse1,jdbcType=VARCHAR},
+      joinNurse2 = #{joinNurse2,jdbcType=VARCHAR},
+      joinTime = #{joinTime,jdbcType=TIMESTAMP},
+      processState = #{processState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

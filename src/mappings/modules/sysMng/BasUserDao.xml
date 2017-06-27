@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.sysMng.dao.BasUserDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.sysMng.po.BasUser" >
+    <id column="userName" property="userName" jdbcType="VARCHAR" />
+    <id column="beid" property="beid" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="loginIp" property="loginIp" jdbcType="VARCHAR" />
+    <result column="loginDate" property="loginDate" jdbcType="TIMESTAMP" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="locked" property="locked" jdbcType="INTEGER" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="userType" property="userType" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="professionalTitle" property="professionalTitle" jdbcType="VARCHAR" />
+    <result column="executiveLevel" property="executiveLevel" jdbcType="VARCHAR" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
+    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    userName, beid, password, name, mobile, email, photo, loginIp, loginDate, createUser, 
+    createDate, locked, enable, salt, token, userType, pinYin, professionalTitle, executiveLevel
+  </sql>
+  
+  <sql id="U_Column_List" >
+    u.userName, u.password, u.name, u.mobile, u.email, u.photo, u.loginIp, u.loginDate, u.createUser, 
+    u.createDate, u.locked, u.enable, u.salt, u.token, u.userType, u.pinYin, u.professionalTitle, u.executiveLevel, u.beid
+  </sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		select u.*,bus.name AS "beName",bus.subName AS "subName",sr.`id` AS "roleId", sr.`name` AS "roleName",sr.`roleType`
+		from bas_user u , bas_user_role sur, bas_role sr, bas_bus_entity bus
+		where u.`userName` = sur.`userId`
+		AND sur.`roleId` = sr.`id`
+		AND u.beid = sur.beid
+		And sur.beid = sr.beid
+		AND bus.beid = u.beid
+		AND u.userName = #{userName,jdbcType=VARCHAR}
+		and u.beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="get" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM bas_user
+		WHERE userName = #{userName} and beid = #{beid}
+	</select>
+	
+	<select id="getSelectUser" resultType="com.digihealth.anesthesia.sysMng.formbean.UserInfoFormBean">
+		SELECT
+		a.userName as 'id',
+		a.name
+		FROM bas_user a 
+		WHERE a.enable = 1 ${sql} and a.beid = #{beid}
+	</select>
+	
+	<select id="getAllUserTotal" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM bas_user a join bas_user_role b on a.userName = b.userId LEFT JOIN bas_role r on b.roleId = r.id 
+		WHERE 1=1 ${sql} and a.locked = 0 and a.beid = #{beid} and b.beid = #{beid}
+	</select>
+	
+	<select id="getByLoginName" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+		a.userName,
+    	a.password,
+		a.name,
+		a.mobile,
+		a.userType,
+		a.email,
+		a.photo,
+		a.professionalTitle,
+		a.executiveLevel,
+		a.loginIp,
+		a.loginDate,
+		a.createUser ,
+		a.createDate,
+		a.enable,
+		a.salt,
+		a.token,
+		a.locked,
+		a.beid,
+		b.roleId,
+		c.`name`,
+		c.`roleType` 
+		FROM bas_user a JOIN bas_user_role b ON (a.userName = b.userId AND a.`beid` = b.`beid`)
+		JOIN bas_role c ON b.`roleId` = c.`id`
+		WHERE (a.userName = #{loginName}
+		or a.name = #{loginName}) and a.locked = 0 and a.enable=1 and a.beid = #{beid}
+	</select>
+	
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.sysMng.formbean.BasUserFormBean" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_user
+    where 1=1 
+    <if test="userName != '' and userName != null">AND userName = #{userName} </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="mobile != '' and mobile !=null">AND mobile LIKE CONCAT('%',#{mobile},'%') </if>
+    <if test="email != '' and email !=null">AND email LIKE CONCAT('%',#{email},'%') </if>
+    <if test="createUser != '' and createUser != null">AND createUser = #{createUser} </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="locked != null">AND locked = #{locked} </if>
+    <if test="salt != '' and salt != null">AND salt = #{salt} </if>
+    <if test="token != '' and token != null">AND token = #{token} </if>
+    <if test="userType != '' and userType != null">AND userType = #{userType} </if>
+    <if test="pinYin != '' and pinYin != null">AND pinYin LIKE CONCAT('%',#{pinYin},'%') </if>
+    <if test="professionalTitle != '' and professionalTitle != null">AND professionalTitle = #{professionalTitle} </if>
+    <if test="executiveLevel != '' and executiveLevel != null">AND executiveLevel = #{executiveLevel} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+	<if test="pageSize != null and pageSize != 0">LIMIT #{pageNo},#{pageSize}</if>
+  </select>
+  
+  <select id="queryUserList" resultType="com.digihealth.anesthesia.sysMng.formbean.BasUserFormBean">
+	SELECT * FROM(
+	SELECT m.username,m.enable,m.name,m.beid,m.userType,m.professionalTitle,m.executiveLevel,
+	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.userType AND sc.groupId='user_type' AND sc.beid = m.beid) AS "userTypeName",
+	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.professionalTitle AND sc.groupId='professional_title' AND sc.beid = m.beid) AS "professionalTitleName",
+	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.executiveLevel AND sc.groupId='executive_evel' AND sc.beid = m.beid) AS "executiveLevelName",
+	 m.locked,m.pinYin,sr.`id` AS "roleId", sr.`name` AS  "roleName",(SELECT NAME FROM bas_bus_entity b WHERE b.beid = m.beid LIMIT 1 ) AS "beName" 
+	 FROM bas_user m , bas_user_role sur, bas_role sr
+	 WHERE m.`username` = sur.`userId`
+	 AND sur.`roleId` = sr.`id`
+	 AND m.beid = sur.beid 
+	 AND sur.beid = sr.beid  
+	 ) u WHERE 1 = 1 ${filter} 
+	 order by u.${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+	</select>
+	
+	<select id="queryUserListTotal" resultType="java.lang.Integer"> 
+	SELECT count(1) FROM(
+	SELECT m.username,m.enable,m.name,m.beid,m.userType,m.professionalTitle,m.executiveLevel,
+	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.userType AND sc.groupId='user_type' AND sc.beid = m.beid) AS "userTypeName",
+	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.professionalTitle AND sc.groupId='professional_title' AND sc.beid = m.beid) AS "professionalTitleName",
+	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.executiveLevel AND sc.groupId='executive_level' AND sc.beid = m.beid) AS "executiveLevelName",
+	 m.locked,m.pinYin,sr.`id` AS "roleId", sr.`name` AS  "roleName",(SELECT NAME FROM bas_bus_entity b WHERE b.beid = m.beid LIMIT 1 ) AS "beName" 
+	 FROM bas_user m , bas_user_role sur, bas_role sr
+	 WHERE m.`username` = sur.`userId`
+	 AND sur.`roleId` = sr.`id`
+	 AND m.beid = sur.beid 
+	 AND sur.beid = sr.beid  
+	 ) u WHERE 1 = 1 ${filter}
+	</select>
+	
+	<select id="getAllUser" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+		distinct
+		a.userName,
+    	a.password,
+		a.name,
+		a.mobile,
+		(select sc.codeName from bas_sys_code sc where sc.codeValue=a.userType and sc.groupId='user_type' and beid = #{beid}) as "userType",
+		a.loginIp,
+		a.loginDate,
+		a.createUser AS "createBy.id",
+		a.createDate,
+		(select sc.codeName from bas_sys_code sc where sc.codeValue=a.professionalTitle and sc.groupId='professional_title' and sc.beid = #{beid}) as "professionalTitle",
+		(select sc.codeName from bas_sys_code sc where sc.codeValue=a.executiveLevel and sc.groupId='executive_level' and sc.beid = #{beid}) as "executiveLevel",
+		a.pinYin,
+		a.locked,
+		a.enable,
+		b.roleId as "roleId",
+		(select name from bas_role where id = b.roleId and beid = #{beid}) as "roleName"
+		FROM bas_user a join bas_user_role b on a.userName = b.userId LEFT JOIN bas_role r on b.roleId = r.id 
+		WHERE 1=1 ${sql} and a.locked = 0 and a.beid = #{beid} and b.beid = #{beid}
+		<if test="pageSize !=0">
+			limit #{pageNo},#{pageSize}
+		</if>
+	</select>
+	
+	<select id="getUserList" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT a.userName,a.name,
+		a.mobile,a.userType,a.loginIp,a.loginDate
+		,a.createUser,a.pinYin,b.roleId as "roleId",
+		a.professionalTitle,a.executiveLevel,a.createDate
+		FROM bas_user a join bas_user_role b on a.userName = b.userId
+		WHERE 1 = 1
+		<if test="baseQuery.userType != null and baseQuery.userType !=''">
+			AND	a.userType = #{baseQuery.userType}
+		</if>
+		<if test="baseQuery.beid != null and baseQuery.beid !=''">
+			AND	a.beid = #{baseQuery.beid}
+		</if>
+	</select>
+	
+	<select id="searchUserById" resultMap="BaseResultMap">
+	select  <include refid="U_Column_List" />,
+	(select ur.roleId from bas_user_role ur where ur.userId = u.username and ur.beid = #{beid}) as "roleId" 
+	from bas_user u 
+	where u.username = #{username} and beid = #{beid}
+	</select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from bas_user
+    where userName = #{userName,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+
+	<!-- 逻辑删除用户 -->
+	<update id="delete">
+		UPDATE bas_user SET 
+			enable = #{enable}
+		WHERE userName = #{userName} and beid = #{beid}
+	</update>
+	
+  <insert id="insert" parameterType="com.digihealth.anesthesia.sysMng.po.BasUser" >
+    insert into bas_user (userName, beid, password, 
+      name, mobile, email, 
+      photo, loginIp, loginDate, 
+      createUser, createDate, locked, 
+      enable, salt, token, 
+      userType, pinYin, professionalTitle, executiveLevel
+      )
+    values (#{userName,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR}, #{loginIp,jdbcType=VARCHAR}, #{loginDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{locked,jdbcType=INTEGER}, 
+      #{enable,jdbcType=INTEGER}, #{salt,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{professionalTitle,jdbcType=VARCHAR}, #{executiveLevel,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasUser" >
+    insert into bas_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="loginIp != null" >
+        loginIp,
+      </if>
+      <if test="loginDate != null" >
+        loginDate,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="locked != null" >
+        locked,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="userType != null" >
+        userType,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="professionalTitle != null" >
+        professionalTitle,
+      </if>
+      <if test="executiveLevel != null" >
+        executiveLevel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null" >
+        #{loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalTitle != null" >
+        #{professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="executiveLevel != null" >
+        #{executiveLevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasUser" >
+    update bas_user
+    <set >
+      <if test="password != null and password != '' " >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name != '' " >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null  and mobile != '' " >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email != '' " >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null and photo != '' ">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null  and loginIp != '' " >
+        loginIp = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null  and loginDate != '' " >
+        loginDate = #{loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null and createUser != '' " >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null and createDate != '' " >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="locked != null" >
+        locked = #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null and salt != '' " >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null  and token != '' " >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null and userType != '' " >
+        userType = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null and pinYin != '' " >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalTitle != null  and professionalTitle != '' " >
+        professionalTitle = #{professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="executiveLevel != null and executiveLevel != '' " >
+        executiveLevel = #{executiveLevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userName = #{userName,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.sysMng.po.BasUser" >
+    update bas_user
+    set password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      loginIp = #{loginIp,jdbcType=VARCHAR},
+      loginDate = #{loginDate,jdbcType=TIMESTAMP},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      locked = #{locked,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=INTEGER},
+      salt = #{salt,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
+      userType = #{userType,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      professionalTitle = #{professionalTitle,jdbcType=VARCHAR},
+      executiveLevel = #{executiveLevel,jdbcType=VARCHAR}
+    where userName = #{userName,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateToken" parameterType="com.digihealth.anesthesia.sysMng.po.BasUser">
+  	update bas_user set token = #{token,jdbcType=VARCHAR}
+  	 where userName = #{userName,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+  
+	<select id="searchHnUserById" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+		distinct
+		a.userName,
+    	a.password,
+		a.name,
+		a.mobile,
+		(select sc.codeName from bas_sys_code sc where sc.codeValue=a.userType and sc.groupId='user_type' AND sc.beid = #{beid}) as "userType",
+		a.loginIp,
+		a.loginDate,
+		a.createUser AS "createBy.id",
+		a.createDate,
+		a.enable,
+		(select sc.codeName from bas_sys_code sc where sc.codeValue=a.professionalTitle and sc.groupId='professional_title' and sc.beid = #{beid}) as "professionalTitle",
+		(select sc.codeName from bas_sys_code sc where sc.codeValue=a.executiveLevel and sc.groupId='executive_level' and sc.beid = #{beid}) as "executiveLevel",
+		a.pinYin,
+		b.roleId as "roleId",
+		(select name from bas_role where id = b.roleId and beid = #{beid}) as "roleName"
+		FROM bas_user a join bas_user_role b on a.userName = b.userId LEFT JOIN bas_role r on b.roleId = r.id 
+		WHERE 1=1 and a.userName = #{id}
+		and a.enable = 1 and a.beid = #{beid}
+	</select>
+	
+	<select id="getUserOrderbyId" resultType = "com.digihealth.anesthesia.sysMng.po.BasUser">
+	 SELECT DISTINCT * FROM bas_user where beid = #{beid} order by userName DESC
+	</select>
+	
+	<!-- 根据登录名查询用户 -->
+	<select id="anaesDirectorUserLogin" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+		a.userName,
+    	a.password,
+		a.name,
+		a.mobile,
+		a.userType,
+		a.pinYin,
+		a.professionalTitle,
+		a.executiveLevel,
+		a.loginIp,
+		a.loginDate,
+		a.createUser AS "createBy.id",
+		a.createDate,
+		a.enable,
+		b.roleId
+		FROM bas_user a join bas_user_role b on a.userName = b.userId
+		WHERE (a.userName = #{loginName}
+		or a.name = #{loginName}) and a.locked = 0 and a.enable = 1 
+		and a.beid = #{beid}
+		and a.executiveLevel = #{administrativeLeve}
+	</select>
+	
+	<!-- 根据登录名查询用户 -->
+	<select id="userLogin" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+		a.userName,
+    	a.password,
+		a.name,
+		a.mobile,
+		a.userType,
+		a.pinYin,
+		a.professionalTitle,
+		a.executiveLevel,
+		a.loginIp,
+		a.loginDate,
+		a.createUser AS "createBy.id",
+		a.createDate,
+		a.enable,
+		b.roleId
+		FROM bas_user a join bas_user_role b on a.userName = b.userId
+		WHERE (a.userName = #{loginName}
+		or a.name = #{loginName}) and a.locked = 0 and a.enable = 1 and a.userType = #{userType}
+		and a.beid = #{beid}
+	</select>
+	
+	<!-- 根据登录名查询用户 -->
+	<select id="getRoleByLoginName" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">
+		SELECT
+		a.userName,
+    	a.password,
+		a.name,
+		a.mobile,
+		a.userType,
+		a.email,
+		a.photo,
+		a.professionalTitle,
+		a.executiveLevel,
+		a.loginIp,
+		a.loginDate,
+		a.createUser AS "createBy.id",
+		a.createDate,
+		a.enable,
+		a.salt,
+		a.token,
+		a.locked,
+		a.beid,
+		b.roleId
+		FROM bas_user a join bas_user_role b on a.userName = b.userId left join bas_role r on b.roleId = r.id
+		WHERE (a.userName = #{loginName}
+		or a.name = #{loginName}) and a.locked = 0 and a.enable = 1 and r.enable = 1 AND a.beid = #{beid}
+	</select>
+</mapper>

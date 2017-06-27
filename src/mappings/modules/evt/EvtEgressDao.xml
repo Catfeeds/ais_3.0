@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtEgressDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtEgress" >
+    <id column="egressId" property="egressId" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="ioDefId" property="ioDefId" jdbcType="INTEGER" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="docType" property="docType" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    egressId, docId, startTime, endTime, createUser, ioDefId, value, docType
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_egress
+    where egressId = #{egressId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="searchEgressList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperEgress">
+	SELECT 
+		a.*,
+		(select name from bas_user where bas_user.userName = a.createUser limit 1 ) createUserName,b.unit,b.dosageUnit,
+		b.name FROM evt_egress a left join bas_io_defination b on a.ioDefId=b.ioDefId where 1 = 1 
+	<if test="searchBean.docId != null and searchBean.docId != ''">
+		AND a.docId = #{searchBean.docId}
+	</if>
+	<if test="searchBean.id != null and searchBean.id != ''">
+		AND a.egressId = #{searchBean.id}
+	</if>
+	<if test="searchBean.code != null and searchBean.code != ''">
+		AND a.ioDefId = #{searchBean.code}
+	</if>
+	order by a.startTime,a.egressId
+  </select>
+	
+  <select id="queryEgressListById" resultType="com.digihealth.anesthesia.evt.po.EvtEgress">
+	SELECT 
+		a.* FROM evt_egress a where 1 = 1 
+	<if test="searchBean.docId != null and searchBean.docId != ''">
+		AND a.docId = #{searchBean.docId}
+	</if>
+	<if test="searchBean.id != null and searchBean.id != ''">
+		AND a.egressId = #{searchBean.id}
+	</if>
+  </select>
+  
+  <select id="queryEgressListByCode" resultType="com.digihealth.anesthesia.evt.po.EvtEgress">
+	SELECT 
+		a.* FROM evt_egress a where 1 = 1 
+	<if test="searchBean.docId != null and searchBean.docId != ''">
+		AND a.docId = #{searchBean.docId}
+	</if>
+	<if test="searchBean.code != null and searchBean.code != ''">
+		AND a.ioDefId = #{searchBean.code}
+	</if>
+  </select>
+  
+  <select id="searchEgressGroupByDefIdList" resultType="com.digihealth.anesthesia.evt.formbean.RegOptOperEgressFormBean">
+		SELECT 
+			a.ioDefId,b.name,b.unit,b.dosageUnit FROM evt_egress a left join bas_io_defination b on a.ioDefId=b.ioDefId where 1 = 1 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.egressId = #{searchBean.id}
+		</if>
+		group by a.ioDefId,b.name
+		order by a.startTime,a.egressId
+  </select>
+  
+  <select id="getEgressCountValueByIoDef" resultType="java.lang.Integer">
+		select SUM(value) from evt_egress  where docId = #{docId} 
+		<if test="ioDefId != null and ioDefId != ''">
+			and ioDefId = #{ioDefId}
+		</if>
+  </select>
+	
+  <select id="getEgressAmountCountByDocId" resultType="com.digihealth.anesthesia.evt.formbean.AmountFormbean">
+		select b.name,x.amount,b.unit,b.dosageUnit from (
+			select SUM(value) amount ,ioDefId from evt_egress
+			 where docId=#{docId}  group by ioDefId 
+		) x,bas_io_defination b where x.ioDefId=b.ioDefId
+  </select>
+  
+  <select id="countAmountByDocId" resultType="java.lang.Float">
+	select IFNULL(SUM(value),0) from evt_egress 
+		where docId=#{docId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_egress
+    where egressId = #{egressId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtEgress" >
+    insert into evt_egress (egressId, docId, startTime, 
+      endTime, createUser, ioDefId, 
+      value, docType)
+    values (#{egressId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{ioDefId,jdbcType=INTEGER}, 
+      #{value,jdbcType=VARCHAR}, #{docType,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtEgress" >
+    insert into evt_egress
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="egressId != null" >
+        egressId,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="ioDefId != null" >
+        ioDefId,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="egressId != null" >
+        #{egressId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ioDefId != null" >
+        #{ioDefId,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtEgress" >
+    update evt_egress
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ioDefId != null" >
+        ioDefId = #{ioDefId,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        docType = #{docType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where egressId = #{egressId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtEgress" >
+    update evt_egress
+    set docId = #{docId,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      ioDefId = #{ioDefId,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
+      docType = #{docType,jdbcType=INTEGER}
+    where egressId = #{egressId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

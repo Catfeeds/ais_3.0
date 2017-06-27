@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtAnaesEventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtAnaesEvent" >
+    <id column="anaEventId" property="anaEventId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="INTEGER" />
+    <result column="occurTime" property="occurTime" jdbcType="TIMESTAMP" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="isSuccess" property="isSuccess" jdbcType="INTEGER" />
+    <result column="docType" property="docType" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaEventId, code, occurTime, docId, isSuccess, docType
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_anaesevent
+    where anaEventId = #{anaEventId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="searchAnaeseventList" resultType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent">
+		SELECT 
+			a.*,(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.groupId='anaes_event_type' AND sc.codeValue = a.code and beid = #{searchBean.beid}) AS "codeName"
+		FROM evt_anaesevent a WHERE 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.code != null and searchBean.code != ''">
+			AND a.code = #{searchBean.code}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.anaEventId = #{searchBean.id}
+		</if>
+		 ORDER BY occurTime
+	</select>
+	
+  <select id="selectCodeByDESC" resultType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent">
+	select  * from evt_anaesevent t where docId=#{docId} and code &lt;#{code} and `code` in ('9','8','5','4','2','1') order by code DESC
+  </select>
+  
+  <select id="selectCodeByASC" resultType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent">
+	select  * from evt_anaesevent t where docId=#{docId} and code &gt;#{code} and `code` in ('9','8','5','4','2','1') order by code ASC
+  </select>
+  
+  <select id="selectByCodeAndDocId" resultType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent">
+	 select * from evt_anaesevent where code = #{code} and docId = #{docId}
+  </select>
+  
+  <select id="selectAnaesEventByCodeAndDocId" resultType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent">
+		select * from evt_anaesevent where code = #{code} and docId = #{docId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_anaesevent
+    where anaEventId = #{anaEventId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByCodeAndDocId">
+		delete from evt_anaesevent where docId = #{docId} and code = #{code} and anaEventId= #{anaEventId}
+  </delete>
+  
+  <delete id="deleteAnaeseventByDocId">
+		delete from  evt_anaesevent
+		WHERE docId = #{anaesevent.docId} and code = #{anaesevent.code}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent" >
+    insert into evt_anaesevent (anaEventId, code, occurTime, 
+      docId, isSuccess, docType
+      )
+    values (#{anaEventId,jdbcType=VARCHAR}, #{code,jdbcType=INTEGER}, #{occurTime,jdbcType=TIMESTAMP}, 
+      #{docId,jdbcType=VARCHAR}, #{isSuccess,jdbcType=INTEGER}, #{docType,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent" >
+    insert into evt_anaesevent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaEventId != null" >
+        anaEventId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="occurTime != null" >
+        occurTime,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="isSuccess != null" >
+        isSuccess,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaEventId != null" >
+        #{anaEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="occurTime != null" >
+        #{occurTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuccess != null" >
+        #{isSuccess,jdbcType=INTEGER},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent" >
+    update evt_anaesevent
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="occurTime != null" >
+        occurTime = #{occurTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuccess != null" >
+        isSuccess = #{isSuccess,jdbcType=INTEGER},
+      </if>
+      <if test="docType != null" >
+        docType = #{docType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where anaEventId = #{anaEventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtAnaesEvent" >
+    update evt_anaesevent
+    set code = #{code,jdbcType=INTEGER},
+      occurTime = #{occurTime,jdbcType=TIMESTAMP},
+      docId = #{docId,jdbcType=VARCHAR},
+      isSuccess = #{isSuccess,jdbcType=INTEGER},
+      docType = #{docType,jdbcType=INTEGER}
+    where anaEventId = #{anaEventId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
