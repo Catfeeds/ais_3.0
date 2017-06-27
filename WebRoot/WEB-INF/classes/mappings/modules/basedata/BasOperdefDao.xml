@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasOperdefDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasOperdef" >
+    <id column="operdefId" property="operdefId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    operdefId, code, name, pinYin, enable, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operdef
+    where operdefId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operdef
+    where 1=1 
+    <if test="operdefId != '' and operdefId != null">AND operdefId = #{operdefId} </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="code != '' and code !=null">AND code = #{code} </if>
+    <if test="pinYin != '' and pinYin !=null">AND pinYin LIKE CONCAT('%',#{pinYin},'%') </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_operdef
+    where operdefId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >
+    insert into bas_operdef (operdefId, code, name, 
+      pinYin, enable, beid
+      )
+    values (#{operdefId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{pinYin,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >
+    insert into bas_operdef
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operdefId != null" >
+        operdefId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operdefId != null" >
+        #{operdefId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >
+    update bas_operdef
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where operdefId = #{operdefId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >
+    update bas_operdef
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where operdefId = #{operdefId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.OperDefFormBean">
+		SELECT 
+			a.*
+		FROM bas_operdef a where 1 = 1
+		and a.enable=1 and a.beid = #{baseQuery.beid}
+		<if test="baseQuery !=null">
+		    <if test="baseQuery.name !=null and baseQuery.name!=''">
+		        and (name like CONCAT(CONCAT('%',#{baseQuery.name}),'%')  or pinyin like CONCAT(CONCAT('%',#{baseQuery.name}),'%') )
+		    </if>
+		    <if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			    AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		    </if>
+		    <if test="baseQuery.enable != null and baseQuery.enable != ''">
+			    AND a.enable = #{baseQuery.enable}
+		    </if>
+		</if>
+		order by a.name ASC
+		<if test="baseQuery.pageSize !=null and baseQuery.pageSize!=''">
+		    limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
+		<if test="baseQuery.pageSize ==null or baseQuery.pageSize==''">
+		    limit 200
+		</if>
+	</select>
+	<select id="queryOperdefList" resultType="com.digihealth.anesthesia.basedata.po.BasOperdef">
+		SELECT * FROM bas_operdef where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasOperdef">
+	select * from bas_operdef where code = #{code} and beid = #{beid}
+	</select>
+	
+	<select id="queryOperdefListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_operdef where 1=1 ${filter} and beid = #{systemSearchFormBean.beid} 
+	</select>
+	
+	<select id="queryOperdefById" resultType="com.digihealth.anesthesia.basedata.po.BasOperdef">
+		SELECT * FROM bas_operdef where operdefId = #{operdefId}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_operdef set enable='0' where beid = #{beid};
+	</update>
+	
+	<delete id="deleteOperdef">
+		delete from  bas_operdef 
+		WHERE operdefId = #{operdefId}
+	</delete>
+	
+	<select id="selectByName" resultType="com.digihealth.anesthesia.basedata.po.BasOperdef">
+	select * from bas_operdef where name = #{name} and beid = #{beid}
+	</select>
+	
+	<select id="selectOrderByIdDesc" resultType="com.digihealth.anesthesia.basedata.po.BasOperdef">
+		select * from bas_operdef order by CONVERT(operdefId,SIGNED) DESC;
+	</select>
+
+</mapper>

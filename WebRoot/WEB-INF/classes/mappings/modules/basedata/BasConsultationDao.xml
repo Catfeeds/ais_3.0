@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasConsultationDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasConsultation" >
+    <id column="conttId" property="conttId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="medicalType" property="medicalType" jdbcType="VARCHAR" />
+    <result column="hid" property="hid" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="ageMon" property="ageMon" jdbcType="INTEGER" />
+    <result column="ageDay" property="ageDay" jdbcType="INTEGER" />
+    <result column="bed" property="bed" jdbcType="VARCHAR" />
+    <result column="regionId" property="regionId" jdbcType="VARCHAR" />
+    <result column="regionName" property="regionName" jdbcType="VARCHAR" />
+    <result column="deptId" property="deptId" jdbcType="VARCHAR" />
+    <result column="deptName" property="deptName" jdbcType="VARCHAR" />
+    <result column="designedOptName" property="designedOptName" jdbcType="VARCHAR" />
+    <result column="designedOptCode" property="designedOptCode" jdbcType="VARCHAR" />
+    <result column="diagnosisName" property="diagnosisName" jdbcType="VARCHAR" />
+    <result column="diagnosisCode" property="diagnosisCode" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="emergency" property="emergency" jdbcType="INTEGER" />
+    <result column="hypersusceptibility" property="hypersusceptibility" jdbcType="VARCHAR" />
+    <result column="optLevel" property="optLevel" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="isLocalAnaes" property="isLocalAnaes" jdbcType="VARCHAR" />
+    <result column="designedAnaesMethodName" property="designedAnaesMethodName" jdbcType="VARCHAR" />
+    <result column="designedAnaesMethodCode" property="designedAnaesMethodCode" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="REAL" />
+    <result column="weight" property="weight" jdbcType="REAL" />
+    <result column="hbsag" property="hbsag" jdbcType="VARCHAR" />
+    <result column="hcv" property="hcv" jdbcType="VARCHAR" />
+    <result column="hiv" property="hiv" jdbcType="VARCHAR" />
+    <result column="hp" property="hp" jdbcType="VARCHAR" />
+    <result column="assistantId" property="assistantId" jdbcType="VARCHAR" />
+    <result column="assistantName" property="assistantName" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    conttId, name, medicalType, hid, sex, birthday, age, ageMon, ageDay, bed, regionId, 
+    regionName, deptId, deptName, designedOptName, designedOptCode, diagnosisName, diagnosisCode, 
+    startTime, endTime, createUser, createTime, emergency, hypersusceptibility, optLevel, 
+    remark, isLocalAnaes, designedAnaesMethodName, designedAnaesMethodCode, operatorId, 
+    operatorName, height, weight, hbsag, hcv, hiv, hp, assistantId, assistantName, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_consultation
+    where conttId = #{conttId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_consultation
+    where conttId = #{conttId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasConsultation" >
+    insert into bas_consultation (conttId, name, medicalType, 
+      hid, sex, birthday, 
+      age, ageMon, ageDay, 
+      bed, regionId, regionName, 
+      deptId, deptName, designedOptName, 
+      designedOptCode, diagnosisName, diagnosisCode, 
+      startTime, endTime, createUser, 
+      createTime, emergency, hypersusceptibility, 
+      optLevel, remark, isLocalAnaes, 
+      designedAnaesMethodName, designedAnaesMethodCode, 
+      operatorId, operatorName, height, 
+      weight, hbsag, hcv, hiv, 
+      hp, assistantId, assistantName, 
+      beid)
+    values (#{conttId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{medicalType,jdbcType=VARCHAR}, 
+      #{hid,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{ageMon,jdbcType=INTEGER}, #{ageDay,jdbcType=INTEGER}, 
+      #{bed,jdbcType=VARCHAR}, #{regionId,jdbcType=VARCHAR}, #{regionName,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{designedOptName,jdbcType=VARCHAR}, 
+      #{designedOptCode,jdbcType=VARCHAR}, #{diagnosisName,jdbcType=VARCHAR}, #{diagnosisCode,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{emergency,jdbcType=INTEGER}, #{hypersusceptibility,jdbcType=VARCHAR}, 
+      #{optLevel,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isLocalAnaes,jdbcType=VARCHAR}, 
+      #{designedAnaesMethodName,jdbcType=VARCHAR}, #{designedAnaesMethodCode,jdbcType=VARCHAR}, 
+      #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{height,jdbcType=REAL}, 
+      #{weight,jdbcType=REAL}, #{hbsag,jdbcType=VARCHAR}, #{hcv,jdbcType=VARCHAR}, #{hiv,jdbcType=VARCHAR}, 
+      #{hp,jdbcType=VARCHAR}, #{assistantId,jdbcType=VARCHAR}, #{assistantName,jdbcType=VARCHAR}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasConsultation" >
+    insert into bas_consultation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="conttId != null" >
+        conttId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="medicalType != null" >
+        medicalType,
+      </if>
+      <if test="hid != null" >
+        hid,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="ageMon != null" >
+        ageMon,
+      </if>
+      <if test="ageDay != null" >
+        ageDay,
+      </if>
+      <if test="bed != null" >
+        bed,
+      </if>
+      <if test="regionId != null" >
+        regionId,
+      </if>
+      <if test="regionName != null" >
+        regionName,
+      </if>
+      <if test="deptId != null" >
+        deptId,
+      </if>
+      <if test="deptName != null" >
+        deptName,
+      </if>
+      <if test="designedOptName != null" >
+        designedOptName,
+      </if>
+      <if test="designedOptCode != null" >
+        designedOptCode,
+      </if>
+      <if test="diagnosisName != null" >
+        diagnosisName,
+      </if>
+      <if test="diagnosisCode != null" >
+        diagnosisCode,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="emergency != null" >
+        emergency,
+      </if>
+      <if test="hypersusceptibility != null" >
+        hypersusceptibility,
+      </if>
+      <if test="optLevel != null" >
+        optLevel,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isLocalAnaes != null" >
+        isLocalAnaes,
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        designedAnaesMethodName,
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        designedAnaesMethodCode,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="operatorName != null" >
+        operatorName,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="hbsag != null" >
+        hbsag,
+      </if>
+      <if test="hcv != null" >
+        hcv,
+      </if>
+      <if test="hiv != null" >
+        hiv,
+      </if>
+      <if test="hp != null" >
+        hp,
+      </if>
+      <if test="assistantId != null" >
+        assistantId,
+      </if>
+      <if test="assistantName != null" >
+        assistantName,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="conttId != null" >
+        #{conttId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalType != null" >
+        #{medicalType,jdbcType=VARCHAR},
+      </if>
+      <if test="hid != null" >
+        #{hid,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="ageMon != null" >
+        #{ageMon,jdbcType=INTEGER},
+      </if>
+      <if test="ageDay != null" >
+        #{ageDay,jdbcType=INTEGER},
+      </if>
+      <if test="bed != null" >
+        #{bed,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        #{regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="regionName != null" >
+        #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptName != null" >
+        #{designedOptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptCode != null" >
+        #{designedOptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisName != null" >
+        #{diagnosisName,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisCode != null" >
+        #{diagnosisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        #{emergency,jdbcType=INTEGER},
+      </if>
+      <if test="hypersusceptibility != null" >
+        #{hypersusceptibility,jdbcType=VARCHAR},
+      </if>
+      <if test="optLevel != null" >
+        #{optLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isLocalAnaes != null" >
+        #{isLocalAnaes,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        #{designedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=REAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=REAL},
+      </if>
+      <if test="hbsag != null" >
+        #{hbsag,jdbcType=VARCHAR},
+      </if>
+      <if test="hcv != null" >
+        #{hcv,jdbcType=VARCHAR},
+      </if>
+      <if test="hiv != null" >
+        #{hiv,jdbcType=VARCHAR},
+      </if>
+      <if test="hp != null" >
+        #{hp,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantId != null" >
+        #{assistantId,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantName != null" >
+        #{assistantName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasConsultation" >
+    update bas_consultation
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalType != null" >
+        medicalType = #{medicalType,jdbcType=VARCHAR},
+      </if>
+      <if test="hid != null" >
+        hid = #{hid,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="ageMon != null" >
+        ageMon = #{ageMon,jdbcType=INTEGER},
+      </if>
+      <if test="ageDay != null" >
+        ageDay = #{ageDay,jdbcType=INTEGER},
+      </if>
+      <if test="bed != null" >
+        bed = #{bed,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        regionId = #{regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="regionName != null" >
+        regionName = #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        deptId = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        deptName = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptName != null" >
+        designedOptName = #{designedOptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptCode != null" >
+        designedOptCode = #{designedOptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisName != null" >
+        diagnosisName = #{diagnosisName,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisCode != null" >
+        diagnosisCode = #{diagnosisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        emergency = #{emergency,jdbcType=INTEGER},
+      </if>
+      <if test="hypersusceptibility != null" >
+        hypersusceptibility = #{hypersusceptibility,jdbcType=VARCHAR},
+      </if>
+      <if test="optLevel != null" >
+        optLevel = #{optLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isLocalAnaes != null" >
+        isLocalAnaes = #{isLocalAnaes,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        operatorName = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=REAL},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=REAL},
+      </if>
+      <if test="hbsag != null" >
+        hbsag = #{hbsag,jdbcType=VARCHAR},
+      </if>
+      <if test="hcv != null" >
+        hcv = #{hcv,jdbcType=VARCHAR},
+      </if>
+      <if test="hiv != null" >
+        hiv = #{hiv,jdbcType=VARCHAR},
+      </if>
+      <if test="hp != null" >
+        hp = #{hp,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantId != null" >
+        assistantId = #{assistantId,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantName != null" >
+        assistantName = #{assistantName,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where conttId = #{conttId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasConsultation" >
+    update bas_consultation
+    set name = #{name,jdbcType=VARCHAR},
+      medicalType = #{medicalType,jdbcType=VARCHAR},
+      hid = #{hid,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      ageMon = #{ageMon,jdbcType=INTEGER},
+      ageDay = #{ageDay,jdbcType=INTEGER},
+      bed = #{bed,jdbcType=VARCHAR},
+      regionId = #{regionId,jdbcType=VARCHAR},
+      regionName = #{regionName,jdbcType=VARCHAR},
+      deptId = #{deptId,jdbcType=VARCHAR},
+      deptName = #{deptName,jdbcType=VARCHAR},
+      designedOptName = #{designedOptName,jdbcType=VARCHAR},
+      designedOptCode = #{designedOptCode,jdbcType=VARCHAR},
+      diagnosisName = #{diagnosisName,jdbcType=VARCHAR},
+      diagnosisCode = #{diagnosisCode,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=VARCHAR},
+      endTime = #{endTime,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=VARCHAR},
+      emergency = #{emergency,jdbcType=INTEGER},
+      hypersusceptibility = #{hypersusceptibility,jdbcType=VARCHAR},
+      optLevel = #{optLevel,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      isLocalAnaes = #{isLocalAnaes,jdbcType=VARCHAR},
+      designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
+      designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      operatorName = #{operatorName,jdbcType=VARCHAR},
+      height = #{height,jdbcType=REAL},
+      weight = #{weight,jdbcType=REAL},
+      hbsag = #{hbsag,jdbcType=VARCHAR},
+      hcv = #{hcv,jdbcType=VARCHAR},
+      hiv = #{hiv,jdbcType=VARCHAR},
+      hp = #{hp,jdbcType=VARCHAR},
+      assistantId = #{assistantId,jdbcType=VARCHAR},
+      assistantName = #{assistantName,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where conttId = #{conttId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="searchConsultation" resultType="com.digihealth.anesthesia.basedata.po.BasConsultation">
+		select * from (
+			SELECT    DISTINCT a.*,b.name as createUserName  FROM bas_consultation a left join
+			 bas_user b on a.createUser = b.userName  and a.beid = b.beid 
+		) a
+		WHERE 1 = 1 and a.beid = #{searchConditionFormBean.beid} 
+		${filter}
+		<if test="administrativeLeve == 'ANAES_DOCTOR'">
+			AND a.createUser = #{loginName}
+		</if>
+		<if test="administrativeLeve == 'OPERROOM_NURSE'">
+		AND a.createUser = #{loginName}
+		</if>
+		 order by a.${searchConditionFormBean.sort} ${searchConditionFormBean.orderBy}
+		 <if test="searchConditionFormBean.pageSize !=null and searchConditionFormBean.pageSize!=''">
+		 	 limit #{searchConditionFormBean.pageNo},#{searchConditionFormBean.pageSize}
+		 </if>
+	</select>
+  
+  	<select id="searchConsultationById" resultType="com.digihealth.anesthesia.basedata.po.BasConsultation" >
+	select * from bas_consultation where conttId = #{conttId}
+	</select>
+	
+	<delete id="deleteConsultationById" >
+	delete from bas_consultation where conttId = #{conttId}
+	</delete>
+
+</mapper>

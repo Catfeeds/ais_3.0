@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasChargeItemPackagesRelDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasChargeItemPackagesRel" >
+    <id column="chgItmPkgId" property="chgItmPkgId" jdbcType="VARCHAR" />
+    <result column="chgItemAmount" property="chgItemAmount" jdbcType="REAL" />
+    <result column="chargeItemId" property="chargeItemId" jdbcType="VARCHAR" />
+    <result column="chargePkgId" property="chargePkgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    chgItmPkgId, chgItemAmount, chargeItemId, chargePkgId
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_charge_item_packages_rel
+    where chgItmPkgId = #{chgItmPkgId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_charge_item_packages_rel
+    where chgItmPkgId = #{chgItmPkgId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItemPackagesRel" >
+    insert into bas_charge_item_packages_rel (chgItmPkgId, chgItemAmount, chargeItemId, 
+      chargePkgId)
+    values (#{chgItmPkgId,jdbcType=VARCHAR}, #{chgItemAmount,jdbcType=REAL}, #{chargeItemId,jdbcType=VARCHAR}, 
+      #{chargePkgId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItemPackagesRel" >
+    insert into bas_charge_item_packages_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chgItmPkgId != null" >
+        chgItmPkgId,
+      </if>
+      <if test="chgItemAmount != null" >
+        chgItemAmount,
+      </if>
+      <if test="chargeItemId != null" >
+        chargeItemId,
+      </if>
+      <if test="chargePkgId != null" >
+        chargePkgId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chgItmPkgId != null" >
+        #{chgItmPkgId,jdbcType=VARCHAR},
+      </if>
+      <if test="chgItemAmount != null" >
+        #{chgItemAmount,jdbcType=REAL},
+      </if>
+      <if test="chargeItemId != null" >
+        #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePkgId != null" >
+        #{chargePkgId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItemPackagesRel" >
+    update bas_charge_item_packages_rel
+    <set >
+      <if test="chgItemAmount != null" >
+        chgItemAmount = #{chgItemAmount,jdbcType=REAL},
+      </if>
+      <if test="chargeItemId != null" >
+        chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePkgId != null" >
+        chargePkgId = #{chargePkgId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where chgItmPkgId = #{chgItmPkgId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasChargeItemPackagesRel" >
+    update bas_charge_item_packages_rel
+    set chgItemAmount = #{chgItemAmount,jdbcType=REAL},
+      chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      chargePkgId = #{chargePkgId,jdbcType=VARCHAR}
+    where chgItmPkgId = #{chgItmPkgId,jdbcType=VARCHAR}
+  </update>
+
+	<delete id="deleteByChargePkgId" parameterType = "java.util.List">
+	delete from bas_charge_item_packages_rel where chargePkgId = #{chargePkgId}
+	</delete>
+	
+	<select id="searchChargeItemByChargePackagesId" resultType = "com.digihealth.anesthesia.basedata.po.BasChargeItemPackagesRel">
+	SELECT * FROM bas_charge_item_packages_rel  where chargePkgId = #{chargePkgId}
+	</select>
+
+</mapper>

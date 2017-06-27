@@ -1,0 +1,860 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocBadEventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocBadEvent" >
+    <id column="badEventId" property="badEventId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="lapseReason" property="lapseReason" jdbcType="VARCHAR" />
+    <result column="technologyReason" property="technologyReason" jdbcType="VARCHAR" />
+    <result column="surgeryReason" property="surgeryReason" jdbcType="VARCHAR" />
+    <result column="planError1" property="planError1" jdbcType="VARCHAR" />
+    <result column="planError1Other" property="planError1Other" jdbcType="VARCHAR" />
+    <result column="planError2" property="planError2" jdbcType="VARCHAR" />
+    <result column="planError2Other" property="planError2Other" jdbcType="VARCHAR" />
+    <result column="guardianship" property="guardianship" jdbcType="VARCHAR" />
+    <result column="guardianshipOther" property="guardianshipOther" jdbcType="VARCHAR" />
+    <result column="processPro1" property="processPro1" jdbcType="VARCHAR" />
+    <result column="processPro1Other" property="processPro1Other" jdbcType="VARCHAR" />
+    <result column="processPro2" property="processPro2" jdbcType="VARCHAR" />
+    <result column="processPro2Other" property="processPro2Other" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="VARCHAR" />
+    <result column="circuanesthetistId" property="circuanesthetistId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="normalAirway" property="normalAirway" jdbcType="INTEGER" />
+    <result column="laryngealMask" property="laryngealMask" jdbcType="INTEGER" />
+    <result column="trachealCatheter" property="trachealCatheter" jdbcType="INTEGER" />
+    <result column="catheterFall" property="catheterFall" jdbcType="INTEGER" />
+    <result column="anomaly" property="anomaly" jdbcType="INTEGER" />
+    <result column="impExtubat" property="impExtubat" jdbcType="INTEGER" />
+    <result column="ventLnop" property="ventLnop" jdbcType="INTEGER" />
+    <result column="ductObstruct" property="ductObstruct" jdbcType="INTEGER" />
+    <result column="esophagusIntubat" property="esophagusIntubat" jdbcType="INTEGER" />
+    <result column="aerateIneffectiveOther" property="aerateIneffectiveOther" jdbcType="VARCHAR" />
+    <result column="partAirwayObstruct" property="partAirwayObstruct" jdbcType="INTEGER" />
+    <result column="drugInduced" property="drugInduced" jdbcType="INTEGER" />
+    <result column="bronchialSpasm" property="bronchialSpasm" jdbcType="INTEGER" />
+    <result column="airwayObstruct" property="airwayObstruct" jdbcType="INTEGER" />
+    <result column="theWhateverReason" property="theWhateverReason" jdbcType="INTEGER" />
+    <result column="bronchialCannula" property="bronchialCannula" jdbcType="INTEGER" />
+    <result column="aspirat" property="aspirat" jdbcType="INTEGER" />
+    <result column="pneumothorax" property="pneumothorax" jdbcType="INTEGER" />
+    <result column="oxygenSuitablyOther" property="oxygenSuitablyOther" jdbcType="VARCHAR" />
+    <result column="arrhythmia" property="arrhythmia" jdbcType="INTEGER" />
+    <result column="abnormalBlood" property="abnormalBlood" jdbcType="INTEGER" />
+    <result column="cardiacArrest" property="cardiacArrest" jdbcType="INTEGER" />
+    <result column="oxygenSatReduce" property="oxygenSatReduce" jdbcType="INTEGER" />
+    <result column="cycleAbnormalOther" property="cycleAbnormalOther" jdbcType="VARCHAR" />
+    <result column="veinConnectFall" property="veinConnectFall" jdbcType="INTEGER" />
+    <result column="veinPassageOther" property="veinPassageOther" jdbcType="VARCHAR" />
+    <result column="co2Absorb" property="co2Absorb" jdbcType="INTEGER" />
+    <result column="singleValve" property="singleValve" jdbcType="INTEGER" />
+    <result column="tubeLoop" property="tubeLoop" jdbcType="INTEGER" />
+    <result column="anesMachineCircleOther" property="anesMachineCircleOther" jdbcType="VARCHAR" />
+    <result column="volatileTank" property="volatileTank" jdbcType="INTEGER" />
+    <result column="monitorPart" property="monitorPart" jdbcType="INTEGER" />
+    <result column="oxygenFail" property="oxygenFail" jdbcType="INTEGER" />
+    <result column="flowmeter" property="flowmeter" jdbcType="INTEGER" />
+    <result column="anesMachineOther" property="anesMachineOther" jdbcType="VARCHAR" />
+    <result column="infusionPump" property="infusionPump" jdbcType="INTEGER" />
+    <result column="laryngoscope" property="laryngoscope" jdbcType="INTEGER" />
+    <result column="warmDevice" property="warmDevice" jdbcType="INTEGER" />
+    <result column="errorMedicat" property="errorMedicat" jdbcType="INTEGER" />
+    <result column="errorDose" property="errorDose" jdbcType="INTEGER" />
+    <result column="wrongWay" property="wrongWay" jdbcType="INTEGER" />
+    <result column="wakeDrugs" property="wakeDrugs" jdbcType="INTEGER" />
+    <result column="medicineUsingOther" property="medicineUsingOther" jdbcType="VARCHAR" />
+    <result column="peripheralNerveBlock" property="peripheralNerveBlock" jdbcType="INTEGER" />
+    <result column="sacralCanalBlock" property="sacralCanalBlock" jdbcType="INTEGER" />
+    <result column="epiduralBlock" property="epiduralBlock" jdbcType="INTEGER" />
+    <result column="localAnaesTechOther" property="localAnaesTechOther" jdbcType="VARCHAR" />
+    <result column="unintendedAware" property="unintendedAware" jdbcType="INTEGER" />
+    <result column="accidentDeath" property="accidentDeath" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    badEventId, description, lapseReason, technologyReason, surgeryReason, planError1, 
+    planError1Other, planError2, planError2Other, guardianship, guardianshipOther, processPro1, 
+    processPro1Other, processPro2, processPro2Other, regOptId, signTime, circuanesthetistId, 
+    processState, normalAirway, laryngealMask, trachealCatheter, catheterFall, anomaly, 
+    impExtubat, ventLnop, ductObstruct, esophagusIntubat, aerateIneffectiveOther, partAirwayObstruct, 
+    drugInduced, bronchialSpasm, airwayObstruct, theWhateverReason, bronchialCannula, 
+    aspirat, pneumothorax, oxygenSuitablyOther, arrhythmia, abnormalBlood, cardiacArrest, 
+    oxygenSatReduce, cycleAbnormalOther, veinConnectFall, veinPassageOther, co2Absorb, 
+    singleValve, tubeLoop, anesMachineCircleOther, volatileTank, monitorPart, oxygenFail, 
+    flowmeter, anesMachineOther, infusionPump, laryngoscope, warmDevice, errorMedicat, 
+    errorDose, wrongWay, wakeDrugs, medicineUsingOther, peripheralNerveBlock, sacralCanalBlock, 
+    epiduralBlock, localAnaesTechOther, unintendedAware, accidentDeath, other
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_bad_event
+    where badEventId = #{badEventId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_bad_event
+    where badEventId = #{badEventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocBadEvent" >
+    insert into doc_bad_event (badEventId, description, lapseReason, 
+      technologyReason, surgeryReason, planError1, 
+      planError1Other, planError2, planError2Other, 
+      guardianship, guardianshipOther, processPro1, 
+      processPro1Other, processPro2, processPro2Other, 
+      regOptId, signTime, circuanesthetistId, 
+      processState, normalAirway, laryngealMask, 
+      trachealCatheter, catheterFall, anomaly, 
+      impExtubat, ventLnop, ductObstruct, 
+      esophagusIntubat, aerateIneffectiveOther, 
+      partAirwayObstruct, drugInduced, bronchialSpasm, 
+      airwayObstruct, theWhateverReason, bronchialCannula, 
+      aspirat, pneumothorax, oxygenSuitablyOther, 
+      arrhythmia, abnormalBlood, cardiacArrest, 
+      oxygenSatReduce, cycleAbnormalOther, veinConnectFall, 
+      veinPassageOther, co2Absorb, singleValve, 
+      tubeLoop, anesMachineCircleOther, volatileTank, 
+      monitorPart, oxygenFail, flowmeter, 
+      anesMachineOther, infusionPump, laryngoscope, 
+      warmDevice, errorMedicat, errorDose, 
+      wrongWay, wakeDrugs, medicineUsingOther, 
+      peripheralNerveBlock, sacralCanalBlock, 
+      epiduralBlock, localAnaesTechOther, unintendedAware, 
+      accidentDeath, other)
+    values (#{badEventId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{lapseReason,jdbcType=VARCHAR}, 
+      #{technologyReason,jdbcType=VARCHAR}, #{surgeryReason,jdbcType=VARCHAR}, #{planError1,jdbcType=VARCHAR}, 
+      #{planError1Other,jdbcType=VARCHAR}, #{planError2,jdbcType=VARCHAR}, #{planError2Other,jdbcType=VARCHAR}, 
+      #{guardianship,jdbcType=VARCHAR}, #{guardianshipOther,jdbcType=VARCHAR}, #{processPro1,jdbcType=VARCHAR}, 
+      #{processPro1Other,jdbcType=VARCHAR}, #{processPro2,jdbcType=VARCHAR}, #{processPro2Other,jdbcType=VARCHAR}, 
+      #{regOptId,jdbcType=VARCHAR}, #{signTime,jdbcType=VARCHAR}, #{circuanesthetistId,jdbcType=VARCHAR}, 
+      #{processState,jdbcType=VARCHAR}, #{normalAirway,jdbcType=INTEGER}, #{laryngealMask,jdbcType=INTEGER}, 
+      #{trachealCatheter,jdbcType=INTEGER}, #{catheterFall,jdbcType=INTEGER}, #{anomaly,jdbcType=INTEGER}, 
+      #{impExtubat,jdbcType=INTEGER}, #{ventLnop,jdbcType=INTEGER}, #{ductObstruct,jdbcType=INTEGER}, 
+      #{esophagusIntubat,jdbcType=INTEGER}, #{aerateIneffectiveOther,jdbcType=VARCHAR}, 
+      #{partAirwayObstruct,jdbcType=INTEGER}, #{drugInduced,jdbcType=INTEGER}, #{bronchialSpasm,jdbcType=INTEGER}, 
+      #{airwayObstruct,jdbcType=INTEGER}, #{theWhateverReason,jdbcType=INTEGER}, #{bronchialCannula,jdbcType=INTEGER}, 
+      #{aspirat,jdbcType=INTEGER}, #{pneumothorax,jdbcType=INTEGER}, #{oxygenSuitablyOther,jdbcType=VARCHAR}, 
+      #{arrhythmia,jdbcType=INTEGER}, #{abnormalBlood,jdbcType=INTEGER}, #{cardiacArrest,jdbcType=INTEGER}, 
+      #{oxygenSatReduce,jdbcType=INTEGER}, #{cycleAbnormalOther,jdbcType=VARCHAR}, #{veinConnectFall,jdbcType=INTEGER}, 
+      #{veinPassageOther,jdbcType=VARCHAR}, #{co2Absorb,jdbcType=INTEGER}, #{singleValve,jdbcType=INTEGER}, 
+      #{tubeLoop,jdbcType=INTEGER}, #{anesMachineCircleOther,jdbcType=VARCHAR}, #{volatileTank,jdbcType=INTEGER}, 
+      #{monitorPart,jdbcType=INTEGER}, #{oxygenFail,jdbcType=INTEGER}, #{flowmeter,jdbcType=INTEGER}, 
+      #{anesMachineOther,jdbcType=VARCHAR}, #{infusionPump,jdbcType=INTEGER}, #{laryngoscope,jdbcType=INTEGER}, 
+      #{warmDevice,jdbcType=INTEGER}, #{errorMedicat,jdbcType=INTEGER}, #{errorDose,jdbcType=INTEGER}, 
+      #{wrongWay,jdbcType=INTEGER}, #{wakeDrugs,jdbcType=INTEGER}, #{medicineUsingOther,jdbcType=VARCHAR}, 
+      #{peripheralNerveBlock,jdbcType=INTEGER}, #{sacralCanalBlock,jdbcType=INTEGER}, 
+      #{epiduralBlock,jdbcType=INTEGER}, #{localAnaesTechOther,jdbcType=VARCHAR}, #{unintendedAware,jdbcType=INTEGER}, 
+      #{accidentDeath,jdbcType=INTEGER}, #{other,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocBadEvent" >
+    insert into doc_bad_event
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="badEventId != null" >
+        badEventId,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="lapseReason != null" >
+        lapseReason,
+      </if>
+      <if test="technologyReason != null" >
+        technologyReason,
+      </if>
+      <if test="surgeryReason != null" >
+        surgeryReason,
+      </if>
+      <if test="planError1 != null" >
+        planError1,
+      </if>
+      <if test="planError1Other != null" >
+        planError1Other,
+      </if>
+      <if test="planError2 != null" >
+        planError2,
+      </if>
+      <if test="planError2Other != null" >
+        planError2Other,
+      </if>
+      <if test="guardianship != null" >
+        guardianship,
+      </if>
+      <if test="guardianshipOther != null" >
+        guardianshipOther,
+      </if>
+      <if test="processPro1 != null" >
+        processPro1,
+      </if>
+      <if test="processPro1Other != null" >
+        processPro1Other,
+      </if>
+      <if test="processPro2 != null" >
+        processPro2,
+      </if>
+      <if test="processPro2Other != null" >
+        processPro2Other,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+      <if test="circuanesthetistId != null" >
+        circuanesthetistId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="normalAirway != null" >
+        normalAirway,
+      </if>
+      <if test="laryngealMask != null" >
+        laryngealMask,
+      </if>
+      <if test="trachealCatheter != null" >
+        trachealCatheter,
+      </if>
+      <if test="catheterFall != null" >
+        catheterFall,
+      </if>
+      <if test="anomaly != null" >
+        anomaly,
+      </if>
+      <if test="impExtubat != null" >
+        impExtubat,
+      </if>
+      <if test="ventLnop != null" >
+        ventLnop,
+      </if>
+      <if test="ductObstruct != null" >
+        ductObstruct,
+      </if>
+      <if test="esophagusIntubat != null" >
+        esophagusIntubat,
+      </if>
+      <if test="aerateIneffectiveOther != null" >
+        aerateIneffectiveOther,
+      </if>
+      <if test="partAirwayObstruct != null" >
+        partAirwayObstruct,
+      </if>
+      <if test="drugInduced != null" >
+        drugInduced,
+      </if>
+      <if test="bronchialSpasm != null" >
+        bronchialSpasm,
+      </if>
+      <if test="airwayObstruct != null" >
+        airwayObstruct,
+      </if>
+      <if test="theWhateverReason != null" >
+        theWhateverReason,
+      </if>
+      <if test="bronchialCannula != null" >
+        bronchialCannula,
+      </if>
+      <if test="aspirat != null" >
+        aspirat,
+      </if>
+      <if test="pneumothorax != null" >
+        pneumothorax,
+      </if>
+      <if test="oxygenSuitablyOther != null" >
+        oxygenSuitablyOther,
+      </if>
+      <if test="arrhythmia != null" >
+        arrhythmia,
+      </if>
+      <if test="abnormalBlood != null" >
+        abnormalBlood,
+      </if>
+      <if test="cardiacArrest != null" >
+        cardiacArrest,
+      </if>
+      <if test="oxygenSatReduce != null" >
+        oxygenSatReduce,
+      </if>
+      <if test="cycleAbnormalOther != null" >
+        cycleAbnormalOther,
+      </if>
+      <if test="veinConnectFall != null" >
+        veinConnectFall,
+      </if>
+      <if test="veinPassageOther != null" >
+        veinPassageOther,
+      </if>
+      <if test="co2Absorb != null" >
+        co2Absorb,
+      </if>
+      <if test="singleValve != null" >
+        singleValve,
+      </if>
+      <if test="tubeLoop != null" >
+        tubeLoop,
+      </if>
+      <if test="anesMachineCircleOther != null" >
+        anesMachineCircleOther,
+      </if>
+      <if test="volatileTank != null" >
+        volatileTank,
+      </if>
+      <if test="monitorPart != null" >
+        monitorPart,
+      </if>
+      <if test="oxygenFail != null" >
+        oxygenFail,
+      </if>
+      <if test="flowmeter != null" >
+        flowmeter,
+      </if>
+      <if test="anesMachineOther != null" >
+        anesMachineOther,
+      </if>
+      <if test="infusionPump != null" >
+        infusionPump,
+      </if>
+      <if test="laryngoscope != null" >
+        laryngoscope,
+      </if>
+      <if test="warmDevice != null" >
+        warmDevice,
+      </if>
+      <if test="errorMedicat != null" >
+        errorMedicat,
+      </if>
+      <if test="errorDose != null" >
+        errorDose,
+      </if>
+      <if test="wrongWay != null" >
+        wrongWay,
+      </if>
+      <if test="wakeDrugs != null" >
+        wakeDrugs,
+      </if>
+      <if test="medicineUsingOther != null" >
+        medicineUsingOther,
+      </if>
+      <if test="peripheralNerveBlock != null" >
+        peripheralNerveBlock,
+      </if>
+      <if test="sacralCanalBlock != null" >
+        sacralCanalBlock,
+      </if>
+      <if test="epiduralBlock != null" >
+        epiduralBlock,
+      </if>
+      <if test="localAnaesTechOther != null" >
+        localAnaesTechOther,
+      </if>
+      <if test="unintendedAware != null" >
+        unintendedAware,
+      </if>
+      <if test="accidentDeath != null" >
+        accidentDeath,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="badEventId != null" >
+        #{badEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="lapseReason != null" >
+        #{lapseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyReason != null" >
+        #{technologyReason,jdbcType=VARCHAR},
+      </if>
+      <if test="surgeryReason != null" >
+        #{surgeryReason,jdbcType=VARCHAR},
+      </if>
+      <if test="planError1 != null" >
+        #{planError1,jdbcType=VARCHAR},
+      </if>
+      <if test="planError1Other != null" >
+        #{planError1Other,jdbcType=VARCHAR},
+      </if>
+      <if test="planError2 != null" >
+        #{planError2,jdbcType=VARCHAR},
+      </if>
+      <if test="planError2Other != null" >
+        #{planError2Other,jdbcType=VARCHAR},
+      </if>
+      <if test="guardianship != null" >
+        #{guardianship,jdbcType=VARCHAR},
+      </if>
+      <if test="guardianshipOther != null" >
+        #{guardianshipOther,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro1 != null" >
+        #{processPro1,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro1Other != null" >
+        #{processPro1Other,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro2 != null" >
+        #{processPro2,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro2Other != null" >
+        #{processPro2Other,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=VARCHAR},
+      </if>
+      <if test="circuanesthetistId != null" >
+        #{circuanesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="normalAirway != null" >
+        #{normalAirway,jdbcType=INTEGER},
+      </if>
+      <if test="laryngealMask != null" >
+        #{laryngealMask,jdbcType=INTEGER},
+      </if>
+      <if test="trachealCatheter != null" >
+        #{trachealCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="catheterFall != null" >
+        #{catheterFall,jdbcType=INTEGER},
+      </if>
+      <if test="anomaly != null" >
+        #{anomaly,jdbcType=INTEGER},
+      </if>
+      <if test="impExtubat != null" >
+        #{impExtubat,jdbcType=INTEGER},
+      </if>
+      <if test="ventLnop != null" >
+        #{ventLnop,jdbcType=INTEGER},
+      </if>
+      <if test="ductObstruct != null" >
+        #{ductObstruct,jdbcType=INTEGER},
+      </if>
+      <if test="esophagusIntubat != null" >
+        #{esophagusIntubat,jdbcType=INTEGER},
+      </if>
+      <if test="aerateIneffectiveOther != null" >
+        #{aerateIneffectiveOther,jdbcType=VARCHAR},
+      </if>
+      <if test="partAirwayObstruct != null" >
+        #{partAirwayObstruct,jdbcType=INTEGER},
+      </if>
+      <if test="drugInduced != null" >
+        #{drugInduced,jdbcType=INTEGER},
+      </if>
+      <if test="bronchialSpasm != null" >
+        #{bronchialSpasm,jdbcType=INTEGER},
+      </if>
+      <if test="airwayObstruct != null" >
+        #{airwayObstruct,jdbcType=INTEGER},
+      </if>
+      <if test="theWhateverReason != null" >
+        #{theWhateverReason,jdbcType=INTEGER},
+      </if>
+      <if test="bronchialCannula != null" >
+        #{bronchialCannula,jdbcType=INTEGER},
+      </if>
+      <if test="aspirat != null" >
+        #{aspirat,jdbcType=INTEGER},
+      </if>
+      <if test="pneumothorax != null" >
+        #{pneumothorax,jdbcType=INTEGER},
+      </if>
+      <if test="oxygenSuitablyOther != null" >
+        #{oxygenSuitablyOther,jdbcType=VARCHAR},
+      </if>
+      <if test="arrhythmia != null" >
+        #{arrhythmia,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalBlood != null" >
+        #{abnormalBlood,jdbcType=INTEGER},
+      </if>
+      <if test="cardiacArrest != null" >
+        #{cardiacArrest,jdbcType=INTEGER},
+      </if>
+      <if test="oxygenSatReduce != null" >
+        #{oxygenSatReduce,jdbcType=INTEGER},
+      </if>
+      <if test="cycleAbnormalOther != null" >
+        #{cycleAbnormalOther,jdbcType=VARCHAR},
+      </if>
+      <if test="veinConnectFall != null" >
+        #{veinConnectFall,jdbcType=INTEGER},
+      </if>
+      <if test="veinPassageOther != null" >
+        #{veinPassageOther,jdbcType=VARCHAR},
+      </if>
+      <if test="co2Absorb != null" >
+        #{co2Absorb,jdbcType=INTEGER},
+      </if>
+      <if test="singleValve != null" >
+        #{singleValve,jdbcType=INTEGER},
+      </if>
+      <if test="tubeLoop != null" >
+        #{tubeLoop,jdbcType=INTEGER},
+      </if>
+      <if test="anesMachineCircleOther != null" >
+        #{anesMachineCircleOther,jdbcType=VARCHAR},
+      </if>
+      <if test="volatileTank != null" >
+        #{volatileTank,jdbcType=INTEGER},
+      </if>
+      <if test="monitorPart != null" >
+        #{monitorPart,jdbcType=INTEGER},
+      </if>
+      <if test="oxygenFail != null" >
+        #{oxygenFail,jdbcType=INTEGER},
+      </if>
+      <if test="flowmeter != null" >
+        #{flowmeter,jdbcType=INTEGER},
+      </if>
+      <if test="anesMachineOther != null" >
+        #{anesMachineOther,jdbcType=VARCHAR},
+      </if>
+      <if test="infusionPump != null" >
+        #{infusionPump,jdbcType=INTEGER},
+      </if>
+      <if test="laryngoscope != null" >
+        #{laryngoscope,jdbcType=INTEGER},
+      </if>
+      <if test="warmDevice != null" >
+        #{warmDevice,jdbcType=INTEGER},
+      </if>
+      <if test="errorMedicat != null" >
+        #{errorMedicat,jdbcType=INTEGER},
+      </if>
+      <if test="errorDose != null" >
+        #{errorDose,jdbcType=INTEGER},
+      </if>
+      <if test="wrongWay != null" >
+        #{wrongWay,jdbcType=INTEGER},
+      </if>
+      <if test="wakeDrugs != null" >
+        #{wakeDrugs,jdbcType=INTEGER},
+      </if>
+      <if test="medicineUsingOther != null" >
+        #{medicineUsingOther,jdbcType=VARCHAR},
+      </if>
+      <if test="peripheralNerveBlock != null" >
+        #{peripheralNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="sacralCanalBlock != null" >
+        #{sacralCanalBlock,jdbcType=INTEGER},
+      </if>
+      <if test="epiduralBlock != null" >
+        #{epiduralBlock,jdbcType=INTEGER},
+      </if>
+      <if test="localAnaesTechOther != null" >
+        #{localAnaesTechOther,jdbcType=VARCHAR},
+      </if>
+      <if test="unintendedAware != null" >
+        #{unintendedAware,jdbcType=INTEGER},
+      </if>
+      <if test="accidentDeath != null" >
+        #{accidentDeath,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocBadEvent" >
+    update doc_bad_event
+    <set >
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="lapseReason != null" >
+        lapseReason = #{lapseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyReason != null" >
+        technologyReason = #{technologyReason,jdbcType=VARCHAR},
+      </if>
+      <if test="surgeryReason != null" >
+        surgeryReason = #{surgeryReason,jdbcType=VARCHAR},
+      </if>
+      <if test="planError1 != null" >
+        planError1 = #{planError1,jdbcType=VARCHAR},
+      </if>
+      <if test="planError1Other != null" >
+        planError1Other = #{planError1Other,jdbcType=VARCHAR},
+      </if>
+      <if test="planError2 != null" >
+        planError2 = #{planError2,jdbcType=VARCHAR},
+      </if>
+      <if test="planError2Other != null" >
+        planError2Other = #{planError2Other,jdbcType=VARCHAR},
+      </if>
+      <if test="guardianship != null" >
+        guardianship = #{guardianship,jdbcType=VARCHAR},
+      </if>
+      <if test="guardianshipOther != null" >
+        guardianshipOther = #{guardianshipOther,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro1 != null" >
+        processPro1 = #{processPro1,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro1Other != null" >
+        processPro1Other = #{processPro1Other,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro2 != null" >
+        processPro2 = #{processPro2,jdbcType=VARCHAR},
+      </if>
+      <if test="processPro2Other != null" >
+        processPro2Other = #{processPro2Other,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=VARCHAR},
+      </if>
+      <if test="circuanesthetistId != null" >
+        circuanesthetistId = #{circuanesthetistId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="normalAirway != null" >
+        normalAirway = #{normalAirway,jdbcType=INTEGER},
+      </if>
+      <if test="laryngealMask != null" >
+        laryngealMask = #{laryngealMask,jdbcType=INTEGER},
+      </if>
+      <if test="trachealCatheter != null" >
+        trachealCatheter = #{trachealCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="catheterFall != null" >
+        catheterFall = #{catheterFall,jdbcType=INTEGER},
+      </if>
+      <if test="anomaly != null" >
+        anomaly = #{anomaly,jdbcType=INTEGER},
+      </if>
+      <if test="impExtubat != null" >
+        impExtubat = #{impExtubat,jdbcType=INTEGER},
+      </if>
+      <if test="ventLnop != null" >
+        ventLnop = #{ventLnop,jdbcType=INTEGER},
+      </if>
+      <if test="ductObstruct != null" >
+        ductObstruct = #{ductObstruct,jdbcType=INTEGER},
+      </if>
+      <if test="esophagusIntubat != null" >
+        esophagusIntubat = #{esophagusIntubat,jdbcType=INTEGER},
+      </if>
+      <if test="aerateIneffectiveOther != null" >
+        aerateIneffectiveOther = #{aerateIneffectiveOther,jdbcType=VARCHAR},
+      </if>
+      <if test="partAirwayObstruct != null" >
+        partAirwayObstruct = #{partAirwayObstruct,jdbcType=INTEGER},
+      </if>
+      <if test="drugInduced != null" >
+        drugInduced = #{drugInduced,jdbcType=INTEGER},
+      </if>
+      <if test="bronchialSpasm != null" >
+        bronchialSpasm = #{bronchialSpasm,jdbcType=INTEGER},
+      </if>
+      <if test="airwayObstruct != null" >
+        airwayObstruct = #{airwayObstruct,jdbcType=INTEGER},
+      </if>
+      <if test="theWhateverReason != null" >
+        theWhateverReason = #{theWhateverReason,jdbcType=INTEGER},
+      </if>
+      <if test="bronchialCannula != null" >
+        bronchialCannula = #{bronchialCannula,jdbcType=INTEGER},
+      </if>
+      <if test="aspirat != null" >
+        aspirat = #{aspirat,jdbcType=INTEGER},
+      </if>
+      <if test="pneumothorax != null" >
+        pneumothorax = #{pneumothorax,jdbcType=INTEGER},
+      </if>
+      <if test="oxygenSuitablyOther != null" >
+        oxygenSuitablyOther = #{oxygenSuitablyOther,jdbcType=VARCHAR},
+      </if>
+      <if test="arrhythmia != null" >
+        arrhythmia = #{arrhythmia,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalBlood != null" >
+        abnormalBlood = #{abnormalBlood,jdbcType=INTEGER},
+      </if>
+      <if test="cardiacArrest != null" >
+        cardiacArrest = #{cardiacArrest,jdbcType=INTEGER},
+      </if>
+      <if test="oxygenSatReduce != null" >
+        oxygenSatReduce = #{oxygenSatReduce,jdbcType=INTEGER},
+      </if>
+      <if test="cycleAbnormalOther != null" >
+        cycleAbnormalOther = #{cycleAbnormalOther,jdbcType=VARCHAR},
+      </if>
+      <if test="veinConnectFall != null" >
+        veinConnectFall = #{veinConnectFall,jdbcType=INTEGER},
+      </if>
+      <if test="veinPassageOther != null" >
+        veinPassageOther = #{veinPassageOther,jdbcType=VARCHAR},
+      </if>
+      <if test="co2Absorb != null" >
+        co2Absorb = #{co2Absorb,jdbcType=INTEGER},
+      </if>
+      <if test="singleValve != null" >
+        singleValve = #{singleValve,jdbcType=INTEGER},
+      </if>
+      <if test="tubeLoop != null" >
+        tubeLoop = #{tubeLoop,jdbcType=INTEGER},
+      </if>
+      <if test="anesMachineCircleOther != null" >
+        anesMachineCircleOther = #{anesMachineCircleOther,jdbcType=VARCHAR},
+      </if>
+      <if test="volatileTank != null" >
+        volatileTank = #{volatileTank,jdbcType=INTEGER},
+      </if>
+      <if test="monitorPart != null" >
+        monitorPart = #{monitorPart,jdbcType=INTEGER},
+      </if>
+      <if test="oxygenFail != null" >
+        oxygenFail = #{oxygenFail,jdbcType=INTEGER},
+      </if>
+      <if test="flowmeter != null" >
+        flowmeter = #{flowmeter,jdbcType=INTEGER},
+      </if>
+      <if test="anesMachineOther != null" >
+        anesMachineOther = #{anesMachineOther,jdbcType=VARCHAR},
+      </if>
+      <if test="infusionPump != null" >
+        infusionPump = #{infusionPump,jdbcType=INTEGER},
+      </if>
+      <if test="laryngoscope != null" >
+        laryngoscope = #{laryngoscope,jdbcType=INTEGER},
+      </if>
+      <if test="warmDevice != null" >
+        warmDevice = #{warmDevice,jdbcType=INTEGER},
+      </if>
+      <if test="errorMedicat != null" >
+        errorMedicat = #{errorMedicat,jdbcType=INTEGER},
+      </if>
+      <if test="errorDose != null" >
+        errorDose = #{errorDose,jdbcType=INTEGER},
+      </if>
+      <if test="wrongWay != null" >
+        wrongWay = #{wrongWay,jdbcType=INTEGER},
+      </if>
+      <if test="wakeDrugs != null" >
+        wakeDrugs = #{wakeDrugs,jdbcType=INTEGER},
+      </if>
+      <if test="medicineUsingOther != null" >
+        medicineUsingOther = #{medicineUsingOther,jdbcType=VARCHAR},
+      </if>
+      <if test="peripheralNerveBlock != null" >
+        peripheralNerveBlock = #{peripheralNerveBlock,jdbcType=INTEGER},
+      </if>
+      <if test="sacralCanalBlock != null" >
+        sacralCanalBlock = #{sacralCanalBlock,jdbcType=INTEGER},
+      </if>
+      <if test="epiduralBlock != null" >
+        epiduralBlock = #{epiduralBlock,jdbcType=INTEGER},
+      </if>
+      <if test="localAnaesTechOther != null" >
+        localAnaesTechOther = #{localAnaesTechOther,jdbcType=VARCHAR},
+      </if>
+      <if test="unintendedAware != null" >
+        unintendedAware = #{unintendedAware,jdbcType=INTEGER},
+      </if>
+      <if test="accidentDeath != null" >
+        accidentDeath = #{accidentDeath,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where badEventId = #{badEventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocBadEvent" >
+    update doc_bad_event
+    set description = #{description,jdbcType=VARCHAR},
+      lapseReason = #{lapseReason,jdbcType=VARCHAR},
+      technologyReason = #{technologyReason,jdbcType=VARCHAR},
+      surgeryReason = #{surgeryReason,jdbcType=VARCHAR},
+      planError1 = #{planError1,jdbcType=VARCHAR},
+      planError1Other = #{planError1Other,jdbcType=VARCHAR},
+      planError2 = #{planError2,jdbcType=VARCHAR},
+      planError2Other = #{planError2Other,jdbcType=VARCHAR},
+      guardianship = #{guardianship,jdbcType=VARCHAR},
+      guardianshipOther = #{guardianshipOther,jdbcType=VARCHAR},
+      processPro1 = #{processPro1,jdbcType=VARCHAR},
+      processPro1Other = #{processPro1Other,jdbcType=VARCHAR},
+      processPro2 = #{processPro2,jdbcType=VARCHAR},
+      processPro2Other = #{processPro2Other,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=VARCHAR},
+      circuanesthetistId = #{circuanesthetistId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      normalAirway = #{normalAirway,jdbcType=INTEGER},
+      laryngealMask = #{laryngealMask,jdbcType=INTEGER},
+      trachealCatheter = #{trachealCatheter,jdbcType=INTEGER},
+      catheterFall = #{catheterFall,jdbcType=INTEGER},
+      anomaly = #{anomaly,jdbcType=INTEGER},
+      impExtubat = #{impExtubat,jdbcType=INTEGER},
+      ventLnop = #{ventLnop,jdbcType=INTEGER},
+      ductObstruct = #{ductObstruct,jdbcType=INTEGER},
+      esophagusIntubat = #{esophagusIntubat,jdbcType=INTEGER},
+      aerateIneffectiveOther = #{aerateIneffectiveOther,jdbcType=VARCHAR},
+      partAirwayObstruct = #{partAirwayObstruct,jdbcType=INTEGER},
+      drugInduced = #{drugInduced,jdbcType=INTEGER},
+      bronchialSpasm = #{bronchialSpasm,jdbcType=INTEGER},
+      airwayObstruct = #{airwayObstruct,jdbcType=INTEGER},
+      theWhateverReason = #{theWhateverReason,jdbcType=INTEGER},
+      bronchialCannula = #{bronchialCannula,jdbcType=INTEGER},
+      aspirat = #{aspirat,jdbcType=INTEGER},
+      pneumothorax = #{pneumothorax,jdbcType=INTEGER},
+      oxygenSuitablyOther = #{oxygenSuitablyOther,jdbcType=VARCHAR},
+      arrhythmia = #{arrhythmia,jdbcType=INTEGER},
+      abnormalBlood = #{abnormalBlood,jdbcType=INTEGER},
+      cardiacArrest = #{cardiacArrest,jdbcType=INTEGER},
+      oxygenSatReduce = #{oxygenSatReduce,jdbcType=INTEGER},
+      cycleAbnormalOther = #{cycleAbnormalOther,jdbcType=VARCHAR},
+      veinConnectFall = #{veinConnectFall,jdbcType=INTEGER},
+      veinPassageOther = #{veinPassageOther,jdbcType=VARCHAR},
+      co2Absorb = #{co2Absorb,jdbcType=INTEGER},
+      singleValve = #{singleValve,jdbcType=INTEGER},
+      tubeLoop = #{tubeLoop,jdbcType=INTEGER},
+      anesMachineCircleOther = #{anesMachineCircleOther,jdbcType=VARCHAR},
+      volatileTank = #{volatileTank,jdbcType=INTEGER},
+      monitorPart = #{monitorPart,jdbcType=INTEGER},
+      oxygenFail = #{oxygenFail,jdbcType=INTEGER},
+      flowmeter = #{flowmeter,jdbcType=INTEGER},
+      anesMachineOther = #{anesMachineOther,jdbcType=VARCHAR},
+      infusionPump = #{infusionPump,jdbcType=INTEGER},
+      laryngoscope = #{laryngoscope,jdbcType=INTEGER},
+      warmDevice = #{warmDevice,jdbcType=INTEGER},
+      errorMedicat = #{errorMedicat,jdbcType=INTEGER},
+      errorDose = #{errorDose,jdbcType=INTEGER},
+      wrongWay = #{wrongWay,jdbcType=INTEGER},
+      wakeDrugs = #{wakeDrugs,jdbcType=INTEGER},
+      medicineUsingOther = #{medicineUsingOther,jdbcType=VARCHAR},
+      peripheralNerveBlock = #{peripheralNerveBlock,jdbcType=INTEGER},
+      sacralCanalBlock = #{sacralCanalBlock,jdbcType=INTEGER},
+      epiduralBlock = #{epiduralBlock,jdbcType=INTEGER},
+      localAnaesTechOther = #{localAnaesTechOther,jdbcType=VARCHAR},
+      unintendedAware = #{unintendedAware,jdbcType=INTEGER},
+      accidentDeath = #{accidentDeath,jdbcType=INTEGER},
+      other = #{other,jdbcType=VARCHAR}
+    where badEventId = #{badEventId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

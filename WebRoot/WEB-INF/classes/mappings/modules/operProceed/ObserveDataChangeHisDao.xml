@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digihealth.anesthesia.operProceed.dao.ObserveDataChangeHisDao">
+    
+	<!-- 插入用户 -->
+	<insert id="insert">
+		INSERT INTO b_observe_data_change_his(
+			id, 
+			doc_id, 
+			time, 
+			observe_id, 
+			value,
+			old_value,
+			user_id,
+			memo,
+			modify_time
+		) VALUES (
+			#{id}, 
+			#{docId}, 
+			#{time}, 
+			#{observeId}, 
+			#{value}, 
+			#{oldValue}, 
+			#{userId}, 
+			#{memo}, 
+			#{modifyTime}
+		)
+	</insert>
+	
+	<update id="updateObserveUserByRegOptId">
+		UPDATE b_observe_data_change_his SET 
+			user_id =  #{userId}
+		WHERE user_id = ''
+		 and time &lt;= #{time}  and doc_id = #{regOptId}
+	</update>
+</mapper>

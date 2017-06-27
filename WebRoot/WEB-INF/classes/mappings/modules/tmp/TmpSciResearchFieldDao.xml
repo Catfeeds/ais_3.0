@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.tmp.dao.TmpSciResearchFieldDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.tmp.po.TmpSciResearchField" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="jsonName" property="jsonName" jdbcType="VARCHAR" />
+    <result column="pName" property="pName" jdbcType="VARCHAR" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="isShow" property="isShow" jdbcType="INTEGER" />
+    <result column="fieldName" property="fieldName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, `name`, `describe`, `type`, jsonName, pName, units, isShow, fieldName
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tmp_sci_research_field
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tmp_sci_research_field
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.tmp.po.TmpSciResearchField" >
+    insert into tmp_sci_research_field (id, name, describe, 
+      type, jsonName, pName, 
+      units, isShow, fieldName
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{jsonName,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, 
+      #{units,jdbcType=VARCHAR}, #{isShow,jdbcType=INTEGER}, #{fieldName,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpSciResearchField" >
+    insert into tmp_sci_research_field
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="describe != null" >
+        describe,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="jsonName != null" >
+        jsonName,
+      </if>
+      <if test="pName != null" >
+        pName,
+      </if>
+      <if test="units != null" >
+        units,
+      </if>
+      <if test="isShow != null" >
+        isShow,
+      </if>
+      <if test="fieldName != null" >
+        fieldName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="jsonName != null" >
+        #{jsonName,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpSciResearchField" >
+    update tmp_sci_research_field
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="jsonName != null" >
+        jsonName = #{jsonName,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        pName = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        units = #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        isShow = #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="fieldName != null" >
+        fieldName = #{fieldName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.tmp.po.TmpSciResearchField" >
+    update tmp_sci_research_field
+    set name = #{name,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      jsonName = #{jsonName,jdbcType=VARCHAR},
+      pName = #{pName,jdbcType=VARCHAR},
+      units = #{units,jdbcType=VARCHAR},
+      isShow = #{isShow,jdbcType=INTEGER},
+      fieldName = #{fieldName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="searchRegInfoBySciRes" resultType="com.digihealth.anesthesia.research.formbean.SearchAnaesRegInfo">
+		${sql}
+	</select>
+
+	<select id="searchMonitListByRegOpt" resultType="java.lang.String">
+		${sql}
+	</select>
+	
+	<select id="getAllField" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tmp_sci_research_field
+	</select>
+
+</mapper>

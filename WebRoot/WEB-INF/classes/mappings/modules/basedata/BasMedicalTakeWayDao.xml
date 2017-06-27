@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasMedicalTakeWayDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay" >
+    <id column="medTakeWayId" property="medTakeWayId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="durable" property="durable" jdbcType="INTEGER" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="measureMode" property="measureMode" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    medTakeWayId, code, name, durable, category, measureMode, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_medical_take_way
+    where medTakeWayId = #{medTakeWayId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteMedicalTakeWay" parameterType="java.lang.String" >
+    delete from bas_medical_take_way
+    where medTakeWayId = #{medTakeWayId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay" >
+    insert into bas_medical_take_way (medTakeWayId, code, name, 
+      durable, category, measureMode, 
+      beid)
+    values (#{medTakeWayId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{durable,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{measureMode,jdbcType=VARCHAR}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay" >
+    insert into bas_medical_take_way
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="medTakeWayId != null" >
+        medTakeWayId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="durable != null" >
+        durable,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="measureMode != null" >
+        measureMode,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="medTakeWayId != null" >
+        #{medTakeWayId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="durable != null" >
+        #{durable,jdbcType=INTEGER},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="measureMode != null" >
+        #{measureMode,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay" >
+    update bas_medical_take_way
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="durable != null" >
+        durable = #{durable,jdbcType=INTEGER},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="measureMode != null" >
+        measureMode = #{measureMode,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where medTakeWayId = #{medTakeWayId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay" >
+    update bas_medical_take_way
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      durable = #{durable,jdbcType=INTEGER},
+      category = #{category,jdbcType=VARCHAR},
+      measureMode = #{measureMode,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where medTakeWayId = #{medTakeWayId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay">
+		SELECT 
+			a.*
+		FROM bas_medical_take_way a where 1 = 1 and beid = #{baseQuery.beid}
+		<if test="baseQuery.type != null and baseQuery.type != ''">
+			AND a.durable = #{baseQuery.type}
+		</if>
+	</select>
+		<select id="queryMedicalTakeWayList" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay">
+		SELECT * FROM bas_medical_take_way where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryMedicalTakeWayListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_medical_take_way where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="queryMedicalTakeWayById" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay">
+		SELECT * FROM bas_medical_take_way where medTakeWayId = #{medTakeWayId}
+	</select>
+	
+	<select id="queryMedicalTakeWayByBeId" resultType="com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay">
+		SELECT * FROM bas_medical_take_way where beid = #{beid,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

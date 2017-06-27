@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasOperroomDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasOperroom" >
+    <id column="operRoomId" property="operRoomId" jdbcType="VARCHAR" />
+    <result column="tableNum" property="tableNum" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="roomType" property="roomType" jdbcType="VARCHAR" />
+    <result column="operLevel" property="operLevel" jdbcType="VARCHAR" />
+    <result column="roomCategory" property="roomCategory" jdbcType="VARCHAR" />
+    <result column="deptId" property="deptId" jdbcType="VARCHAR" />
+    <result column="deptName" property="deptName" jdbcType="VARCHAR" />
+    <result column="maxOperNum" property="maxOperNum" jdbcType="INTEGER" />
+    <result column="healthNurse" property="healthNurse" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    operRoomId, tableNum, name, enable, roomType, operLevel, roomCategory, deptId, deptName, 
+    maxOperNum, healthNurse, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operroom
+    where operRoomId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasOperroom" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operroom
+    where 1=1 
+    <if test="operRoomId != '' and operRoomId != null">AND operRoomId = #{operRoomId} </if>
+    <if test="tableNum !=null">AND tableNum = #{tableNum} </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="roomType != '' and roomType !=null">AND roomType = #{roomType} </if>
+    <if test="operLevel != '' and operLevel !=null">AND operLevel = #{operLevel} </if>
+    <if test="roomCategory != '' and roomCategory !=null">AND roomCategory = #{roomCategory} </if>
+    <if test="deptId != '' and deptId !=null">AND deptId = #{deptId} </if>
+    <if test="deptName != '' and deptName !=null">AND deptName LIKE CONCAT('%',#{deptName},'%') </if>
+    <if test="maxOperNum !=null">AND maxOperNum = #{maxOperNum} </if>
+    <if test="healthNurse != '' and healthNurse !=null">AND healthNurse = #{healthNurse} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+  </select>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.OperRoomFormBean">
+		SELECT 
+			a.operRoomId,a.name
+		FROM bas_operroom a where 1 = 1 and a.enable = 1 and beid = #{baseQuery.beid}
+		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			AND a.name LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		</if>
+		<if test="baseQuery.enable != null and baseQuery.enable != ''">
+			AND a.enable = #{baseQuery.enable}
+		</if>
+		<if test="baseQuery.type != null and baseQuery.type != ''">
+			AND a.roomType = #{baseQuery.type}
+		</if>
+		ORDER BY `name` ASC
+	</select>
+	
+	<select id="selectPrint" resultType="com.digihealth.anesthesia.basedata.formbean.OperRoomFormBean">
+		SELECT 
+			a.operRoomId,a.name
+		FROM bas_operroom a where 1 = 1 and a.enable = 1 AND a.roomType = #{type} and beid = #{beid}
+		<if test="sta !=null and sta != 1">
+		and a.operRoomId not in <foreach collection="stateItems" item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach>
+		</if>
+	</select>
+	
+	<select id="queryRoomList" resultType="com.digihealth.anesthesia.basedata.po.BasOperroom">
+		SELECT * FROM bas_operroom where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryRoomListById" resultType="com.digihealth.anesthesia.basedata.po.BasOperroom">
+		SELECT * FROM bas_operroom where operRoomId = #{operRoomId} and beid = ${beid}
+	</select>
+	
+	<select id="queryRoomListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_operroom where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_operroom
+    where operRoomId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasOperroom" >
+    insert into bas_operroom (operRoomId, tableNum, name, 
+      enable, roomType, operLevel, 
+      roomCategory, deptId, deptName, 
+      maxOperNum, healthNurse, beid
+      )
+    values (#{operRoomId,jdbcType=VARCHAR}, #{tableNum,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER}, #{roomType,jdbcType=VARCHAR}, #{operLevel,jdbcType=VARCHAR}, 
+      #{roomCategory,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{maxOperNum,jdbcType=INTEGER}, #{healthNurse,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperroom" >
+    insert into bas_operroom
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operRoomId != null" >
+        operRoomId,
+      </if>
+      <if test="tableNum != null" >
+        tableNum,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="roomType != null" >
+        roomType,
+      </if>
+      <if test="operLevel != null" >
+        operLevel,
+      </if>
+      <if test="roomCategory != null" >
+        roomCategory,
+      </if>
+      <if test="deptId != null" >
+        deptId,
+      </if>
+      <if test="deptName != null" >
+        deptName,
+      </if>
+      <if test="maxOperNum != null" >
+        maxOperNum,
+      </if>
+      <if test="healthNurse != null" >
+        healthNurse,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operRoomId != null" >
+        #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="tableNum != null" >
+        #{tableNum,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="roomType != null" >
+        #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="operLevel != null" >
+        #{operLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="roomCategory != null" >
+        #{roomCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxOperNum != null" >
+        #{maxOperNum,jdbcType=INTEGER},
+      </if>
+      <if test="healthNurse != null" >
+        #{healthNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperroom" >
+    update bas_operroom
+    <set >
+      <if test="tableNum != null" >
+        tableNum = #{tableNum,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="roomType != null" >
+        roomType = #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="operLevel != null" >
+        operLevel = #{operLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="roomCategory != null" >
+        roomCategory = #{roomCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        deptId = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        deptName = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxOperNum != null" >
+        maxOperNum = #{maxOperNum,jdbcType=INTEGER},
+      </if>
+      <if test="healthNurse != null" >
+        healthNurse = #{healthNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where operRoomId = #{operRoomId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasOperroom" >
+    update bas_operroom
+    set tableNum = #{tableNum,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      roomType = #{roomType,jdbcType=VARCHAR},
+      operLevel = #{operLevel,jdbcType=VARCHAR},
+      roomCategory = #{roomCategory,jdbcType=VARCHAR},
+      deptId = #{deptId,jdbcType=VARCHAR},
+      deptName = #{deptName,jdbcType=VARCHAR},
+      maxOperNum = #{maxOperNum,jdbcType=INTEGER},
+      healthNurse = #{healthNurse,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where operRoomId = #{operRoomId,jdbcType=VARCHAR}
+  </update>
+
+	<update id="updateHealthnurse">
+	update bas_operroom set healthNurse = #{healthnurse} where operRoomId = #{operRoomId}
+	</update>
+</mapper>

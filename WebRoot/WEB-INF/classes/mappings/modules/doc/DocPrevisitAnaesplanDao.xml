@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPrevisitAnaesplanDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPrevisitAnaesplan" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="preVisitId" property="preVisitId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="asa" property="asa" jdbcType="VARCHAR" />
+    <result column="anesthIndica" property="anesthIndica" jdbcType="INTEGER" />
+    <result column="scheduled" property="scheduled" jdbcType="INTEGER" />
+    <result column="anaesType" property="anaesType" jdbcType="VARCHAR" />
+    <result column="othAnaesType" property="othAnaesType" jdbcType="VARCHAR" />
+    <result column="genAnesPos" property="genAnesPos" jdbcType="VARCHAR" />
+    <result column="puncPoint" property="puncPoint" jdbcType="VARCHAR" />
+    <result column="anaesPrep" property="anaesPrep" jdbcType="INTEGER" />
+    <result column="anaesPrepSpec" property="anaesPrepSpec" jdbcType="INTEGER" />
+    <result column="monitorItem" property="monitorItem" jdbcType="VARCHAR" />
+    <result column="monitorOther" property="monitorOther" jdbcType="VARCHAR" />
+    <result column="deviceMed" property="deviceMed" jdbcType="VARCHAR" />
+    <result column="otherDevMed" property="otherDevMed" jdbcType="VARCHAR" />
+    <result column="anaesMethChg" property="anaesMethChg" jdbcType="INTEGER" />
+    <result column="anaesMethChgRea" property="anaesMethChgRea" jdbcType="VARCHAR" />
+    <result column="anaesPrepSpecRes" property="anaesPrepSpecRes" jdbcType="VARCHAR" />
+    <result column="leaveTo" property="leaveTo" jdbcType="VARCHAR" />
+    <result column="asaE" property="asaE" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, preVisitId, regOptId, asa, anesthIndica, scheduled, anaesType, othAnaesType, 
+    genAnesPos, puncPoint, anaesPrep, anaesPrepSpec, monitorItem, monitorOther, deviceMed, 
+    otherDevMed, anaesMethChg, anaesMethChgRea, anaesPrepSpecRes, leaveTo, asaE
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_previsit_anaesplan
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+ <select id="selectByPreVisitId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_previsit_anaesplan
+    where preVisitId = #{preVisitId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_previsit_anaesplan
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAnaesplan" >
+    insert into doc_previsit_anaesplan (id, preVisitId, regOptId, 
+      asa, anesthIndica, scheduled, 
+      anaesType, othAnaesType, genAnesPos, 
+      puncPoint, anaesPrep, anaesPrepSpec, 
+      monitorItem, monitorOther, deviceMed, 
+      otherDevMed, anaesMethChg, anaesMethChgRea, 
+      anaesPrepSpecRes, leaveTo, asaE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{preVisitId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
+      #{asa,jdbcType=VARCHAR}, #{anesthIndica,jdbcType=INTEGER}, #{scheduled,jdbcType=INTEGER}, 
+      #{anaesType,jdbcType=VARCHAR}, #{othAnaesType,jdbcType=VARCHAR}, #{genAnesPos,jdbcType=VARCHAR}, 
+      #{puncPoint,jdbcType=VARCHAR}, #{anaesPrep,jdbcType=INTEGER}, #{anaesPrepSpec,jdbcType=INTEGER}, 
+      #{monitorItem,jdbcType=VARCHAR}, #{monitorOther,jdbcType=VARCHAR}, #{deviceMed,jdbcType=VARCHAR}, 
+      #{otherDevMed,jdbcType=VARCHAR}, #{anaesMethChg,jdbcType=INTEGER}, #{anaesMethChgRea,jdbcType=VARCHAR}, 
+      #{anaesPrepSpecRes,jdbcType=VARCHAR}, #{leaveTo,jdbcType=VARCHAR}, #{asaE,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAnaesplan" >
+    insert into doc_previsit_anaesplan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="preVisitId != null" >
+        preVisitId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="asa != null" >
+        asa,
+      </if>
+      <if test="anesthIndica != null" >
+        anesthIndica,
+      </if>
+      <if test="scheduled != null" >
+        scheduled,
+      </if>
+      <if test="anaesType != null" >
+        anaesType,
+      </if>
+      <if test="othAnaesType != null" >
+        othAnaesType,
+      </if>
+      <if test="genAnesPos != null" >
+        genAnesPos,
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint,
+      </if>
+      <if test="anaesPrep != null" >
+        anaesPrep,
+      </if>
+      <if test="anaesPrepSpec != null" >
+        anaesPrepSpec,
+      </if>
+      <if test="monitorItem != null" >
+        monitorItem,
+      </if>
+      <if test="monitorOther != null" >
+        monitorOther,
+      </if>
+      <if test="deviceMed != null" >
+        deviceMed,
+      </if>
+      <if test="otherDevMed != null" >
+        otherDevMed,
+      </if>
+      <if test="anaesMethChg != null" >
+        anaesMethChg,
+      </if>
+      <if test="anaesMethChgRea != null" >
+        anaesMethChgRea,
+      </if>
+      <if test="anaesPrepSpecRes != null" >
+        anaesPrepSpecRes,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+      <if test="asaE != null" >
+        asaE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitId != null" >
+        #{preVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        #{asa,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthIndica != null" >
+        #{anesthIndica,jdbcType=INTEGER},
+      </if>
+      <if test="scheduled != null" >
+        #{scheduled,jdbcType=INTEGER},
+      </if>
+      <if test="anaesType != null" >
+        #{anaesType,jdbcType=VARCHAR},
+      </if>
+      <if test="othAnaesType != null" >
+        #{othAnaesType,jdbcType=VARCHAR},
+      </if>
+      <if test="genAnesPos != null" >
+        #{genAnesPos,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint != null" >
+        #{puncPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesPrep != null" >
+        #{anaesPrep,jdbcType=INTEGER},
+      </if>
+      <if test="anaesPrepSpec != null" >
+        #{anaesPrepSpec,jdbcType=INTEGER},
+      </if>
+      <if test="monitorItem != null" >
+        #{monitorItem,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorOther != null" >
+        #{monitorOther,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceMed != null" >
+        #{deviceMed,jdbcType=VARCHAR},
+      </if>
+      <if test="otherDevMed != null" >
+        #{otherDevMed,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethChg != null" >
+        #{anaesMethChg,jdbcType=INTEGER},
+      </if>
+      <if test="anaesMethChgRea != null" >
+        #{anaesMethChgRea,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesPrepSpecRes != null" >
+        #{anaesPrepSpecRes,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=VARCHAR},
+      </if>
+      <if test="asaE != null" >
+        #{asaE,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAnaesplan" >
+    update doc_previsit_anaesplan
+    <set >
+      <if test="preVisitId != null" >
+        preVisitId = #{preVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        asa = #{asa,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthIndica != null" >
+        anesthIndica = #{anesthIndica,jdbcType=INTEGER},
+      </if>
+      <if test="scheduled != null" >
+        scheduled = #{scheduled,jdbcType=INTEGER},
+      </if>
+      <if test="anaesType != null" >
+        anaesType = #{anaesType,jdbcType=VARCHAR},
+      </if>
+      <if test="othAnaesType != null" >
+        othAnaesType = #{othAnaesType,jdbcType=VARCHAR},
+      </if>
+      <if test="genAnesPos != null" >
+        genAnesPos = #{genAnesPos,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint = #{puncPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesPrep != null" >
+        anaesPrep = #{anaesPrep,jdbcType=INTEGER},
+      </if>
+      <if test="anaesPrepSpec != null" >
+        anaesPrepSpec = #{anaesPrepSpec,jdbcType=INTEGER},
+      </if>
+      <if test="monitorItem != null" >
+        monitorItem = #{monitorItem,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorOther != null" >
+        monitorOther = #{monitorOther,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceMed != null" >
+        deviceMed = #{deviceMed,jdbcType=VARCHAR},
+      </if>
+      <if test="otherDevMed != null" >
+        otherDevMed = #{otherDevMed,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethChg != null" >
+        anaesMethChg = #{anaesMethChg,jdbcType=INTEGER},
+      </if>
+      <if test="anaesMethChgRea != null" >
+        anaesMethChgRea = #{anaesMethChgRea,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesPrepSpecRes != null" >
+        anaesPrepSpecRes = #{anaesPrepSpecRes,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=VARCHAR},
+      </if>
+      <if test="asaE != null" >
+        asaE = #{asaE,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAnaesplan" >
+    update doc_previsit_anaesplan
+    set preVisitId = #{preVisitId,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      asa = #{asa,jdbcType=VARCHAR},
+      anesthIndica = #{anesthIndica,jdbcType=INTEGER},
+      scheduled = #{scheduled,jdbcType=INTEGER},
+      anaesType = #{anaesType,jdbcType=VARCHAR},
+      othAnaesType = #{othAnaesType,jdbcType=VARCHAR},
+      genAnesPos = #{genAnesPos,jdbcType=VARCHAR},
+      puncPoint = #{puncPoint,jdbcType=VARCHAR},
+      anaesPrep = #{anaesPrep,jdbcType=INTEGER},
+      anaesPrepSpec = #{anaesPrepSpec,jdbcType=INTEGER},
+      monitorItem = #{monitorItem,jdbcType=VARCHAR},
+      monitorOther = #{monitorOther,jdbcType=VARCHAR},
+      deviceMed = #{deviceMed,jdbcType=VARCHAR},
+      otherDevMed = #{otherDevMed,jdbcType=VARCHAR},
+      anaesMethChg = #{anaesMethChg,jdbcType=INTEGER},
+      anaesMethChgRea = #{anaesMethChgRea,jdbcType=VARCHAR},
+      anaesPrepSpecRes = #{anaesPrepSpecRes,jdbcType=VARCHAR},
+      leaveTo = #{leaveTo,jdbcType=VARCHAR},
+      asaE = #{asaE,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

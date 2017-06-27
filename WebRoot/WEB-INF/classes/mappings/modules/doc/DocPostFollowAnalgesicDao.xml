@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPostFollowAnalgesicDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPostFollowAnalgesic" >
+    <id column="analgesicFollowId" property="analgesicFollowId" jdbcType="VARCHAR" />
+    <result column="postFollowId" property="postFollowId" jdbcType="VARCHAR" />
+    <result column="observeTime" property="observeTime" jdbcType="TIMESTAMP" />
+    <result column="quietScore" property="quietScore" jdbcType="INTEGER" />
+    <result column="activScore" property="activScore" jdbcType="INTEGER" />
+    <result column="nausea" property="nausea" jdbcType="INTEGER" />
+    <result column="vomit" property="vomit" jdbcType="INTEGER" />
+    <result column="ltch" property="ltch" jdbcType="INTEGER" />
+    <result column="vistorId" property="vistorId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    analgesicFollowId, postFollowId, observeTime, quietScore, activScore, nausea, vomit, 
+    ltch, vistorId
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_post_follow_analgesic
+    where analgesicFollowId = #{analgesicFollowId,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getInfoByPostFollowId" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowAnalgesic" parameterType="map" >
+     select a.* ,u.name vistorName
+    from doc_post_follow_analgesic a left join bas_user u on a.vistorId = u.userName
+    where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </select>
+
+ <delete id="deleteByPostFollowId" parameterType="java.lang.String" >
+    delete from doc_post_follow_analgesic where postFollowId = #{postFollowId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_post_follow_analgesic
+    where analgesicFollowId = #{analgesicFollowId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowAnalgesic" >
+    insert into doc_post_follow_analgesic (analgesicFollowId, postFollowId, 
+      observeTime, quietScore, activScore, 
+      nausea, vomit, ltch, 
+      vistorId)
+    values (#{analgesicFollowId,jdbcType=VARCHAR}, #{postFollowId,jdbcType=VARCHAR}, 
+      #{observeTime,jdbcType=TIMESTAMP}, #{quietScore,jdbcType=INTEGER}, #{activScore,jdbcType=INTEGER}, 
+      #{nausea,jdbcType=INTEGER}, #{vomit,jdbcType=INTEGER}, #{ltch,jdbcType=INTEGER}, 
+      #{vistorId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowAnalgesic" >
+    insert into doc_post_follow_analgesic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="analgesicFollowId != null" >
+        analgesicFollowId,
+      </if>
+      <if test="postFollowId != null" >
+        postFollowId,
+      </if>
+      <if test="observeTime != null" >
+        observeTime,
+      </if>
+      <if test="quietScore != null" >
+        quietScore,
+      </if>
+      <if test="activScore != null" >
+        activScore,
+      </if>
+      <if test="nausea != null" >
+        nausea,
+      </if>
+      <if test="vomit != null" >
+        vomit,
+      </if>
+      <if test="ltch != null" >
+        ltch,
+      </if>
+      <if test="vistorId != null" >
+        vistorId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="analgesicFollowId != null" >
+        #{analgesicFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="postFollowId != null" >
+        #{postFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="observeTime != null" >
+        #{observeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quietScore != null" >
+        #{quietScore,jdbcType=INTEGER},
+      </if>
+      <if test="activScore != null" >
+        #{activScore,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="vomit != null" >
+        #{vomit,jdbcType=INTEGER},
+      </if>
+      <if test="ltch != null" >
+        #{ltch,jdbcType=INTEGER},
+      </if>
+      <if test="vistorId != null" >
+        #{vistorId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowAnalgesic" >
+    update doc_post_follow_analgesic
+    <set >
+      <if test="postFollowId != null" >
+        postFollowId = #{postFollowId,jdbcType=VARCHAR},
+      </if>
+      <if test="observeTime != null" >
+        observeTime = #{observeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quietScore != null" >
+        quietScore = #{quietScore,jdbcType=INTEGER},
+      </if>
+      <if test="activScore != null" >
+        activScore = #{activScore,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        nausea = #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="vomit != null" >
+        vomit = #{vomit,jdbcType=INTEGER},
+      </if>
+      <if test="ltch != null" >
+        ltch = #{ltch,jdbcType=INTEGER},
+      </if>
+      <if test="vistorId != null" >
+        vistorId = #{vistorId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where analgesicFollowId = #{analgesicFollowId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPostFollowAnalgesic" >
+    update doc_post_follow_analgesic
+    set postFollowId = #{postFollowId,jdbcType=VARCHAR},
+      observeTime = #{observeTime,jdbcType=TIMESTAMP},
+      quietScore = #{quietScore,jdbcType=INTEGER},
+      activScore = #{activScore,jdbcType=INTEGER},
+      nausea = #{nausea,jdbcType=INTEGER},
+      vomit = #{vomit,jdbcType=INTEGER},
+      ltch = #{ltch,jdbcType=INTEGER},
+      vistorId = #{vistorId,jdbcType=VARCHAR}
+    where analgesicFollowId = #{analgesicFollowId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

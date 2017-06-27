@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocOptCareRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocOptCareRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="inOperRoomTime" property="inOperRoomTime" jdbcType="VARCHAR" />
+    <result column="outOperRoomTime" property="outOperRoomTime" jdbcType="VARCHAR" />
+    <result column="allergic" property="allergic" jdbcType="INTEGER" />
+    <result column="operationCode" property="operationCode" jdbcType="VARCHAR" />
+    <result column="operationName" property="operationName" jdbcType="VARCHAR" />
+    <result column="senses" property="senses" jdbcType="VARCHAR" />
+    <result column="venousInfusion1" property="venousInfusion1" jdbcType="INTEGER" />
+    <result column="venipuncture" property="venipuncture" jdbcType="INTEGER" />
+    <result column="pipeline" property="pipeline" jdbcType="VARCHAR" />
+    <result column="xray" property="xray" jdbcType="INTEGER" />
+    <result column="CT" property="CT" jdbcType="INTEGER" />
+    <result column="MRI" property="MRI" jdbcType="INTEGER" />
+    <result column="optbody" property="optbody" jdbcType="VARCHAR" />
+    <result column="elecKnife" property="elecKnife" jdbcType="INTEGER" />
+    <result column="specimen" property="specimen" jdbcType="INTEGER" />
+    <result column="inspection" property="inspection" jdbcType="INTEGER" />
+    <result column="specimenName" property="specimenName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="shiftChangedNurse" property="shiftChangedNurse" jdbcType="VARCHAR" />
+    <result column="shiftChangeNurse" property="shiftChangeNurse" jdbcType="VARCHAR" />
+    <result column="instrnurseId" property="instrnurseId" jdbcType="VARCHAR" />
+    <result column="shiftTime" property="shiftTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.doc.po.DocOptCareRecord" extends="BaseResultMap" >
+    <result column="skin1" property="skin1" jdbcType="LONGVARCHAR" />
+    <result column="negativePosition" property="negativePosition" jdbcType="LONGVARCHAR" />
+    <result column="tourniquet" property="tourniquet" jdbcType="LONGVARCHAR" />
+    <result column="supportMaterial" property="supportMaterial" jdbcType="LONGVARCHAR" />
+    <result column="implants" property="implants" jdbcType="LONGVARCHAR" />
+    <result column="leaveTo" property="leaveTo" jdbcType="LONGVARCHAR" />
+    <result column="venousInfusion2" property="venousInfusion2" jdbcType="LONGVARCHAR" />
+    <result column="drainageTube" property="drainageTube" jdbcType="LONGVARCHAR" />
+    <result column="skin2" property="skin2" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, processState, inOperRoomTime, outOperRoomTime, allergic, operationCode, 
+    operationName, senses, venousInfusion1, venipuncture, pipeline, xray, CT, MRI, optbody, 
+    elecKnife, specimen, inspection, specimenName, remark, shiftChangedNurse, shiftChangeNurse, 
+    instrnurseId, shiftTime
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    skin1, negativePosition, tourniquet, supportMaterial, implants, leaveTo, venousInfusion2, 
+    drainageTube, skin2
+  </sql>
+
+  <select id="selectByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select DISTINCT * from doc_opt_care_record
+    where regOptId = #{regOptId}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_opt_care_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_opt_care_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocOptCareRecord" >
+    insert into doc_opt_care_record (id, regOptId, processState, 
+      inOperRoomTime, outOperRoomTime, allergic, 
+      operationCode, operationName, senses, 
+      venousInfusion1, venipuncture, pipeline, 
+      xray, CT, MRI, optbody, 
+      elecKnife, specimen, inspection, 
+      specimenName, remark, shiftChangedNurse, 
+      shiftChangeNurse, instrnurseId, shiftTime, 
+      skin1, negativePosition, tourniquet, 
+      supportMaterial, implants, leaveTo, 
+      venousInfusion2, drainageTube, 
+      skin2)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{inOperRoomTime,jdbcType=VARCHAR}, #{outOperRoomTime,jdbcType=VARCHAR}, #{allergic,jdbcType=INTEGER}, 
+      #{operationCode,jdbcType=VARCHAR}, #{operationName,jdbcType=VARCHAR}, #{senses,jdbcType=VARCHAR}, 
+      #{venousInfusion1,jdbcType=INTEGER}, #{venipuncture,jdbcType=INTEGER}, #{pipeline,jdbcType=VARCHAR}, 
+      #{xray,jdbcType=INTEGER}, #{CT,jdbcType=INTEGER}, #{MRI,jdbcType=INTEGER}, #{optbody,jdbcType=VARCHAR}, 
+      #{elecKnife,jdbcType=INTEGER}, #{specimen,jdbcType=INTEGER}, #{inspection,jdbcType=INTEGER}, 
+      #{specimenName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{shiftChangedNurse,jdbcType=VARCHAR}, 
+      #{shiftChangeNurse,jdbcType=VARCHAR}, #{instrnurseId,jdbcType=VARCHAR}, #{shiftTime,jdbcType=TIMESTAMP}, 
+      #{skin1,jdbcType=LONGVARCHAR}, #{negativePosition,jdbcType=LONGVARCHAR}, #{tourniquet,jdbcType=LONGVARCHAR}, 
+      #{supportMaterial,jdbcType=LONGVARCHAR}, #{implants,jdbcType=LONGVARCHAR}, #{leaveTo,jdbcType=LONGVARCHAR}, 
+      #{venousInfusion2,jdbcType=LONGVARCHAR}, #{drainageTube,jdbcType=LONGVARCHAR}, 
+      #{skin2,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptCareRecord" >
+    insert into doc_opt_care_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime,
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime,
+      </if>
+      <if test="allergic != null" >
+        allergic,
+      </if>
+      <if test="operationCode != null" >
+        operationCode,
+      </if>
+      <if test="operationName != null" >
+        operationName,
+      </if>
+      <if test="senses != null" >
+        senses,
+      </if>
+      <if test="venousInfusion1 != null" >
+        venousInfusion1,
+      </if>
+      <if test="venipuncture != null" >
+        venipuncture,
+      </if>
+      <if test="pipeline != null" >
+        pipeline,
+      </if>
+      <if test="xray != null" >
+        xray,
+      </if>
+      <if test="CT != null" >
+        CT,
+      </if>
+      <if test="MRI != null" >
+        MRI,
+      </if>
+      <if test="optbody != null" >
+        optbody,
+      </if>
+      <if test="elecKnife != null" >
+        elecKnife,
+      </if>
+      <if test="specimen != null" >
+        specimen,
+      </if>
+      <if test="inspection != null" >
+        inspection,
+      </if>
+      <if test="specimenName != null" >
+        specimenName,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="shiftChangedNurse != null" >
+        shiftChangedNurse,
+      </if>
+      <if test="shiftChangeNurse != null" >
+        shiftChangeNurse,
+      </if>
+      <if test="instrnurseId != null" >
+        instrnurseId,
+      </if>
+      <if test="shiftTime != null" >
+        shiftTime,
+      </if>
+      <if test="skin1 != null" >
+        skin1,
+      </if>
+      <if test="negativePosition != null" >
+        negativePosition,
+      </if>
+      <if test="tourniquet != null" >
+        tourniquet,
+      </if>
+      <if test="supportMaterial != null" >
+        supportMaterial,
+      </if>
+      <if test="implants != null" >
+        implants,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+      <if test="venousInfusion2 != null" >
+        venousInfusion2,
+      </if>
+      <if test="drainageTube != null" >
+        drainageTube,
+      </if>
+      <if test="skin2 != null" >
+        skin2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="inOperRoomTime != null" >
+        #{inOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outOperRoomTime != null" >
+        #{outOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="allergic != null" >
+        #{allergic,jdbcType=INTEGER},
+      </if>
+      <if test="operationCode != null" >
+        #{operationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationName != null" >
+        #{operationName,jdbcType=VARCHAR},
+      </if>
+      <if test="senses != null" >
+        #{senses,jdbcType=VARCHAR},
+      </if>
+      <if test="venousInfusion1 != null" >
+        #{venousInfusion1,jdbcType=INTEGER},
+      </if>
+      <if test="venipuncture != null" >
+        #{venipuncture,jdbcType=INTEGER},
+      </if>
+      <if test="pipeline != null" >
+        #{pipeline,jdbcType=VARCHAR},
+      </if>
+      <if test="xray != null" >
+        #{xray,jdbcType=INTEGER},
+      </if>
+      <if test="CT != null" >
+        #{CT,jdbcType=INTEGER},
+      </if>
+      <if test="MRI != null" >
+        #{MRI,jdbcType=INTEGER},
+      </if>
+      <if test="optbody != null" >
+        #{optbody,jdbcType=VARCHAR},
+      </if>
+      <if test="elecKnife != null" >
+        #{elecKnife,jdbcType=INTEGER},
+      </if>
+      <if test="specimen != null" >
+        #{specimen,jdbcType=INTEGER},
+      </if>
+      <if test="inspection != null" >
+        #{inspection,jdbcType=INTEGER},
+      </if>
+      <if test="specimenName != null" >
+        #{specimenName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedNurse != null" >
+        #{shiftChangedNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangeNurse != null" >
+        #{shiftChangeNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId != null" >
+        #{instrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftTime != null" >
+        #{shiftTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="skin1 != null" >
+        #{skin1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="negativePosition != null" >
+        #{negativePosition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tourniquet != null" >
+        #{tourniquet,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="supportMaterial != null" >
+        #{supportMaterial,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="implants != null" >
+        #{implants,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="venousInfusion2 != null" >
+        #{venousInfusion2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="drainageTube != null" >
+        #{drainageTube,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="skin2 != null" >
+        #{skin2,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptCareRecord" >
+    update doc_opt_care_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime = #{inOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime = #{outOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="allergic != null" >
+        allergic = #{allergic,jdbcType=INTEGER},
+      </if>
+      <if test="operationCode != null" >
+        operationCode = #{operationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationName != null" >
+        operationName = #{operationName,jdbcType=VARCHAR},
+      </if>
+      <if test="senses != null" >
+        senses = #{senses,jdbcType=VARCHAR},
+      </if>
+      <if test="venousInfusion1 != null" >
+        venousInfusion1 = #{venousInfusion1,jdbcType=INTEGER},
+      </if>
+      <if test="venipuncture != null" >
+        venipuncture = #{venipuncture,jdbcType=INTEGER},
+      </if>
+      <if test="pipeline != null" >
+        pipeline = #{pipeline,jdbcType=VARCHAR},
+      </if>
+      <if test="xray != null" >
+        xray = #{xray,jdbcType=INTEGER},
+      </if>
+      <if test="CT != null" >
+        CT = #{CT,jdbcType=INTEGER},
+      </if>
+      <if test="MRI != null" >
+        MRI = #{MRI,jdbcType=INTEGER},
+      </if>
+      <if test="optbody != null" >
+        optbody = #{optbody,jdbcType=VARCHAR},
+      </if>
+      <if test="elecKnife != null" >
+        elecKnife = #{elecKnife,jdbcType=INTEGER},
+      </if>
+      <if test="specimen != null" >
+        specimen = #{specimen,jdbcType=INTEGER},
+      </if>
+      <if test="inspection != null" >
+        inspection = #{inspection,jdbcType=INTEGER},
+      </if>
+      <if test="specimenName != null" >
+        specimenName = #{specimenName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedNurse != null" >
+        shiftChangedNurse = #{shiftChangedNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangeNurse != null" >
+        shiftChangeNurse = #{shiftChangeNurse,jdbcType=VARCHAR},
+      </if>
+      <if test="instrnurseId != null" >
+        instrnurseId = #{instrnurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftTime != null" >
+        shiftTime = #{shiftTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="skin1 != null" >
+        skin1 = #{skin1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="negativePosition != null" >
+        negativePosition = #{negativePosition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tourniquet != null" >
+        tourniquet = #{tourniquet,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="supportMaterial != null" >
+        supportMaterial = #{supportMaterial,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="implants != null" >
+        implants = #{implants,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="venousInfusion2 != null" >
+        venousInfusion2 = #{venousInfusion2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="drainageTube != null" >
+        drainageTube = #{drainageTube,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="skin2 != null" >
+        skin2 = #{skin2,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.doc.po.DocOptCareRecord" >
+    update doc_opt_care_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      inOperRoomTime = #{inOperRoomTime,jdbcType=VARCHAR},
+      outOperRoomTime = #{outOperRoomTime,jdbcType=VARCHAR},
+      allergic = #{allergic,jdbcType=INTEGER},
+      operationCode = #{operationCode,jdbcType=VARCHAR},
+      operationName = #{operationName,jdbcType=VARCHAR},
+      senses = #{senses,jdbcType=VARCHAR},
+      venousInfusion1 = #{venousInfusion1,jdbcType=INTEGER},
+      venipuncture = #{venipuncture,jdbcType=INTEGER},
+      pipeline = #{pipeline,jdbcType=VARCHAR},
+      xray = #{xray,jdbcType=INTEGER},
+      CT = #{CT,jdbcType=INTEGER},
+      MRI = #{MRI,jdbcType=INTEGER},
+      optbody = #{optbody,jdbcType=VARCHAR},
+      elecKnife = #{elecKnife,jdbcType=INTEGER},
+      specimen = #{specimen,jdbcType=INTEGER},
+      inspection = #{inspection,jdbcType=INTEGER},
+      specimenName = #{specimenName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      shiftChangedNurse = #{shiftChangedNurse,jdbcType=VARCHAR},
+      shiftChangeNurse = #{shiftChangeNurse,jdbcType=VARCHAR},
+      instrnurseId = #{instrnurseId,jdbcType=VARCHAR},
+      shiftTime = #{shiftTime,jdbcType=TIMESTAMP},
+      skin1 = #{skin1,jdbcType=LONGVARCHAR},
+      negativePosition = #{negativePosition,jdbcType=LONGVARCHAR},
+      tourniquet = #{tourniquet,jdbcType=LONGVARCHAR},
+      supportMaterial = #{supportMaterial,jdbcType=LONGVARCHAR},
+      implants = #{implants,jdbcType=LONGVARCHAR},
+      leaveTo = #{leaveTo,jdbcType=LONGVARCHAR},
+      venousInfusion2 = #{venousInfusion2,jdbcType=LONGVARCHAR},
+      drainageTube = #{drainageTube,jdbcType=LONGVARCHAR},
+      skin2 = #{skin2,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocOptCareRecord" >
+    update doc_opt_care_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      inOperRoomTime = #{inOperRoomTime,jdbcType=VARCHAR},
+      outOperRoomTime = #{outOperRoomTime,jdbcType=VARCHAR},
+      allergic = #{allergic,jdbcType=INTEGER},
+      operationCode = #{operationCode,jdbcType=VARCHAR},
+      operationName = #{operationName,jdbcType=VARCHAR},
+      senses = #{senses,jdbcType=VARCHAR},
+      venousInfusion1 = #{venousInfusion1,jdbcType=INTEGER},
+      venipuncture = #{venipuncture,jdbcType=INTEGER},
+      pipeline = #{pipeline,jdbcType=VARCHAR},
+      xray = #{xray,jdbcType=INTEGER},
+      CT = #{CT,jdbcType=INTEGER},
+      MRI = #{MRI,jdbcType=INTEGER},
+      optbody = #{optbody,jdbcType=VARCHAR},
+      elecKnife = #{elecKnife,jdbcType=INTEGER},
+      specimen = #{specimen,jdbcType=INTEGER},
+      inspection = #{inspection,jdbcType=INTEGER},
+      specimenName = #{specimenName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      shiftChangedNurse = #{shiftChangedNurse,jdbcType=VARCHAR},
+      shiftChangeNurse = #{shiftChangeNurse,jdbcType=VARCHAR},
+      instrnurseId = #{instrnurseId,jdbcType=VARCHAR},
+      shiftTime = #{shiftTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesSummaryAppendixVisitDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixVisit" >
+    <id column="anesSumVisId" property="anesSumVisId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="cycleComb" property="cycleComb" jdbcType="INTEGER" />
+    <result column="breathComb" property="breathComb" jdbcType="INTEGER" />
+    <result column="confusion" property="confusion" jdbcType="INTEGER" />
+    <result column="cognitive" property="cognitive" jdbcType="INTEGER" />
+    <result column="intraAware" property="intraAware" jdbcType="INTEGER" />
+    <result column="moveDis" property="moveDis" jdbcType="INTEGER" />
+    <result column="catheters" property="catheters" jdbcType="INTEGER" />
+    <result column="nausea" property="nausea" jdbcType="INTEGER" />
+    <result column="redTender" property="redTender" jdbcType="INTEGER" />
+    <result column="soreThroat" property="soreThroat" jdbcType="INTEGER" />
+    <result column="hoarseness" property="hoarseness" jdbcType="INTEGER" />
+    <result column="visualImpair" property="visualImpair" jdbcType="INTEGER" />
+    <result column="visualImpairValue" property="visualImpairValue" jdbcType="INTEGER" />
+    <result column="indwelVeinCathetor" property="indwelVeinCathetor" jdbcType="INTEGER" />
+    <result column="indwelVeinValue" property="indwelVeinValue" jdbcType="INTEGER" />
+    <result column="indwelArteryCathetor" property="indwelArteryCathetor" jdbcType="INTEGER" />
+    <result column="indwelArteryValue" property="indwelArteryValue" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="INTEGER" />
+    <result column="doctorAdvice" property="doctorAdvice" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anesSumVisId, anaSumId, cycleComb, breathComb, confusion, cognitive, intraAware, 
+    moveDis, catheters, nausea, redTender, soreThroat, hoarseness, visualImpair, visualImpairValue, 
+    indwelVeinCathetor, indwelVeinValue, indwelArteryCathetor, indwelArteryValue, other, 
+    doctorAdvice
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_appendix_visit
+    where anesSumVisId = #{anesSumVisId,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getPoByAnaSumId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_appendix_visit
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_summary_appendix_visit
+    where anesSumVisId = #{anesSumVisId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixVisit" >
+    insert into doc_anaes_summary_appendix_visit (anesSumVisId, anaSumId, cycleComb, 
+      breathComb, confusion, cognitive, 
+      intraAware, moveDis, catheters, 
+      nausea, redTender, soreThroat, 
+      hoarseness, visualImpair, visualImpairValue, 
+      indwelVeinCathetor, indwelVeinValue, indwelArteryCathetor, 
+      indwelArteryValue, other, doctorAdvice
+      )
+    values (#{anesSumVisId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{cycleComb,jdbcType=INTEGER}, 
+      #{breathComb,jdbcType=INTEGER}, #{confusion,jdbcType=INTEGER}, #{cognitive,jdbcType=INTEGER}, 
+      #{intraAware,jdbcType=INTEGER}, #{moveDis,jdbcType=INTEGER}, #{catheters,jdbcType=INTEGER}, 
+      #{nausea,jdbcType=INTEGER}, #{redTender,jdbcType=INTEGER}, #{soreThroat,jdbcType=INTEGER}, 
+      #{hoarseness,jdbcType=INTEGER}, #{visualImpair,jdbcType=INTEGER}, #{visualImpairValue,jdbcType=INTEGER}, 
+      #{indwelVeinCathetor,jdbcType=INTEGER}, #{indwelVeinValue,jdbcType=INTEGER}, #{indwelArteryCathetor,jdbcType=INTEGER}, 
+      #{indwelArteryValue,jdbcType=INTEGER}, #{other,jdbcType=INTEGER}, #{doctorAdvice,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixVisit" >
+    insert into doc_anaes_summary_appendix_visit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anesSumVisId != null" >
+        anesSumVisId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="cycleComb != null" >
+        cycleComb,
+      </if>
+      <if test="breathComb != null" >
+        breathComb,
+      </if>
+      <if test="confusion != null" >
+        confusion,
+      </if>
+      <if test="cognitive != null" >
+        cognitive,
+      </if>
+      <if test="intraAware != null" >
+        intraAware,
+      </if>
+      <if test="moveDis != null" >
+        moveDis,
+      </if>
+      <if test="catheters != null" >
+        catheters,
+      </if>
+      <if test="nausea != null" >
+        nausea,
+      </if>
+      <if test="redTender != null" >
+        redTender,
+      </if>
+      <if test="soreThroat != null" >
+        soreThroat,
+      </if>
+      <if test="hoarseness != null" >
+        hoarseness,
+      </if>
+      <if test="visualImpair != null" >
+        visualImpair,
+      </if>
+      <if test="visualImpairValue != null" >
+        visualImpairValue,
+      </if>
+      <if test="indwelVeinCathetor != null" >
+        indwelVeinCathetor,
+      </if>
+      <if test="indwelVeinValue != null" >
+        indwelVeinValue,
+      </if>
+      <if test="indwelArteryCathetor != null" >
+        indwelArteryCathetor,
+      </if>
+      <if test="indwelArteryValue != null" >
+        indwelArteryValue,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="doctorAdvice != null" >
+        doctorAdvice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anesSumVisId != null" >
+        #{anesSumVisId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleComb != null" >
+        #{cycleComb,jdbcType=INTEGER},
+      </if>
+      <if test="breathComb != null" >
+        #{breathComb,jdbcType=INTEGER},
+      </if>
+      <if test="confusion != null" >
+        #{confusion,jdbcType=INTEGER},
+      </if>
+      <if test="cognitive != null" >
+        #{cognitive,jdbcType=INTEGER},
+      </if>
+      <if test="intraAware != null" >
+        #{intraAware,jdbcType=INTEGER},
+      </if>
+      <if test="moveDis != null" >
+        #{moveDis,jdbcType=INTEGER},
+      </if>
+      <if test="catheters != null" >
+        #{catheters,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="redTender != null" >
+        #{redTender,jdbcType=INTEGER},
+      </if>
+      <if test="soreThroat != null" >
+        #{soreThroat,jdbcType=INTEGER},
+      </if>
+      <if test="hoarseness != null" >
+        #{hoarseness,jdbcType=INTEGER},
+      </if>
+      <if test="visualImpair != null" >
+        #{visualImpair,jdbcType=INTEGER},
+      </if>
+      <if test="visualImpairValue != null" >
+        #{visualImpairValue,jdbcType=INTEGER},
+      </if>
+      <if test="indwelVeinCathetor != null" >
+        #{indwelVeinCathetor,jdbcType=INTEGER},
+      </if>
+      <if test="indwelVeinValue != null" >
+        #{indwelVeinValue,jdbcType=INTEGER},
+      </if>
+      <if test="indwelArteryCathetor != null" >
+        #{indwelArteryCathetor,jdbcType=INTEGER},
+      </if>
+      <if test="indwelArteryValue != null" >
+        #{indwelArteryValue,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=INTEGER},
+      </if>
+      <if test="doctorAdvice != null" >
+        #{doctorAdvice,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixVisit" >
+    update doc_anaes_summary_appendix_visit
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleComb != null" >
+        cycleComb = #{cycleComb,jdbcType=INTEGER},
+      </if>
+      <if test="breathComb != null" >
+        breathComb = #{breathComb,jdbcType=INTEGER},
+      </if>
+      <if test="confusion != null" >
+        confusion = #{confusion,jdbcType=INTEGER},
+      </if>
+      <if test="cognitive != null" >
+        cognitive = #{cognitive,jdbcType=INTEGER},
+      </if>
+      <if test="intraAware != null" >
+        intraAware = #{intraAware,jdbcType=INTEGER},
+      </if>
+      <if test="moveDis != null" >
+        moveDis = #{moveDis,jdbcType=INTEGER},
+      </if>
+      <if test="catheters != null" >
+        catheters = #{catheters,jdbcType=INTEGER},
+      </if>
+      <if test="nausea != null" >
+        nausea = #{nausea,jdbcType=INTEGER},
+      </if>
+      <if test="redTender != null" >
+        redTender = #{redTender,jdbcType=INTEGER},
+      </if>
+      <if test="soreThroat != null" >
+        soreThroat = #{soreThroat,jdbcType=INTEGER},
+      </if>
+      <if test="hoarseness != null" >
+        hoarseness = #{hoarseness,jdbcType=INTEGER},
+      </if>
+      <if test="visualImpair != null" >
+        visualImpair = #{visualImpair,jdbcType=INTEGER},
+      </if>
+      <if test="visualImpairValue != null" >
+        visualImpairValue = #{visualImpairValue,jdbcType=INTEGER},
+      </if>
+      <if test="indwelVeinCathetor != null" >
+        indwelVeinCathetor = #{indwelVeinCathetor,jdbcType=INTEGER},
+      </if>
+      <if test="indwelVeinValue != null" >
+        indwelVeinValue = #{indwelVeinValue,jdbcType=INTEGER},
+      </if>
+      <if test="indwelArteryCathetor != null" >
+        indwelArteryCathetor = #{indwelArteryCathetor,jdbcType=INTEGER},
+      </if>
+      <if test="indwelArteryValue != null" >
+        indwelArteryValue = #{indwelArteryValue,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=INTEGER},
+      </if>
+      <if test="doctorAdvice != null" >
+        doctorAdvice = #{doctorAdvice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anesSumVisId = #{anesSumVisId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixVisit" >
+    update doc_anaes_summary_appendix_visit
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      cycleComb = #{cycleComb,jdbcType=INTEGER},
+      breathComb = #{breathComb,jdbcType=INTEGER},
+      confusion = #{confusion,jdbcType=INTEGER},
+      cognitive = #{cognitive,jdbcType=INTEGER},
+      intraAware = #{intraAware,jdbcType=INTEGER},
+      moveDis = #{moveDis,jdbcType=INTEGER},
+      catheters = #{catheters,jdbcType=INTEGER},
+      nausea = #{nausea,jdbcType=INTEGER},
+      redTender = #{redTender,jdbcType=INTEGER},
+      soreThroat = #{soreThroat,jdbcType=INTEGER},
+      hoarseness = #{hoarseness,jdbcType=INTEGER},
+      visualImpair = #{visualImpair,jdbcType=INTEGER},
+      visualImpairValue = #{visualImpairValue,jdbcType=INTEGER},
+      indwelVeinCathetor = #{indwelVeinCathetor,jdbcType=INTEGER},
+      indwelVeinValue = #{indwelVeinValue,jdbcType=INTEGER},
+      indwelArteryCathetor = #{indwelArteryCathetor,jdbcType=INTEGER},
+      indwelArteryValue = #{indwelArteryValue,jdbcType=INTEGER},
+      other = #{other,jdbcType=INTEGER},
+      doctorAdvice = #{doctorAdvice,jdbcType=VARCHAR}
+    where anesSumVisId = #{anesSumVisId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

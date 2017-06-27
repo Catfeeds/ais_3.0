@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtShiftChangeDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtShiftChange" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="shiftChangedPeople" property="shiftChangedPeople" jdbcType="VARCHAR" />
+    <result column="shiftChangedPeopleId" property="shiftChangedPeopleId" jdbcType="VARCHAR" />
+    <result column="shiftChangedPeopleRole" property="shiftChangedPeopleRole" jdbcType="VARCHAR" />
+    <result column="shiftChangeTime" property="shiftChangeTime" jdbcType="TIMESTAMP" />
+    <result column="shiftChangePeople" property="shiftChangePeople" jdbcType="VARCHAR" />
+    <result column="shiftChangePeopleId" property="shiftChangePeopleId" jdbcType="VARCHAR" />
+    <result column="shiftChangePeopleRole" property="shiftChangePeopleRole" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="times" property="times" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, docId, shiftChangedPeople, shiftChangedPeopleId, shiftChangedPeopleRole, shiftChangeTime, 
+    shiftChangePeople, shiftChangePeopleId, shiftChangePeopleRole, notes, times
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_shift_change
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="searchShiftChangeList" resultType="com.digihealth.anesthesia.evt.po.EvtShiftChange">
+		SELECT 
+			a.*
+		FROM evt_shift_change a where 1 = 1 and LENGTH(shiftChangePeopleId) > 0 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		order by a.id asc
+  </select>
+	
+  <select id="getAllShiftChangeList" resultType="com.digihealth.anesthesia.evt.po.EvtShiftChange">
+		SELECT 
+			a.*
+		FROM evt_shift_change a where 1 = 1 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		order by a.id asc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evt_shift_change
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtShiftChange" >
+    insert into evt_shift_change (id, docId, shiftChangedPeople, 
+      shiftChangedPeopleId, shiftChangedPeopleRole, 
+      shiftChangeTime, shiftChangePeople, shiftChangePeopleId, 
+      shiftChangePeopleRole, notes, times
+      )
+    values (#{id,jdbcType=INTEGER}, #{docId,jdbcType=VARCHAR}, #{shiftChangedPeople,jdbcType=VARCHAR}, 
+      #{shiftChangedPeopleId,jdbcType=VARCHAR}, #{shiftChangedPeopleRole,jdbcType=VARCHAR}, 
+      #{shiftChangeTime,jdbcType=TIMESTAMP}, #{shiftChangePeople,jdbcType=VARCHAR}, #{shiftChangePeopleId,jdbcType=VARCHAR}, 
+      #{shiftChangePeopleRole,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{times,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtShiftChange" >
+    insert into evt_shift_change
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="shiftChangedPeople != null" >
+        shiftChangedPeople,
+      </if>
+      <if test="shiftChangedPeopleId != null" >
+        shiftChangedPeopleId,
+      </if>
+      <if test="shiftChangedPeopleRole != null" >
+        shiftChangedPeopleRole,
+      </if>
+      <if test="shiftChangeTime != null" >
+        shiftChangeTime,
+      </if>
+      <if test="shiftChangePeople != null" >
+        shiftChangePeople,
+      </if>
+      <if test="shiftChangePeopleId != null" >
+        shiftChangePeopleId,
+      </if>
+      <if test="shiftChangePeopleRole != null" >
+        shiftChangePeopleRole,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+      <if test="times != null" >
+        times,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedPeople != null" >
+        #{shiftChangedPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedPeopleId != null" >
+        #{shiftChangedPeopleId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedPeopleRole != null" >
+        #{shiftChangedPeopleRole,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangeTime != null" >
+        #{shiftChangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shiftChangePeople != null" >
+        #{shiftChangePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangePeopleId != null" >
+        #{shiftChangePeopleId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangePeopleRole != null" >
+        #{shiftChangePeopleRole,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null" >
+        #{times,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtShiftChange" >
+    update evt_shift_change
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedPeople != null" >
+        shiftChangedPeople = #{shiftChangedPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedPeopleId != null" >
+        shiftChangedPeopleId = #{shiftChangedPeopleId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangedPeopleRole != null" >
+        shiftChangedPeopleRole = #{shiftChangedPeopleRole,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangeTime != null" >
+        shiftChangeTime = #{shiftChangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shiftChangePeople != null" >
+        shiftChangePeople = #{shiftChangePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangePeopleId != null" >
+        shiftChangePeopleId = #{shiftChangePeopleId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftChangePeopleRole != null" >
+        shiftChangePeopleRole = #{shiftChangePeopleRole,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null" >
+        times = #{times,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtShiftChange" >
+    update evt_shift_change
+    set docId = #{docId,jdbcType=VARCHAR},
+      shiftChangedPeople = #{shiftChangedPeople,jdbcType=VARCHAR},
+      shiftChangedPeopleId = #{shiftChangedPeopleId,jdbcType=VARCHAR},
+      shiftChangedPeopleRole = #{shiftChangedPeopleRole,jdbcType=VARCHAR},
+      shiftChangeTime = #{shiftChangeTime,jdbcType=TIMESTAMP},
+      shiftChangePeople = #{shiftChangePeople,jdbcType=VARCHAR},
+      shiftChangePeopleId = #{shiftChangePeopleId,jdbcType=VARCHAR},
+      shiftChangePeopleRole = #{shiftChangePeopleRole,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      times = #{times,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

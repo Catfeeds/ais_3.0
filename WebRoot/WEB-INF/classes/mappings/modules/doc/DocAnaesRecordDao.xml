@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesRecord" >
+    <id column="anaRecordId" property="anaRecordId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="anaesStartTime" property="anaesStartTime" jdbcType="VARCHAR" />
+    <result column="anaesEndTime" property="anaesEndTime" jdbcType="VARCHAR" />
+    <result column="asaLevel" property="asaLevel" jdbcType="VARCHAR" />
+    <result column="anaesLevel" property="anaesLevel" jdbcType="VARCHAR" />
+    <result column="optBody" property="optBody" jdbcType="VARCHAR" />
+    <result column="operStartTime" property="operStartTime" jdbcType="VARCHAR" />
+    <result column="operEndTime" property="operEndTime" jdbcType="VARCHAR" />
+    <result column="inOperRoomTime" property="inOperRoomTime" jdbcType="VARCHAR" />
+    <result column="outOperRoomTime" property="outOperRoomTime" jdbcType="VARCHAR" />
+    <result column="leaveTo" property="leaveTo" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="specialInfection" property="specialInfection" jdbcType="VARCHAR" />
+    <result column="materialPart" property="materialPart" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="asaLevelE" property="asaLevelE" jdbcType="BIT" />
+    <result column="analgesicMethod" property="analgesicMethod" jdbcType="VARCHAR" />
+    <result column="patAnalgesia" property="patAnalgesia" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaRecordId, regOptId, anaesStartTime, anaesEndTime, asaLevel, anaesLevel, optBody, 
+    operStartTime, operEndTime, inOperRoomTime, outOperRoomTime, leaveTo, processState, 
+    specialInfection, materialPart, other, asaLevelE, analgesicMethod, patAnalgesia
+  </sql>
+
+	<select id="searchAnaesRecordByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesRecord">
+		SELECT DISTINCT *
+		FROM doc_anaes_record d
+		WHERE d.regOptId = #{regOptId}
+	</select>
+	
+	<select id="searchAnaesRecordById" resultType="com.digihealth.anesthesia.doc.po.DocAnaesRecord">
+		SELECT DISTINCT *
+		FROM doc_anaes_record d
+		WHERE d.anaRecordId = #{id}
+	</select>
+	
+	<select id="getOperdateByRegOpt" resultType="java.lang.Float">
+		SELECT ROUND(IFNULL((UNIX_TIMESTAMP(operEndTime) - UNIX_TIMESTAMP(operStartTime))/60/60,0),2) dif_minute
+		FROM doc_anaes_record d
+		WHERE d.regOptId = #{regOptId} 
+	</select>
+	
+	<select id="getAnesdateByRegOpt" resultType="java.lang.Float">
+		SELECT ROUND(IFNULL((UNIX_TIMESTAMP(IFNULL(anaesEndTime,outOperRoomTime)) - UNIX_TIMESTAMP(anaesStartTime))/60/60,0),2) dif_minute
+		FROM doc_anaes_record d
+		WHERE d.regOptId = #{regOptId} 
+	</select>
+	
+	<update id="updatefievt" >
+		UPDATE doc_anaes_record 
+		<set>
+			<if test="f != null">
+				f = #{f},
+			</if>
+			<if test="ie != null">
+				ie = #{ie},
+			</if>
+			<if test="vt != null">
+				vt = #{vt}
+			</if>
+		</set>
+		where regOptId = #{regOptId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateAnaesInRoomTime">
+		UPDATE doc_anaes_record SET
+		inOperRoomTime = #{inTime}
+		where regOptId = #{regOptId}
+	</update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_record
+    where anaRecordId = #{anaRecordId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_record
+    where anaRecordId = #{anaRecordId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesRecord" >
+    insert into doc_anaes_record (anaRecordId, regOptId, anaesStartTime, 
+      anaesEndTime, asaLevel, anaesLevel, 
+      optBody, operStartTime, operEndTime, 
+      inOperRoomTime, outOperRoomTime, leaveTo, 
+      processState, specialInfection, materialPart, 
+      other, asaLevelE, analgesicMethod, 
+      patAnalgesia)
+    values (#{anaRecordId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{anaesStartTime,jdbcType=VARCHAR}, 
+      #{anaesEndTime,jdbcType=VARCHAR}, #{asaLevel,jdbcType=VARCHAR}, #{anaesLevel,jdbcType=VARCHAR}, 
+      #{optBody,jdbcType=VARCHAR}, #{operStartTime,jdbcType=VARCHAR}, #{operEndTime,jdbcType=VARCHAR}, 
+      #{inOperRoomTime,jdbcType=VARCHAR}, #{outOperRoomTime,jdbcType=VARCHAR}, #{leaveTo,jdbcType=VARCHAR}, 
+      #{processState,jdbcType=VARCHAR}, #{specialInfection,jdbcType=VARCHAR}, #{materialPart,jdbcType=VARCHAR}, 
+      #{other,jdbcType=VARCHAR}, #{asaLevelE,jdbcType=BIT}, #{analgesicMethod,jdbcType=VARCHAR}, 
+      #{patAnalgesia,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesRecord" >
+    insert into doc_anaes_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaRecordId != null" >
+        anaRecordId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="anaesStartTime != null" >
+        anaesStartTime,
+      </if>
+      <if test="anaesEndTime != null" >
+        anaesEndTime,
+      </if>
+      <if test="asaLevel != null" >
+        asaLevel,
+      </if>
+      <if test="anaesLevel != null" >
+        anaesLevel,
+      </if>
+      <if test="optBody != null" >
+        optBody,
+      </if>
+      <if test="operStartTime != null" >
+        operStartTime,
+      </if>
+      <if test="operEndTime != null" >
+        operEndTime,
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime,
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="specialInfection != null" >
+        specialInfection,
+      </if>
+      <if test="materialPart != null" >
+        materialPart,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="asaLevelE != null" >
+        asaLevelE,
+      </if>
+      <if test="analgesicMethod != null" >
+        analgesicMethod,
+      </if>
+      <if test="patAnalgesia != null" >
+        patAnalgesia,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaRecordId != null" >
+        #{anaRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesStartTime != null" >
+        #{anaesStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesEndTime != null" >
+        #{anaesEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="asaLevel != null" >
+        #{asaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesLevel != null" >
+        #{anaesLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="optBody != null" >
+        #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="operStartTime != null" >
+        #{operStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="operEndTime != null" >
+        #{operEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="inOperRoomTime != null" >
+        #{inOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outOperRoomTime != null" >
+        #{outOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="specialInfection != null" >
+        #{specialInfection,jdbcType=VARCHAR},
+      </if>
+      <if test="materialPart != null" >
+        #{materialPart,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="asaLevelE != null" >
+        #{asaLevelE,jdbcType=BIT},
+      </if>
+      <if test="analgesicMethod != null" >
+        #{analgesicMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="patAnalgesia != null" >
+        #{patAnalgesia,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesRecord" >
+    update doc_anaes_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesStartTime != null" >
+        anaesStartTime = #{anaesStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesEndTime != null" >
+        anaesEndTime = #{anaesEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="asaLevel != null" >
+        asaLevel = #{asaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesLevel != null" >
+        anaesLevel = #{anaesLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="optBody != null" >
+        optBody = #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="operStartTime != null" >
+        operStartTime = #{operStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="operEndTime != null" >
+        operEndTime = #{operEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="inOperRoomTime != null" >
+        inOperRoomTime = #{inOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outOperRoomTime != null" >
+        outOperRoomTime = #{outOperRoomTime,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="specialInfection != null" >
+        specialInfection = #{specialInfection,jdbcType=VARCHAR},
+      </if>
+      <if test="materialPart != null" >
+        materialPart = #{materialPart,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="asaLevelE != null" >
+        asaLevelE = #{asaLevelE,jdbcType=BIT},
+      </if>
+      <if test="analgesicMethod != null" >
+        analgesicMethod = #{analgesicMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="patAnalgesia != null" >
+        patAnalgesia = #{patAnalgesia,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anaRecordId = #{anaRecordId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesRecord" >
+    update doc_anaes_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      anaesStartTime = #{anaesStartTime,jdbcType=VARCHAR},
+      anaesEndTime = #{anaesEndTime,jdbcType=VARCHAR},
+      asaLevel = #{asaLevel,jdbcType=VARCHAR},
+      anaesLevel = #{anaesLevel,jdbcType=VARCHAR},
+      optBody = #{optBody,jdbcType=VARCHAR},
+      operStartTime = #{operStartTime,jdbcType=VARCHAR},
+      operEndTime = #{operEndTime,jdbcType=VARCHAR},
+      inOperRoomTime = #{inOperRoomTime,jdbcType=VARCHAR},
+      outOperRoomTime = #{outOperRoomTime,jdbcType=VARCHAR},
+      leaveTo = #{leaveTo,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      specialInfection = #{specialInfection,jdbcType=VARCHAR},
+      materialPart = #{materialPart,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR},
+      asaLevelE = #{asaLevelE,jdbcType=BIT},
+      analgesicMethod = #{analgesicMethod,jdbcType=VARCHAR},
+      patAnalgesia = #{patAnalgesia,jdbcType=VARCHAR}
+    where anaRecordId = #{anaRecordId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

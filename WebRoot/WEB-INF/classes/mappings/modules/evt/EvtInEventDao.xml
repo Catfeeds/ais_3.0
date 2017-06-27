@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtInEventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtInEvent" >
+    <id column="inEventId" property="inEventId" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="dosageAmount" property="dosageAmount" jdbcType="REAL" />
+    <result column="isCharged" property="isCharged" jdbcType="INTEGER" />
+    <result column="ioDefId" property="ioDefId" jdbcType="VARCHAR" />
+    <result column="passage" property="passage" jdbcType="VARCHAR" />
+    <result column="priceId" property="priceId" jdbcType="VARCHAR" />
+    <result column="blood" property="blood" jdbcType="VARCHAR" />
+    <result column="docType" property="docType" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    inEventId, docId, startTime, endTime, createUser, dosageAmount, isCharged, ioDefId, 
+    passage, priceId, blood, docType
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_inevent
+    where inEventId = #{inEventId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="searchIoeventList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperIoevent">
+		SELECT 
+			a.*,b.name,b.packageDosageAmount,b.spec,a.createUser,a.docType,
+			(select name from bas_user where bas_user.userName = a.createUser limit 1 ) createUserName,
+			b.dosageUnit,b.unit,p.firm
+		FROM evt_inevent a 
+		left join bas_io_defination b on a.ioDefId=b.ioDefId 
+		left join bas_price p on p.priceId = a.priceId
+		where 1 = 1 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.inEventId = #{searchBean.id}
+		</if>
+		<!-- <if test="searchBean.pacuObsId != null and searchBean.pacuObsId != ''">
+			AND a.pacuObsId = #{searchBean.pacuObsId}
+		</if> -->
+		<if test="searchBean.code != null and searchBean.code != ''">
+			AND a.ioDefId = #{searchBean.code}
+		</if>
+		<if test="searchBean.subType != null and searchBean.subType != ''">
+			AND b.subType = #{searchBean.subType}
+		</if>
+		<if test="searchBean.docType != null and searchBean.docType != ''">
+			AND a.docType = #{searchBean.docType}
+		</if>
+		order by a.startTime,a.inEventId
+  </select>
+  
+  <select id="queryIoeventById" resultType="com.digihealth.anesthesia.evt.po.EvtInEvent">
+		SELECT 
+			a.*
+		FROM evt_inevent a where 1 = 1 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.inEventId = #{searchBean.id}
+		</if>
+  </select>
+  
+  <select id="searchIoeventGroupByDefIdList" resultType="com.digihealth.anesthesia.evt.formbean.RegOptOperIoeventFormBean">
+		SELECT 
+			a.ioDefId,b.name,b.unit,b.dosageUnit
+		FROM evt_inevent a left join bas_io_defination b on a.ioDefId=b.ioDefId where 1 = 1 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.inEventId = #{searchBean.id}
+		</if>
+		<if test="searchBean.subType != null and searchBean.subType != ''">
+			AND b.`subType` = #{searchBean.subType}
+		</if>
+		group by a.ioDefId,b.name
+		order by a.startTime,a.inEventId
+  </select>
+  
+  <select id="queryIoeventTotalByDefId" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperIoevent">
+		SELECT a.blood,a.ioDefId,a.docId,SUM(a.dosageAmount) totalAmout,b.unit,b.dosageUnit,b.name 
+		FROM evt_inevent a,bas_io_defination b 
+		WHERE a.ioDefId = b.ioDefId 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.subType != null and searchBean.subType != ''">
+			AND b.subType = #{searchBean.subType}
+		</if>
+		<if test="searchBean.code != null and searchBean.code != ''">
+			AND a.ioDefId = #{searchBean.code}
+		</if>
+		GROUP BY a.blood,a.ioDefId
+	</select>
+  
+  <select id="checkIoeventCanInsert" resultType="com.digihealth.anesthesia.evt.po.EvtInEvent">
+	select * from evt_inevent 
+	where docId = #{searchBean.docId}
+		and ioDefId = #{ioDefId}
+		<if test="searchBean.id != null and searchBean.id != ''">
+			and inEventId != #{searchBean.id}
+		</if>
+  </select>
+  
+  <select id="getIoeventCountValueByIoDef" resultType="java.lang.Integer">
+	select SUM(dosageAmount) from evt_inevent where docId = #{docId}
+	<if test="ioDefId != null and ioDefId != ''">
+		and ioDefId = #{ioDefId}
+	</if>
+  </select>
+  
+  <select id="seleteIoeventSumByDocId"  resultType="java.lang.String">
+		select sum(t.dosageAmount) from evt_inevent t where t.docId=#{docId}
+  </select>
+  
+  <select id="seleteEgressSumByDocId"  resultType="java.lang.String">
+	select sum(t.value) from evt_egress t where t.docId=#{docId}
+  </select>
+  
+  <select id="seleteEmictionSumByDocId"  resultType="java.lang.String">
+	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId='26'
+  </select>
+  
+  <select id="seleteBloodSumByDocId"  resultType="java.lang.String">
+	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId='25'
+  </select>
+  
+  <select id="seleteOtherSumByDocId"  resultType="java.lang.String">
+	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId!='25' and t.ioDefId != '26'
+  </select>
+  
+  <select id="getBloodByDocId"  resultType="java.lang.String">
+		select blood from evt_inevent t where t.docId=#{docId} and blood is not null LIMIT 1
+  </select>
+  
+  <select id="getIoAmountCountByDocId" resultType="com.digihealth.anesthesia.evt.formbean.AmountFormbean">
+	select b.name,x.amount,b.unit,b.dosageUnit from (
+		select SUM(dosageAmount) amount ,ioDefId from evt_inevent
+		 where docId = #{docId}  group by ioDefId 
+	) x,bas_io_defination b where x.ioDefId = b.ioDefId
+  </select>
+  
+  <select id="countAmountByDocId" resultType="java.lang.Float">
+	select IFNULL(SUM(dosageAmount),0) from evt_inevent 
+	where docId=#{docId}
+  </select>
+  
+  <select id="queryIoeventTotalGroupByDefId" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperIoevent">
+		SELECT a.blood,a.ioDefId,a.docId,SUM(a.dosageAmount) totalAmout,b.unit,b.dosageUnit,b.name 
+		FROM evt_inevent a,bas_io_defination b 
+		WHERE a.ioDefId = b.ioDefId 
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.subType != null and searchBean.subType != ''">
+			AND b.subType = #{searchBean.subType}
+		</if>
+		GROUP BY a.blood,a.ioDefId
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_inevent
+    where inEventId = #{inEventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtInEvent" >
+    insert into evt_inevent (inEventId, docId, startTime, 
+      endTime, createUser, dosageAmount, 
+      isCharged, ioDefId, passage, 
+      priceId, blood, docType
+      )
+    values (#{inEventId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{dosageAmount,jdbcType=REAL}, 
+      #{isCharged,jdbcType=INTEGER}, #{ioDefId,jdbcType=VARCHAR}, #{passage,jdbcType=VARCHAR}, 
+      #{priceId,jdbcType=VARCHAR}, #{blood,jdbcType=VARCHAR}, #{docType,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtInEvent" >
+    insert into evt_inevent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inEventId != null" >
+        inEventId,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="dosageAmount != null" >
+        dosageAmount,
+      </if>
+      <if test="isCharged != null" >
+        isCharged,
+      </if>
+      <if test="ioDefId != null" >
+        ioDefId,
+      </if>
+      <if test="passage != null" >
+        passage,
+      </if>
+      <if test="priceId != null" >
+        priceId,
+      </if>
+      <if test="blood != null" >
+        blood,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inEventId != null" >
+        #{inEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageAmount != null" >
+        #{dosageAmount,jdbcType=REAL},
+      </if>
+      <if test="isCharged != null" >
+        #{isCharged,jdbcType=INTEGER},
+      </if>
+      <if test="ioDefId != null" >
+        #{ioDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="passage != null" >
+        #{passage,jdbcType=VARCHAR},
+      </if>
+      <if test="priceId != null" >
+        #{priceId,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        #{blood,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtInEvent" >
+    update evt_inevent
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageAmount != null" >
+        dosageAmount = #{dosageAmount,jdbcType=REAL},
+      </if>
+      <if test="isCharged != null" >
+        isCharged = #{isCharged,jdbcType=INTEGER},
+      </if>
+      <if test="ioDefId != null" >
+        ioDefId = #{ioDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="passage != null" >
+        passage = #{passage,jdbcType=VARCHAR},
+      </if>
+      <if test="priceId != null" >
+        priceId = #{priceId,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        blood = #{blood,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        docType = #{docType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where inEventId = #{inEventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtInEvent" >
+    update evt_inevent
+    set docId = #{docId,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      dosageAmount = #{dosageAmount,jdbcType=REAL},
+      isCharged = #{isCharged,jdbcType=INTEGER},
+      ioDefId = #{ioDefId,jdbcType=VARCHAR},
+      passage = #{passage,jdbcType=VARCHAR},
+      priceId = #{priceId,jdbcType=VARCHAR},
+      blood = #{blood,jdbcType=VARCHAR},
+      docType = #{docType,jdbcType=INTEGER}
+    where inEventId = #{inEventId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

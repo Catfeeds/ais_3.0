@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasBusEntityDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
+    <id column="beid" property="beid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="subName" property="subName" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="isCurBe" property="isCurBe" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    beid, name, subName, tel, address, description, enable, isCurBe
+  </sql>
+
+  <select id="getBeid" resultType="java.lang.String">
+    select beid from bas_bus_entity
+    where enable = 1 and isCurBe = 1 limit 1;
+  </select>
+  
+  <select id="selectBusEntityList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_bus_entity
+    WHERE 1 = 1
+		<if test="filters != null">
+		 <foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+				AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+			</if>
+		 </foreach>
+		</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="selectBusEntityTotal" resultType="java.lang.Integer">
+   select count(1) from bas_bus_entity
+    WHERE 1 = 1
+		<if test="filters != null">
+		 <foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+				AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+			</if>
+		 </foreach>
+		</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_bus_entity
+    where beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_bus_entity
+    where beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
+    insert into bas_bus_entity (beid, name, subName, 
+      tel, address, description, 
+      enable, isCurBe)
+    values (#{beid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{subName,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER}, #{isCurBe,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
+    insert into bas_bus_entity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="subName != null" >
+        subName,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="isCurBe != null" >
+        isCurBe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="subName != null" >
+        #{subName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="isCurBe != null" >
+        #{isCurBe,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
+    update bas_bus_entity
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="subName != null" >
+        subName = #{subName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="isCurBe != null" >
+        isCurBe = #{isCurBe,jdbcType=INTEGER},
+      </if>
+    </set>
+    where beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
+    update bas_bus_entity
+    set name = #{name,jdbcType=VARCHAR},
+      subName = #{subName,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      isCurBe = #{isCurBe,jdbcType=INTEGER}
+    where beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

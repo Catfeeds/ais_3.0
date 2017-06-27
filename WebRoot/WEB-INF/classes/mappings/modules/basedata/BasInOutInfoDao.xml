@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasInOutInfoDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInOutInfo" >
+    <id column="ioId" property="ioId" jdbcType="VARCHAR" />
+    <result column="businessSerialNumber" property="businessSerialNumber" jdbcType="VARCHAR" />
+    <result column="invoiceNumber" property="invoiceNumber" jdbcType="VARCHAR" />
+    <result column="chargeItemId" property="chargeItemId" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="priceStock" property="priceStock" jdbcType="REAL" />
+    <result column="inOutAmount" property="inOutAmount" jdbcType="REAL" />
+    <result column="inOutMoney" property="inOutMoney" jdbcType="REAL" />
+    <result column="inOutWay" property="inOutWay" jdbcType="VARCHAR" />
+    <result column="inOutDept" property="inOutDept" jdbcType="VARCHAR" />
+    <result column="inOutDate" property="inOutDate" jdbcType="VARCHAR" />
+    <result column="inOutType" property="inOutType" jdbcType="VARCHAR" />
+    <result column="inventoryAmount" property="inventoryAmount" jdbcType="REAL" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="minPackageUnit" property="minPackageUnit" jdbcType="VARCHAR" />
+    <result column="materielType" property="materielType" jdbcType="VARCHAR" />
+    <result column="nurse" property="nurse" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ioId, businessSerialNumber, invoiceNumber, chargeItemId, spec, firm, batch, operator, 
+    priceStock, inOutAmount, inOutMoney, inOutWay, inOutDept, inOutDate, inOutType, inventoryAmount, 
+    name, minPackageUnit, materielType, nurse, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_in_out_info
+    where ioId = #{ioId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteInOutInfoById" parameterType="java.lang.String" >
+    delete from bas_in_out_info
+    where ioId = #{ioId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInOutInfo" >
+    insert into bas_in_out_info (ioId, businessSerialNumber, invoiceNumber, 
+      chargeItemId, spec, firm, 
+      batch, operator, priceStock, 
+      inOutAmount, inOutMoney, inOutWay, 
+      inOutDept, inOutDate, inOutType, 
+      inventoryAmount, name, minPackageUnit, 
+      materielType, nurse, beid
+      )
+    values (#{ioId,jdbcType=VARCHAR}, #{businessSerialNumber,jdbcType=VARCHAR}, #{invoiceNumber,jdbcType=VARCHAR}, 
+      #{chargeItemId,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{firm,jdbcType=VARCHAR}, 
+      #{batch,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{priceStock,jdbcType=REAL}, 
+      #{inOutAmount,jdbcType=REAL}, #{inOutMoney,jdbcType=REAL}, #{inOutWay,jdbcType=VARCHAR}, 
+      #{inOutDept,jdbcType=VARCHAR}, #{inOutDate,jdbcType=VARCHAR}, #{inOutType,jdbcType=VARCHAR}, 
+      #{inventoryAmount,jdbcType=REAL}, #{name,jdbcType=VARCHAR}, #{minPackageUnit,jdbcType=VARCHAR}, 
+      #{materielType,jdbcType=VARCHAR}, #{nurse,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInOutInfo" >
+    insert into bas_in_out_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ioId != null" >
+        ioId,
+      </if>
+      <if test="businessSerialNumber != null" >
+        businessSerialNumber,
+      </if>
+      <if test="invoiceNumber != null" >
+        invoiceNumber,
+      </if>
+      <if test="chargeItemId != null" >
+        chargeItemId,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="priceStock != null" >
+        priceStock,
+      </if>
+      <if test="inOutAmount != null" >
+        inOutAmount,
+      </if>
+      <if test="inOutMoney != null" >
+        inOutMoney,
+      </if>
+      <if test="inOutWay != null" >
+        inOutWay,
+      </if>
+      <if test="inOutDept != null" >
+        inOutDept,
+      </if>
+      <if test="inOutDate != null" >
+        inOutDate,
+      </if>
+      <if test="inOutType != null" >
+        inOutType,
+      </if>
+      <if test="inventoryAmount != null" >
+        inventoryAmount,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit,
+      </if>
+      <if test="materielType != null" >
+        materielType,
+      </if>
+      <if test="nurse != null" >
+        nurse,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ioId != null" >
+        #{ioId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessSerialNumber != null" >
+        #{businessSerialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNumber != null" >
+        #{invoiceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemId != null" >
+        #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStock != null" >
+        #{priceStock,jdbcType=REAL},
+      </if>
+      <if test="inOutAmount != null" >
+        #{inOutAmount,jdbcType=REAL},
+      </if>
+      <if test="inOutMoney != null" >
+        #{inOutMoney,jdbcType=REAL},
+      </if>
+      <if test="inOutWay != null" >
+        #{inOutWay,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutDept != null" >
+        #{inOutDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutDate != null" >
+        #{inOutDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutType != null" >
+        #{inOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryAmount != null" >
+        #{inventoryAmount,jdbcType=REAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageUnit != null" >
+        #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="materielType != null" >
+        #{materielType,jdbcType=VARCHAR},
+      </if>
+      <if test="nurse != null" >
+        #{nurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInOutInfo" >
+    update bas_in_out_info
+    <set >
+      <if test="businessSerialNumber != null" >
+        businessSerialNumber = #{businessSerialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNumber != null" >
+        invoiceNumber = #{invoiceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemId != null" >
+        chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStock != null" >
+        priceStock = #{priceStock,jdbcType=REAL},
+      </if>
+      <if test="inOutAmount != null" >
+        inOutAmount = #{inOutAmount,jdbcType=REAL},
+      </if>
+      <if test="inOutMoney != null" >
+        inOutMoney = #{inOutMoney,jdbcType=REAL},
+      </if>
+      <if test="inOutWay != null" >
+        inOutWay = #{inOutWay,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutDept != null" >
+        inOutDept = #{inOutDept,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutDate != null" >
+        inOutDate = #{inOutDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutType != null" >
+        inOutType = #{inOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryAmount != null" >
+        inventoryAmount = #{inventoryAmount,jdbcType=REAL},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="materielType != null" >
+        materielType = #{materielType,jdbcType=VARCHAR},
+      </if>
+      <if test="nurse != null" >
+        nurse = #{nurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ioId = #{ioId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasInOutInfo" >
+    update bas_in_out_info
+    set businessSerialNumber = #{businessSerialNumber,jdbcType=VARCHAR},
+      invoiceNumber = #{invoiceNumber,jdbcType=VARCHAR},
+      chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      priceStock = #{priceStock,jdbcType=REAL},
+      inOutAmount = #{inOutAmount,jdbcType=REAL},
+      inOutMoney = #{inOutMoney,jdbcType=REAL},
+      inOutWay = #{inOutWay,jdbcType=VARCHAR},
+      inOutDept = #{inOutDept,jdbcType=VARCHAR},
+      inOutDate = #{inOutDate,jdbcType=VARCHAR},
+      inOutType = #{inOutType,jdbcType=VARCHAR},
+      inventoryAmount = #{inventoryAmount,jdbcType=REAL},
+      name = #{name,jdbcType=VARCHAR},
+      minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      materielType = #{materielType,jdbcType=VARCHAR},
+      nurse = #{nurse,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where ioId = #{ioId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="searchInOutInfoById" resultType="com.digihealth.anesthesia.basedata.po.BasInOutInfo">
+	SELECT t.*,t1.productionDate,t1.expiryDate FROM bas_in_out_info t left join bas_inventory t1 on t.chargeItemId = t1.chargeItemId  
+	where t.ioId = #{ioId} and t.batch = t1.batch
+	</select>
+	
+	<select id="queryInOutInfoList" resultType="com.digihealth.anesthesia.basedata.po.BasInOutInfo">
+	SELECT t.*,(select codeName from bas_sys_code sc where sc.groupId = #{groupId} and sc.codeValue = t.inOutWay and beid = #{systemSearchFormBean.beid}) as "inOutWayName" ,t1.productionDate,t1.expiryDate
+	FROM bas_in_out_info t left join bas_inventory t1 on t.chargeItemId = t1.chargeItemId and t.beid = t1.beid
+	where 1=1 and t.beid = #{systemSearchFormBean.beid} ${filter} and t.batch = t1.batch
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryInOutInfoListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_in_out_info t left join bas_inventory t1 on t.chargeItemId = t1.chargeItemId where 1=1 and t.beid = #{systemSearchFormBean.beid} ${filter} and t.batch = t1.batch
+	</select>
+
+</mapper>

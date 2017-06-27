@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesSummaryAppendixGenDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixGen" >
+    <id column="anaSumAppGenId" property="anaSumAppGenId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="genAnesthesia" property="genAnesthesia" jdbcType="INTEGER" />
+    <result column="fastInduction" property="fastInduction" jdbcType="INTEGER" />
+    <result column="slowInduction" property="slowInduction" jdbcType="INTEGER" />
+    <result column="intubation" property="intubation" jdbcType="INTEGER" />
+    <result column="endotracheal" property="endotracheal" jdbcType="INTEGER" />
+    <result column="bronchial" property="bronchial" jdbcType="INTEGER" />
+    <result column="leftChamber" property="leftChamber" jdbcType="INTEGER" />
+    <result column="rightChamber" property="rightChamber" jdbcType="INTEGER" />
+    <result column="doubleCavity" property="doubleCavity" jdbcType="INTEGER" />
+    <result column="blockDevice" property="blockDevice" jdbcType="INTEGER" />
+    <result column="fiberLocal" property="fiberLocal" jdbcType="INTEGER" />
+    <result column="pyrosulfite" property="pyrosulfite" jdbcType="INTEGER" />
+    <result column="transnasal" property="transnasal" jdbcType="INTEGER" />
+    <result column="transtracheal" property="transtracheal" jdbcType="INTEGER" />
+    <result column="model1" property="model1" jdbcType="VARCHAR" />
+    <result column="depth" property="depth" jdbcType="REAL" />
+    <result column="cuff" property="cuff" jdbcType="INTEGER" />
+    <result column="look" property="look" jdbcType="INTEGER" />
+    <result column="blind" property="blind" jdbcType="INTEGER" />
+    <result column="retrograde" property="retrograde" jdbcType="INTEGER" />
+    <result column="fiberGuide" property="fiberGuide" jdbcType="INTEGER" />
+    <result column="glidescope" property="glidescope" jdbcType="INTEGER" />
+    <result column="opticalCable" property="opticalCable" jdbcType="INTEGER" />
+    <result column="intubationSuite" property="intubationSuite" jdbcType="INTEGER" />
+    <result column="ReinPipe" property="reinPipe" jdbcType="INTEGER" />
+    <result column="shapedTube" property="shapedTube" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="INTEGER" />
+    <result column="otherContent" property="otherContent" jdbcType="VARCHAR" />
+    <result column="laryMask" property="laryMask" jdbcType="INTEGER" />
+    <result column="model2" property="model2" jdbcType="VARCHAR" />
+    <result column="diffIntub" property="diffIntub" jdbcType="INTEGER" />
+    <result column="keepMethod" property="keepMethod" jdbcType="VARCHAR" />
+    <result column="baseAnes" property="baseAnes" jdbcType="INTEGER" />
+    <result column="AnesCare" property="anesCare" jdbcType="INTEGER" />
+    <result column="monitProject7" property="monitProject7" jdbcType="INTEGER" />
+    <result column="monitProject13" property="monitProject13" jdbcType="INTEGER" />
+    <result column="monitProject14" property="monitProject14" jdbcType="INTEGER" />
+    <result column="ecgSt" property="ecgSt" jdbcType="INTEGER" />
+    <result column="vtMv" property="vtMv" jdbcType="INTEGER" />
+    <result column="petCo2" property="petCo2" jdbcType="INTEGER" />
+    <result column="aGas" property="aGas" jdbcType="INTEGER" />
+    <result column="fio2" property="fio2" jdbcType="INTEGER" />
+    <result column="ibp" property="ibp" jdbcType="INTEGER" />
+    <result column="cvp" property="cvp" jdbcType="INTEGER" />
+    <result column="t" property="t" jdbcType="INTEGER" />
+    <result column="tof" property="tof" jdbcType="INTEGER" />
+    <result column="anesDeep" property="anesDeep" jdbcType="INTEGER" />
+    <result column="cardOutput" property="cardOutput" jdbcType="INTEGER" />
+    <result column="tee" property="tee" jdbcType="INTEGER" />
+    <result column="bloodSugar" property="bloodSugar" jdbcType="INTEGER" />
+    <result column="blood" property="blood" jdbcType="INTEGER" />
+    <result column="bloodElect" property="bloodElect" jdbcType="INTEGER" />
+    <result column="hemoglobin" property="hemoglobin" jdbcType="INTEGER" />
+    <result column="controlerHyp" property="controlerHyp" jdbcType="INTEGER" />
+    <result column="anesEffect" property="anesEffect" jdbcType="INTEGER" />
+    <result column="changeAnesMethod" property="changeAnesMethod" jdbcType="INTEGER" />
+    <result column="changeReason" property="changeReason" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaSumAppGenId, anaSumId, genAnesthesia, fastInduction, slowInduction, intubation, 
+    endotracheal, bronchial, leftChamber, rightChamber, doubleCavity, blockDevice, fiberLocal, 
+    pyrosulfite, transnasal, transtracheal, model1, depth, cuff, look, blind, retrograde, 
+    fiberGuide, glidescope, opticalCable, intubationSuite, ReinPipe, shapedTube, other, 
+    otherContent, laryMask, model2, diffIntub, keepMethod, baseAnes, AnesCare, monitProject7, 
+    monitProject13, monitProject14, ecgSt, vtMv, petCo2, aGas, fio2, ibp, cvp, t, tof, 
+    anesDeep, cardOutput, tee, bloodSugar, blood, bloodElect, hemoglobin, controlerHyp, 
+    anesEffect, changeAnesMethod, changeReason
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_appendix_gen
+    where anaSumAppGenId = #{anaSumAppGenId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="getPoByAnaSumId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_appendix_gen
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_summary_appendix_gen
+    where anaSumAppGenId = #{anaSumAppGenId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixGen" >
+    insert into doc_anaes_summary_appendix_gen (anaSumAppGenId, anaSumId, genAnesthesia, 
+      fastInduction, slowInduction, intubation, 
+      endotracheal, bronchial, leftChamber, 
+      rightChamber, doubleCavity, blockDevice, 
+      fiberLocal, pyrosulfite, transnasal, 
+      transtracheal, model1, depth, 
+      cuff, look, blind, 
+      retrograde, fiberGuide, glidescope, 
+      opticalCable, intubationSuite, ReinPipe, 
+      shapedTube, other, otherContent, 
+      laryMask, model2, diffIntub, 
+      keepMethod, baseAnes, AnesCare, 
+      monitProject7, monitProject13, monitProject14, 
+      ecgSt, vtMv, petCo2, 
+      aGas, fio2, ibp, cvp, 
+      t, tof, anesDeep, cardOutput, 
+      tee, bloodSugar, blood, 
+      bloodElect, hemoglobin, controlerHyp, 
+      anesEffect, changeAnesMethod, changeReason
+      )
+    values (#{anaSumAppGenId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{genAnesthesia,jdbcType=INTEGER}, 
+      #{fastInduction,jdbcType=INTEGER}, #{slowInduction,jdbcType=INTEGER}, #{intubation,jdbcType=INTEGER}, 
+      #{endotracheal,jdbcType=INTEGER}, #{bronchial,jdbcType=INTEGER}, #{leftChamber,jdbcType=INTEGER}, 
+      #{rightChamber,jdbcType=INTEGER}, #{doubleCavity,jdbcType=INTEGER}, #{blockDevice,jdbcType=INTEGER}, 
+      #{fiberLocal,jdbcType=INTEGER}, #{pyrosulfite,jdbcType=INTEGER}, #{transnasal,jdbcType=INTEGER}, 
+      #{transtracheal,jdbcType=INTEGER}, #{model1,jdbcType=VARCHAR}, #{depth,jdbcType=REAL}, 
+      #{cuff,jdbcType=INTEGER}, #{look,jdbcType=INTEGER}, #{blind,jdbcType=INTEGER}, 
+      #{retrograde,jdbcType=INTEGER}, #{fiberGuide,jdbcType=INTEGER}, #{glidescope,jdbcType=INTEGER}, 
+      #{opticalCable,jdbcType=INTEGER}, #{intubationSuite,jdbcType=INTEGER}, #{reinPipe,jdbcType=INTEGER}, 
+      #{shapedTube,jdbcType=INTEGER}, #{other,jdbcType=INTEGER}, #{otherContent,jdbcType=VARCHAR}, 
+      #{laryMask,jdbcType=INTEGER}, #{model2,jdbcType=VARCHAR}, #{diffIntub,jdbcType=INTEGER}, 
+      #{keepMethod,jdbcType=VARCHAR}, #{baseAnes,jdbcType=INTEGER}, #{anesCare,jdbcType=INTEGER}, 
+      #{monitProject7,jdbcType=INTEGER}, #{monitProject13,jdbcType=INTEGER}, #{monitProject14,jdbcType=INTEGER}, 
+      #{ecgSt,jdbcType=INTEGER}, #{vtMv,jdbcType=INTEGER}, #{petCo2,jdbcType=INTEGER}, 
+      #{aGas,jdbcType=INTEGER}, #{fio2,jdbcType=INTEGER}, #{ibp,jdbcType=INTEGER}, #{cvp,jdbcType=INTEGER}, 
+      #{t,jdbcType=INTEGER}, #{tof,jdbcType=INTEGER}, #{anesDeep,jdbcType=INTEGER}, #{cardOutput,jdbcType=INTEGER}, 
+      #{tee,jdbcType=INTEGER}, #{bloodSugar,jdbcType=INTEGER}, #{blood,jdbcType=INTEGER}, 
+      #{bloodElect,jdbcType=INTEGER}, #{hemoglobin,jdbcType=INTEGER}, #{controlerHyp,jdbcType=INTEGER}, 
+      #{anesEffect,jdbcType=INTEGER}, #{changeAnesMethod,jdbcType=INTEGER}, #{changeReason,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixGen" >
+    insert into doc_anaes_summary_appendix_gen
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaSumAppGenId != null" >
+        anaSumAppGenId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="genAnesthesia != null" >
+        genAnesthesia,
+      </if>
+      <if test="fastInduction != null" >
+        fastInduction,
+      </if>
+      <if test="slowInduction != null" >
+        slowInduction,
+      </if>
+      <if test="intubation != null" >
+        intubation,
+      </if>
+      <if test="endotracheal != null" >
+        endotracheal,
+      </if>
+      <if test="bronchial != null" >
+        bronchial,
+      </if>
+      <if test="leftChamber != null" >
+        leftChamber,
+      </if>
+      <if test="rightChamber != null" >
+        rightChamber,
+      </if>
+      <if test="doubleCavity != null" >
+        doubleCavity,
+      </if>
+      <if test="blockDevice != null" >
+        blockDevice,
+      </if>
+      <if test="fiberLocal != null" >
+        fiberLocal,
+      </if>
+      <if test="pyrosulfite != null" >
+        pyrosulfite,
+      </if>
+      <if test="transnasal != null" >
+        transnasal,
+      </if>
+      <if test="transtracheal != null" >
+        transtracheal,
+      </if>
+      <if test="model1 != null" >
+        model1,
+      </if>
+      <if test="depth != null" >
+        depth,
+      </if>
+      <if test="cuff != null" >
+        cuff,
+      </if>
+      <if test="look != null" >
+        look,
+      </if>
+      <if test="blind != null" >
+        blind,
+      </if>
+      <if test="retrograde != null" >
+        retrograde,
+      </if>
+      <if test="fiberGuide != null" >
+        fiberGuide,
+      </if>
+      <if test="glidescope != null" >
+        glidescope,
+      </if>
+      <if test="opticalCable != null" >
+        opticalCable,
+      </if>
+      <if test="intubationSuite != null" >
+        intubationSuite,
+      </if>
+      <if test="reinPipe != null" >
+        ReinPipe,
+      </if>
+      <if test="shapedTube != null" >
+        shapedTube,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="otherContent != null" >
+        otherContent,
+      </if>
+      <if test="laryMask != null" >
+        laryMask,
+      </if>
+      <if test="model2 != null" >
+        model2,
+      </if>
+      <if test="diffIntub != null" >
+        diffIntub,
+      </if>
+      <if test="keepMethod != null" >
+        keepMethod,
+      </if>
+      <if test="baseAnes != null" >
+        baseAnes,
+      </if>
+      <if test="anesCare != null" >
+        AnesCare,
+      </if>
+      <if test="monitProject7 != null" >
+        monitProject7,
+      </if>
+      <if test="monitProject13 != null" >
+        monitProject13,
+      </if>
+      <if test="monitProject14 != null" >
+        monitProject14,
+      </if>
+      <if test="ecgSt != null" >
+        ecgSt,
+      </if>
+      <if test="vtMv != null" >
+        vtMv,
+      </if>
+      <if test="petCo2 != null" >
+        petCo2,
+      </if>
+      <if test="aGas != null" >
+        aGas,
+      </if>
+      <if test="fio2 != null" >
+        fio2,
+      </if>
+      <if test="ibp != null" >
+        ibp,
+      </if>
+      <if test="cvp != null" >
+        cvp,
+      </if>
+      <if test="t != null" >
+        t,
+      </if>
+      <if test="tof != null" >
+        tof,
+      </if>
+      <if test="anesDeep != null" >
+        anesDeep,
+      </if>
+      <if test="cardOutput != null" >
+        cardOutput,
+      </if>
+      <if test="tee != null" >
+        tee,
+      </if>
+      <if test="bloodSugar != null" >
+        bloodSugar,
+      </if>
+      <if test="blood != null" >
+        blood,
+      </if>
+      <if test="bloodElect != null" >
+        bloodElect,
+      </if>
+      <if test="hemoglobin != null" >
+        hemoglobin,
+      </if>
+      <if test="controlerHyp != null" >
+        controlerHyp,
+      </if>
+      <if test="anesEffect != null" >
+        anesEffect,
+      </if>
+      <if test="changeAnesMethod != null" >
+        changeAnesMethod,
+      </if>
+      <if test="changeReason != null" >
+        changeReason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaSumAppGenId != null" >
+        #{anaSumAppGenId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="genAnesthesia != null" >
+        #{genAnesthesia,jdbcType=INTEGER},
+      </if>
+      <if test="fastInduction != null" >
+        #{fastInduction,jdbcType=INTEGER},
+      </if>
+      <if test="slowInduction != null" >
+        #{slowInduction,jdbcType=INTEGER},
+      </if>
+      <if test="intubation != null" >
+        #{intubation,jdbcType=INTEGER},
+      </if>
+      <if test="endotracheal != null" >
+        #{endotracheal,jdbcType=INTEGER},
+      </if>
+      <if test="bronchial != null" >
+        #{bronchial,jdbcType=INTEGER},
+      </if>
+      <if test="leftChamber != null" >
+        #{leftChamber,jdbcType=INTEGER},
+      </if>
+      <if test="rightChamber != null" >
+        #{rightChamber,jdbcType=INTEGER},
+      </if>
+      <if test="doubleCavity != null" >
+        #{doubleCavity,jdbcType=INTEGER},
+      </if>
+      <if test="blockDevice != null" >
+        #{blockDevice,jdbcType=INTEGER},
+      </if>
+      <if test="fiberLocal != null" >
+        #{fiberLocal,jdbcType=INTEGER},
+      </if>
+      <if test="pyrosulfite != null" >
+        #{pyrosulfite,jdbcType=INTEGER},
+      </if>
+      <if test="transnasal != null" >
+        #{transnasal,jdbcType=INTEGER},
+      </if>
+      <if test="transtracheal != null" >
+        #{transtracheal,jdbcType=INTEGER},
+      </if>
+      <if test="model1 != null" >
+        #{model1,jdbcType=VARCHAR},
+      </if>
+      <if test="depth != null" >
+        #{depth,jdbcType=REAL},
+      </if>
+      <if test="cuff != null" >
+        #{cuff,jdbcType=INTEGER},
+      </if>
+      <if test="look != null" >
+        #{look,jdbcType=INTEGER},
+      </if>
+      <if test="blind != null" >
+        #{blind,jdbcType=INTEGER},
+      </if>
+      <if test="retrograde != null" >
+        #{retrograde,jdbcType=INTEGER},
+      </if>
+      <if test="fiberGuide != null" >
+        #{fiberGuide,jdbcType=INTEGER},
+      </if>
+      <if test="glidescope != null" >
+        #{glidescope,jdbcType=INTEGER},
+      </if>
+      <if test="opticalCable != null" >
+        #{opticalCable,jdbcType=INTEGER},
+      </if>
+      <if test="intubationSuite != null" >
+        #{intubationSuite,jdbcType=INTEGER},
+      </if>
+      <if test="reinPipe != null" >
+        #{reinPipe,jdbcType=INTEGER},
+      </if>
+      <if test="shapedTube != null" >
+        #{shapedTube,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=INTEGER},
+      </if>
+      <if test="otherContent != null" >
+        #{otherContent,jdbcType=VARCHAR},
+      </if>
+      <if test="laryMask != null" >
+        #{laryMask,jdbcType=INTEGER},
+      </if>
+      <if test="model2 != null" >
+        #{model2,jdbcType=VARCHAR},
+      </if>
+      <if test="diffIntub != null" >
+        #{diffIntub,jdbcType=INTEGER},
+      </if>
+      <if test="keepMethod != null" >
+        #{keepMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="baseAnes != null" >
+        #{baseAnes,jdbcType=INTEGER},
+      </if>
+      <if test="anesCare != null" >
+        #{anesCare,jdbcType=INTEGER},
+      </if>
+      <if test="monitProject7 != null" >
+        #{monitProject7,jdbcType=INTEGER},
+      </if>
+      <if test="monitProject13 != null" >
+        #{monitProject13,jdbcType=INTEGER},
+      </if>
+      <if test="monitProject14 != null" >
+        #{monitProject14,jdbcType=INTEGER},
+      </if>
+      <if test="ecgSt != null" >
+        #{ecgSt,jdbcType=INTEGER},
+      </if>
+      <if test="vtMv != null" >
+        #{vtMv,jdbcType=INTEGER},
+      </if>
+      <if test="petCo2 != null" >
+        #{petCo2,jdbcType=INTEGER},
+      </if>
+      <if test="aGas != null" >
+        #{aGas,jdbcType=INTEGER},
+      </if>
+      <if test="fio2 != null" >
+        #{fio2,jdbcType=INTEGER},
+      </if>
+      <if test="ibp != null" >
+        #{ibp,jdbcType=INTEGER},
+      </if>
+      <if test="cvp != null" >
+        #{cvp,jdbcType=INTEGER},
+      </if>
+      <if test="t != null" >
+        #{t,jdbcType=INTEGER},
+      </if>
+      <if test="tof != null" >
+        #{tof,jdbcType=INTEGER},
+      </if>
+      <if test="anesDeep != null" >
+        #{anesDeep,jdbcType=INTEGER},
+      </if>
+      <if test="cardOutput != null" >
+        #{cardOutput,jdbcType=INTEGER},
+      </if>
+      <if test="tee != null" >
+        #{tee,jdbcType=INTEGER},
+      </if>
+      <if test="bloodSugar != null" >
+        #{bloodSugar,jdbcType=INTEGER},
+      </if>
+      <if test="blood != null" >
+        #{blood,jdbcType=INTEGER},
+      </if>
+      <if test="bloodElect != null" >
+        #{bloodElect,jdbcType=INTEGER},
+      </if>
+      <if test="hemoglobin != null" >
+        #{hemoglobin,jdbcType=INTEGER},
+      </if>
+      <if test="controlerHyp != null" >
+        #{controlerHyp,jdbcType=INTEGER},
+      </if>
+      <if test="anesEffect != null" >
+        #{anesEffect,jdbcType=INTEGER},
+      </if>
+      <if test="changeAnesMethod != null" >
+        #{changeAnesMethod,jdbcType=INTEGER},
+      </if>
+      <if test="changeReason != null" >
+        #{changeReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixGen" >
+    update doc_anaes_summary_appendix_gen
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="genAnesthesia != null" >
+        genAnesthesia = #{genAnesthesia,jdbcType=INTEGER},
+      </if>
+      <if test="fastInduction != null" >
+        fastInduction = #{fastInduction,jdbcType=INTEGER},
+      </if>
+      <if test="slowInduction != null" >
+        slowInduction = #{slowInduction,jdbcType=INTEGER},
+      </if>
+      <if test="intubation != null" >
+        intubation = #{intubation,jdbcType=INTEGER},
+      </if>
+      <if test="endotracheal != null" >
+        endotracheal = #{endotracheal,jdbcType=INTEGER},
+      </if>
+      <if test="bronchial != null" >
+        bronchial = #{bronchial,jdbcType=INTEGER},
+      </if>
+      <if test="leftChamber != null" >
+        leftChamber = #{leftChamber,jdbcType=INTEGER},
+      </if>
+      <if test="rightChamber != null" >
+        rightChamber = #{rightChamber,jdbcType=INTEGER},
+      </if>
+      <if test="doubleCavity != null" >
+        doubleCavity = #{doubleCavity,jdbcType=INTEGER},
+      </if>
+      <if test="blockDevice != null" >
+        blockDevice = #{blockDevice,jdbcType=INTEGER},
+      </if>
+      <if test="fiberLocal != null" >
+        fiberLocal = #{fiberLocal,jdbcType=INTEGER},
+      </if>
+      <if test="pyrosulfite != null" >
+        pyrosulfite = #{pyrosulfite,jdbcType=INTEGER},
+      </if>
+      <if test="transnasal != null" >
+        transnasal = #{transnasal,jdbcType=INTEGER},
+      </if>
+      <if test="transtracheal != null" >
+        transtracheal = #{transtracheal,jdbcType=INTEGER},
+      </if>
+      <if test="model1 != null" >
+        model1 = #{model1,jdbcType=VARCHAR},
+      </if>
+      <if test="depth != null" >
+        depth = #{depth,jdbcType=REAL},
+      </if>
+      <if test="cuff != null" >
+        cuff = #{cuff,jdbcType=INTEGER},
+      </if>
+      <if test="look != null" >
+        look = #{look,jdbcType=INTEGER},
+      </if>
+      <if test="blind != null" >
+        blind = #{blind,jdbcType=INTEGER},
+      </if>
+      <if test="retrograde != null" >
+        retrograde = #{retrograde,jdbcType=INTEGER},
+      </if>
+      <if test="fiberGuide != null" >
+        fiberGuide = #{fiberGuide,jdbcType=INTEGER},
+      </if>
+      <if test="glidescope != null" >
+        glidescope = #{glidescope,jdbcType=INTEGER},
+      </if>
+      <if test="opticalCable != null" >
+        opticalCable = #{opticalCable,jdbcType=INTEGER},
+      </if>
+      <if test="intubationSuite != null" >
+        intubationSuite = #{intubationSuite,jdbcType=INTEGER},
+      </if>
+      <if test="reinPipe != null" >
+        ReinPipe = #{reinPipe,jdbcType=INTEGER},
+      </if>
+      <if test="shapedTube != null" >
+        shapedTube = #{shapedTube,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=INTEGER},
+      </if>
+      <if test="otherContent != null" >
+        otherContent = #{otherContent,jdbcType=VARCHAR},
+      </if>
+      <if test="laryMask != null" >
+        laryMask = #{laryMask,jdbcType=INTEGER},
+      </if>
+      <if test="model2 != null" >
+        model2 = #{model2,jdbcType=VARCHAR},
+      </if>
+      <if test="diffIntub != null" >
+        diffIntub = #{diffIntub,jdbcType=INTEGER},
+      </if>
+      <if test="keepMethod != null" >
+        keepMethod = #{keepMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="baseAnes != null" >
+        baseAnes = #{baseAnes,jdbcType=INTEGER},
+      </if>
+      <if test="anesCare != null" >
+        AnesCare = #{anesCare,jdbcType=INTEGER},
+      </if>
+      <if test="monitProject7 != null" >
+        monitProject7 = #{monitProject7,jdbcType=INTEGER},
+      </if>
+      <if test="monitProject13 != null" >
+        monitProject13 = #{monitProject13,jdbcType=INTEGER},
+      </if>
+      <if test="monitProject14 != null" >
+        monitProject14 = #{monitProject14,jdbcType=INTEGER},
+      </if>
+      <if test="ecgSt != null" >
+        ecgSt = #{ecgSt,jdbcType=INTEGER},
+      </if>
+      <if test="vtMv != null" >
+        vtMv = #{vtMv,jdbcType=INTEGER},
+      </if>
+      <if test="petCo2 != null" >
+        petCo2 = #{petCo2,jdbcType=INTEGER},
+      </if>
+      <if test="aGas != null" >
+        aGas = #{aGas,jdbcType=INTEGER},
+      </if>
+      <if test="fio2 != null" >
+        fio2 = #{fio2,jdbcType=INTEGER},
+      </if>
+      <if test="ibp != null" >
+        ibp = #{ibp,jdbcType=INTEGER},
+      </if>
+      <if test="cvp != null" >
+        cvp = #{cvp,jdbcType=INTEGER},
+      </if>
+      <if test="t != null" >
+        t = #{t,jdbcType=INTEGER},
+      </if>
+      <if test="tof != null" >
+        tof = #{tof,jdbcType=INTEGER},
+      </if>
+      <if test="anesDeep != null" >
+        anesDeep = #{anesDeep,jdbcType=INTEGER},
+      </if>
+      <if test="cardOutput != null" >
+        cardOutput = #{cardOutput,jdbcType=INTEGER},
+      </if>
+      <if test="tee != null" >
+        tee = #{tee,jdbcType=INTEGER},
+      </if>
+      <if test="bloodSugar != null" >
+        bloodSugar = #{bloodSugar,jdbcType=INTEGER},
+      </if>
+      <if test="blood != null" >
+        blood = #{blood,jdbcType=INTEGER},
+      </if>
+      <if test="bloodElect != null" >
+        bloodElect = #{bloodElect,jdbcType=INTEGER},
+      </if>
+      <if test="hemoglobin != null" >
+        hemoglobin = #{hemoglobin,jdbcType=INTEGER},
+      </if>
+      <if test="controlerHyp != null" >
+        controlerHyp = #{controlerHyp,jdbcType=INTEGER},
+      </if>
+      <if test="anesEffect != null" >
+        anesEffect = #{anesEffect,jdbcType=INTEGER},
+      </if>
+      <if test="changeAnesMethod != null" >
+        changeAnesMethod = #{changeAnesMethod,jdbcType=INTEGER},
+      </if>
+      <if test="changeReason != null" >
+        changeReason = #{changeReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anaSumAppGenId = #{anaSumAppGenId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixGen" >
+    update doc_anaes_summary_appendix_gen
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      genAnesthesia = #{genAnesthesia,jdbcType=INTEGER},
+      fastInduction = #{fastInduction,jdbcType=INTEGER},
+      slowInduction = #{slowInduction,jdbcType=INTEGER},
+      intubation = #{intubation,jdbcType=INTEGER},
+      endotracheal = #{endotracheal,jdbcType=INTEGER},
+      bronchial = #{bronchial,jdbcType=INTEGER},
+      leftChamber = #{leftChamber,jdbcType=INTEGER},
+      rightChamber = #{rightChamber,jdbcType=INTEGER},
+      doubleCavity = #{doubleCavity,jdbcType=INTEGER},
+      blockDevice = #{blockDevice,jdbcType=INTEGER},
+      fiberLocal = #{fiberLocal,jdbcType=INTEGER},
+      pyrosulfite = #{pyrosulfite,jdbcType=INTEGER},
+      transnasal = #{transnasal,jdbcType=INTEGER},
+      transtracheal = #{transtracheal,jdbcType=INTEGER},
+      model1 = #{model1,jdbcType=VARCHAR},
+      depth = #{depth,jdbcType=REAL},
+      cuff = #{cuff,jdbcType=INTEGER},
+      look = #{look,jdbcType=INTEGER},
+      blind = #{blind,jdbcType=INTEGER},
+      retrograde = #{retrograde,jdbcType=INTEGER},
+      fiberGuide = #{fiberGuide,jdbcType=INTEGER},
+      glidescope = #{glidescope,jdbcType=INTEGER},
+      opticalCable = #{opticalCable,jdbcType=INTEGER},
+      intubationSuite = #{intubationSuite,jdbcType=INTEGER},
+      ReinPipe = #{reinPipe,jdbcType=INTEGER},
+      shapedTube = #{shapedTube,jdbcType=INTEGER},
+      other = #{other,jdbcType=INTEGER},
+      otherContent = #{otherContent,jdbcType=VARCHAR},
+      laryMask = #{laryMask,jdbcType=INTEGER},
+      model2 = #{model2,jdbcType=VARCHAR},
+      diffIntub = #{diffIntub,jdbcType=INTEGER},
+      keepMethod = #{keepMethod,jdbcType=VARCHAR},
+      baseAnes = #{baseAnes,jdbcType=INTEGER},
+      AnesCare = #{anesCare,jdbcType=INTEGER},
+      monitProject7 = #{monitProject7,jdbcType=INTEGER},
+      monitProject13 = #{monitProject13,jdbcType=INTEGER},
+      monitProject14 = #{monitProject14,jdbcType=INTEGER},
+      ecgSt = #{ecgSt,jdbcType=INTEGER},
+      vtMv = #{vtMv,jdbcType=INTEGER},
+      petCo2 = #{petCo2,jdbcType=INTEGER},
+      aGas = #{aGas,jdbcType=INTEGER},
+      fio2 = #{fio2,jdbcType=INTEGER},
+      ibp = #{ibp,jdbcType=INTEGER},
+      cvp = #{cvp,jdbcType=INTEGER},
+      t = #{t,jdbcType=INTEGER},
+      tof = #{tof,jdbcType=INTEGER},
+      anesDeep = #{anesDeep,jdbcType=INTEGER},
+      cardOutput = #{cardOutput,jdbcType=INTEGER},
+      tee = #{tee,jdbcType=INTEGER},
+      bloodSugar = #{bloodSugar,jdbcType=INTEGER},
+      blood = #{blood,jdbcType=INTEGER},
+      bloodElect = #{bloodElect,jdbcType=INTEGER},
+      hemoglobin = #{hemoglobin,jdbcType=INTEGER},
+      controlerHyp = #{controlerHyp,jdbcType=INTEGER},
+      anesEffect = #{anesEffect,jdbcType=INTEGER},
+      changeAnesMethod = #{changeAnesMethod,jdbcType=INTEGER},
+      changeReason = #{changeReason,jdbcType=VARCHAR}
+    where anaSumAppGenId = #{anaSumAppGenId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

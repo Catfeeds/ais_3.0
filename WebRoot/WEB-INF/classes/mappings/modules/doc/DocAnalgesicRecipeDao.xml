@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnalgesicRecipeDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnalgesicRecipe" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="analgesicId" property="analgesicId" jdbcType="VARCHAR" />
+    <result column="medId" property="medId" jdbcType="VARCHAR" />
+    <result column="medName" property="medName" jdbcType="VARCHAR" />
+    <result column="dosage" property="dosage" jdbcType="REAL" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, analgesicId, medId, medName, dosage, units, type
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_recipe
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getByanalgesicId" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_recipe
+    where analgesicId = #{analgesicId,jdbcType=VARCHAR}
+  </select>
+  
+ <delete id="deleteByanalgesicId" parameterType="java.lang.String" >
+    delete from doc_analgesic_recipe
+    where analgesicId = #{analgesicId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_analgesic_recipe
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecipe" >
+    insert into doc_analgesic_recipe (id, regOptId, analgesicId, 
+      medId, medName, dosage, 
+      units, type)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{analgesicId,jdbcType=VARCHAR}, 
+      #{medId,jdbcType=VARCHAR}, #{medName,jdbcType=VARCHAR}, #{dosage,jdbcType=REAL}, 
+      #{units,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecipe" >
+    insert into doc_analgesic_recipe
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId,
+      </if>
+      <if test="medId != null" >
+        medId,
+      </if>
+      <if test="medName != null" >
+        medName,
+      </if>
+      <if test="dosage != null" >
+        dosage,
+      </if>
+      <if test="units != null" >
+        units,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="medId != null" >
+        #{medId,jdbcType=VARCHAR},
+      </if>
+      <if test="medName != null" >
+        #{medName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosage != null" >
+        #{dosage,jdbcType=REAL},
+      </if>
+      <if test="units != null" >
+        #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecipe" >
+    update doc_analgesic_recipe
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicId != null" >
+        analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      </if>
+      <if test="medId != null" >
+        medId = #{medId,jdbcType=VARCHAR},
+      </if>
+      <if test="medName != null" >
+        medName = #{medName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosage != null" >
+        dosage = #{dosage,jdbcType=REAL},
+      </if>
+      <if test="units != null" >
+        units = #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecipe" >
+    update doc_analgesic_recipe
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      analgesicId = #{analgesicId,jdbcType=VARCHAR},
+      medId = #{medId,jdbcType=VARCHAR},
+      medName = #{medName,jdbcType=VARCHAR},
+      dosage = #{dosage,jdbcType=REAL},
+      units = #{units,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

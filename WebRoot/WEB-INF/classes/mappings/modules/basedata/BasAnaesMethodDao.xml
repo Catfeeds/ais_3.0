@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesMethodDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesMethod" >
+    <id column="anaMedId" property="anaMedId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="cate1" property="cate1" jdbcType="VARCHAR" />
+    <result column="cate2" property="cate2" jdbcType="VARCHAR" />
+    <result column="cate3" property="cate3" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="isCate" property="isCate" jdbcType="INTEGER" />
+    <result column="isUsually" property="isUsually" jdbcType="INTEGER" />
+    <result column="optional" property="optional" jdbcType="INTEGER" />
+    <result column="isValid" property="isValid" jdbcType="INTEGER" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="anesType" property="anesType" jdbcType="INTEGER" />
+    <result column="isLocalAnaes" property="isLocalAnaes" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaMedId, code, cate1, cate2, cate3, name, isCate, isUsually, optional, isValid, 
+    pinYin, anesType, isLocalAnaes, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_method
+    where anaMedId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_method
+    where 1=1 
+    <if test="anaMedId != '' and anaMedId != null">AND anaMedId = #{anaMedId} </if>
+    <if test="code != '' and code !=null">AND code = #{code} </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="isCate != null">AND isCate = #{isCate} </if>
+    <if test="isUsually != null">AND isUsually = #{isUsually} </if>
+    <if test="optional != null">AND optional = #{optional} </if>
+    <if test="isValid != null">AND isValid = #{isValid} </if>
+    <if test="pinYin != '' and pinYin !=null">AND pinYin LIKE CONCAT('%',#{pinYin},'%') </if>
+    <if test="anesType != null">AND anesType = #{anesType} </if>
+    <if test="isLocalAnaes != null">AND isLocalAnaes = #{isLocalAnaes} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_anaes_method
+    where anaMedId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod" >
+    insert into bas_anaes_method (anaMedId, code, cate1, 
+      cate2, cate3, name, 
+      isCate, isUsually, optional, 
+      isValid, pinYin, anesType, isLocalAnaes, 
+      beid)
+    values (#{anaMedId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{cate1,jdbcType=VARCHAR}, 
+      #{cate2,jdbcType=VARCHAR}, #{cate3,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{isCate,jdbcType=INTEGER}, #{isUsually,jdbcType=INTEGER}, #{optional,jdbcType=INTEGER}, 
+      #{isValid,jdbcType=INTEGER}, #{pinYin,jdbcType=VARCHAR}, #{anesType,jdbcType=INTEGER}, 
+      #{isLocalAnaes,jdbcType=INTEGER},
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod" >
+    insert into bas_anaes_method
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaMedId != null" >
+        anaMedId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="cate1 != null" >
+        cate1,
+      </if>
+      <if test="cate2 != null" >
+        cate2,
+      </if>
+      <if test="cate3 != null" >
+        cate3,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="isCate != null" >
+        isCate,
+      </if>
+      <if test="isUsually != null" >
+        isUsually,
+      </if>
+      <if test="optional != null" >
+        optional,
+      </if>
+      <if test="isValid != null" >
+        isValid,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="anesType != null" >
+        anesType,
+      </if>
+      <if test="isLocalAnaes != null" >
+        isLocalAnaes,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaMedId != null" >
+        #{anaMedId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="cate1 != null" >
+        #{cate1,jdbcType=VARCHAR},
+      </if>
+      <if test="cate2 != null" >
+        #{cate2,jdbcType=VARCHAR},
+      </if>
+      <if test="cate3 != null" >
+        #{cate3,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isCate != null" >
+        #{isCate,jdbcType=INTEGER},
+      </if>
+      <if test="isUsually != null" >
+        #{isUsually,jdbcType=INTEGER},
+      </if>
+      <if test="optional != null" >
+        #{optional,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="anesType != null" >
+        #{anesType,jdbcType=INTEGER},
+      </if>
+      <if test="isLocalAnaes != null" >
+        #{isLocalAnaes,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod" >
+    update bas_anaes_method
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="cate1 != null" >
+        cate1 = #{cate1,jdbcType=VARCHAR},
+      </if>
+      <if test="cate2 != null" >
+        cate2 = #{cate2,jdbcType=VARCHAR},
+      </if>
+      <if test="cate3 != null" >
+        cate3 = #{cate3,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isCate != null" >
+        isCate = #{isCate,jdbcType=INTEGER},
+      </if>
+      <if test="isUsually != null" >
+        isUsually = #{isUsually,jdbcType=INTEGER},
+      </if>
+      <if test="optional != null" >
+        optional = #{optional,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        isValid = #{isValid,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="anesType != null" >
+        anesType = #{anesType,jdbcType=INTEGER},
+      </if>
+      <if test="isLocalAnaes != null" >
+        isLocalAnaes = #{isLocalAnaes,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anaMedId = #{anaMedId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod" >
+    update bas_anaes_method
+    set code = #{code,jdbcType=VARCHAR},
+      cate1 = #{cate1,jdbcType=VARCHAR},
+      cate2 = #{cate2,jdbcType=VARCHAR},
+      cate3 = #{cate3,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      isCate = #{isCate,jdbcType=INTEGER},
+      isUsually = #{isUsually,jdbcType=INTEGER},
+      optional = #{optional,jdbcType=INTEGER},
+      isValid = #{isValid,jdbcType=INTEGER},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      anesType = #{anesType,jdbcType=INTEGER},
+      isLocalAnaes = #{isLocalAnaes,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where anaMedId = #{anaMedId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.AnaesMethodFormBean">
+		SELECT 
+			a.*
+		FROM bas_anaes_method a where 1 = 1  and a.isValid ='1' and a.beid = #{baseQuery.beid}
+		<if test="baseQuery !=null">
+		    <if test="baseQuery.name !=null and baseQuery.name!=''">
+		        and (name like CONCAT(CONCAT('%',#{baseQuery.name}),'%')  or pinyin like CONCAT(CONCAT('%',#{baseQuery.name}),'%') )
+		    </if>
+		    <if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			    AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		    </if>
+		    <if test="baseQuery.enable != null and baseQuery.enable != ''">
+			    AND a.isValid = #{baseQuery.enable}
+		    </if>
+		</if>
+		 order by CONVERT(a.code,SIGNED) ASC
+		<if test="baseQuery.pageSize !=null and baseQuery.pageSize!=''">
+		     limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
+	</select>
+	
+	<select id="findAllList" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+		SELECT 
+			a.*
+		FROM bas_anaes_method a where 1 = 1 and a.isValid = '1' and beid = #{baseQuery.beid}
+		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		</if>
+	</select>
+	
+	<select id="queryAnaesMethodList" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+	SELECT * FROM bas_anaes_method where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryAnaesMethodListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_anaes_method where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="searchAnaesMethodById" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+	select * from bas_anaes_method where anaMedId = #{anaMedId}
+	</select>
+	
+	<select id="searchAnaesMethodOrberById" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+	select * from bas_anaes_method order by CONVERT(anaMedId,SIGNED) DESC
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+	select * from bas_anaes_method where code = #{code} and beid = #{beid}
+	</select>
+	
+	<select id="selectByName" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+	select * from bas_anaes_method where name = #{name} and beid = #{beid}
+	</select>
+	
+	<select id="selectAnaesMethodByBeid" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
+	select * from bas_anaes_method where beid = #{beid}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_anaes_method set isValid='0' where beid = #{beid};
+	</update>
+	
+    <delete id="deleteAnaesMethodByBeid" parameterType="java.lang.String" >
+      delete from bas_anaes_method
+        where beid = #{beid,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

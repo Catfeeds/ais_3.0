@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasDeptDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasDept" >
+    <id column="deptId" property="deptId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    deptId, name, remarks, enable, pinYin,beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_dept
+    where deptId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.formbean.BasDeptFormBean" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_dept
+    where 1=1 
+    <if test="deptId != '' and deptId != null">AND deptId = #{deptId} </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+	<if test="pageSize != null and pageSize != 0">LIMIT #{pageNo},#{pageSize}</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_dept
+    where deptId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasDept" >
+    insert into bas_dept (deptId, name, remarks, 
+      enable, pinYin, beid)
+    values (#{deptId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER}, #{pinYin,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDept" >
+    insert into bas_dept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deptId != null" >
+        deptId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDept" >
+    update bas_dept
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+       <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deptId = #{deptId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasDept" >
+    update bas_dept
+    set name = #{name,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where deptId = #{deptId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.DeptFormBean">
+		SELECT 
+			a.deptId,a.name
+		FROM bas_dept a where a.enable ='1' and a.beid = #{baseQuery.beid}
+		<if test="baseQuery !=null">
+		    <if test="baseQuery.name !=null and baseQuery.name!=''">
+		        and (name like CONCAT(CONCAT('%',#{baseQuery.name}),'%')  or pinYin like CONCAT(CONCAT('%',#{baseQuery.name}),'%') )
+		    </if>
+		</if>
+		order by a.deptId ASC
+		<if test="baseQuery !=null">
+			<if test="baseQuery.pageSize !=null and baseQuery.pageSize!=''">
+			    limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+			</if>
+		</if>
+	</select>
+	
+	<select id="searchDeptById" resultType="com.digihealth.anesthesia.basedata.po.BasDept">
+	SELECT * FROM bas_dept where deptId = #{deptId}
+	</select>
+	
+	<select id="queryDeptList" resultType="com.digihealth.anesthesia.basedata.po.BasDept">
+	SELECT * FROM bas_dept where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+	 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+	 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	 </if> 
+	</select>
+	
+	<select id="queryDeptListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_dept where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasDept">
+	select * from bas_dept where deptId = #{code}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_dept set enable='0' and beid = #{beid};
+	</update>
+
+</mapper>

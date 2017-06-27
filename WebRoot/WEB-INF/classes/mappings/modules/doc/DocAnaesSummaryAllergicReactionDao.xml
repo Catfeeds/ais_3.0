@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesSummaryAllergicReactionDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAllergicReaction" >
+    <id column="anaSumAllReaId" property="anaSumAllReaId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="allergicReaction" property="allergicReaction" jdbcType="VARCHAR" />
+    <result column="circulatFailure" property="circulatFailure" jdbcType="INTEGER" />
+    <result column="failureContents" property="failureContents" jdbcType="VARCHAR" />
+    <result column="obviousRash" property="obviousRash" jdbcType="INTEGER" />
+    <result column="rashContents" property="rashContents" jdbcType="VARCHAR" />
+    <result column="airwayResp" property="airwayResp" jdbcType="INTEGER" />
+    <result column="spasm" property="spasm" jdbcType="INTEGER" />
+    <result column="edema" property="edema" jdbcType="INTEGER" />
+    <result column="airwayContents" property="airwayContents" jdbcType="VARCHAR" />
+    <result column="adrenaline" property="adrenaline" jdbcType="INTEGER" />
+    <result column="allergicReactionTime" property="allergicReactionTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaSumAllReaId, anaSumId, allergicReaction, circulatFailure, failureContents, obviousRash, 
+    rashContents, airwayResp, spasm, edema, airwayContents, adrenaline, allergicReactionTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_allergic_reaction
+    where anaSumAllReaId = #{anaSumAllReaId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="searchAllergicReactionList" resultType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAllergicReaction">
+		SELECT *
+		FROM doc_anaes_summary_allergic_reaction a where 1  = 1
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.anaSumAllReaId = #{searchBean.id}
+		</if>
+		<if test="searchBean.anaSumId != null and searchBean.anaSumId != ''">
+			AND a.anaSumId = #{searchBean.anaSumId}
+		</if>
+	</select>
+	<select id="getPoByAnaSumId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_allergic_reaction
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_summary_allergic_reaction
+    where anaSumAllReaId = #{anaSumAllReaId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAllergicReaction" >
+    insert into doc_anaes_summary_allergic_reaction (anaSumAllReaId, anaSumId, allergicReaction, 
+      circulatFailure, failureContents, obviousRash, 
+      rashContents, airwayResp, spasm, 
+      edema, airwayContents, adrenaline, 
+      allergicReactionTime)
+    values (#{anaSumAllReaId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{allergicReaction,jdbcType=VARCHAR}, 
+      #{circulatFailure,jdbcType=INTEGER}, #{failureContents,jdbcType=VARCHAR}, #{obviousRash,jdbcType=INTEGER}, 
+      #{rashContents,jdbcType=VARCHAR}, #{airwayResp,jdbcType=INTEGER}, #{spasm,jdbcType=INTEGER}, 
+      #{edema,jdbcType=INTEGER}, #{airwayContents,jdbcType=VARCHAR}, #{adrenaline,jdbcType=INTEGER}, 
+      #{allergicReactionTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAllergicReaction" >
+    insert into doc_anaes_summary_allergic_reaction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaSumAllReaId != null" >
+        anaSumAllReaId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="allergicReaction != null" >
+        allergicReaction,
+      </if>
+      <if test="circulatFailure != null" >
+        circulatFailure,
+      </if>
+      <if test="failureContents != null" >
+        failureContents,
+      </if>
+      <if test="obviousRash != null" >
+        obviousRash,
+      </if>
+      <if test="rashContents != null" >
+        rashContents,
+      </if>
+      <if test="airwayResp != null" >
+        airwayResp,
+      </if>
+      <if test="spasm != null" >
+        spasm,
+      </if>
+      <if test="edema != null" >
+        edema,
+      </if>
+      <if test="airwayContents != null" >
+        airwayContents,
+      </if>
+      <if test="adrenaline != null" >
+        adrenaline,
+      </if>
+      <if test="allergicReactionTime != null" >
+        allergicReactionTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaSumAllReaId != null" >
+        #{anaSumAllReaId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="allergicReaction != null" >
+        #{allergicReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="circulatFailure != null" >
+        #{circulatFailure,jdbcType=INTEGER},
+      </if>
+      <if test="failureContents != null" >
+        #{failureContents,jdbcType=VARCHAR},
+      </if>
+      <if test="obviousRash != null" >
+        #{obviousRash,jdbcType=INTEGER},
+      </if>
+      <if test="rashContents != null" >
+        #{rashContents,jdbcType=VARCHAR},
+      </if>
+      <if test="airwayResp != null" >
+        #{airwayResp,jdbcType=INTEGER},
+      </if>
+      <if test="spasm != null" >
+        #{spasm,jdbcType=INTEGER},
+      </if>
+      <if test="edema != null" >
+        #{edema,jdbcType=INTEGER},
+      </if>
+      <if test="airwayContents != null" >
+        #{airwayContents,jdbcType=VARCHAR},
+      </if>
+      <if test="adrenaline != null" >
+        #{adrenaline,jdbcType=INTEGER},
+      </if>
+      <if test="allergicReactionTime != null" >
+        #{allergicReactionTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAllergicReaction" >
+    update doc_anaes_summary_allergic_reaction
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="allergicReaction != null" >
+        allergicReaction = #{allergicReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="circulatFailure != null" >
+        circulatFailure = #{circulatFailure,jdbcType=INTEGER},
+      </if>
+      <if test="failureContents != null" >
+        failureContents = #{failureContents,jdbcType=VARCHAR},
+      </if>
+      <if test="obviousRash != null" >
+        obviousRash = #{obviousRash,jdbcType=INTEGER},
+      </if>
+      <if test="rashContents != null" >
+        rashContents = #{rashContents,jdbcType=VARCHAR},
+      </if>
+      <if test="airwayResp != null" >
+        airwayResp = #{airwayResp,jdbcType=INTEGER},
+      </if>
+      <if test="spasm != null" >
+        spasm = #{spasm,jdbcType=INTEGER},
+      </if>
+      <if test="edema != null" >
+        edema = #{edema,jdbcType=INTEGER},
+      </if>
+      <if test="airwayContents != null" >
+        airwayContents = #{airwayContents,jdbcType=VARCHAR},
+      </if>
+      <if test="adrenaline != null" >
+        adrenaline = #{adrenaline,jdbcType=INTEGER},
+      </if>
+      <if test="allergicReactionTime != null" >
+        allergicReactionTime = #{allergicReactionTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where anaSumAllReaId = #{anaSumAllReaId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryAllergicReaction" >
+    update doc_anaes_summary_allergic_reaction
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      allergicReaction = #{allergicReaction,jdbcType=VARCHAR},
+      circulatFailure = #{circulatFailure,jdbcType=INTEGER},
+      failureContents = #{failureContents,jdbcType=VARCHAR},
+      obviousRash = #{obviousRash,jdbcType=INTEGER},
+      rashContents = #{rashContents,jdbcType=VARCHAR},
+      airwayResp = #{airwayResp,jdbcType=INTEGER},
+      spasm = #{spasm,jdbcType=INTEGER},
+      edema = #{edema,jdbcType=INTEGER},
+      airwayContents = #{airwayContents,jdbcType=VARCHAR},
+      adrenaline = #{adrenaline,jdbcType=INTEGER},
+      allergicReactionTime = #{allergicReactionTime,jdbcType=TIMESTAMP}
+    where anaSumAllReaId = #{anaSumAllReaId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

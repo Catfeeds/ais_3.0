@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesSummaryVenipunctureDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesSummaryVenipuncture" >
+    <id column="anesSumVenId" property="anesSumVenId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="pneumothorax" property="pneumothorax" jdbcType="INTEGER" />
+    <result column="hemothorax" property="hemothorax" jdbcType="INTEGER" />
+    <result column="localHematoma" property="localHematoma" jdbcType="INTEGER" />
+    <result column="ductalAnomaly" property="ductalAnomaly" jdbcType="INTEGER" />
+    <result column="abnormalWire" property="abnormalWire" jdbcType="INTEGER" />
+    <result column="other" property="other" jdbcType="INTEGER" />
+    <result column="otherContent" property="otherContent" jdbcType="VARCHAR" />
+    <result column="venipunctureTime" property="venipunctureTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anesSumVenId, anaSumId, pneumothorax, hemothorax, localHematoma, ductalAnomaly, abnormalWire, 
+    other, otherContent, venipunctureTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_venipuncture
+    where anesSumVenId = #{anesSumVenId,jdbcType=VARCHAR}
+  </select>
+
+   <select id="getPoByAnaSumId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_summary_venipuncture
+    where anaSumId = #{anaSumId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_summary_venipuncture
+    where anesSumVenId = #{anesSumVenId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryVenipuncture" >
+    insert into doc_anaes_summary_venipuncture (anesSumVenId, anaSumId, pneumothorax, 
+      hemothorax, localHematoma, ductalAnomaly, 
+      abnormalWire, other, otherContent, 
+      venipunctureTime)
+    values (#{anesSumVenId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{pneumothorax,jdbcType=INTEGER}, 
+      #{hemothorax,jdbcType=INTEGER}, #{localHematoma,jdbcType=INTEGER}, #{ductalAnomaly,jdbcType=INTEGER}, 
+      #{abnormalWire,jdbcType=INTEGER}, #{other,jdbcType=INTEGER}, #{otherContent,jdbcType=VARCHAR}, 
+      #{venipunctureTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryVenipuncture" >
+    insert into doc_anaes_summary_venipuncture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anesSumVenId != null" >
+        anesSumVenId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="pneumothorax != null" >
+        pneumothorax,
+      </if>
+      <if test="hemothorax != null" >
+        hemothorax,
+      </if>
+      <if test="localHematoma != null" >
+        localHematoma,
+      </if>
+      <if test="ductalAnomaly != null" >
+        ductalAnomaly,
+      </if>
+      <if test="abnormalWire != null" >
+        abnormalWire,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="otherContent != null" >
+        otherContent,
+      </if>
+      <if test="venipunctureTime != null" >
+        venipunctureTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anesSumVenId != null" >
+        #{anesSumVenId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="pneumothorax != null" >
+        #{pneumothorax,jdbcType=INTEGER},
+      </if>
+      <if test="hemothorax != null" >
+        #{hemothorax,jdbcType=INTEGER},
+      </if>
+      <if test="localHematoma != null" >
+        #{localHematoma,jdbcType=INTEGER},
+      </if>
+      <if test="ductalAnomaly != null" >
+        #{ductalAnomaly,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalWire != null" >
+        #{abnormalWire,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=INTEGER},
+      </if>
+      <if test="otherContent != null" >
+        #{otherContent,jdbcType=VARCHAR},
+      </if>
+      <if test="venipunctureTime != null" >
+        #{venipunctureTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryVenipuncture" >
+    update doc_anaes_summary_venipuncture
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="pneumothorax != null" >
+        pneumothorax = #{pneumothorax,jdbcType=INTEGER},
+      </if>
+      <if test="hemothorax != null" >
+        hemothorax = #{hemothorax,jdbcType=INTEGER},
+      </if>
+      <if test="localHematoma != null" >
+        localHematoma = #{localHematoma,jdbcType=INTEGER},
+      </if>
+      <if test="ductalAnomaly != null" >
+        ductalAnomaly = #{ductalAnomaly,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalWire != null" >
+        abnormalWire = #{abnormalWire,jdbcType=INTEGER},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=INTEGER},
+      </if>
+      <if test="otherContent != null" >
+        otherContent = #{otherContent,jdbcType=VARCHAR},
+      </if>
+      <if test="venipunctureTime != null" >
+        venipunctureTime = #{venipunctureTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where anesSumVenId = #{anesSumVenId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesSummaryVenipuncture" >
+    update doc_anaes_summary_venipuncture
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      pneumothorax = #{pneumothorax,jdbcType=INTEGER},
+      hemothorax = #{hemothorax,jdbcType=INTEGER},
+      localHematoma = #{localHematoma,jdbcType=INTEGER},
+      ductalAnomaly = #{ductalAnomaly,jdbcType=INTEGER},
+      abnormalWire = #{abnormalWire,jdbcType=INTEGER},
+      other = #{other,jdbcType=INTEGER},
+      otherContent = #{otherContent,jdbcType=VARCHAR},
+      venipunctureTime = #{venipunctureTime,jdbcType=TIMESTAMP}
+    where anesSumVenId = #{anesSumVenId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

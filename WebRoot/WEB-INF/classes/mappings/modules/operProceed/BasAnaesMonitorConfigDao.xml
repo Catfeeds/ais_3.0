@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digihealth.anesthesia.operProceed.dao.BasAnaesMonitorConfigDao">
+   
+   <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="iconId" property="iconId" jdbcType="VARCHAR" />
+    <result column="eventId" property="eventId" jdbcType="VARCHAR" />
+    <result column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+    <result column="max" property="max" jdbcType="REAL" />
+    <result column="min" property="min" jdbcType="REAL" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="realEventId" property="realEventId" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, color, iconId, eventId, deviceId, max, min, position, realEventId, 
+    beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_monitor_config
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+   
+   
+	<select id="getAnaesMonitorConfigListByRegOptId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean">
+		SELECT a.*,b.eventName,b.eventDesc,b.units,b.mustShow
+					FROM
+						bas_anaes_monitor_config a,bas_monitor_config b
+					WHERE a.realEventId = b.eventId 
+					and a.beid = b.beid
+					and a.beid = #{baseQuery.beid}
+					and a.regOptId =  #{baseQuery.regOptId}
+					and	a.position = #{baseQuery.position}
+					group by a.eventId
+	</select>
+	
+	<select id="getAnaesMonitorConfigByEventId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean">
+		SELECT a.*,b.eventName,b.eventDesc
+					FROM
+						bas_anaes_monitor_config a,bas_monitor_config b
+					WHERE a.realEventId = b.eventId 
+					and a.beid = b.beid
+					and a.beid = #{baseQuery.beid}
+					and regOptId =  #{baseQuery.regOptId} 
+					and a.eventId = #{baseQuery.eventId}
+	</select>
+	
+	
+	<select id="getAnaesMonitorConfigEventId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean">
+		SELECT 
+		IFNULL(b.color, a.color) color,
+		IFNULL(b.iconId, a.iconId) iconId,
+		IFNULL(b.eventId, a.eventId) eventId,
+		IFNULL(b.max,a.max) max,
+		IFNULL(b.min,a.min) min,
+		a.eventDesc,
+		a.eventName
+		FROM 
+		(SELECT * FROM bas_monitor_config  WHERE eventId = #{baseQuery.eventId} and beid = #{baseQuery.eventId}) a 
+		LEFT JOIN 
+		(SELECT * FROM bas_anaes_monitor_config WHERE regOptId = #{baseQuery.regOptId} and beid = #{baseQuery.eventId} 
+		AND eventId  = #{baseQuery.eventId} ) b 
+		ON a.eventId = b.eventId 
+	</select>
+	
+	<select id="getMonitorConfig" resultType="com.digihealth.anesthesia.operProceed.po.BasMonitorConfig">
+		SELECT * FROM bas_monitor_config WHERE eventId = #{baseQuery.eventId} and beid = #{baseQuery.beid}
+	</select>
+	
+	<select id="getAnaesMonitorConfig" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean">
+		SELECT a.*,b.`eventName`,b.`eventDesc` FROM bas_anaes_monitor_config a ,bas_monitor_config b 
+		WHERE a.realEventId = b.`eventId`
+		and a.beid = b.beid
+		and a.beid = #{baseQuery.beid}
+		AND regOptId = #{baseQuery.regOptId} 
+		AND a.eventId  = #{baseQuery.eventId}  
+	</select>
+	
+	<select id="getDefaultEventId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean">
+		SELECT a.* FROM bas_anaes_monitor_config a,bas_monitor_config_default b
+			WHERE a.eventId = b.`eventId`
+			and a.beid = b.beid
+			and a.beid = #{baseQuery.beid}
+			AND a.`regOptId` = #{baseQuery.regOptId}
+			AND b.`eventName` = #{baseQuery.name};
+	</select>
+	
+	
+	<select id="getAnaesRecordShowListByRegOptId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean">
+	SELECT #{baseQuery.regOptId} as regOptId,c.color,c.iconId,c.eventId,b.deviceId,c.max,c.min,c.eventDesc,c.eventName,c.mustShow,c.units,c.position
+		from bas_device_config a,bas_device_monitor_config b,
+		(select * from bas_monitor_config where position= #{baseQuery.position}) c
+		where a.deviceId = b.deviceId
+		and b.eventId = c.eventId
+		and a.beid = b.beid
+		and a.beid = c.beid
+		and a.beid = #{baseQuery.beid}
+		and c.mustShow = 1
+		group by c.eventId
+	</select>
+	
+	<select id="findAnaesMonitorRecordListByRegOptId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean" >
+		select * from(
+		SELECT 
+			#{baseQuery.regOptId} AS regOptId,
+			b.eventName,
+			IFNULL(a.color,b.color) color,
+			IFNULL(a.iconId,b.iconId) iconId, 
+			b.eventId,
+			b.position,
+			IFNULL(a.`max`,b.`max`) max,
+			IFNULL(a.`min`,b.`min`) min,
+			IF (a.eventId > 0, '1', IF(b.mustShow = '1','1',0)) checked,
+			b.mustShow,
+			b.`units`
+		FROM bas_monitor_config b LEFT JOIN 
+		(SELECT * FROM bas_anaes_monitor_config  WHERE  regOptId =  #{baseQuery.regOptId} AND `position` = #{baseQuery.position}) a
+		ON a.realEventid = b.eventId and a.beid = b.beid
+		where b.`position` = #{baseQuery.position}) t
+		where 1 = 1
+		<if test="baseQuery.enable!=null and baseQuery.enable!=''">
+			and t.checked = #{baseQuery.enable}
+		</if> 
+		ORDER BY t.eventId
+	</select>
+	
+	<select id="getDeviceSpecificationListByEventId" resultType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification">
+			SELECT
+					c.*
+					FROM
+						bas_device_monitor_config AS dev,bas_monitor_config b,bas_device_specification c
+					WHERE dev.eventId = b.eventId 
+						and c.deviceId = dev.deviceId
+						and dev.beid = b.beid
+						and dev.beid = c.beid
+						and dev.beid = #{baseQuery.beid}
+						and dev.eventId = #{baseQuery.eventId} 
+						and optional IS NOT NULL
+					AND EXISTS (
+						SELECT
+							1
+						FROM
+							bas_device_config
+						WHERE
+							bas_device_config.ENABLE = '1'
+						and bas_device_config.beid = #{baseQuery.beid}
+						AND dev.deviceId = bas_device_config.deviceId
+					)
+	</select>
+	
+	<!-- 根据OptId 和  设备ID 查询 -->
+	<select id="getAnaesMonitorListByRegOptId" resultType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig">
+		SELECT * FROM bas_anaes_monitor_config 
+			WHERE deviceId = #{deviceId}  and  regOptId =  #{regOptId}
+	</select>
+	
+	<select id="getEventNameGroupByRegOptId" resultType="com.digihealth.anesthesia.operProceed.formbean.BasAnaesMonitorConfigFormBean" >
+		select eventName
+			from bas_monitor_config where position = #{baseQuery.position} and beid = #{baseQuery.beid} GROUP BY eventName HAVING COUNT(1)>1
+	</select>
+	
+<update id="updateAnaesMonitorConfig" parameterType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    update bas_anaes_monitor_config SET
+    color = #{color},
+    iconId = #{iconId},
+    eventId = #{eventId},
+    deviceId = #{deviceId},
+    max = #{max},
+    min = #{min},
+    realEventId = #{realEventId},
+    beid = #{beid}
+    where deviceId = #{deviceId,jdbcType=VARCHAR}  and  regOptId =  #{regOptId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByEventId" parameterType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    update bas_anaes_monitor_config SET
+    color = #{color},
+    iconId = #{iconId},
+    eventId = #{eventId},
+    deviceId = #{deviceId},
+    max = #{max},
+    min = #{min},
+    realEventId = #{realEventId},
+    beid = #{beid}
+    where eventId = #{eventId,jdbcType=VARCHAR}  and  regOptId =  #{regOptId,jdbcType=VARCHAR}
+  </update>
+	
+	<delete id="delete">
+		delete from bas_anaes_monitor_config where regOptId = #{regOptId} and position = #{position} and eventId != '91001'
+	</delete>
+	
+	<select id="getDeviceMonitorListByEventName" resultType="com.digihealth.anesthesia.basedata.formbean.DeviceMonitorFormbean">
+			SELECT
+					c.*,b.eventId
+					FROM
+						bas_device_monitor_config AS dev,bas_monitor_config b,bas_device_specification c
+					WHERE dev.eventId = b.eventId 
+					and c.deviceId = dev.deviceId 
+					and b.eventName = #{baseQuery.name} 
+					and b.position = 0 
+					and dev.beid = b.beid
+					and dev.beid = c.beid
+					and dev.beid = #{baseQuery.beid}
+					and dev.optional IS NOT NULL
+					AND EXISTS (
+						SELECT
+							1
+						FROM
+							bas_device_config
+						WHERE
+							bas_device_config.ENABLE = '1'
+						and bas_device_config.beid = #{baseQuery.beid}
+						AND dev.deviceId = bas_device_config.deviceId
+					)
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_anaes_monitor_config
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    insert into bas_anaes_monitor_config (id, regOptId, color, 
+      iconId, eventId, deviceId, 
+      max, min, position, realEventId, 
+      beid)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{iconId,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{max,jdbcType=REAL}, #{min,jdbcType=REAL}, #{position,jdbcType=INTEGER}, #{realEventId,jdbcType=VARCHAR}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    insert into bas_anaes_monitor_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="iconId != null" >
+        iconId,
+      </if>
+      <if test="eventId != null" >
+        eventId,
+      </if>
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+      <if test="max != null" >
+        max,
+      </if>
+      <if test="min != null" >
+        min,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="realEventId != null" >
+        realEventId,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="iconId != null" >
+        #{iconId,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="max != null" >
+        #{max,jdbcType=REAL},
+      </if>
+      <if test="min != null" >
+        #{min,jdbcType=REAL},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="realEventId != null" >
+        #{realEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    update bas_anaes_monitor_config
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="iconId != null" >
+        iconId = #{iconId,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null" >
+        eventId = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        deviceId = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="max != null" >
+        max = #{max,jdbcType=REAL},
+      </if>
+      <if test="min != null" >
+        min = #{min,jdbcType=REAL},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="realEventId != null" >
+        realEventId = #{realEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.operProceed.po.BasAnaesMonitorConfig" >
+    update bas_anaes_monitor_config
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      iconId = #{iconId,jdbcType=VARCHAR},
+      eventId = #{eventId,jdbcType=VARCHAR},
+      deviceId = #{deviceId,jdbcType=VARCHAR},
+      max = #{max,jdbcType=REAL},
+      min = #{min,jdbcType=REAL},
+      position = #{position,jdbcType=INTEGER},
+      realEventId = #{realEventId,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+	
+	
+</mapper>

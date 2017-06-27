@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocInsuredPatAgreeDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocInsuredPatAgree" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="patSign" property="patSign" jdbcType="VARCHAR" />
+    <result column="docSign" property="docSign" jdbcType="VARCHAR" />
+    <result column="directorSign" property="directorSign" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, processState, patSign, docSign, directorSign, signTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_pat_agree
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_insured_pat_agree
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredPatAgree" >
+    insert into doc_insured_pat_agree (id, regOptId, processState, 
+      patSign, docSign, directorSign, 
+      signTime)
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{patSign,jdbcType=VARCHAR}, #{docSign,jdbcType=VARCHAR}, #{directorSign,jdbcType=VARCHAR}, 
+      #{signTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredPatAgree" >
+    insert into doc_insured_pat_agree
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="patSign != null" >
+        patSign,
+      </if>
+      <if test="docSign != null" >
+        docSign,
+      </if>
+      <if test="directorSign != null" >
+        directorSign,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="patSign != null" >
+        #{patSign,jdbcType=VARCHAR},
+      </if>
+      <if test="docSign != null" >
+        #{docSign,jdbcType=VARCHAR},
+      </if>
+      <if test="directorSign != null" >
+        #{directorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredPatAgree" >
+    update doc_insured_pat_agree
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="patSign != null" >
+        patSign = #{patSign,jdbcType=VARCHAR},
+      </if>
+      <if test="docSign != null" >
+        docSign = #{docSign,jdbcType=VARCHAR},
+      </if>
+      <if test="directorSign != null" >
+        directorSign = #{directorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocInsuredPatAgree" >
+    update doc_insured_pat_agree
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      patSign = #{patSign,jdbcType=VARCHAR},
+      docSign = #{docSign,jdbcType=VARCHAR},
+      directorSign = #{directorSign,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.sysMng.dao.BasUserRoleDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.sysMng.po.BasUserRole" >
+    <id column="userId" property="userId" jdbcType="VARCHAR" />
+    <id column="roleId" property="roleId" jdbcType="VARCHAR" />
+    <id column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+	
+  <sql id="Base_Column_List" >
+    t.roleId, t.userId,t.beid
+  </sql>
+  
+  <sql id="Cur_Column_List">
+  	userId,roleId,beid
+  </sql>
+  
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.sysMng.po.BasUserRole" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_user_role t
+    where 1=1 
+    <if test="roleId != '' and roleId != null">AND t.roleId = #{roleId} </if>
+    <if test="userId != '' and userId != null">AND t.userId = #{userId} </if>
+    <if test="beid != '' and beid != null">AND t.beid = #{beid} </if>
+  </select>
+  
+  <select id="selectByPrimarykey" resultMap="BaseResultMap">
+    select <include refid="Cur_Column_List" />
+    from bas_user_role  where userId = #{userName,jdbcType=VARCHAR} and roleId = #{roleId,jdbcType=INTEGER}
+    and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectRoleIdByUsername" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from bas_user_role t,bas_role t1 
+    where t.roleId = t1.id 
+      and t1.enable = 1 
+      and t.beid = t1.beid
+      and t.userId = #{username,jdbcType=VARCHAR}
+      and t.beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.digihealth.anesthesia.sysMng.po.BasUserRole" >
+    delete from bas_user_role
+    where userId = #{userId,jdbcType=VARCHAR}
+      and roleId = #{roleId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertUserRole" parameterType="com.digihealth.anesthesia.sysMng.po.BasUserRole" >
+    insert into bas_user_role (userId, roleId, beid
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.sysMng.po.BasUserRole" >
+    insert into bas_user_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="roleId != null" >
+        roleId,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateUserRole" parameterType="com.digihealth.anesthesia.sysMng.po.BasUserRole" >
+    update bas_user_role
+    <set >
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userName,jdbcType=VARCHAR}
+   and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+</mapper>

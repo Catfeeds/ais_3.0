@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasInventoryDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInventory" >
+    <id column="invtId" property="invtId" jdbcType="VARCHAR" />
+    <result column="chargeItemId" property="chargeItemId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="briefName" property="briefName" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="minPackageUnit" property="minPackageUnit" jdbcType="VARCHAR" />
+    <result column="priceMinPackage" property="priceMinPackage" jdbcType="REAL" />
+    <result column="productionDate" property="productionDate" jdbcType="VARCHAR" />
+    <result column="expiryDate" property="expiryDate" jdbcType="VARCHAR" />
+    <result column="inventoryAmount" property="inventoryAmount" jdbcType="REAL" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    invtId, chargeItemId, name, briefName, pinYin, spec, firm, batch, type, minPackageUnit, 
+    priceMinPackage, productionDate, expiryDate, inventoryAmount, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_inventory
+    where invtId = #{invtId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_inventory
+    where invtId = #{invtId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInventory" >
+    insert into bas_inventory (invtId, chargeItemId, name, 
+      briefName, pinYin, spec, 
+      firm, batch, type, 
+      minPackageUnit, priceMinPackage, productionDate, 
+      expiryDate, inventoryAmount, beid
+      )
+    values (#{invtId,jdbcType=VARCHAR}, #{chargeItemId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{briefName,jdbcType=VARCHAR}, #{pinYin,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, 
+      #{firm,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{minPackageUnit,jdbcType=VARCHAR}, #{priceMinPackage,jdbcType=REAL}, #{productionDate,jdbcType=VARCHAR}, 
+      #{expiryDate,jdbcType=VARCHAR}, #{inventoryAmount,jdbcType=REAL}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInventory" >
+    insert into bas_inventory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="invtId != null" >
+        invtId,
+      </if>
+      <if test="chargeItemId != null" >
+        chargeItemId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="briefName != null" >
+        briefName,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit,
+      </if>
+      <if test="priceMinPackage != null" >
+        priceMinPackage,
+      </if>
+      <if test="productionDate != null" >
+        productionDate,
+      </if>
+      <if test="expiryDate != null" >
+        expiryDate,
+      </if>
+      <if test="inventoryAmount != null" >
+        inventoryAmount,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="invtId != null" >
+        #{invtId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemId != null" >
+        #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="briefName != null" >
+        #{briefName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageUnit != null" >
+        #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMinPackage != null" >
+        #{priceMinPackage,jdbcType=REAL},
+      </if>
+      <if test="productionDate != null" >
+        #{productionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryAmount != null" >
+        #{inventoryAmount,jdbcType=REAL},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInventory" >
+    update bas_inventory
+    <set >
+      <if test="chargeItemId != null" >
+        chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="briefName != null" >
+        briefName = #{briefName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMinPackage != null" >
+        priceMinPackage = #{priceMinPackage,jdbcType=REAL},
+      </if>
+      <if test="productionDate != null" >
+        productionDate = #{productionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        expiryDate = #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryAmount != null" >
+        inventoryAmount = #{inventoryAmount,jdbcType=REAL},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where invtId = #{invtId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasInventory" >
+    update bas_inventory
+    set chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      briefName = #{briefName,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      priceMinPackage = #{priceMinPackage,jdbcType=REAL},
+      productionDate = #{productionDate,jdbcType=VARCHAR},
+      expiryDate = #{expiryDate,jdbcType=VARCHAR},
+      inventoryAmount = #{inventoryAmount,jdbcType=REAL},
+      beid = #{beid,jdbcType=VARCHAR}
+    where invtId = #{invtId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasInventory">
+	SELECT * FROM bas_inventory t where 1=1 and t.beid = #{beid}
+	<if test="type!=null and type!=''">
+	 AND t.type = #{type}
+	</if>
+	<if test="spec!=null and spec!=''">
+	 AND t.spec = #{spec}
+	</if>
+	<if test="firm!=null and firm!=''">
+	 AND t.firm = #{firm}
+	</if>
+	<if test="batch!=null and batch!=''">
+	 AND t.batch = #{batch}
+	</if>
+	<if test="chargeItemId!=null and chargeItemId!=0">
+	 AND t.chargeItemId = #{chargeItemId}
+	</if>
+	</select>
+	
+	<select id="searchInventoryById" resultType="com.digihealth.anesthesia.basedata.po.BasInventory">
+	SELECT * FROM bas_inventory where invtId = #{invtId}
+	</select>
+	
+	<select id="queryInventoryList" resultType="com.digihealth.anesthesia.basedata.po.BasInventory">
+	SELECT * FROM bas_inventory where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryInventoryListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_inventory where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+
+</mapper>

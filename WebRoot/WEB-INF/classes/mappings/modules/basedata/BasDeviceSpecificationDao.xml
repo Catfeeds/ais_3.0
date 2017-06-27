@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasDeviceSpecificationDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification" >
+    <id column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+    <result column="deviceFactory" property="deviceFactory" jdbcType="VARCHAR" />
+    <result column="deviceType" property="deviceType" jdbcType="INTEGER" />
+    <result column="deviceModel" property="deviceModel" jdbcType="VARCHAR" />
+    <result column="protocol" property="protocol" jdbcType="VARCHAR" />
+    <result column="netPort" property="netPort" jdbcType="INTEGER" />
+    <result column="broadPort" property="broadPort" jdbcType="INTEGER" />
+    <result column="startBit" property="startBit" jdbcType="INTEGER" />
+    <result column="stopBit" property="stopBit" jdbcType="INTEGER" />
+    <result column="dataBit" property="dataBit" jdbcType="INTEGER" />
+    <result column="parityBit" property="parityBit" jdbcType="VARCHAR" />
+    <result column="interfaceType" property="interfaceType" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    deviceId, deviceFactory, deviceType, deviceModel, protocol, netPort, broadPort, startBit, 
+    stopBit, dataBit, parityBit, interfaceType, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_device_specification
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_device_specification
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification" >
+    insert into bas_device_specification (deviceId, deviceFactory, deviceType, 
+      deviceModel, protocol, netPort, 
+      broadPort, startBit, stopBit, 
+      dataBit, parityBit, interfaceType, 
+      beid)
+    values (#{deviceId,jdbcType=VARCHAR}, #{deviceFactory,jdbcType=VARCHAR}, #{deviceType,jdbcType=INTEGER}, 
+      #{deviceModel,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR}, #{netPort,jdbcType=INTEGER}, 
+      #{broadPort,jdbcType=INTEGER}, #{startBit,jdbcType=INTEGER}, #{stopBit,jdbcType=INTEGER}, 
+      #{dataBit,jdbcType=INTEGER}, #{parityBit,jdbcType=VARCHAR}, #{interfaceType,jdbcType=INTEGER}, 
+      #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification" >
+    insert into bas_device_specification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+      <if test="deviceFactory != null" >
+        deviceFactory,
+      </if>
+      <if test="deviceType != null" >
+        deviceType,
+      </if>
+      <if test="deviceModel != null" >
+        deviceModel,
+      </if>
+      <if test="protocol != null" >
+        protocol,
+      </if>
+      <if test="netPort != null" >
+        netPort,
+      </if>
+      <if test="broadPort != null" >
+        broadPort,
+      </if>
+      <if test="startBit != null" >
+        startBit,
+      </if>
+      <if test="stopBit != null" >
+        stopBit,
+      </if>
+      <if test="dataBit != null" >
+        dataBit,
+      </if>
+      <if test="parityBit != null" >
+        parityBit,
+      </if>
+      <if test="interfaceType != null" >
+        interfaceType,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceFactory != null" >
+        #{deviceFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=INTEGER},
+      </if>
+      <if test="deviceModel != null" >
+        #{deviceModel,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null" >
+        #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="netPort != null" >
+        #{netPort,jdbcType=INTEGER},
+      </if>
+      <if test="broadPort != null" >
+        #{broadPort,jdbcType=INTEGER},
+      </if>
+      <if test="startBit != null" >
+        #{startBit,jdbcType=INTEGER},
+      </if>
+      <if test="stopBit != null" >
+        #{stopBit,jdbcType=INTEGER},
+      </if>
+      <if test="dataBit != null" >
+        #{dataBit,jdbcType=INTEGER},
+      </if>
+      <if test="parityBit != null" >
+        #{parityBit,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceType != null" >
+        #{interfaceType,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification" >
+    update bas_device_specification
+    <set >
+      <if test="deviceFactory != null" >
+        deviceFactory = #{deviceFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        deviceType = #{deviceType,jdbcType=INTEGER},
+      </if>
+      <if test="deviceModel != null" >
+        deviceModel = #{deviceModel,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null" >
+        protocol = #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="netPort != null" >
+        netPort = #{netPort,jdbcType=INTEGER},
+      </if>
+      <if test="broadPort != null" >
+        broadPort = #{broadPort,jdbcType=INTEGER},
+      </if>
+      <if test="startBit != null" >
+        startBit = #{startBit,jdbcType=INTEGER},
+      </if>
+      <if test="stopBit != null" >
+        stopBit = #{stopBit,jdbcType=INTEGER},
+      </if>
+      <if test="dataBit != null" >
+        dataBit = #{dataBit,jdbcType=INTEGER},
+      </if>
+      <if test="parityBit != null" >
+        parityBit = #{parityBit,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceType != null" >
+        interfaceType = #{interfaceType,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification" >
+    update bas_device_specification
+    set deviceFactory = #{deviceFactory,jdbcType=VARCHAR},
+      deviceType = #{deviceType,jdbcType=INTEGER},
+      deviceModel = #{deviceModel,jdbcType=VARCHAR},
+      protocol = #{protocol,jdbcType=VARCHAR},
+      netPort = #{netPort,jdbcType=INTEGER},
+      broadPort = #{broadPort,jdbcType=INTEGER},
+      startBit = #{startBit,jdbcType=INTEGER},
+      stopBit = #{stopBit,jdbcType=INTEGER},
+      dataBit = #{dataBit,jdbcType=INTEGER},
+      parityBit = #{parityBit,jdbcType=VARCHAR},
+      interfaceType = #{interfaceType,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where deviceId = #{deviceId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findAllList" resultType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification">
+		select * from bas_device_specification a
+			where not EXISTS (select 1 from bas_device_config  where a.deviceId = bas_device_config.deviceId 
+			) and a.beid = #{beid}
+	</select>
+   
+   
+   <select id="queryDeviceSpecificationList" resultType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification">
+		SELECT * FROM bas_device_specification where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryDeviceSpecificationListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_device_specification where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="queryDeviceSpecificationById" resultType="com.digihealth.anesthesia.basedata.po.BasDeviceSpecification">
+		SELECT * FROM bas_device_specification where deviceId = #{deviceId}
+	</select>
+
+</mapper>

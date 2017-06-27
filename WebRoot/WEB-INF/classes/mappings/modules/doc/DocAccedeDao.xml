@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAccedeDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAccede" >
+    <id column="accedeId" property="accedeId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="anaestheitistId" property="anaestheitistId" jdbcType="VARCHAR" />
+    <result column="anaestheitistSignTime" property="anaestheitistSignTime" jdbcType="VARCHAR" />
+    <result column="patient" property="patient" jdbcType="VARCHAR" />
+    <result column="patientRelationship" property="patientRelationship" jdbcType="VARCHAR" />
+    <result column="patientSignTime" property="patientSignTime" jdbcType="VARCHAR" />
+    <result column="talkLocation" property="talkLocation" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="selected" property="selected" jdbcType="VARCHAR" />
+    <result column="diagnosisName" property="diagnosisName" jdbcType="VARCHAR" />
+    <result column="anaseMethodCode" property="anaseMethodCode" jdbcType="VARCHAR" />
+    <result column="anaseMethod" property="anaseMethod" jdbcType="VARCHAR" />
+    <result column="otherRisk" property="otherRisk" jdbcType="VARCHAR" />
+    <result column="patientChoose" property="patientChoose" jdbcType="VARCHAR" />
+    <result column="trachealTntubation" property="trachealTntubation" jdbcType="INTEGER" />
+    <result column="catheterizationArtery" property="catheterizationArtery" jdbcType="INTEGER" />
+    <result column="centralCatheter" property="centralCatheter" jdbcType="INTEGER" />
+    <result column="spinalPuncture" property="spinalPuncture" jdbcType="INTEGER" />
+    <result column="cureContent" property="cureContent" jdbcType="VARCHAR" />
+    
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    accedeId, regOptId, other, anaestheitistId, anaestheitistSignTime, patient, patientRelationship, 
+    patientSignTime, talkLocation, flag, processState, selected, diagnosisName, anaseMethodCode, 
+    anaseMethod, otherRisk, patientChoose, trachealTntubation, catheterizationArtery, 
+    centralCatheter, spinalPuncture, cureContent
+  </sql>
+
+	<select id="searchAccedeByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAccede">
+		SELECT DISTINCT *
+		FROM doc_accede d
+		WHERE d.regOptId = #{regOptId} and d.flag ='1'
+	</select>
+	
+	<select id="searchAccedeById" resultType="com.digihealth.anesthesia.doc.po.DocAccede">
+		SELECT DISTINCT *
+		FROM doc_accede d
+		WHERE d.accedeId = #{id} and d.flag ='1'
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_accede
+    where accedeId = #{accedeId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_accede
+    where accedeId = #{accedeId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAccede" >
+    insert into doc_accede (accedeId, regOptId, other, 
+      anaestheitistId, anaestheitistSignTime, 
+      patient, patientRelationship, patientSignTime, 
+      talkLocation, flag, processState, 
+      selected, diagnosisName, anaseMethodCode, 
+      anaseMethod, otherRisk, patientChoose, 
+      trachealTntubation, catheterizationArtery, 
+      centralCatheter, spinalPuncture, cureContent)
+    values (#{accedeId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}, 
+      #{anaestheitistId,jdbcType=VARCHAR}, #{anaestheitistSignTime,jdbcType=VARCHAR}, 
+      #{patient,jdbcType=VARCHAR}, #{patientRelationship,jdbcType=VARCHAR}, #{patientSignTime,jdbcType=VARCHAR}, 
+      #{talkLocation,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{selected,jdbcType=VARCHAR}, #{diagnosisName,jdbcType=VARCHAR}, #{anaseMethodCode,jdbcType=VARCHAR}, 
+      #{anaseMethod,jdbcType=VARCHAR}, #{otherRisk,jdbcType=VARCHAR}, #{patientChoose,jdbcType=VARCHAR}, 
+      #{trachealTntubation,jdbcType=INTEGER}, #{catheterizationArtery,jdbcType=INTEGER}, 
+      #{centralCatheter,jdbcType=INTEGER}, #{spinalPuncture,jdbcType=INTEGER}, #{cureContent,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAccede" >
+    insert into doc_accede
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accedeId != null" >
+        accedeId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="anaestheitistId != null" >
+        anaestheitistId,
+      </if>
+      <if test="anaestheitistSignTime != null" >
+        anaestheitistSignTime,
+      </if>
+      <if test="patient != null" >
+        patient,
+      </if>
+      <if test="patientRelationship != null" >
+        patientRelationship,
+      </if>
+      <if test="patientSignTime != null" >
+        patientSignTime,
+      </if>
+      <if test="talkLocation != null" >
+        talkLocation,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="selected != null" >
+        selected,
+      </if>
+      <if test="diagnosisName != null" >
+        diagnosisName,
+      </if>
+      <if test="anaseMethodCode != null" >
+        anaseMethodCode,
+      </if>
+      <if test="anaseMethod != null" >
+        anaseMethod,
+      </if>
+      <if test="otherRisk != null" >
+        otherRisk,
+      </if>
+      <if test="patientChoose != null" >
+        patientChoose,
+      </if>
+      <if test="trachealTntubation != null" >
+        trachealTntubation,
+      </if>
+      <if test="catheterizationArtery != null" >
+        catheterizationArtery,
+      </if>
+      <if test="centralCatheter != null" >
+        centralCatheter,
+      </if>
+      <if test="spinalPuncture != null" >
+        spinalPuncture,
+      </if>
+      <if test="cureContent != null" >
+        cureContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accedeId != null" >
+        #{accedeId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="anaestheitistId != null" >
+        #{anaestheitistId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaestheitistSignTime != null" >
+        #{anaestheitistSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="patient != null" >
+        #{patient,jdbcType=VARCHAR},
+      </if>
+      <if test="patientRelationship != null" >
+        #{patientRelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="patientSignTime != null" >
+        #{patientSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="talkLocation != null" >
+        #{talkLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="selected != null" >
+        #{selected,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisName != null" >
+        #{diagnosisName,jdbcType=VARCHAR},
+      </if>
+      <if test="anaseMethodCode != null" >
+        #{anaseMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="anaseMethod != null" >
+        #{anaseMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="otherRisk != null" >
+        #{otherRisk,jdbcType=VARCHAR},
+      </if>
+      <if test="patientChoose != null" >
+        #{patientChoose,jdbcType=VARCHAR},
+      </if>
+      <if test="trachealTntubation != null" >
+        #{trachealTntubation,jdbcType=INTEGER},
+      </if>
+      <if test="catheterizationArtery != null" >
+        #{catheterizationArtery,jdbcType=INTEGER},
+      </if>
+      <if test="centralCatheter != null" >
+        #{centralCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="spinalPuncture != null" >
+        #{spinalPuncture,jdbcType=INTEGER},
+      </if>
+      <if test="cureContent != null" >
+        #{cureContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAccede" >
+    update doc_accede
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="anaestheitistId != null" >
+        anaestheitistId = #{anaestheitistId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaestheitistSignTime != null" >
+        anaestheitistSignTime = #{anaestheitistSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="patient != null" >
+        patient = #{patient,jdbcType=VARCHAR},
+      </if>
+      <if test="patientRelationship != null" >
+        patientRelationship = #{patientRelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="patientSignTime != null" >
+        patientSignTime = #{patientSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="talkLocation != null" >
+        talkLocation = #{talkLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="selected != null" >
+        selected = #{selected,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisName != null" >
+        diagnosisName = #{diagnosisName,jdbcType=VARCHAR},
+      </if>
+      <if test="anaseMethodCode != null" >
+        anaseMethodCode = #{anaseMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="anaseMethod != null" >
+        anaseMethod = #{anaseMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="otherRisk != null" >
+        otherRisk = #{otherRisk,jdbcType=VARCHAR},
+      </if>
+      <if test="patientChoose != null" >
+        patientChoose = #{patientChoose,jdbcType=VARCHAR},
+      </if>
+      <if test="trachealTntubation != null" >
+        trachealTntubation = #{trachealTntubation,jdbcType=INTEGER},
+      </if>
+      <if test="catheterizationArtery != null" >
+        catheterizationArtery = #{catheterizationArtery,jdbcType=INTEGER},
+      </if>
+      <if test="centralCatheter != null" >
+        centralCatheter = #{centralCatheter,jdbcType=INTEGER},
+      </if>
+      <if test="spinalPuncture != null" >
+        spinalPuncture = #{spinalPuncture,jdbcType=INTEGER},
+      </if>
+      <if test="cureContent != null" >
+        cureContent = #{cureContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where accedeId = #{accedeId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateAccede" parameterType="com.digihealth.anesthesia.doc.po.DocAccede" >
+    update doc_accede
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR},
+      anaestheitistId = #{anaestheitistId,jdbcType=VARCHAR},
+      anaestheitistSignTime = #{anaestheitistSignTime,jdbcType=VARCHAR},
+      patient = #{patient,jdbcType=VARCHAR},
+      patientRelationship = #{patientRelationship,jdbcType=VARCHAR},
+      patientSignTime = #{patientSignTime,jdbcType=VARCHAR},
+      talkLocation = #{talkLocation,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      selected = #{selected,jdbcType=VARCHAR},
+      diagnosisName = #{diagnosisName,jdbcType=VARCHAR},
+      anaseMethodCode = #{anaseMethodCode,jdbcType=VARCHAR},
+      anaseMethod = #{anaseMethod,jdbcType=VARCHAR},
+      otherRisk = #{otherRisk,jdbcType=VARCHAR},
+      patientChoose = #{patientChoose,jdbcType=VARCHAR},
+      trachealTntubation = #{trachealTntubation,jdbcType=INTEGER},
+      catheterizationArtery = #{catheterizationArtery,jdbcType=INTEGER},
+      centralCatheter = #{centralCatheter,jdbcType=INTEGER},
+      spinalPuncture = #{spinalPuncture,jdbcType=INTEGER},
+      cureContent = #{cureContent,jdbcType=VARCHAR}
+    where accedeId = #{accedeId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

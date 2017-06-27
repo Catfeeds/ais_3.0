@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring-context.xml,classpath:spring-webservice.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.digihealth.anesthesia.basedata.listener.WebContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<servlet>
+		<servlet-name>springServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:/spring-mvc*.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 配置CXF框架的核心Servlet -->
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/server/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<!-- <init-param> <param-name>allow</param-name> <param-value>127.0.0.1</param-value> 
+			</init-param> -->
+		<init-param>
+			<param-name>loginUsername</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPassword</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<param-name>resetEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- 增加druid 防sql注入配置 -->
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.ico,/druid/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>cors</filter-name>
+		<filter-class>com.digihealth.anesthesia.common.security.SimpleCORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>cors</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 认证过滤器 -->
+	<!-- <filter>
+		<filter-name>tokenAccessFilter</filter-name>
+		<filter-class>com.digihealth.anesthesia.common.security.TokenAccessFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>tokenAccessFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	
+	<!-- 路径过滤器 -->
+	<!-- <filter>
+		<filter-name>pathHandleFilter</filter-name>
+		<filter-class>com.digihealth.icu.common.security.PathHandleFilter</filter-class>
+	</filter>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/bas/*</url-pattern>  
+	</filter-mapping>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	       <url-pattern>/pat/*</url-pattern>  
+	</filter-mapping>  
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/sys/*</url-pattern>  
+	</filter-mapping>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/dat/*</url-pattern>  
+	</filter-mapping>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/doc/*</url-pattern>  
+	</filter-mapping>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/bus/*</url-pattern>  
+	</filter-mapping>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/stat/*</url-pattern>  
+	</filter-mapping>
+	<filter-mapping>  
+	    <filter-name>pathHandleFilter</filter-name>  
+	    <url-pattern>/his/*</url-pattern>  
+	</filter-mapping> -->
+	
+	<listener>
+		<listener-class>
+			org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<display-name></display-name>
+	<welcome-file-list>
+		<welcome-file>/app/index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

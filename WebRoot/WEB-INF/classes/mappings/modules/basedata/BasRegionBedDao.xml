@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasRegionBedDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="roomId" property="roomId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="operClass" property="operClass" jdbcType="VARCHAR" />
+    <result column="deptId" property="deptId" jdbcType="VARCHAR" />
+    <result column="deptName" property="deptName" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="ipAddr" property="ipAddr" jdbcType="VARCHAR" />
+    <result column="port" property="port" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sampFreq1" property="sampFreq1" jdbcType="INTEGER" />
+    <result column="sampFreq2" property="sampFreq2" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, name, roomId, type, level, operClass, deptId, deptName, regOptId, ipAddr, port, 
+    status, sampFreq1, sampFreq2, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_region_bed
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_region_bed
+    where 1=1 
+    <if test="id != '' and id != null">AND id = #{id} </if>
+    <if test="name != '' and name !=null">AND name = #{name} </if>
+    <if test="roomId != '' and roomId !=null">AND roomId = #{roomId} </if>
+    <if test="type != '' and type !=null">AND type = #{type} </if>
+    <if test="level != '' and level !=null">AND level = #{level} </if>
+    <if test="operClass != '' and operClass !=null">AND operClass = #{operClass} </if>
+    <if test="deptId != '' and deptId !=null">AND deptId = #{deptId} </if>
+    <if test="deptName != '' and deptName !=null">AND deptName = #{deptName} </if>
+    <if test="regOptId != '' and regOptId !=null">AND regOptId = #{regOptId} </if>
+    <if test="port !=null">AND port = #{port} </if>
+    <if test="status != null">AND status = #{status} </if>
+    <if test="sampFreq1 != null">AND sampFreq1 = #{sampFreq1} </if>
+    <if test="sampFreq2 != null">AND sampFreq2 = #{sampFreq2} </if>
+    <if test="beid != '' and beid !=null">AND beid = #{beid} </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_region_bed
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    insert into bas_region_bed (id, name, roomId, 
+      type, level, operClass, 
+      deptId, deptName, regOptId, 
+      ipAddr, port, status, sampFreq1, 
+      sampFreq2, beid)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{roomId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{operClass,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
+      #{ipAddr,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{sampFreq1,jdbcType=INTEGER}, 
+      #{sampFreq2,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    insert into bas_region_bed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="roomId != null" >
+        roomId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="operClass != null" >
+        operClass,
+      </if>
+      <if test="deptId != null" >
+        deptId,
+      </if>
+      <if test="deptName != null" >
+        deptName,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="ipAddr != null" >
+        ipAddr,
+      </if>
+      <if test="port != null" >
+        port,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sampFreq1 != null" >
+        sampFreq1,
+      </if>
+      <if test="sampFreq2 != null" >
+        sampFreq2,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="operClass != null" >
+        #{operClass,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddr != null" >
+        #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        #{port,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sampFreq1 != null" >
+        #{sampFreq1,jdbcType=INTEGER},
+      </if>
+      <if test="sampFreq2 != null" >
+        #{sampFreq2,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    update bas_region_bed
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        roomId = #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="operClass != null" >
+        operClass = #{operClass,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        deptId = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        deptName = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddr != null" >
+        ipAddr = #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        port = #{port,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sampFreq1 != null" >
+        sampFreq1 = #{sampFreq1,jdbcType=INTEGER},
+      </if>
+      <if test="sampFreq2 != null" >
+        sampFreq2 = #{sampFreq2,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    update bas_region_bed
+    set name = #{name,jdbcType=VARCHAR},
+      roomId = #{roomId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      operClass = #{operClass,jdbcType=VARCHAR},
+      deptId = #{deptId,jdbcType=VARCHAR},
+      deptName = #{deptName,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      ipAddr = #{ipAddr,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      sampFreq1 = #{sampFreq1,jdbcType=INTEGER},
+      sampFreq2 = #{sampFreq2,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryRegionBedList" resultMap="BaseResultMap">
+	SELECT  <include refid="Base_Column_List" /> FROM bas_region_bed where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryRegionBedListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_region_bed where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="searchRegionBedById" resultMap="BaseResultMap">
+	select  <include refid="Base_Column_List" /> from bas_region_bed where id = #{id}
+	</select>
+	
+	<select id="getregionbedList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_region_bed
+    where 1 = 1 and beid = #{beid,jdbcType=VARCHAR} ${filters}
+  </select>
+  
+  <select id="selectByRegOptId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from bas_region_bed
+    where regOptId = #{regOptId,jdbcType=VARCHAR} and status = 1
+  </select>
+  
+  <select id="getregpatIdByIpAndPort" resultType="java.lang.String">
+  	select patId from bas_region_bed
+    where ipAddr = #{ipAddr,jdbcType=VARCHAR} 
+      and port =  #{port,jdbcType=INTEGER} 
+      and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByIpAddrPort" resultMap="BaseResultMap">
+ 	select <include refid="Base_Column_List" />
+ 	from bas_region_bed
+    where ipAddr = #{ipAddr,jdbcType=VARCHAR} 
+      and port =  #{port,jdbcType=INTEGER} 
+      and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateByPatId" parameterType="com.digihealth.anesthesia.basedata.po.BasRegionBed" >
+    update bas_region_bed
+    set 
+      sampFreq1 = #{sampFreq1,jdbcType=INTEGER},
+      sampFreq2 = #{sampFreq2,jdbcType=INTEGER}
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+    and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

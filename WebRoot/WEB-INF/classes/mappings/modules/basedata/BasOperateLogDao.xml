@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasOperateLogDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasOperateLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="busiId" property="busiId" jdbcType="VARCHAR" />
+    <result column="operName" property="operName" jdbcType="VARCHAR" />
+    <result column="operId" property="operId" jdbcType="VARCHAR" />
+    <result column="operTime" property="operTime" jdbcType="TIMESTAMP" />
+    <result column="operType" property="operType" jdbcType="VARCHAR" />
+    <result column="isError" property="isError" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="operModule" property="operModule" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.basedata.po.BasOperateLog" extends="BaseResultMap" >
+    <result column="operContents" property="operContents" jdbcType="LONGVARCHAR" />
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, busiId, operName, operId, operTime, operType, operModule, isError, channel, beid, remark
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    operContents, description
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bas_operate_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectLogionRecordByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_operate_log
+    where operName = #{logionName,jdbcType=VARCHAR}
+    and beid = #{beid,jdbcType=VARCHAR}
+    and date_format(operTime,'%Y-%m-%d') = date_format(NOW(),'%Y-%m-%d')
+    and isError = 1
+    order by operTime desc;
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_operate_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasOperateLog" >
+    insert into bas_operate_log (id, busiId, operName, 
+      operId, operTime, operType, 
+      operModule, isError, channel, beid, remark, operContents, 
+      description)
+    values (#{id,jdbcType=VARCHAR}, #{busiId,jdbcType=VARCHAR}, #{operName,jdbcType=VARCHAR}, 
+      #{operId,jdbcType=VARCHAR}, #{operTime,jdbcType=TIMESTAMP}, #{operType,jdbcType=VARCHAR}, 
+      #{operModule,jdbcType=VARCHAR}, #{isError,jdbcType=INTEGER}, #{channel,jdbcType=VARCHAR}, 
+      #{beid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{operContents,jdbcType=LONGVARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperateLog" >
+    insert into bas_operate_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="busiId != null" >
+        busiId,
+      </if>
+      <if test="operName != null" >
+        operName,
+      </if>
+      <if test="operId != null" >
+        operId,
+      </if>
+      <if test="operTime != null" >
+        operTime,
+      </if>
+      <if test="operType != null" >
+        operType,
+      </if>
+      <if test="operModule != null" >
+        operModule,
+      </if>
+      <if test="isError != null" >
+        isError,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="operContents != null" >
+        operContents,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null" >
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="operName != null" >
+        #{operName,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null" >
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operType != null" >
+        #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operModule != null" >
+        #{operModule,jdbcType=VARCHAR},
+      </if>
+      <if test="isError != null" >
+        #{isError,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operContents != null" >
+        #{operContents,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperateLog" >
+    update bas_operate_log
+    <set >
+      <if test="busiId != null" >
+        busiId = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="operName != null" >
+        operName = #{operName,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null" >
+        operId = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        operTime = #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operType != null" >
+        operType = #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operModule != null" >
+        operModule = #{operModule,jdbcType=VARCHAR},
+      </if>
+      <if test="isError != null" >
+        isError = #{isError,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operContents != null" >
+        operContents = #{operContents,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.basedata.po.BasOperateLog" >
+    update bas_operate_log
+    set busiId = #{busiId,jdbcType=VARCHAR},
+      operName = #{operName,jdbcType=VARCHAR},
+      operId = #{operId,jdbcType=VARCHAR},
+      operTime = #{operTime,jdbcType=TIMESTAMP},
+      operType = #{operType,jdbcType=VARCHAR},
+      operModule = #{operModule,jdbcType=VARCHAR},
+      isError = #{isError,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      operContents = #{operContents,jdbcType=LONGVARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasOperateLog" >
+    update bas_operate_log
+    set busiId = #{busiId,jdbcType=VARCHAR},
+      operName = #{operName,jdbcType=VARCHAR},
+      operId = #{operId,jdbcType=VARCHAR},
+      operTime = #{operTime,jdbcType=TIMESTAMP},
+      operType = #{operType,jdbcType=VARCHAR},
+      operModule = #{operModule,jdbcType=VARCHAR},
+      isError = #{isError,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

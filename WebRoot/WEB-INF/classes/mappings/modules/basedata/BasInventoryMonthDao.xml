@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasInventoryMonthDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInventoryMonth" >
+    <id column="invtMonId" property="invtMonId" jdbcType="VARCHAR" />
+    <result column="chargeItemId" property="chargeItemId" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="inventoryMonth" property="inventoryMonth" jdbcType="VARCHAR" />
+    <result column="inventoryMonthAmount" property="inventoryMonthAmount" jdbcType="REAL" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    invtMonId, chargeItemId, spec, firm, batch, inventoryMonth, inventoryMonthAmount, 
+    type, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_inventory_month
+    where invtMonId = #{invtMonId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_inventory_month
+    where invtMonId = #{invtMonId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInventoryMonth" >
+    insert into bas_inventory_month (invtMonId, chargeItemId, spec, 
+      firm, batch, inventoryMonth, 
+      inventoryMonthAmount, type, beid
+      )
+    values (#{invtMonId,jdbcType=VARCHAR}, #{chargeItemId,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, 
+      #{firm,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, #{inventoryMonth,jdbcType=VARCHAR}, 
+      #{inventoryMonthAmount,jdbcType=REAL}, #{type,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInventoryMonth" >
+    insert into bas_inventory_month
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="invtMonId != null" >
+        invtMonId,
+      </if>
+      <if test="chargeItemId != null" >
+        chargeItemId,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="inventoryMonth != null" >
+        inventoryMonth,
+      </if>
+      <if test="inventoryMonthAmount != null" >
+        inventoryMonthAmount,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="invtMonId != null" >
+        #{invtMonId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemId != null" >
+        #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryMonth != null" >
+        #{inventoryMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryMonthAmount != null" >
+        #{inventoryMonthAmount,jdbcType=REAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInventoryMonth" >
+    update bas_inventory_month
+    <set >
+      <if test="chargeItemId != null" >
+        chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryMonth != null" >
+        inventoryMonth = #{inventoryMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryMonthAmount != null" >
+        inventoryMonthAmount = #{inventoryMonthAmount,jdbcType=REAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where invtMonId = #{invtMonId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasInventoryMonth" >
+    update bas_inventory_month
+    set chargeItemId = #{chargeItemId,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      inventoryMonth = #{inventoryMonth,jdbcType=VARCHAR},
+      inventoryMonthAmount = #{inventoryMonthAmount,jdbcType=REAL},
+      type = #{type,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where invtMonId = #{invtMonId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasInventoryMonth">
+	SELECT * FROM bas_inventory_month t where 1=1 and t.beid = #{beid}
+	<if test="type!=null and type!=''">
+	 AND t.type = #{type}
+	</if>
+	<if test="spec!=null and spec!=''">
+	 AND t.spec = #{spec}
+	</if>
+	<if test="firm!=null and firm!=''">
+	 AND t.firm = #{firm}
+	</if>
+	<if test="batch!=null and batch!=''">
+	 AND t.batch = #{batch}
+	</if>
+	<if test="inventoryMonth!=null and inventoryMonth!=''">
+	 AND t.inventoryMonth = #{inventoryMonth}
+	</if>
+	<if test="chargeItemId!=null and chargeItemId!=0">
+	 AND t.chargeItemId = #{chargeItemId}
+	</if>
+	order by t.inventoryMonth ASC
+	</select>
+
+</mapper>

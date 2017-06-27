@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtMedicalEventDetailDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtMedicalEventDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="medEventId" property="medEventId" jdbcType="VARCHAR" />
+    <result column="thickness" property="thickness" jdbcType="REAL" />
+    <result column="thicknessUnit" property="thicknessUnit" jdbcType="VARCHAR" />
+    <result column="flow" property="flow" jdbcType="REAL" />
+    <result column="flowUnit" property="flowUnit" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, medEventId, thickness, thicknessUnit, flow, flowUnit, startTime, endTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_medicalevent_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByMedEventandDocId" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from evt_medicalevent_detail
+    where medEventId = #{medEventId} 
+    order by startTime  
+  </select>
+  
+   <select id="selectByStartTimeWithEndTime" resultMap="BaseResultMap">
+	  SELECT <include refid="Base_Column_List" />
+	  FROM evt_medicalevent_detail 
+	  WHERE  medEventId = #{medEventId} 
+	  AND ( UNIX_TIMESTAMP(#{insertTime}) &gt; UNIX_TIMESTAMP(startTime) AND UNIX_TIMESTAMP(#{insertTime}) &lt; UNIX_TIMESTAMP(endTime) ) 
+  </select>
+  
+  <select id="getMedEventDetailListByTime" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" />
+	FROM evt_medicalevent_detail 
+	WHERE  medEventId = #{medEventId} 
+	AND (startTime = #{insertTime} or endTime = #{insertTime}) 
+	order by startTime
+  </select>
+  
+  <delete id="deleteByMedEventId" parameterType="java.lang.String">
+  	delete from evt_medicalevent_detail
+    where medEventId = #{medEventId,jdbcType=VARCHAR} 
+  </delete>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_medicalevent_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtMedicalEventDetail" >
+    insert into evt_medicalevent_detail (id, medEventId, thickness, 
+      thicknessUnit, flow, flowUnit, 
+      startTime, endTime)
+    values (#{id,jdbcType=VARCHAR}, #{medEventId,jdbcType=VARCHAR}, #{thickness,jdbcType=REAL}, 
+      #{thicknessUnit,jdbcType=VARCHAR}, #{flow,jdbcType=REAL}, #{flowUnit,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtMedicalEventDetail" >
+    insert into evt_medicalevent_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="medEventId != null" >
+        medEventId,
+      </if>
+      <if test="thickness != null" >
+        thickness,
+      </if>
+      <if test="thicknessUnit != null" >
+        thicknessUnit,
+      </if>
+      <if test="flow != null" >
+        flow,
+      </if>
+      <if test="flowUnit != null" >
+        flowUnit,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="medEventId != null" >
+        #{medEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="thickness != null" >
+        #{thickness,jdbcType=REAL},
+      </if>
+      <if test="thicknessUnit != null" >
+        #{thicknessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="flow != null" >
+        #{flow,jdbcType=REAL},
+      </if>
+      <if test="flowUnit != null" >
+        #{flowUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtMedicalEventDetail" >
+    update evt_medicalevent_detail
+    <set >
+      <if test="medEventId != null" >
+        medEventId = #{medEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="thickness != null" >
+        thickness = #{thickness,jdbcType=REAL},
+      </if>
+      <if test="thicknessUnit != null" >
+        thicknessUnit = #{thicknessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="flow != null" >
+        flow = #{flow,jdbcType=REAL},
+      </if>
+      <if test="flowUnit != null" >
+        flowUnit = #{flowUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtMedicalEventDetail" >
+    update evt_medicalevent_detail
+    set medEventId = #{medEventId,jdbcType=VARCHAR},
+      thickness = #{thickness,jdbcType=REAL},
+      thicknessUnit = #{thicknessUnit,jdbcType=VARCHAR},
+      flow = #{flow,jdbcType=REAL},
+      flowUnit = #{flowUnit,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

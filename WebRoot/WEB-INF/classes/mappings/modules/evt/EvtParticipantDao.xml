@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.evt.dao.EvtParticipantDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.evt.po.EvtParticipant" >
+    <id column="partpId" property="partpId" jdbcType="VARCHAR" />
+    <result column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="operatorType" property="operatorType" jdbcType="VARCHAR" />
+    <result column="userLoginName" property="userLoginName" jdbcType="VARCHAR" />
+    <result column="isShiftChange" property="isShiftChange" jdbcType="INTEGER" />
+    <result column="docType" property="docType" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    partpId, docId, name, role, createUser, operatorType, userLoginName, isShiftChange, 
+    docType
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_participant
+    where partpId = #{partpId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="getSelectParticipantList" resultType="com.digihealth.anesthesia.sysMng.formbean.UserInfoFormBean">
+		SELECT  a.userLoginName as id,
+			case role WHEN 'O' THEN
+			(select bas_operation_people.name from bas_operation_people where bas_operation_people.operatorId = a.userLoginName AND beid = #{beid})
+			ELSE
+			(select bas_user.name from bas_user where bas_user.userName = a.userLoginName AND bas_user.beid = #{beid}) 
+		END as name
+		FROM evt_participant a where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.role != null and searchBean.role != ''">
+			AND a.role = #{searchBean.role}
+		</if>
+		 <if test="searchBean.type != null and searchBean.type != ''">
+			AND a.operatorType = #{searchBean.type}
+		</if>
+	</select>
+    
+	<select id="searchParticipantList" resultType="com.digihealth.anesthesia.evt.po.EvtParticipant">
+		SELECT  a.docId,a.createUser,a.operatorType,a.partpId,a.role,a.userLoginName,isShiftChange,
+			case role WHEN 'O' THEN
+			(select bas_operation_people.name from bas_operation_people where bas_operation_people.operatorId = a.userLoginName AND beid = #{beid})
+			ELSE
+			(select bas_user.name from bas_user where bas_user.userName = a.userLoginName AND bas_user.beid = #{beid}) 
+		END as name
+		FROM evt_participant a where 1 = 1
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.userLoginName = #{searchBean.id}
+		</if>
+		<if test="searchBean.role != null and searchBean.role != ''">
+			AND a.role = #{searchBean.role}
+		</if>
+		 <if test="searchBean.type != null and searchBean.type != ''">
+			AND a.operatorType = #{searchBean.type}
+		</if>
+	</select>
+	
+	<select id="queryOperPersonListByDocId" resultType="com.digihealth.anesthesia.evt.po.EvtParticipant">
+		SELECT  a.docId,a.createUser,a.operatorType,a.partpId,a.role,a.userLoginName,isShiftChange,
+			(select bas_user.name from bas_user where bas_user.userName = a.userLoginName)  as name
+		FROM evt_participant a where  a.role in ('N','A')
+		<if test="searchBean.docId != null and searchBean.docId != ''">
+			AND a.docId = #{searchBean.docId}
+		</if>
+		<if test="searchBean.role != null and searchBean.role != ''">
+			AND a.role = #{searchBean.role}
+		</if>
+		GROUP BY a.userLoginName
+	</select>
+	
+	<select id="getMainDocList" resultType="com.digihealth.anesthesia.evt.po.EvtParticipant">
+		SELECT  * FROM evt_participant a where  a.role = #{role} and operatorType = #{operatorType}
+		AND a.docId = #{docId}
+	</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evt_participant
+    where partpId = #{partpId,jdbcType=VARCHAR}
+  </delete>
+
+	<delete id="delete">
+		delete from  evt_participant 
+		WHERE docId = #{docId} and role = #{role} 
+	</delete>
+	
+	<delete id="deleteByOperatorType">
+		delete from  evt_participant 
+		WHERE docId = #{docId} and role = #{role} 
+		<if test="operatorType != null and operatorType != ''">
+			AND operatorType = #{operatorType}
+		</if>
+	</delete>
+	
+	<update id="update">
+		update evt_participant set
+			docId = #{docId},
+			name = #{name},
+			role = #{role},
+			createUser = #{createUser},
+			operatorType = #{operatorType},
+			userLoginName = #{userLoginName},
+			isShiftChange = #{isShiftChange}
+		where partpId = #{partpId}
+	</update>
+	
+	<delete id="deleteById">
+		delete from  evt_participant 
+		WHERE partpId = #{partpId} 
+	</delete>
+	
+	<delete id="deleteByUserId">
+		delete from  evt_participant 
+		WHERE docId = #{docId} and userLoginName = #{userId} 
+	</delete>
+	
+	<!-- 插入检验检测-->
+	<!-- <insert id="insertParticipantHis">
+		INSERT INTO s_participant_his(
+			partp_id, 
+			doc_id, 
+			name,
+			role,
+			create_user,
+			operator_type,
+			user_login_name,
+			is_shift_change
+		) VALUES (
+			#{psarticipant.partpId}, 
+			#{psarticipant.docId},
+			#{psarticipant.name},
+			#{psarticipant.role},
+			#{psarticipant.createUser},
+			#{psarticipant.operatorType},
+			#{psarticipant.userLoginName},
+			#{psarticipant.isShiftChange}
+		)
+	</insert> -->
+  <insert id="insert" parameterType="com.digihealth.anesthesia.evt.po.EvtParticipant" >
+    insert into evt_participant (partpId, docId, name, 
+      role, createUser, operatorType, 
+      userLoginName, isShiftChange, docType
+      )
+    values (#{partpId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{role,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{operatorType,jdbcType=VARCHAR}, 
+      #{userLoginName,jdbcType=VARCHAR}, #{isShiftChange,jdbcType=INTEGER}, #{docType,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.evt.po.EvtParticipant" >
+    insert into evt_participant
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="partpId != null" >
+        partpId,
+      </if>
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="operatorType != null" >
+        operatorType,
+      </if>
+      <if test="userLoginName != null" >
+        userLoginName,
+      </if>
+      <if test="isShiftChange != null" >
+        isShiftChange,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="partpId != null" >
+        #{partpId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorType != null" >
+        #{operatorType,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginName != null" >
+        #{userLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="isShiftChange != null" >
+        #{isShiftChange,jdbcType=INTEGER},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.evt.po.EvtParticipant" >
+    update evt_participant
+    <set >
+      <if test="docId != null" >
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorType != null" >
+        operatorType = #{operatorType,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginName != null" >
+        userLoginName = #{userLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="isShiftChange != null" >
+        isShiftChange = #{isShiftChange,jdbcType=INTEGER},
+      </if>
+      <if test="docType != null" >
+        docType = #{docType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where partpId = #{partpId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.evt.po.EvtParticipant" >
+    update evt_participant
+    set docId = #{docId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      operatorType = #{operatorType,jdbcType=VARCHAR},
+      userLoginName = #{userLoginName,jdbcType=VARCHAR},
+      isShiftChange = #{isShiftChange,jdbcType=INTEGER},
+      docType = #{docType,jdbcType=INTEGER}
+    where partpId = #{partpId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

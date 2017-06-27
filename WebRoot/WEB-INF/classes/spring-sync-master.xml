@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		 http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.0.xsd"
+	default-lazy-init="true">
+
+	<description>master</description>
+    
+    <task:scheduler id="dataSyncScheduler" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="dataSyncScheduler">   
+            <task:scheduled ref="dataSyncJob" method="job" cron="0 * * * * ?" />   
+    </task:scheduled-tasks>  
+    
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource" />
+    </bean>
+    
+    <bean id="dataSyncJob" class="com.digihealth.anesthesia.common.task.DataSyncJob">
+        <constructor-arg index="0" value="${MQAddress}" />
+        <constructor-arg index="1" value="${MasterOrSlave}" />
+        <constructor-arg index="2" value="${WorkstationName}" />
+        <constructor-arg index="3" value="${Workstation}" />
+    </bean>
+    
+    <task:scheduler id="autoArchiveDocument" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="autoArchiveDocument">   
+            <task:scheduled ref="basRegOptService" method="autoArchiveDocuments" cron="0 51 15 * * ?" />   
+    </task:scheduled-tasks>  
+    
+    <task:scheduler id="autoMedicine" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="autoMedicine">   
+            <task:scheduled ref="operListService" method="synchronousMedicine" cron="0 30 1 * * ?" />   
+    </task:scheduled-tasks>  
+    
+    <task:scheduler id="autoOperDef" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="autoOperDef">   
+            <task:scheduled ref="operListService" method="synchronousOperDef" cron="0 45 1 * * ?" />   
+    </task:scheduled-tasks>  
+    
+    <!--   屏蔽器械每天定时任务
+    <task:scheduler id="autoInstrument" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="autoInstrument">   
+            <task:scheduled ref="operListService" method="synchronousIns" cron="0 00 2 * * ?" />   
+    </task:scheduled-tasks>
+    -->
+    
+    <task:scheduler id="autoOperPeople" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="autoOperPeople">   
+            <task:scheduled ref="operListService" method="synchronousOperPeople" cron="0 20 2 * * ?" />   
+    </task:scheduled-tasks>  
+    
+    <!-- 深圳市龙岗区第二人民医院定时读取HIS手术通知视图 -->
+    <task:scheduler id="autoHisOperList" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="autoHisOperList">   
+            <task:scheduled ref="operListService" method="synHisOperList" fixed-delay="60000"/>   
+    </task:scheduled-tasks> 
+    
+    <!-- 每天凌晨1点启动定时任务，将不在有效期的公告设置为无效   0 0 1 * * ? -->
+    <task:scheduler id="announcement" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="announcement">   
+            <task:scheduled ref="basAnnouncementTask" method="job"  cron="0 0 1 * * ?"/> 
+    </task:scheduled-tasks>  
+    <bean id="basAnnouncementTask" class="com.digihealth.anesthesia.common.task.BasAnnouncementTask"/>
+        
+</beans>

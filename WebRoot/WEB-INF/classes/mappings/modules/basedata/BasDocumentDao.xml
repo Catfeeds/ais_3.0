@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasDocumentDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasDocument" >
+    <id column="docId" property="docId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="table" property="table" jdbcType="VARCHAR" />
+    <result column="isEnterOperFinish" property="isEnterOperFinish" jdbcType="INTEGER" />
+    <result column="isNeed" property="isNeed" jdbcType="INTEGER" />
+    <result column="isOperShow" property="isOperShow" jdbcType="INTEGER" />
+    <result column="aliasName" property="aliasName" jdbcType="VARCHAR" />
+    <result column="operationState" property="operationState" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    docId, name, table, isEnterOperFinish, isNeed,isOperShow, aliasName, operationState, enable, 
+    beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_document
+    where docId = #{docId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_document
+    where docId = #{docId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasDocument" >
+    insert into bas_document (docId, name, table, 
+      isEnterOperFinish, isNeed,isOperShow, aliasName, 
+      operationState, enable, beid
+      )
+    values (#{docId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{table,jdbcType=VARCHAR}, 
+      #{isEnterOperFinish,jdbcType=INTEGER}, #{isNeed,jdbcType=INTEGER},#{isOperShow,jdbcType=INTEGER}, #{aliasName,jdbcType=VARCHAR}, 
+      #{operationState,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDocument" >
+    insert into bas_document
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="docId != null" >
+        docId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="table != null" >
+        table,
+      </if>
+      <if test="isEnterOperFinish != null" >
+        isEnterOperFinish,
+      </if>
+      <if test="isNeed != null" >
+        isNeed,
+      </if>
+      <if test="isOperShow != null">
+      	isOperShow,
+      </if>
+      <if test="aliasName != null" >
+        aliasName,
+      </if>
+      <if test="operationState != null" >
+        operationState,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="table != null" >
+        #{table,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnterOperFinish != null" >
+        #{isEnterOperFinish,jdbcType=INTEGER},
+      </if>
+      <if test="isNeed != null" >
+        #{isNeed,jdbcType=INTEGER},
+      </if>
+      <if test="isOperShow != null">
+      	#{isOperShow,jdbcType=INTEGER},
+      </if>
+      <if test="aliasName != null" >
+        #{aliasName,jdbcType=VARCHAR},
+      </if>
+      <if test="operationState != null" >
+        #{operationState,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDocument" >
+    update bas_document
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="table != null" >
+        table = #{table,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnterOperFinish != null" >
+        isEnterOperFinish = #{isEnterOperFinish,jdbcType=INTEGER},
+      </if>
+      <if test="isNeed != null" >
+        isNeed = #{isNeed,jdbcType=INTEGER},
+      </if>
+      <if test="isOperShow != null">
+      	isOperShow = #{isOperShow,jdbcType=INTEGER},
+      </if>
+      <if test="aliasName != null" >
+        aliasName = #{aliasName,jdbcType=VARCHAR},
+      </if>
+      <if test="operationState != null" >
+        operationState = #{operationState,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where docId = #{docId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasDocument" >
+    update bas_document
+    set name = #{name,jdbcType=VARCHAR},
+      table = #{table,jdbcType=VARCHAR},
+      isEnterOperFinish = #{isEnterOperFinish,jdbcType=INTEGER},
+      isNeed = #{isNeed,jdbcType=INTEGER},
+      isOperShow = #{isOperShow,jdbcType=INTEGER},
+      aliasName = #{aliasName,jdbcType=VARCHAR},
+      operationState = #{operationState,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where docId = #{docId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="searchDocument" resultType="com.digihealth.anesthesia.basedata.po.BasDocument">
+     <!--SELECT * FROM bas_document WHERE docId IN (
+	 SELECT DISTINCT(d.docId) FROM bas_role_menu rm ,bas_menu m ,bas_document d 
+	 WHERE rm.menuId = m.id AND rm.beid = m.`beid` AND m.docTableId = d.docId 
+	 AND rm.`roleId` = #{roleId} 
+	 AND m.`beid` = #{beid} 
+	 AND d.`enable` = 1 
+	 
+	 <if test="operationState != null and operationState != '' ">
+	 	<if test="operationState == '03'">
+	 		AND d.operationState = #{operationState}
+	 	</if>
+	 	<if test="operationState == '04'">
+	 		AND (d.operationState = '04' OR d.isOperShow = 1 )
+	 	</if>
+	 </if>
+	  
+	 ORDER BY d.`docId` ASC 
+	 ) -->
+	 
+	 SELECT * FROM bas_document WHERE docId IN (
+	 SELECT DISTINCT t2.docId FROM (
+	 SELECT m.* FROM bas_role_menu rm ,bas_menu m WHERE (rm.menuId = m.id AND rm.beid = m.`beid`) 
+	 AND rm.beid = #{beid}  AND rm.roleId = #{roleId} 
+	 ) t1 INNER JOIN 
+	 ( SELECT * FROM bas_document d WHERE 1=1 
+	 <!-- 由于operationState 只有03、04单独传入的可能，其他时候要么是06，要么是多个状态一起过来，都是查询所有的文书，即直接没有where子句-->
+	 <if test="operationState != null and operationState != '' ">
+	 	<if test="operationState == '03'">
+	 		AND d.operationState = #{operationState}
+	 	</if>
+	 	<if test="operationState == '04'">
+	 		AND (d.operationState = #{operationState} OR d.isOperShow = 1 )
+	 	</if>
+	 </if>
+	  ) t2 ON t1.docTableId = t2.docId AND t2.enable = 1  ) 
+	 order by docId asc
+ 
+	<!--  select * from bas_document m left join bas_role_menu r on m.docId = r.menuId and m.beid = r.beid where r.roleId = #{roleId} and m.beid = #{beid} and m.operationState in <foreach collection="optType" item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach>
+	 -->
+  </select>
+  
+  <select id="searchAllDocumentMenu" resultType="com.digihealth.anesthesia.basedata.po.BasDocument">
+  	 SELECT * FROM bas_document WHERE beid = #{beid}  and enable = 1 
+  </select>
+
+</mapper>

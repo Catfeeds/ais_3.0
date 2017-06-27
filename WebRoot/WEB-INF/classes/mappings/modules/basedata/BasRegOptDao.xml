@@ -1,0 +1,1600 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasRegOptDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
+    <id column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="ageMon" property="ageMon" jdbcType="INTEGER" />
+    <result column="ageDay" property="ageDay" jdbcType="INTEGER" />
+    <result column="preengagementnumber" property="preengagementnumber" jdbcType="VARCHAR" />
+    <result column="medicalType" property="medicalType" jdbcType="VARCHAR" />
+    <result column="identityNo" property="identityNo" jdbcType="VARCHAR" />
+    <result column="hid" property="hid" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="bed" property="bed" jdbcType="VARCHAR" />
+    <result column="regionId" property="regionId" jdbcType="INTEGER" />
+    <result column="regionName" property="regionName" jdbcType="VARCHAR" />
+    <result column="deptId" property="deptId" jdbcType="INTEGER" />
+    <result column="deptName" property="deptName" jdbcType="VARCHAR" />
+    <result column="designedOptName" property="designedOptName" jdbcType="VARCHAR" />
+    <result column="designedOptCode" property="designedOptCode" jdbcType="VARCHAR" />
+    <result column="diagnosisName" property="diagnosisName" jdbcType="VARCHAR" />
+    <result column="diagnosisCode" property="diagnosisCode" jdbcType="VARCHAR" />
+    <result column="operaDate" property="operaDate" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="latierDiagName" property="latierDiagName" jdbcType="VARCHAR" />
+    <result column="latierDiagCode" property="latierDiagCode" jdbcType="VARCHAR" />
+    <result column="realOperationName" property="realOperationName" jdbcType="VARCHAR" />
+    <result column="realOperationCode" property="realOperationCode" jdbcType="VARCHAR" />
+    <result column="emergency" property="emergency" jdbcType="INTEGER" />
+    <result column="hyperSusceptiBility" property="hyperSusceptiBility" jdbcType="VARCHAR" />
+    <result column="optLevel" property="optLevel" jdbcType="VARCHAR" />
+    <result column="intermitCause" property="intermitCause" jdbcType="VARCHAR" />
+    <result column="reasons" property="reasons" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="isLocalAnaes" property="isLocalAnaes" jdbcType="VARCHAR" />
+    <result column="designedAnaesMethodName" property="designedAnaesMethodName" jdbcType="VARCHAR" />
+    <result column="designedAnaesMethodCode" property="designedAnaesMethodCode" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="REAL" />
+    <result column="weight" property="weight" jdbcType="REAL" />
+    <result column="changeOperroomReason" property="changeOperroomReason" jdbcType="VARCHAR" />
+    <result column="realDesignedAnaesMethodName" property="realDesignedAnaesMethodName" jdbcType="VARCHAR" />
+    <result column="realDesignedAnaesMethodCode" property="realDesignedAnaesMethodCode" jdbcType="VARCHAR" />
+    <result column="hbsag" property="hbsag" jdbcType="VARCHAR" />
+    <result column="hcv" property="hcv" jdbcType="VARCHAR" />
+    <result column="hiv" property="hiv" jdbcType="VARCHAR" />
+    <result column="hp" property="hp" jdbcType="VARCHAR" />
+    <result column="assistantId" property="assistantId" jdbcType="VARCHAR" />
+    <result column="assistantName" property="assistantName" jdbcType="VARCHAR" />
+    <result column="archState" property="archState" jdbcType="VARCHAR" />
+    <result column="nurseArchState" property="nurseArchState" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="costsettlementState" property="costsettlementState" jdbcType="VARCHAR" />
+    <result column="previousState" property="previousState" jdbcType="VARCHAR" />
+    <result column="msId" property="msId" jdbcType="VARCHAR" />
+    <result column="operTime" property="operTime" jdbcType="TIMESTAMP" />
+    <result column="frontOperForbidTake" property="frontOperForbidTake" jdbcType="INTEGER" />
+    <result column="frontOperSpecialCase" property="frontOperSpecialCase" jdbcType="VARCHAR" />
+    <result column="operSource" property="operSource" jdbcType="INTEGER" />
+    <result column="cutLevel" property="cutLevel" jdbcType="INTEGER" />
+    <result column="origin" property="origin" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    regOptId, name, sex, birthday, age, ageMon, ageDay, preengagementnumber, medicalType, 
+    identityNo, hid, cid, bed, regionId, regionName, deptId, deptName, designedOptName, 
+    designedOptCode, diagnosisName, diagnosisCode, operaDate, startTime, endTime, createUser, 
+    createTime, latierDiagName, latierDiagCode, realOperationName, realOperationCode, 
+    emergency, hyperSusceptiBility, optLevel, intermitCause, reasons, remark, 
+    isLocalAnaes, designedAnaesMethodName, designedAnaesMethodCode, operatorId, operatorName, 
+    height, weight, changeOperroomReason, realDesignedAnaesMethodName, realDesignedAnaesMethodCode, 
+    hbsag, hcv, hiv, hp, assistantId, assistantName, archState, nurseArchState, state, 
+    costsettlementState, previousState, msId, operTime, frontOperForbidTake, frontOperSpecialCase, 
+    operSource, cutLevel, origin, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_reg_opt
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="searchRegOptById" resultType="com.digihealth.anesthesia.basedata.po.BasRegOpt">
+		SELECT
+		a.*,(select operRoomId from bas_dispatch b where b.regOptId = a.regOptId) as
+		roomId
+		FROM bas_reg_opt a
+		WHERE a.regOptId =#{regOptId};
+	</select>
+
+
+	<select id="searchRegOptByAnaesDoctorAndState" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByLoginNameAndStateFormBean">
+		SELECT x.*,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.instrnurseId1 AND bas_user.beid = #{beid})
+		instrnurseName1,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.instrnurseId2 AND bas_user.beid = #{beid})
+		instrnurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.circunurseId1 AND bas_user.beid = #{beid})
+		circunurseName1,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.circunurseId2 AND bas_user.beid = #{beid})
+		circunurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.circuanesthetistId AND bas_user.beid = #{beid})
+		circuanesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.anesthetistId AND bas_user.beid = #{beid})
+		anesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.perfusiondoctorId AND bas_user.beid = #{beid})
+		perfusiondoctorName,
+		(SELECT NAME FROM bas_operroom o WHERE o.operRoomId = x.operRoomId AND o.beid = #{beid})AS
+		oper_roomName,
+		(SELECT codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state'
+		AND sc.codeValue = x.state AND sc.beid = #{beid}) AS state_name
+		FROM (
+		SELECT
+		a.regOptId,a. NAME,a.medicalType,a.hid,a.sex,a.regionId,a.deptId,
+		a.birthday,a.age,a.ageMon,a.ageDay,c.startTime operaTime,
+		a.bed,
+		IF(a.deptName IS NULL OR a.deptName = '' , (SELECT NAME FROM bas_dept t WHERE
+		t.deptId = a.deptId ) ,a.deptName) deptName,
+		IF(a.regionName IS NULL OR a.regionName = '' , (SELECT NAME FROM bas_region t WHERE
+		t.regionId = a.regionId ) ,a.regionName) regionName ,
+		a.designedOptName,
+		a.diagnosisName,a.operaDate,a.costsettlementState,a.reasons,c.operRoomId,
+		c.instrnurseId1,c.instrnurseId2,c.circunurseId1,c.circunurseId2,c.circuanesthetistId,c.anesthetistId,c.perfusiondoctorId,
+		a.state,a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,a.designedAnaesMethodName,a.operatorName,
+		a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp, a.assistantName
+		FROM
+		bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		WHERE 1 = 1
+		AND a.beid = #{beid}
+		${filter}
+		<if test="roleType == 'ANAES_DOCTOR'">
+			AND ((c.anesthetistId = #{loginName} AND a.regOptId NOT IN(SELECT
+			regOptId FROM evt_shift_change,doc_anaes_record ad WHERE ad.anaRecordId=evt_shift_change.docId))
+			OR (a.regOptId IN(SELECT ad.regOptId FROM evt_shift_change,doc_anaes_record ad WHERE ad.anaRecordId=evt_shift_change.docId
+			shiftChangePeopleId = #{loginName}
+			AND shiftChangeTime = (SELECT MAX(shiftChangeTime) FROM
+			evt_shift_change WHERE regOptId = a.regOptId))))
+			AND a.isLocalAnaes =0 AND (a.archState != "AR" OR a.archState is
+			null)
+		</if>
+		<if test="roleType == 'ANAES_DIRECTOR'">
+			AND (a.archState != "AR" OR a.archState is null) AND a.isLocalAnaes=0
+		</if>
+		<if test="roleType == 'HEAD_NURSE'">
+			AND (a.nurseArchState !='AR' OR a.nurseArchState is null)
+		</if>
+		<if test="roleType == 'NURSE'">
+			AND c.circunurseId1 = #{loginName} AND (a.nurseArchState !='AR' OR a.nurseArchState is null)
+		</if>
+		<if test="searchConditionFormBean.startTime !=null and searchConditionFormBean.startTime !=''">
+			AND a.operaDate &gt;= #{searchConditionFormBean.startTime}
+		</if>
+		<if test="searchConditionFormBean.endTime !=null and searchConditionFormBean.endTime !=''">
+			AND a.operaDate &lt;= #{searchConditionFormBean.endTime}
+		</if>
+		<if test="searchConditionFormBean.queryMethod !=null and searchConditionFormBean.queryMethod !=''">
+			AND a.operaDate &gt;=  DATE_FORMAT(NOW(),'%Y-%m-%d')
+		</if>
+		<if
+			test="searchConditionFormBean.state != null and searchConditionFormBean.state != ''">
+			and a.state in
+			<foreach collection="searchConditionFormBean.stateItems"
+				item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		<if
+			test="searchConditionFormBean.isHold != null and searchConditionFormBean.isHold != ''">
+			and (c.isHold = '0' or c.isHold is null)
+		</if>
+		order by
+		<if test="searchConditionFormBean.sort == 'age'">
+			IFNULL(age,0) ${searchConditionFormBean.orderBy} ,IFNULL(ageMon,0)
+			${searchConditionFormBean.orderBy} ,IFNULL(ageDay,0)
+			${searchConditionFormBean.orderBy}
+		</if>
+		<if test="searchConditionFormBean.sort != 'age'">
+			${searchConditionFormBean.sort} ${searchConditionFormBean.orderBy}
+		</if>
+		,state ASC
+		<if test="searchConditionFormBean.pageSize !=null and searchConditionFormBean.pageSize!=''">
+			limit #{searchConditionFormBean.pageNo},#{searchConditionFormBean.pageSize}
+		</if>
+		) x
+	</select>
+
+	<select id="searchRegOptByArchstate" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByLoginNameAndStateFormBean">
+		SELECT x.*,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.instrnurseId1 AND bas_user.beid = #{beid}) instrnurseName1,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.instrnurseId2 AND bas_user.beid = #{beid}) instrnurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.circunurseId1 AND bas_user.beid = #{beid}) circunurseName1,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.circunurseId2 AND bas_user.beid = #{beid}) circunurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.circuanesthetistId AND bas_user.beid = #{beid}) circuanesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.anesthetistId AND bas_user.beid = #{beid}) anesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = x.perfusiondoctorId AND bas_user.beid = #{beid}) perfusiondoctorName,
+		(SELECT NAME FROM bas_operroom o WHERE o.operRoomId = x.operRoomId AND o.beid = #{beid}) AS operRoomName,
+		(SELECT codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state' AND sc.codeValue = x.state AND sc.beid = #{beid}) AS stateName
+		FROM (
+		SELECT
+		a.regOptId,a. NAME,a.medicalType,a.hid,a.sex,a.regionId,a.deptId,
+		a.birthday,a.age,a.ageMon,a.ageDay,
+		a.bed,a.regionName,a.deptName,a.designedOptName,
+		a.diagnosisName,a.operaDate,a.costsettlementState,a.reasons,c.operRoomId,
+		c.instrnurseId1,c.instrnurseId2,c.circunurseId1,c.circunurseId2,c.circuanesthetistId,c.anesthetistId,c.perfusiondoctorId,
+		a.state,a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,a.designedAnaesMethodName,a.operatorName,
+		a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp, a.assistantName
+		FROM
+		bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		WHERE 1 = 1
+		${filter}
+		AND a.beid = #{beid}
+		<if test="roleType == 'ANAES_DIRECTOR'">
+			AND a.archState ='AR' AND a.isLocalAnaes ='0'
+		</if>
+		<if test="roleType == 'OPERROOM_HEAD_NURSE'">
+			AND a.nurseArchState ='AR'
+		</if>
+		<if
+			test="searchConditionFormBean.startTime !=null and searchConditionFormBean.startTime !=''">
+			AND a.operaDate &gt;= #{searchConditionFormBean.startTime}
+		</if>
+		<if
+			test="searchConditionFormBean.endTime !=null and searchConditionFormBean.endTime !=''">
+			AND a.operaDate &lt;= #{searchConditionFormBean.endTime}
+		</if>
+		<if
+			test="searchConditionFormBean.state != null and searchConditionFormBean.state != ''">
+			and a.state in
+			<foreach collection="searchConditionFormBean.stateItems"
+				item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		<if
+			test="searchConditionFormBean.isHold != null and searchConditionFormBean.isHold != ''">
+			and (c.isHold = '0' or c.isHold is null)
+		</if>
+		order by
+		<if test="searchConditionFormBean.sort == 'age'">
+			IFNULL(age,0) ${searchConditionFormBean.orderBy} ,IFNULL(ageMon,0)
+			${searchConditionFormBean.orderBy} ,IFNULL(ageDay,0)
+			${searchConditionFormBean.orderBy}
+		</if>
+		<if test="searchConditionFormBean.sort != 'age'">
+			${searchConditionFormBean.sort} ${searchConditionFormBean.orderBy}
+		</if>
+		,state ASC
+		<if
+			test="searchConditionFormBean.pageSize !=null and searchConditionFormBean.pageSize!=''">
+			limit #{searchConditionFormBean.pageNo},#{searchConditionFormBean.pageSize}
+		</if>
+		) x
+	</select>
+
+	<select id="searchRegoptTotalByArchstate" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM (
+		SELECT
+		a.regOptId,a. NAME,a.medicalType,a.hid,a.sex,a.regionId,a.deptId,
+		a.birthday,a.age,a.ageMon,a.ageDay,
+		a.bed,a.regionName,a.deptName,a.designedOptName,
+		a.diagnosisName,a.operaDate,a.costsettlementState,a.reasons,c.operRoomId,
+		c.instrnurseId1,c.instrnurseId2,c.circunurseId1,c.circunurseId2,c.circuanesthetistId,c.anesthetistId,c.perfusiondoctorId,
+		a.state,a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,a.designedAnaesMethodName,a.operatorName,
+		a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp, a.assistantName
+		FROM
+		bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		WHERE 1 = 1
+		AND a.beid = #{beid}
+		${filter}
+		<if test="roleType == 'ANAES_DOCTOR'">
+			AND ((c.anesthetistId = #{loginName} AND a.regOptId NOT IN(SELECT
+			ad.regOptId FROM evt_shift_change,doc_anaes_record ad WHERE ad.anaRecordId=evt_shift_change.docId))
+			OR (a.regOptId IN(SELECT ad.regOptId FROM evt_shift_change,doc_anaes_record ad WHERE ad.anaRecordId=evt_shift_change.docId
+			AND shiftChangePeopleId = #{loginName}
+			AND shiftChangeTime = (SELECT MAX(shiftChangeTime) FROM
+			evt_shift_change WHERE regOptId = a.regOptId))))
+			AND a.isLocalAnaes ='0' AND a.archState ='AR'
+		</if>
+		<if test="roleType == 'ANAES_DIRECTOR'">
+			AND a.archState ='AR' AND a.isLocalAnaes ='0'
+		</if>
+		<if test="roleType == 'HEAD_NURSE'">
+			AND a.nurseArchState ='AR'
+		</if>
+		<if test="roleType == 'NURSE'">
+			AND c.circunurseId1 = #{loginName} AND a.nurseArchState ='AR'
+		</if>
+		<if
+			test="searchConditionFormBean.startTime !=null and searchConditionFormBean.startTime !=''">
+			AND a.operaDate &gt;= #{searchConditionFormBean.startTime}
+		</if>
+		<if
+			test="searchConditionFormBean.endTime !=null and searchConditionFormBean.endTime !=''">
+			AND a.operaDate &lt;= #{searchConditionFormBean.endTime}
+		</if>
+		<if
+			test="searchConditionFormBean.state != null and searchConditionFormBean.state != ''">
+			and a.state in
+			<foreach collection="searchConditionFormBean.stateItems"
+				item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		<if
+			test="searchConditionFormBean.isHold != null and searchConditionFormBean.isHold != ''">
+			and (c.isHold = '0' or c.isHold is null)
+		</if>
+		order by
+		<if test="searchConditionFormBean.sort == 'age'">
+			IFNULL(age,0) ${searchConditionFormBean.orderBy} ,IFNULL(ageMon,0)
+			${searchConditionFormBean.orderBy} ,IFNULL(ageDay,0)
+			${searchConditionFormBean.orderBy}
+		</if>
+		<if test="searchConditionFormBean.sort != 'age'">
+			${searchConditionFormBean.sort} ${searchConditionFormBean.orderBy}
+		</if>
+		,state ASC
+		) x
+	</select>
+
+	<select id="searchRegoptTotalByAnaesDoctorAndState" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM (
+		SELECT
+		a.regOptId,a. NAME,a.medicalType,a.hid,a.sex,a.regionId,a.deptId,
+		a.birthday,a.age,a.ageMon,a.ageDay,
+		a.bed,a.regionName,a.deptName,a.designedOptName,
+		a.diagnosisName,a.operaDate,a.costsettlementState,a.reasons,c.operRoomId,
+		c.instrnurseId1,c.instrnurseId2,c.circunurseId1,c.circunurseId2,c.circuanesthetistId,c.anesthetistId,c.perfusiondoctorId,
+		a.state,a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,a.designedAnaesMethodName,a.operatorName,
+		a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp, a.assistantName
+		FROM
+		bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		WHERE 1 = 1
+		AND a.beid = #{beid}
+		${filter}
+		<!-- <if test="administrativeLeve == 'ANAES_DOCTOR'"> AND c.anesthetist_id 
+			= #{loginName} AND a.is_local_anaes ='0' AND a.archstate !='AR' </if> <if 
+			test="administrativeLeve == 'ANAES_DIRECTOR'"> AND (a.archstate != "AR" OR 
+			a.archstate is null) AND a.is_local_anaes ='0' </if> <if test="administrativeLeve 
+			== 'OPERROOM_HEAD_NURSE'"> AND a.nurse_archstate !='AR' </if> <if test="searchConditionFormBean.startTime 
+			!=null and searchConditionFormBean.startTime !=''"> AND a.opera_date &gt;= 
+			#{searchConditionFormBean.startTime} </if> <if test="searchConditionFormBean.endTime 
+			!=null and searchConditionFormBean.endTime !=''"> AND a.opera_date &lt;= 
+			#{searchConditionFormBean.endTime} </if> <if test="administrativeLeve == 
+			'OPERROOM_NURSE'"> AND c.circunurse_id1 = #{loginName} AND a.nurse_archstate 
+			!='AR' </if> <if test="searchConditionFormBean.state != null and searchConditionFormBean.state 
+			!= ''"> and a.state in <foreach collection="searchConditionFormBean.stateItems" 
+			item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach> 
+			</if> <if test="searchConditionFormBean.isHold != null and searchConditionFormBean.isHold 
+			!= ''"> and (c.is_hold = '0' or c.is_hold is null) </if> order by <if test="searchConditionFormBean.sort 
+			== 'age'"> IFNULL(age,0) ${searchConditionFormBean.orderBy} ,IFNULL(age_mon,0) 
+			${searchConditionFormBean.orderBy} ,IFNULL(age_day,0) ${searchConditionFormBean.orderBy} 
+			</if> <if test="searchConditionFormBean.sort != 'age'"> ${searchConditionFormBean.sort} 
+			${searchConditionFormBean.orderBy} </if> ,state ASC -->
+
+		<if test="roleType == 'ANAES_DOCTOR'">
+			AND ((c.anesthetistId = #{loginName} AND a.regOptId NOT IN(SELECT
+			ad.regOptId FROM evt_shift_change,doc_anaes_record ad WHERE ad.anaRecordId=evt_shift_change.docId))
+			OR (a.regOptId IN(SELECT ad.regOptId FROM evt_shift_change,doc_anaes_record ad WHERE ad.anaRecordId=evt_shift_change.docId
+			AND shiftChangePeopleId = #{loginName}
+			AND shiftChangeTime = (SELECT MAX(shiftChangeTime) FROM
+			evt_shift_change WHERE regOptId = a.regOptId))))
+			AND a.isLocalAnaes ='0' AND (a.archState != "AR" OR a.archState is
+			null)
+		</if>
+		<if test="roleType == 'ANAES_DIRECTOR'">
+			AND (a.archState != "AR" OR a.archState IS NULL) AND a.isLocalAnaes
+			='0'
+		</if>
+		<if test="roleType == 'HEAD_NURSE'">
+			AND (a.nurseArchState !='AR' OR a.nurseArchState IS NULL)
+		</if>
+		<if test="roleType == 'NURSE'">
+			AND c.circunurseId1 = '' AND (a.nurseArchState !='AR' OR
+			a.nurseArchState IS NULL)
+		</if>
+		<if
+			test="searchConditionFormBean.startTime !=null and searchConditionFormBean.startTime !=''">
+			AND a.operaDate &gt;= #{searchConditionFormBean.startTime}
+		</if>
+		<if
+			test="searchConditionFormBean.endTime !=null and searchConditionFormBean.endTime !=''">
+			AND a.operaDate &lt;= #{searchConditionFormBean.endTime}
+		</if>
+		<if test="searchConditionFormBean.queryMethod !=null and searchConditionFormBean.queryMethod !=''">
+			AND a.operaDate &gt;=  DATE_FORMAT(NOW(),'%Y-%m-%d')
+		</if>
+		
+		<if
+			test="searchConditionFormBean.state != null and searchConditionFormBean.state != ''">
+			and a.state in
+			<foreach collection="searchConditionFormBean.stateItems"
+				item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		<if
+			test="searchConditionFormBean.isHold != null and searchConditionFormBean.isHold != ''">
+			and (c.isHold = '0' or c.isHold is null)
+		</if>
+		order by
+		<if test="searchConditionFormBean.sort == 'age'">
+			IFNULL(age,0) ${searchConditionFormBean.orderBy} ,IFNULL(ageMon,0)
+			${searchConditionFormBean.orderBy} ,IFNULL(ageDay,0)
+			${searchConditionFormBean.orderBy}
+		</if>
+		<if test="searchConditionFormBean.sort != 'age'">
+			${searchConditionFormBean.sort} ${searchConditionFormBean.orderBy}
+		</if>
+		,state ASC
+
+		) x
+	</select>
+
+	<select id="searchRegOptByRoomIdAndOperDateAndState" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByRoomIdAndOperDateAndStateFormBean">
+		SELECT
+		DISTINCT a.regOptId,a.name,a.hid,a.sex,a.age,a.ageMon,a.ageDay,a.bed,
+		a.designedOptName,a.diagnosisName,a.operaDate,m.name
+		operRoomName,
+		u1.name AS "instrnurseName1",u3.name AS "instrnurseName2",u2.name AS
+		"circunurseName1",u4.name AS "circunurseName2",b.name AS
+		"anesthetistName",
+		u5.name AS "circuanesthetistName",a.state,(SELECT codeName FROM bas_sys_code
+		sc WHERE sc.groupId = 'operation_state' AND sc.codeValue = a.state AND sc.beid=#{beid})
+		AS "stateName",a.emergency,a.hypersusceptibility,a.optLevel,
+		a.designedAnaesMethodName,a.operatorName,a.height,a.weight
+		FROM
+		bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		LEFT JOIN bas_operroom m ON m.operRoomId = c.operRoomId
+		LEFT JOIN bas_user b ON c.anesthetistId = b.userName
+		LEFT JOIN bas_user u1 ON c.instrnurseId1 = u1.userName LEFT JOIN bas_user u2 ON
+		c.circunurseId1 = u2.userName LEFT JOIN bas_user u3 ON c.instrnurseId2 =
+		u3.userName LEFT JOIN
+		bas_user u4 ON c.circunurseId2 = u4.userName LEFT JOIN bas_user
+		u5 ON c.circuanesthetistId = u5.userName
+		LEFT JOIN bas_user u6 ON
+		c.perfusiondoctorId = u6.userName
+		WHERE a.state IN
+		<foreach collection="state" item="item" index="index" open="("
+			separator="," close=")">#{item}</foreach>
+			AND a.beid = #{beid}
+		and c.operRoomId = #{roomId} and LEFT(a.operaDate,10) &lt;=
+		#{operDate}
+		ORDER BY operaDate asc,c.startTime asc
+	</select>
+
+	<select id="searchDayRegOpt" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByRoomIdAndOperDateAndStateFormBean">
+		SELECT
+		DISTINCT a.regOptId,a.name,a.hid,a.sex,a.age,a.ageMon,a.ageDay,a.bed,
+		a.designedOptName,a.diagnosisName,a.operaDate,m.name
+		operRoomName,
+		u1.name AS "instrnurseName1",u3.name AS "instrnurseName2",u2.name AS
+		"circunurseName1",u4.name AS "circunurseName2",b.name AS
+		"anesthetistName",
+		u5.name AS "circuanesthetistName",a.state,(SELECT codeName FROM bas_sys_code
+		sc WHERE sc.groupId = 'operation_state' AND sc.codeValue = a.state AND sc.beid = #{beid})
+		AS "stateName",a.emergency,a.hypersusceptibility,a.optLevel,
+		a.designedAnaesMethodName,a.operatorName,a.height,a.weight,LEFT(a.operaDate,10)
+		FROM bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		LEFT JOIN bas_operroom m ON m.operRoomId = c.operRoomId
+		LEFT JOIN bas_user b ON c.anesthetistId = b.userName
+		LEFT JOIN bas_user u1 ON c.instrnurseId1 = u1.userName LEFT JOIN bas_user u2 ON
+		c.circunurseId1 = u2.userName LEFT JOIN bas_user u3 ON c.instrnurseId2 =
+		u3.userName LEFT JOIN
+		bas_user u4 ON c.circunurseId2 = u4.userName LEFT JOIN bas_user
+		u5 ON c.circuanesthetistId = u5.userName
+		LEFT JOIN bas_user u6 ON
+		c.perfusiondoctorId = u6.userName
+		WHERE <!-- c.oper_room_id = #{roomId} AND -->
+		(a.`state` = '03' AND LEFT(a.operaDate,10) = #{operDate} )
+		AND a.beid = #{beid}
+		ORDER BY operaDate ASC,c.startTime ASC
+	</select>
+
+	<select id="searchCurUserRegOpt" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByRoomIdAndOperDateAndStateFormBean">
+		SELECT t.* FROM (
+		SELECT
+		DISTINCT a.regOptId,a.name,a.hid,a.sex,a.age,a.ageMon,a.ageDay,a.bed,
+		a.designedOptName,a.diagnosisName,a.operaDate,m.name
+		operRoomName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.instrnurseId1 AND bas_user.beid = #{beid}) instrnurseName1 ,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.instrnurseId2 AND bas_user.beid = #{beid}) instrnurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circunurseId1 AND bas_user.beid = #{beid}) circunurseName1,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circunurseId2 AND bas_user.beid = #{beid}) circunurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.anesthetistId AND bas_user.beid = #{beid}) anesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circuanesthetistId AND bas_user.beid = #{beid}) circuanesthetistName,
+		(SELECT userName FROM bas_user WHERE bas_user.userName = c.anesthetistId AND bas_user.beid = #{beid}) anes_userId,
+		(SELECT userName FROM bas_user WHERE bas_user.userName = c.circunurseId1 AND bas_user.beid = #{beid}) cName1_userId,c.`startTime`,
+		a.state,
+		(SELECT codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state' AND sc.codeValue = a.state AND sc.beid = #{beid}) AS "stateName",
+		a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,
+		a.designedAnaesMethodName,a.operatorName,a.height,a.weight
+		FROM
+		bas_reg_opt a , bas_dispatch c ,bas_operroom m
+		WHERE a.`regOptId` = c.`regOptId` 
+		AND a.beid = #{beid}
+		AND m.`operRoomId` = c.`operRoomId`
+		AND a.`regOptId` NOT IN (SELECT b.regOptId FROM evt_shift_change a,doc_anaes_record b WHERE a.docId=b.anaRecordId)
+		AND
+		c.`operRoomId` = #{roomId}
+		AND ((a.`state` = '03' 
+		AND LEFT(a.operaDate,10) &gt;= #{operDate}) OR a.state = '04' )
+		UNION ALL
+		SELECT
+		DISTINCT a.regOptId,a.name,a.hid,a.sex,a.age,a.ageMon,a.ageDay,a.bed,
+		a.designedOptName,a.diagnosisName,a.operaDate,m.name
+		operRoomName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.instrnurseId1 AND bas_user.beid = #{beid}) instrnurseName1 ,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.instrnurseId2 AND bas_user.beid = #{beid}) instrnurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circunurseId1 AND bas_user.beid = #{beid}) circunurseName1,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circunurseId2 AND bas_user.beid = #{beid}) circunurseName2,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = (SELECT shiftChangePeopleId FROM
+		evt_shift_change WHERE shiftChangeTime = (SELECT MAX(esc.shiftChangeTime) FROM evt_shift_change esc,doc_anaes_record b 
+		WHERE esc.docId=b.anaRecordId AND b.regOptId = a.regOptId)) AND bas_user.beid = #{beid}) anesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circuanesthetistId AND bas_user.beid = #{beid}) circuanesthetistName,
+		(SELECT id FROM bas_user WHERE bas_user.userName = (SELECT shiftChangePeopleId FROM evt_shift_change WHERE shiftChangeTime = (SELECT
+		MAX(esc.shiftChangeTime) FROM evt_shift_change esc,doc_anaes_record b WHERE esc.docId=b.anaRecordId AND b.regOptId =
+		a.regOptId)) AND bas_user.beid = #{beid}) anes_userId,
+		(SELECT id FROM bas_user WHERE bas_user.userName = c.circunurseId1 AND bas_user.beid = #{beid}) cName1_userId,c.`startTime`,
+		a.state,
+		(SELECT
+		codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state' AND
+		sc.codeValue = a.state AND sc.beid = #{beid}) AS "stateName",
+		a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,
+		a.designedAnaesMethodName,a.operatorName,a.height,a.weight
+		FROM
+		bas_reg_opt a , bas_dispatch c ,bas_operroom m,evt_shift_change d,doc_anaes_record dar
+		WHERE a.`regOptId` = c.`regOptId`
+		AND m.`operRoomId` = c.`operRoomId`
+		AND dar.anaRecordId = d.docId
+		AND a.`regOptId` = dar.`regOptId`
+		AND c.`operRoomId` = #{roomId}
+		AND a.beid = #{beid}
+		AND ((a.`state` = '03' AND LEFT(a.operaDate,10) &gt;= #{operDate}) OR a.state = '04' )) t
+		WHERE (t.anes_userId = #{userId} AND t.isLocalAnaes ='0') OR t.cName1_userId = #{userId}
+		ORDER BY t.operaDate ASC,t.startTime ASC
+	</select>
+
+	<select id="queryAllRegOpt" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByRoomIdAndOperDateAndStateFormBean">
+		SELECT
+		a.regOptId,a.name,a.hid,a.sex,a.age,a.ageMon,a.ageDay,a.bed,
+		a.designedOptName,a.diagnosisName,a.operaDate,m.name
+		operRoomName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName =
+		c.instrnurseId1 AND bas_user.beid = #{beid}) instrnurseName1 ,
+		(SELECT NAME FROM bas_user WHERE
+		bas_user.userName = c.instrnurseId2 AND bas_user.beid = #{beid}) instrnurseName2,
+		(SELECT NAME FROM bas_user
+		WHERE bas_user.userName = c.circunurseId1 AND bas_user.beid = #{beid}) circunurseName1,
+		(SELECT NAME FROM
+		bas_user WHERE bas_user.userName = c.circunurseId2 AND bas_user.beid = #{beid}) circunurseName2,
+		(SELECT
+		NAME FROM bas_user WHERE bas_user.userName = c.anesthetistId AND bas_user.beid = #{beid}) anesthetistName,
+		(SELECT NAME FROM bas_user WHERE bas_user.userName = c.circuanesthetistId AND bas_user.beid = #{beid}) circuanesthetistName,
+		(SELECT userName FROM bas_user WHERE bas_user.userName = c.anesthetistId AND bas_user.beid = #{beid}) anes_userId,
+		(SELECT userName FROM bas_user WHERE bas_user.userName = c.circunurseId1 AND bas_user.beid = #{beid}) cName1_userId,
+		a.state,
+		(SELECT codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state' AND sc.codeValue = a.state AND sc.beid = #{beid}) AS "stateName",
+		a.emergency,a.hypersusceptibility,a.optLevel,
+		a.designedAnaesMethodName,a.operatorName,a.height,a.weight
+		FROM
+		bas_reg_opt a , bas_dispatch c ,bas_operroom m
+		WHERE a.`regOptId` = c.`regOptId`
+		AND m.`operRoomId` = c.`operRoomId`
+		AND c.`operRoomId` = #{regOptFormBean.roomId}
+		AND a.beid = #{beid}
+		<choose>
+			<when test="regOptFormBean.state != null and regOptFormBean.state != '' ">
+				and a.state = #{regOptFormBean.state}
+			</when>
+			<otherwise>
+				AND a.state IN ('03','04','06','08')
+			</otherwise>
+		</choose>
+		<if test="regOptFormBean.hisId != null and regOptFormBean.hisId != '' ">
+			AND a.hid = #{regOptFormBean.hisId}
+		</if>
+		AND STR_TO_DATE(a.operaDate,'%Y-%m-%d') &gt;= STR_TO_DATE
+		(#{regOptFormBean.startTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+		AND
+		STR_TO_DATE(a.operaDate,'%Y-%m-%d') &lt;= STR_TO_DATE
+		(#{regOptFormBean.endTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+
+		ORDER BY operaDate ASC,c.startTime ASC
+	</select>
+
+	<select id="searchApplicationById" resultType="com.digihealth.anesthesia.evt.formbean.SearchRegOptByIdFormBean">
+		SELECT
+		DISTINCT
+		a.regOptId,a.name,a.medicalType,a.hid,a.sex,a.birthday,a.age,a.ageMon,a.ageDay,a.bed,a.regionName,a.deptName,a.regionId,a.deptId,a.designedOptCode,a.diagnosisCode,a.designedAnaesMethodCode,remark,
+		a.operatorId,a.designedOptName,a.diagnosisName,a.operaDate,c.operRoomId,c.isHold,c.healthnurse,c.pcs,(SELECT
+		om.`name` FROM bas_operroom om WHERE om.operRoomId =c.operRoomId AND om.beid = #{beid})
+		AS "operRoomName",a.costsettlementState,a.reasons,(SELECT hn.name
+		FROM bas_user hn WHERE hn.userName=c.healthnurse AND hn.beid = #{beid}) AS "healthnurseName",
+		c.instrnurseId1,c.instrnurseId2,c.circunurseId1,c.circunurseId2,c.anesthetistId,c.circuanesthetistId,c.perfusiondoctorId,u1.name
+		AS "instrnurseName1",u3.name AS "instrnurseName2",u2.name AS
+		"circunurseName1",u4.name AS "circunurseName2",b.name AS
+		"anesthetistName",
+		u5.name AS "circuanesthetistName",a.state,(SELECT codeName FROM bas_sys_code
+		sc WHERE sc.groupId = 'operation_state' AND sc.codeValue = a.state AND sc.beid = #{beid})
+		AS
+		"stateName",a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,
+		a.designedAnaesMethodName,a.operatorName,u6.name AS
+		"perfusiondoctorName",a.costsettlementState,a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp,a.assistantName,a.assistantId,operSource,cutLevel
+		FROM bas_reg_opt a
+		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		LEFT JOIN bas_user b ON c.anesthetistId = b.userName
+		LEFT JOIN bas_user u1 ON
+		c.instrnurseId1 = u1.userName LEFT JOIN bas_user u2 ON c.circunurseId1 =
+		u2.userName LEFT JOIN bas_user u3 ON c.instrnurseId2 = u3.userName LEFT JOIN
+		bas_user
+		u4 ON c.circunurseId2 = u4.userName LEFT JOIN bas_user u5 ON
+		c.circuanesthetistId = u5.userName
+		LEFT JOIN bas_user u6 ON
+		c.perfusiondoctorId = u6.userName
+		WHERE a.regOptId = #{id} AND a.beid = #{beid}
+	</select>
+
+	<select id="searchSafeCheckRegOptById" resultType="com.digihealth.anesthesia.evt.formbean.SearchSafeCheckRegOptFormBean">
+		SELECT DISTINCT
+		t.regOptId,t.name,t.hid,t.sex,t.age,t.ageMon,t.ageDay,t.bed,t.deptName,t.regionName,
+		t.operaDate,t.designedOptName,t.diagnosisName,t.designedAnaesMethodName,t.operatorName,u1.name
+		AS "instrnurseName1",u3.name AS "instrnurseName2",u2.name AS
+		"circunurseName1",u4.name AS "circunurseName2",b.name AS
+		"anesthetistName",
+		u5.name AS "circuanesthetistName",u6.name AS "perfusiondoctorName"
+		FROM bas_reg_opt t
+		LEFT JOIN bas_dispatch c ON t.regOptId = c.regOptId
+		LEFT JOIN bas_user b ON c.anesthetistId = b.userName AND b.beid = #{beid}
+		LEFT JOIN bas_user u1 ON
+		c.instrnurseId1 = u1.userName AND u1.beid = #{beid}
+		LEFT JOIN bas_user u2 ON c.circunurseId1 = u2.userName AND u2.beid = #{beid}
+		LEFT JOIN bas_user u3 ON c.instrnurseId2 = u3.userName AND u3.beid = #{beid} LEFT JOIN
+		bas_user u4 ON
+		c.circunurseId2 = u4.userName AND u4.beid = #{beid}
+		LEFT JOIN bas_user u5 ON c.circuanesthetistId = u5.userName AND u5.beid = #{beid}
+		LEFT JOIN bas_user u6 ON
+		c.perfusiondoctorId = u6.userName AND u6.beid = #{beid}
+		WHERE t.regOptId = #{regOptId} AND t.beid = #{beid}
+	</select>
+
+	<!-- 获取手术室当前手术人员信息 -->
+	<select id="getOperaPatrolRecordList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOperaPatrolRecordFormBean">
+		select * from (
+		<!-- select oper_room_id, NAME AS oper_room_name, '' as designed_opt_name, 
+			'' as opt_level, '' as state, '' as name, '' as hid, '' as height, '' as 
+			weight, '' as age, '' as age_mon, '' as age_day, '' as opera_date, '' as 
+			designed_anaes_method_name, '' as operator_name, '' as reg_opt_id, '' as 
+			operate_state, '' as anaes_doc_name from b_operroom a where a.ENABLE = '1' 
+			and a.room_type='01' and not EXISTS ( SELECT o.oper_room_id FROM b_controller 
+			c INNER JOIN b_dispatch d ON c.reg_opt_id = d.reg_opt_id LEFT JOIN b_operroom 
+			o ON d.oper_room_id = o.oper_room_id INNER JOIN b_reg_opt r ON c.reg_opt_id 
+			= r.reg_opt_id WHERE a.oper_room_id=o.oper_room_id <if test="baseQuery.state 
+			!= null and baseQuery.state != ''"> and c.state in <foreach collection="baseQuery.stateItems" 
+			item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach> 
+			</if> ) UNION All -->
+		SELECT
+		o.operRoomId,
+		o. NAME AS operRoomName,
+		r.designedOptName,
+		r.optLevel,
+		r.state,
+		r. NAME AS NAME,
+		r.hid,
+		r.height,
+		r.weight,
+		r.age,
+		r.ageMon,
+		r.ageDay,
+		r.operaDate,
+		r.designedAnaesMethodName,
+		r.operatorName,
+		r.regOptId,
+		r.emergency,
+		(SELECT bas_sys_code.codeName FROM evt_anaesevent
+		LEFT JOIN bas_sys_code ON bas_sys_code.groupId='anaes_event_type' AND
+		bas_sys_code.codeValue = evt_anaesevent.`code`
+		WHERE docId = (SELECT doc_anaes_record.anaRecordId FROM doc_anaes_record
+		WHERE doc_anaes_record.regOptId = r.regOptId AND r.beid = #{baseQuery.beid}) AND bas_sys_code.beid = #{baseQuery.beid}
+		ORDER BY CODE DESC LIMIT 1) operate_state,
+		(SELECT GROUP_CONCAT(bas_user.name) anaes_doc_name FROM evt_participant,bas_user
+		WHERE bas_user.beid = #{baseQuery.beid} AND
+		evt_participant.userLoginName = bas_user.userName AND
+		docId = (SELECT doc_anaes_record.anaRecordId FROM doc_anaes_record WHERE
+		doc_anaes_record.regOptId = r.regOptId AND r.beid = #{baseQuery.beid})
+		AND evt_participant.role='A') anaes_doc_name
+		FROM
+		bas_reg_opt r
+		INNER JOIN bas_dispatch d ON r.regOptId = d.regOptId
+		LEFT JOIN bas_operroom o ON d.operRoomId = o.operRoomId
+
+		WHERE 1 = 1 AND r.`isLocalAnaes` = 0
+
+		<if test="baseQuery.state != null and baseQuery.state != ''">
+			and r.state in
+			<foreach collection="baseQuery.stateItems" item="item" index="index"
+				open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		AND r.beid = #{baseQuery.beid}
+		) x ORDER BY x.operRoomId
+	</select>
+
+	<!-- 获取手术室当前手术人员信息 -->
+	<select id="getOperaPatrolRecordListByRoomId" resultType="com.digihealth.anesthesia.evt.formbean.SearchOperaPatrolRecordFormBean">
+		SELECT
+		o. NAME AS operRoomName,
+		r.designedOptName,
+		r.optLevel,
+		r.state,
+		r.NAME AS NAME,
+		r.hid,
+		r.height,
+		r.age,
+		r.ageMon,
+		r.ageDay,
+		r.operaDate,
+		r.designedAnaesMethodName,
+		r.operatorName,
+		r.regOptId
+		FROM
+		bas_reg_opt r
+		INNER JOIN bas_dispatch d ON r.regOptId = d.regOptId
+		LEFT JOIN
+		bas_operroom o ON d.operRoomId = o.operRoomId
+		WHERE 1 = 1
+		AND r.beid = #{baseQuery.beid}
+		<if test="baseQuery.operRoomId != null and baseQuery.operRoomId != ''">
+			AND d.operRoomId = #{baseQuery.operRoomId}
+		</if>
+
+		<if test="baseQuery.state != null and baseQuery.state != ''">
+			and r.state in
+			<foreach collection="baseQuery.stateItems" item="item" index="index"
+				open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</select>
+
+	<select id="selectByState" resultType="com.digihealth.anesthesia.basedata.po.BasRegOpt">
+		SELECT * FROM (
+		SELECT
+		a.*,(SELECT operRoomId FROM bas_dispatch b WHERE b.regOptId =
+		a.regOptId) AS roomId
+		FROM bas_reg_opt a
+		WHERE a.state = #{state} ) t WHERE t.roomId = #{roomId} AND t.beid = #{beid};
+	</select>
+
+	<select id="searchMyOperation" resultType="com.digihealth.anesthesia.evt.formbean.SearchMyOperationFormBean">
+		SELECT
+		DISTINCT
+		a.regOptId,a.name,a.hid,a.designedAnaesMethodName,a.operaDate,a.deptName,a.regionName,a.designedOptName,a.operatorName,(select
+		u.name from bas_user u where u.userName = c.anesthetistId AND u.beid = #{searchConditionFormBean.beid}) as
+		anesthetist_name,
+		(select opr.name from bas_operroom opr where opr.operRoomId = c.operRoomId AND opr.beid = #{searchConditionFormBean.beid})
+		as oper_room_name,
+		(SELECT codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state'
+		AND sc.codeValue = a.state AND sc.beid = #{searchConditionFormBean.beid}) AS state
+		FROM bas_reg_opt a
+		left join bas_dispatch c on a.regOptId = c.regOptId
+		WHERE 1 = 1
+		${filter}
+		<if test="loginName != null">
+			AND (c.anesthetistId = #{loginName} or c.circunurseId1 = #{loginName} or
+			c.circunurseId2 = #{loginName} or c.instrnurseId1 = #{loginName} or
+			c.instrnurseId2 = #{loginName})
+		</if>
+		and a.state in
+		<foreach collection="searchConditionFormBean.stateItems" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+		AND a.beid = #{searchConditionFormBean.beid}
+		order by a.${searchConditionFormBean.sort}
+		${searchConditionFormBean.orderBy}
+	</select>
+
+	<select id="searchNoArchiveRegOpt" resultType="com.digihealth.anesthesia.evt.formbean.SearchMyOperationFormBean">
+		SELECT DISTINCT a.regOptId
+		FROM bas_reg_opt a where
+		(a.archState !='AR'
+		or a.archState is null or a.nurseArchState !='AR' or
+		a.nurseArchState is null ) and a.operaDate &lt;= #{time} AND a.beid = #{beid}
+	</select>
+
+	<select id="queryDocState" resultType="com.digihealth.anesthesia.basedata.formbean.DocumentStateFormbean">
+		${sql}
+	</select>
+
+	<select id="searchDocumentState" resultType="java.lang.String">
+		${sql}
+	</select>
+
+	<select id="researchAnalysis" resultType="java.lang.String">
+		${sql}
+	</select>
+
+	<select id="searchRegOpt" resultType="com.digihealth.anesthesia.evt.formbean.SearchMyOperationFormBean">
+		select t.* from bas_reg_opt t
+		LEFT JOIN bas_dispatch c ON t.regOptId = c.regOptId where 1 = 1 <!-- and (t.archstate 
+			!='AR' or t.archstate is null) -->
+		and t.state in
+		<foreach collection="searchConditionFormBean.stateItems" item="item"
+			index="index" open="(" separator="," close=")">#{item}</foreach>
+		<if test="roleType == 'ANAES_DOCTOR'">
+			AND c.anesthetistId = #{loginName} AND t.isLocalAnaes ='0'
+		</if>
+		<if test="roleType == 'NURSE'">
+			AND c.circunurseId1 = #{loginName}
+		</if>
+		AND t.beid = #{searchConditionFormBean.beid}
+		order by t.operaDate DESC
+	</select>
+
+	<select id="getPostopOptInfo" resultType="com.digihealth.anesthesia.doc.formbean.AnaesPacuRecFormBean">
+		SELECT
+		b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,d.asaLevel,b.weight,b.deptName,
+		(SELECT codeName FROM bas_sys_code WHERE
+		bas_sys_code.groupId='asa_level' AND codeValue = d.asaLevel AND beid = #{beid}) asaLevelName,
+		(SELECT codeName FROM bas_sys_code WHERE bas_sys_code.groupId='operat_level'
+		AND codeValue = b.optLevel AND beid = #{beid}) operat_level_name,
+		(SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId =
+		d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
+		(SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId =
+		d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+		(SELECT GROUP_CONCAT(NAME) FROM evt_real_anaes_method a WHERE a.docId =
+		d.anaRecordId ORDER BY a.realAnaMedId ) anaes_method,
+		p.anesthetistId,(SELECT NAME FROM bas_user WHERE
+		bas_user.userName=p.anesthetistId AND beid = #{beid}) anesthetist_name
+		FROM doc_anaes_record d, bas_reg_opt b, bas_dispatch p
+		WHERE b.state IN('05','06','07')
+		AND b.regOptId=d.regOptId
+		AND b.regOptId = p.regOptId
+		AND b.regOptId = #{regOptId}
+		AND b.beid = #{beid}
+	</select>
+
+	<update id="updateMsid">
+		update bas_reg_opt set msId = #{msid} where regOptId = #{regOptId}
+	</update>
+
+	<update id="updateOperTime">
+		update bas_reg_opt set operTime = #{operTime} where regOptId = #{regOptId}
+	</update>
+
+	<update id="updateIntermitcause">
+		update bas_reg_opt set intermitCause = #{cause}, endTime = now() where regOptId = #{regOptId}
+	</update>
+
+	<update id="updateState">
+		update bas_reg_opt set state = #{state} where regOptId=#{regOptId}
+	</update>
+
+	<update id="updateArchstate">
+		update bas_reg_opt set archState = #{archstate} where regOptId in
+		<foreach collection="regOptIdList" item="item" index="index"
+			open="(" separator="," close=")">#{item}</foreach>
+	</update>
+
+	<update id="updateNurseArchstate">
+		update bas_reg_opt set nurseArchState = #{nurseArchstate} where
+		regOptId in
+		<foreach collection="regOptIdList" item="item" index="index"
+			open="(" separator="," close=")">#{item}</foreach>
+	</update>
+
+	<update id="updateFrontOperForbidTake">
+		update bas_reg_opt set frontOperForbidtake = #{frontOperForbidTake} where regOptId=#{regOptId}
+	</update>
+
+	<update id="updateFrontOperSpecialCase">
+		update bas_reg_opt set frontOperSpecialCase = #{frontOperSpecialCase} where regOptId=#{regOptId}
+	</update>
+
+	<select id="selectHisToRegOpt" resultType="java.lang.Integer">
+		select count(*) from bas_reg_opt where preengagementnumber = #{preengagementnumber} and operaDate &gt;= #{operaDate} and beid = #{beid}
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_reg_opt where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
+    insert into bas_reg_opt (regOptId, name, sex, 
+      birthday, age, ageMon, 
+      ageDay, preengagementnumber, medicalType, 
+      identityNo, hid, cid, 
+      bed, regionId, regionName, 
+      deptId, deptName, designedOptName, 
+      designedOptCode, diagnosisName, diagnosisCode, 
+      operaDate, startTime, endTime, 
+      createUser, createTime, latierDiagName, 
+      latierDiagCode, realOperationName, realOperationCode, 
+      emergency, hyperSusceptiBility, 
+      optLevel, intermitCause, reasons, 
+      remark, isLocalAnaes, designedAnaesMethodName, 
+      designedAnaesMethodCode, operatorId, operatorName, 
+      height, weight, changeOperroomReason, 
+      realDesignedAnaesMethodName, realDesignedAnaesMethodCode, 
+      hbsag, hcv, hiv, hp, 
+      assistantId, assistantName, archState, 
+      nurseArchState, state, costsettlementState, 
+      previousState, msId, operTime, 
+      frontOperForbidTake, frontOperSpecialCase, 
+      operSource, cutLevel, origin, beid)
+    values (#{regOptId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{ageMon,jdbcType=INTEGER}, 
+      #{ageDay,jdbcType=INTEGER}, #{preengagementnumber,jdbcType=VARCHAR}, #{medicalType,jdbcType=VARCHAR}, 
+      #{identityNo,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
+      #{bed,jdbcType=VARCHAR}, #{regionId,jdbcType=INTEGER}, #{regionName,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR}, #{designedOptName,jdbcType=VARCHAR}, 
+      #{designedOptCode,jdbcType=VARCHAR}, #{diagnosisName,jdbcType=VARCHAR}, #{diagnosisCode,jdbcType=VARCHAR}, 
+      #{operaDate,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{latierDiagName,jdbcType=VARCHAR}, 
+      #{latierDiagCode,jdbcType=VARCHAR}, #{realOperationName,jdbcType=VARCHAR}, #{realOperationCode,jdbcType=VARCHAR}, 
+      #{emergency,jdbcType=INTEGER}, #{hyperSusceptiBility,jdbcType=VARCHAR}, 
+      #{optLevel,jdbcType=VARCHAR}, #{intermitCause,jdbcType=VARCHAR}, #{reasons,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{isLocalAnaes,jdbcType=VARCHAR}, #{designedAnaesMethodName,jdbcType=VARCHAR}, 
+      #{designedAnaesMethodCode,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, 
+      #{height,jdbcType=REAL}, #{weight,jdbcType=REAL}, #{changeOperroomReason,jdbcType=VARCHAR}, 
+      #{realDesignedAnaesMethodName,jdbcType=VARCHAR}, #{realDesignedAnaesMethodCode,jdbcType=VARCHAR}, 
+      #{hbsag,jdbcType=VARCHAR}, #{hcv,jdbcType=VARCHAR}, #{hiv,jdbcType=VARCHAR}, #{hp,jdbcType=VARCHAR}, 
+      #{assistantId,jdbcType=VARCHAR}, #{assistantName,jdbcType=VARCHAR}, #{archState,jdbcType=VARCHAR}, 
+      #{nurseArchState,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{costsettlementState,jdbcType=VARCHAR}, 
+      #{previousState,jdbcType=VARCHAR}, #{msId,jdbcType=VARCHAR}, #{operTime,jdbcType=TIMESTAMP}, 
+      #{frontOperForbidTake,jdbcType=INTEGER}, #{frontOperSpecialCase,jdbcType=VARCHAR}, 
+      #{operSource,jdbcType=INTEGER}, #{cutLevel,jdbcType=INTEGER}, #{origin,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
+    insert into bas_reg_opt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="ageMon != null" >
+        ageMon,
+      </if>
+      <if test="ageDay != null" >
+        ageDay,
+      </if>
+      <if test="preengagementnumber != null" >
+        preengagementnumber,
+      </if>
+      <if test="medicalType != null" >
+        medicalType,
+      </if>
+      <if test="identityNo != null" >
+        identityNo,
+      </if>
+      <if test="hid != null" >
+        hid,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="bed != null" >
+        bed,
+      </if>
+      <if test="regionId != null" >
+        regionId,
+      </if>
+      <if test="regionName != null" >
+        regionName,
+      </if>
+      <if test="deptId != null" >
+        deptId,
+      </if>
+      <if test="deptName != null" >
+        deptName,
+      </if>
+      <if test="designedOptName != null" >
+        designedOptName,
+      </if>
+      <if test="designedOptCode != null" >
+        designedOptCode,
+      </if>
+      <if test="diagnosisName != null" >
+        diagnosisName,
+      </if>
+      <if test="diagnosisCode != null" >
+        diagnosisCode,
+      </if>
+      <if test="operaDate != null" >
+        operaDate,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="latierDiagName != null" >
+        latierDiagName,
+      </if>
+      <if test="latierDiagCode != null" >
+        latierDiagCode,
+      </if>
+      <if test="realOperationName != null" >
+        realOperationName,
+      </if>
+      <if test="realOperationCode != null" >
+        realOperationCode,
+      </if>
+      <if test="emergency != null" >
+        emergency,
+      </if>
+      <if test="hyperSusceptiBility != null" >
+        hyperSusceptiBility,
+      </if>
+      <if test="optLevel != null" >
+        optLevel,
+      </if>
+      <if test="intermitCause != null" >
+        intermitCause,
+      </if>
+      <if test="reasons != null" >
+        reasons,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isLocalAnaes != null" >
+        isLocalAnaes,
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        designedAnaesMethodName,
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        designedAnaesMethodCode,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="operatorName != null" >
+        operatorName,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="changeOperroomReason != null" >
+        changeOperroomReason,
+      </if>
+      <if test="realDesignedAnaesMethodName != null" >
+        realDesignedAnaesMethodName,
+      </if>
+      <if test="realDesignedAnaesMethodCode != null" >
+        realDesignedAnaesMethodCode,
+      </if>
+      <if test="hbsag != null" >
+        hbsag,
+      </if>
+      <if test="hcv != null" >
+        hcv,
+      </if>
+      <if test="hiv != null" >
+        hiv,
+      </if>
+      <if test="hp != null" >
+        hp,
+      </if>
+      <if test="assistantId != null" >
+        assistantId,
+      </if>
+      <if test="assistantName != null" >
+        assistantName,
+      </if>
+      <if test="archState != null" >
+        archState,
+      </if>
+      <if test="nurseArchState != null" >
+        nurseArchState,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="costsettlementState != null" >
+        costsettlementState,
+      </if>
+      <if test="previousState != null" >
+        previousState,
+      </if>
+      <if test="msId != null" >
+        msId,
+      </if>
+      <if test="operTime != null" >
+        operTime,
+      </if>
+      <if test="frontOperForbidTake != null" >
+        frontOperForbidTake,
+      </if>
+      <if test="frontOperSpecialCase != null" >
+        frontOperSpecialCase,
+      </if>
+      <if test="operSource != null" >
+        operSource,
+      </if>
+      <if test="cutLevel != null" >
+        cutLevel,
+      </if>
+      <if test="origin != null" >
+        origin,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="ageMon != null" >
+        #{ageMon,jdbcType=INTEGER},
+      </if>
+      <if test="ageDay != null" >
+        #{ageDay,jdbcType=INTEGER},
+      </if>
+      <if test="preengagementnumber != null" >
+        #{preengagementnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalType != null" >
+        #{medicalType,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNo != null" >
+        #{identityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hid != null" >
+        #{hid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="bed != null" >
+        #{bed,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null" >
+        #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptName != null" >
+        #{designedOptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptCode != null" >
+        #{designedOptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisName != null" >
+        #{diagnosisName,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisCode != null" >
+        #{diagnosisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDate != null" >
+        #{operaDate,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="latierDiagName != null" >
+        #{latierDiagName,jdbcType=VARCHAR},
+      </if>
+      <if test="latierDiagCode != null" >
+        #{latierDiagCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realOperationName != null" >
+        #{realOperationName,jdbcType=VARCHAR},
+      </if>
+      <if test="realOperationCode != null" >
+        #{realOperationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        #{emergency,jdbcType=INTEGER},
+      </if>
+      <if test="hyperSusceptiBility != null" >
+        #{hyperSusceptiBility,jdbcType=VARCHAR},
+      </if>
+      <if test="optLevel != null" >
+        #{optLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="intermitCause != null" >
+        #{intermitCause,jdbcType=VARCHAR},
+      </if>
+      <if test="reasons != null" >
+        #{reasons,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isLocalAnaes != null" >
+        #{isLocalAnaes,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        #{designedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=REAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=REAL},
+      </if>
+      <if test="changeOperroomReason != null" >
+        #{changeOperroomReason,jdbcType=VARCHAR},
+      </if>
+      <if test="realDesignedAnaesMethodName != null" >
+        #{realDesignedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="realDesignedAnaesMethodCode != null" >
+        #{realDesignedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hbsag != null" >
+        #{hbsag,jdbcType=VARCHAR},
+      </if>
+      <if test="hcv != null" >
+        #{hcv,jdbcType=VARCHAR},
+      </if>
+      <if test="hiv != null" >
+        #{hiv,jdbcType=VARCHAR},
+      </if>
+      <if test="hp != null" >
+        #{hp,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantId != null" >
+        #{assistantId,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantName != null" >
+        #{assistantName,jdbcType=VARCHAR},
+      </if>
+      <if test="archState != null" >
+        #{archState,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseArchState != null" >
+        #{nurseArchState,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="costsettlementState != null" >
+        #{costsettlementState,jdbcType=VARCHAR},
+      </if>
+      <if test="previousState != null" >
+        #{previousState,jdbcType=VARCHAR},
+      </if>
+      <if test="msId != null" >
+        #{msId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frontOperForbidTake != null" >
+        #{frontOperForbidTake,jdbcType=INTEGER},
+      </if>
+      <if test="frontOperSpecialCase != null" >
+        #{frontOperSpecialCase,jdbcType=VARCHAR},
+      </if>
+      <if test="operSource != null" >
+        #{operSource,jdbcType=INTEGER},
+      </if>
+      <if test="cutLevel != null" >
+        #{cutLevel,jdbcType=INTEGER},
+      </if>
+      <if test="origin != null" >
+        #{origin,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
+    update bas_reg_opt
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="ageMon != null" >
+        ageMon = #{ageMon,jdbcType=INTEGER},
+      </if>
+      <if test="ageDay != null" >
+        ageDay = #{ageDay,jdbcType=INTEGER},
+      </if>
+      <if test="preengagementnumber != null" >
+        preengagementnumber = #{preengagementnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalType != null" >
+        medicalType = #{medicalType,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNo != null" >
+        identityNo = #{identityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hid != null" >
+        hid = #{hid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="bed != null" >
+        bed = #{bed,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        regionId = #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null" >
+        regionName = #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        deptId = #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="deptName != null" >
+        deptName = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptName != null" >
+        designedOptName = #{designedOptName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedOptCode != null" >
+        designedOptCode = #{designedOptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisName != null" >
+        diagnosisName = #{diagnosisName,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisCode != null" >
+        diagnosisCode = #{diagnosisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDate != null" >
+        operaDate = #{operaDate,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="latierDiagName != null" >
+        latierDiagName = #{latierDiagName,jdbcType=VARCHAR},
+      </if>
+      <if test="latierDiagCode != null" >
+        latierDiagCode = #{latierDiagCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realOperationName != null" >
+        realOperationName = #{realOperationName,jdbcType=VARCHAR},
+      </if>
+      <if test="realOperationCode != null" >
+        realOperationCode = #{realOperationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        emergency = #{emergency,jdbcType=INTEGER},
+      </if>
+      <if test="hyperSusceptiBility != null" >
+        hyperSusceptiBility = #{hyperSusceptiBility,jdbcType=VARCHAR},
+      </if>
+      <if test="optLevel != null" >
+        optLevel = #{optLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="intermitCause != null" >
+        intermitCause = #{intermitCause,jdbcType=VARCHAR},
+      </if>
+      <if test="reasons != null" >
+        reasons = #{reasons,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isLocalAnaes != null" >
+        isLocalAnaes = #{isLocalAnaes,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodName != null" >
+        designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="designedAnaesMethodCode != null" >
+        designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        operatorName = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=REAL},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=REAL},
+      </if>
+      <if test="changeOperroomReason != null" >
+        changeOperroomReason = #{changeOperroomReason,jdbcType=VARCHAR},
+      </if>
+      <if test="realDesignedAnaesMethodName != null" >
+        realDesignedAnaesMethodName = #{realDesignedAnaesMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="realDesignedAnaesMethodCode != null" >
+        realDesignedAnaesMethodCode = #{realDesignedAnaesMethodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hbsag != null" >
+        hbsag = #{hbsag,jdbcType=VARCHAR},
+      </if>
+      <if test="hcv != null" >
+        hcv = #{hcv,jdbcType=VARCHAR},
+      </if>
+      <if test="hiv != null" >
+        hiv = #{hiv,jdbcType=VARCHAR},
+      </if>
+      <if test="hp != null" >
+        hp = #{hp,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantId != null" >
+        assistantId = #{assistantId,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantName != null" >
+        assistantName = #{assistantName,jdbcType=VARCHAR},
+      </if>
+      <if test="archState != null" >
+        archState = #{archState,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseArchState != null" >
+        nurseArchState = #{nurseArchState,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="costsettlementState != null" >
+        costsettlementState = #{costsettlementState,jdbcType=VARCHAR},
+      </if>
+      <if test="previousState != null" >
+        previousState = #{previousState,jdbcType=VARCHAR},
+      </if>
+      <if test="msId != null" >
+        msId = #{msId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        operTime = #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frontOperForbidTake != null" >
+        frontOperForbidTake = #{frontOperForbidTake,jdbcType=INTEGER},
+      </if>
+      <if test="frontOperSpecialCase != null" >
+        frontOperSpecialCase = #{frontOperSpecialCase,jdbcType=VARCHAR},
+      </if>
+      <if test="operSource != null" >
+        operSource = #{operSource,jdbcType=INTEGER},
+      </if>
+      <if test="cutLevel != null" >
+        cutLevel = #{cutLevel,jdbcType=INTEGER},
+      </if>
+      <if test="origin != null" >
+        origin = #{origin,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
+    update bas_reg_opt
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      ageMon = #{ageMon,jdbcType=INTEGER},
+      ageDay = #{ageDay,jdbcType=INTEGER},
+      preengagementnumber = #{preengagementnumber,jdbcType=VARCHAR},
+      medicalType = #{medicalType,jdbcType=VARCHAR},
+      identityNo = #{identityNo,jdbcType=VARCHAR},
+      hid = #{hid,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR},
+      bed = #{bed,jdbcType=VARCHAR},
+      regionId = #{regionId,jdbcType=INTEGER},
+      regionName = #{regionName,jdbcType=VARCHAR},
+      deptId = #{deptId,jdbcType=INTEGER},
+      deptName = #{deptName,jdbcType=VARCHAR},
+      designedOptName = #{designedOptName,jdbcType=VARCHAR},
+      designedOptCode = #{designedOptCode,jdbcType=VARCHAR},
+      diagnosisName = #{diagnosisName,jdbcType=VARCHAR},
+      diagnosisCode = #{diagnosisCode,jdbcType=VARCHAR},
+      operaDate = #{operaDate,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=VARCHAR},
+      endTime = #{endTime,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=VARCHAR},
+      latierDiagName = #{latierDiagName,jdbcType=VARCHAR},
+      latierDiagCode = #{latierDiagCode,jdbcType=VARCHAR},
+      realOperationName = #{realOperationName,jdbcType=VARCHAR},
+      realOperationCode = #{realOperationCode,jdbcType=VARCHAR},
+      emergency = #{emergency,jdbcType=INTEGER},
+      hyperSusceptiBility = #{hyperSusceptiBility,jdbcType=VARCHAR},
+      optLevel = #{optLevel,jdbcType=VARCHAR},
+      intermitCause = #{intermitCause,jdbcType=VARCHAR},
+      reasons = #{reasons,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      isLocalAnaes = #{isLocalAnaes,jdbcType=VARCHAR},
+      designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
+      designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      operatorName = #{operatorName,jdbcType=VARCHAR},
+      height = #{height,jdbcType=REAL},
+      weight = #{weight,jdbcType=REAL},
+      changeOperroomReason = #{changeOperroomReason,jdbcType=VARCHAR},
+      realDesignedAnaesMethodName = #{realDesignedAnaesMethodName,jdbcType=VARCHAR},
+      realDesignedAnaesMethodCode = #{realDesignedAnaesMethodCode,jdbcType=VARCHAR},
+      hbsag = #{hbsag,jdbcType=VARCHAR},
+      hcv = #{hcv,jdbcType=VARCHAR},
+      hiv = #{hiv,jdbcType=VARCHAR},
+      hp = #{hp,jdbcType=VARCHAR},
+      assistantId = #{assistantId,jdbcType=VARCHAR},
+      assistantName = #{assistantName,jdbcType=VARCHAR},
+      archState = #{archState,jdbcType=VARCHAR},
+      nurseArchState = #{nurseArchState,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      costsettlementState = #{costsettlementState,jdbcType=VARCHAR},
+      previousState = #{previousState,jdbcType=VARCHAR},
+      msId = #{msId,jdbcType=VARCHAR},
+      operTime = #{operTime,jdbcType=TIMESTAMP},
+      frontOperForbidTake = #{frontOperForbidTake,jdbcType=INTEGER},
+      frontOperSpecialCase = #{frontOperSpecialCase,jdbcType=VARCHAR},
+      operSource = #{operSource,jdbcType=INTEGER},
+      cutLevel = #{cutLevel,jdbcType=INTEGER},
+      origin = #{origin,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

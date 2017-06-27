@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.ControllerDao">
+	
+	<update id="checkOperation">
+		UPDATE bas_reg_opt SET 
+			state = #{state} ,
+			previousState = #{previousState}
+		WHERE regOptId = #{id}
+	</update>
+	
+	<select id="getControllerById" resultType="com.digihealth.anesthesia.basedata.po.Controller">
+		SELECT * FROM bas_reg_opt t where t.regOptId = #{id} 
+	</select>
+	
+	<update id="update">
+		update bas_reg_opt set
+			state=#{state}, 
+			costsettlementState=#{costsettlementState}, 
+			previousState = #{previousState}
+		where regOptId = #{regOptId}
+	</update>
+	
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.sco.dao.ScoParsRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.sco.po.ScoParsRecord" >
+    <id column="scoId" property="scoId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="eval" property="eval" jdbcType="VARCHAR" />
+    <result column="evalTime" property="evalTime" jdbcType="TIMESTAMP" />
+    <result column="totalSco" property="totalSco" jdbcType="REAL" />
+    <result column="activity" property="activity" jdbcType="INTEGER" />
+    <result column="breathe" property="breathe" jdbcType="INTEGER" />
+    <result column="cycle" property="cycle" jdbcType="INTEGER" />
+    <result column="awareness" property="awareness" jdbcType="INTEGER" />
+    <result column="spo2" property="spo2" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    scoId, regOptId, eval, evalTime, totalSco, activity, breathe, cycle, awareness, spo2
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sco_pars_record
+    where scoId = #{scoId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sco_pars_record
+    where scoId = #{scoId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.sco.po.ScoParsRecord" >
+    insert into sco_pars_record (scoId, regOptId, eval, 
+      evalTime, totalSco, activity, 
+      breathe, cycle, awareness, 
+      spo2)
+    values (#{scoId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{eval,jdbcType=VARCHAR}, 
+      #{evalTime,jdbcType=TIMESTAMP}, #{totalSco,jdbcType=REAL}, #{activity,jdbcType=INTEGER}, 
+      #{breathe,jdbcType=INTEGER}, #{cycle,jdbcType=INTEGER}, #{awareness,jdbcType=INTEGER}, 
+      #{spo2,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.sco.po.ScoParsRecord" >
+    insert into sco_pars_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scoId != null" >
+        scoId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="eval != null" >
+        eval,
+      </if>
+      <if test="evalTime != null" >
+        evalTime,
+      </if>
+      <if test="totalSco != null" >
+        totalSco,
+      </if>
+      <if test="activity != null" >
+        activity,
+      </if>
+      <if test="breathe != null" >
+        breathe,
+      </if>
+      <if test="cycle != null" >
+        cycle,
+      </if>
+      <if test="awareness != null" >
+        awareness,
+      </if>
+      <if test="spo2 != null" >
+        spo2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scoId != null" >
+        #{scoId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="eval != null" >
+        #{eval,jdbcType=VARCHAR},
+      </if>
+      <if test="evalTime != null" >
+        #{evalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalSco != null" >
+        #{totalSco,jdbcType=REAL},
+      </if>
+      <if test="activity != null" >
+        #{activity,jdbcType=INTEGER},
+      </if>
+      <if test="breathe != null" >
+        #{breathe,jdbcType=INTEGER},
+      </if>
+      <if test="cycle != null" >
+        #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="awareness != null" >
+        #{awareness,jdbcType=INTEGER},
+      </if>
+      <if test="spo2 != null" >
+        #{spo2,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.sco.po.ScoParsRecord" >
+    update sco_pars_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="eval != null" >
+        eval = #{eval,jdbcType=VARCHAR},
+      </if>
+      <if test="evalTime != null" >
+        evalTime = #{evalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalSco != null" >
+        totalSco = #{totalSco,jdbcType=REAL},
+      </if>
+      <if test="activity != null" >
+        activity = #{activity,jdbcType=INTEGER},
+      </if>
+      <if test="breathe != null" >
+        breathe = #{breathe,jdbcType=INTEGER},
+      </if>
+      <if test="cycle != null" >
+        cycle = #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="awareness != null" >
+        awareness = #{awareness,jdbcType=INTEGER},
+      </if>
+      <if test="spo2 != null" >
+        spo2 = #{spo2,jdbcType=INTEGER},
+      </if>
+    </set>
+    where scoId = #{scoId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.sco.po.ScoParsRecord" >
+    update sco_pars_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      eval = #{eval,jdbcType=VARCHAR},
+      evalTime = #{evalTime,jdbcType=TIMESTAMP},
+      totalSco = #{totalSco,jdbcType=REAL},
+      activity = #{activity,jdbcType=INTEGER},
+      breathe = #{breathe,jdbcType=INTEGER},
+      cycle = #{cycle,jdbcType=INTEGER},
+      awareness = #{awareness,jdbcType=INTEGER},
+      spo2 = #{spo2,jdbcType=INTEGER}
+    where scoId = #{scoId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

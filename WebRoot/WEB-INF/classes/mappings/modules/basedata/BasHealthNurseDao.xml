@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasHealthNurseDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasHealthNurse" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="operRoomId" property="operRoomId" jdbcType="VARCHAR" />
+    <result column="operaDate" property="operaDate" jdbcType="VARCHAR" />
+    <result column="healthnurse" property="healthnurse" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, operRoomId, operaDate, healthnurse, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_health_nurse
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_health_nurse
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasHealthNurse" >
+    insert into bas_health_nurse (id, operRoomId, operaDate, 
+      healthnurse, beid)
+    values (#{id,jdbcType=VARCHAR}, #{operRoomId,jdbcType=VARCHAR}, #{operaDate,jdbcType=VARCHAR}, 
+      #{healthnurse,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasHealthNurse" >
+    insert into bas_health_nurse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="operRoomId != null" >
+        operRoomId,
+      </if>
+      <if test="operaDate != null" >
+        operaDate,
+      </if>
+      <if test="healthnurse != null" >
+        healthnurse,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="operRoomId != null" >
+        #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDate != null" >
+        #{operaDate,jdbcType=VARCHAR},
+      </if>
+      <if test="healthnurse != null" >
+        #{healthnurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasHealthNurse" >
+    update bas_health_nurse
+    <set >
+      <if test="operRoomId != null" >
+        operRoomId = #{operRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDate != null" >
+        operaDate = #{operaDate,jdbcType=VARCHAR},
+      </if>
+      <if test="healthnurse != null" >
+        healthnurse = #{healthnurse,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasHealthNurse" >
+    update bas_health_nurse
+    set operRoomId = #{operRoomId,jdbcType=VARCHAR},
+      operaDate = #{operaDate,jdbcType=VARCHAR},
+      healthnurse = #{healthnurse,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectHealNurse" resultType="com.digihealth.anesthesia.basedata.po.BasHealthNurse">
+  select t.id,t.operRoomId,(select op.name from bas_operroom op where op.operRoomId = t.operRoomId) as "operRoomName",t.operaDate,t.healthnurse,(select su.name from bas_user su where su.userName = t.healthnurse) as "healthnurseName" from bas_health_nurse t 
+  where t.operRoomId = #{operRoomId} and t.operaDate = #{operaDate} and t.beid = #{beid}
+  </select>
+
+</mapper>

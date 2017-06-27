@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.operProceed.dao.BasMonitorConfigDefaultDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.operProceed.po.BasMonitorConfigDefault" >
+    <id column="eventId" property="eventId" jdbcType="VARCHAR" />
+    <id column="beid" property="beid" jdbcType="VARCHAR" />
+    <result column="eventName" property="eventName" jdbcType="VARCHAR" />
+    <result column="defaultEventId" property="defaultEventId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    eventId, beid, eventName, defaultEventId, remark
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_config_default
+    where eventId = #{eventId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_config_default where beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByEventName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_config_default
+    where eventName = #{eventName,jdbcType=VARCHAR}
+    	and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from bas_monitor_config_default
+    where eventId = #{eventId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorConfigDefault" >
+    insert into bas_monitor_config_default (eventId, beid, eventName, 
+      defaultEventId, remark)
+    values (#{eventId,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}, #{eventName,jdbcType=VARCHAR}, 
+      #{defaultEventId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorConfigDefault" >
+    insert into bas_monitor_config_default
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eventId != null" >
+        eventId,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="eventName != null" >
+        eventName,
+      </if>
+      <if test="defaultEventId != null" >
+        defaultEventId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventName != null" >
+        #{eventName,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultEventId != null" >
+        #{defaultEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorConfigDefault" >
+    update bas_monitor_config_default
+    <set >
+      <if test="eventName != null" >
+        eventName = #{eventName,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultEventId != null" >
+        defaultEventId = #{defaultEventId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where eventId = #{eventId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.operProceed.po.BasMonitorConfigDefault" >
+    update bas_monitor_config_default
+    set eventName = #{eventName,jdbcType=VARCHAR},
+      defaultEventId = #{defaultEventId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where eventId = #{eventId,jdbcType=VARCHAR}
+      and beid = #{beid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

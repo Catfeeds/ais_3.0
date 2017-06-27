@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasMonitorConfigFreqDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, type, value, description, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_monitor_config_freq
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_monitor_config_freq
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq" >
+    insert into bas_monitor_config_freq (id, type, value, 
+      description, beid)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq" >
+    insert into bas_monitor_config_freq
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq" >
+    update bas_monitor_config_freq
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq" >
+    update bas_monitor_config_freq
+    set type = #{type,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryMonitorConfigFreqById" resultType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq">
+	SELECT * FROM bas_monitor_config_freq where id = #{id}
+	</select>
+	
+	<select id="queryMonitorConfigFreqList" resultType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq">
+	SELECT * FROM bas_monitor_config_freq where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<update id="update">
+		UPDATE bas_monitor_config_freq SET 
+			value = #{value}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="searchMonitorFreqByType" resultType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq">
+        SELECT 
+            id, type, value, description
+        FROM  bas_monitor_config_freq
+        WHERE type = #{type} and beid = #{beid}
+    </select>
+    
+    <select id="searchMonitorFreqList" resultType="com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq">
+        SELECT 
+            id, type, value, description
+        FROM  bas_monitor_config_freq
+        WHERE 1 = 1 and beid = #{beid}
+    </select>
+
+</mapper>

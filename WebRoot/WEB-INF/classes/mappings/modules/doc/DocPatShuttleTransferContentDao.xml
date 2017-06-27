@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPatShuttleTransferContentDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="patShuttleId" property="patShuttleId" jdbcType="VARCHAR" />
+    <result column="correctIden" property="correctIden" jdbcType="INTEGER" />
+    <result column="unuseBloodProduct" property="unuseBloodProduct" jdbcType="INTEGER" />
+    <result column="medAllergy" property="medAllergy" jdbcType="INTEGER" />
+    <result column="transfusionAllergy" property="transfusionAllergy" jdbcType="INTEGER" />
+    <result column="pcia" property="pcia" jdbcType="INTEGER" />
+    <result column="signUser" property="signUser" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="checkPoint" property="checkPoint" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" extends="BaseResultMap" >
+    <result column="unuseDrug" property="unuseDrug" jdbcType="LONGVARCHAR" />
+    <result column="surplus" property="surplus" jdbcType="LONGVARCHAR" />
+    <result column="skinFull" property="skinFull" jdbcType="LONGVARCHAR" />
+    <result column="operroomTake" property="operroomTake" jdbcType="LONGVARCHAR" />
+    <result column="veinBody" property="veinBody" jdbcType="LONGVARCHAR" />
+    <result column="other" property="other" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, patShuttleId, correctIden, unuseBloodProduct, medAllergy, transfusionAllergy, 
+    pcia, signUser, signTime, checkPoint
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    unuseDrug, surplus, skinFull, operroomTake, veinBody, other
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_pat_shuttle_transfer_content
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+	<select id="getContentBycheckPoint" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doc_pat_shuttle_transfer_content
+    where patShuttleId = #{patShuttleId,jdbcType=VARCHAR} and checkPoint = #{checkPoint,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPatShuttleId" parameterType="java.lang.String" >
+    delete from doc_pat_shuttle_transfer_content
+    where patShuttleId = #{patShuttleId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_pat_shuttle_transfer_content
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" >
+    insert into doc_pat_shuttle_transfer_content (id, patShuttleId, correctIden, 
+      unuseBloodProduct, medAllergy, transfusionAllergy, 
+      pcia, signUser, signTime, 
+      checkPoint, unuseDrug, surplus, 
+      skinFull, operroomTake, veinBody, 
+      other)
+    values (#{id,jdbcType=VARCHAR}, #{patShuttleId,jdbcType=VARCHAR}, #{correctIden,jdbcType=INTEGER}, 
+      #{unuseBloodProduct,jdbcType=INTEGER}, #{medAllergy,jdbcType=INTEGER}, #{transfusionAllergy,jdbcType=INTEGER}, 
+      #{pcia,jdbcType=INTEGER}, #{signUser,jdbcType=VARCHAR}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{checkPoint,jdbcType=VARCHAR}, #{unuseDrug,jdbcType=LONGVARCHAR}, #{surplus,jdbcType=LONGVARCHAR}, 
+      #{skinFull,jdbcType=LONGVARCHAR}, #{operroomTake,jdbcType=LONGVARCHAR}, #{veinBody,jdbcType=LONGVARCHAR}, 
+      #{other,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" >
+    insert into doc_pat_shuttle_transfer_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="patShuttleId != null" >
+        patShuttleId,
+      </if>
+      <if test="correctIden != null" >
+        correctIden,
+      </if>
+      <if test="unuseBloodProduct != null" >
+        unuseBloodProduct,
+      </if>
+      <if test="medAllergy != null" >
+        medAllergy,
+      </if>
+      <if test="transfusionAllergy != null" >
+        transfusionAllergy,
+      </if>
+      <if test="pcia != null" >
+        pcia,
+      </if>
+      <if test="signUser != null" >
+        signUser,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+      <if test="checkPoint != null" >
+        checkPoint,
+      </if>
+      <if test="unuseDrug != null" >
+        unuseDrug,
+      </if>
+      <if test="surplus != null" >
+        surplus,
+      </if>
+      <if test="skinFull != null" >
+        skinFull,
+      </if>
+      <if test="operroomTake != null" >
+        operroomTake,
+      </if>
+      <if test="veinBody != null" >
+        veinBody,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="patShuttleId != null" >
+        #{patShuttleId,jdbcType=VARCHAR},
+      </if>
+      <if test="correctIden != null" >
+        #{correctIden,jdbcType=INTEGER},
+      </if>
+      <if test="unuseBloodProduct != null" >
+        #{unuseBloodProduct,jdbcType=INTEGER},
+      </if>
+      <if test="medAllergy != null" >
+        #{medAllergy,jdbcType=INTEGER},
+      </if>
+      <if test="transfusionAllergy != null" >
+        #{transfusionAllergy,jdbcType=INTEGER},
+      </if>
+      <if test="pcia != null" >
+        #{pcia,jdbcType=INTEGER},
+      </if>
+      <if test="signUser != null" >
+        #{signUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkPoint != null" >
+        #{checkPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="unuseDrug != null" >
+        #{unuseDrug,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="surplus != null" >
+        #{surplus,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="skinFull != null" >
+        #{skinFull,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operroomTake != null" >
+        #{operroomTake,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="veinBody != null" >
+        #{veinBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" >
+    update doc_pat_shuttle_transfer_content
+    <set >
+      <if test="patShuttleId != null" >
+        patShuttleId = #{patShuttleId,jdbcType=VARCHAR},
+      </if>
+      <if test="correctIden != null" >
+        correctIden = #{correctIden,jdbcType=INTEGER},
+      </if>
+      <if test="unuseBloodProduct != null" >
+        unuseBloodProduct = #{unuseBloodProduct,jdbcType=INTEGER},
+      </if>
+      <if test="medAllergy != null" >
+        medAllergy = #{medAllergy,jdbcType=INTEGER},
+      </if>
+      <if test="transfusionAllergy != null" >
+        transfusionAllergy = #{transfusionAllergy,jdbcType=INTEGER},
+      </if>
+      <if test="pcia != null" >
+        pcia = #{pcia,jdbcType=INTEGER},
+      </if>
+      <if test="signUser != null" >
+        signUser = #{signUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkPoint != null" >
+        checkPoint = #{checkPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="unuseDrug != null" >
+        unuseDrug = #{unuseDrug,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="surplus != null" >
+        surplus = #{surplus,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="skinFull != null" >
+        skinFull = #{skinFull,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="operroomTake != null" >
+        operroomTake = #{operroomTake,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="veinBody != null" >
+        veinBody = #{veinBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" >
+    update doc_pat_shuttle_transfer_content
+    set patShuttleId = #{patShuttleId,jdbcType=VARCHAR},
+      correctIden = #{correctIden,jdbcType=INTEGER},
+      unuseBloodProduct = #{unuseBloodProduct,jdbcType=INTEGER},
+      medAllergy = #{medAllergy,jdbcType=INTEGER},
+      transfusionAllergy = #{transfusionAllergy,jdbcType=INTEGER},
+      pcia = #{pcia,jdbcType=INTEGER},
+      signUser = #{signUser,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=TIMESTAMP},
+      checkPoint = #{checkPoint,jdbcType=VARCHAR},
+      unuseDrug = #{unuseDrug,jdbcType=LONGVARCHAR},
+      surplus = #{surplus,jdbcType=LONGVARCHAR},
+      skinFull = #{skinFull,jdbcType=LONGVARCHAR},
+      operroomTake = #{operroomTake,jdbcType=LONGVARCHAR},
+      veinBody = #{veinBody,jdbcType=LONGVARCHAR},
+      other = #{other,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPatShuttleTransferContent" >
+    update doc_pat_shuttle_transfer_content
+    set patShuttleId = #{patShuttleId,jdbcType=VARCHAR},
+      correctIden = #{correctIden,jdbcType=INTEGER},
+      unuseBloodProduct = #{unuseBloodProduct,jdbcType=INTEGER},
+      medAllergy = #{medAllergy,jdbcType=INTEGER},
+      transfusionAllergy = #{transfusionAllergy,jdbcType=INTEGER},
+      pcia = #{pcia,jdbcType=INTEGER},
+      signUser = #{signUser,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=TIMESTAMP},
+      checkPoint = #{checkPoint,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

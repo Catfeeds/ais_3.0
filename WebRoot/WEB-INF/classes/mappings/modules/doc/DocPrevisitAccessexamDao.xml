@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPrevisitAccessexamDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPrevisitAccessexam" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="preVisitId" property="preVisitId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="routBloodTest" property="routBloodTest" jdbcType="INTEGER" />
+    <result column="routBloodTestRes" property="routBloodTestRes" jdbcType="VARCHAR" />
+    <result column="routUrineTest" property="routUrineTest" jdbcType="INTEGER" />
+    <result column="routUrineTestRes" property="routUrineTestRes" jdbcType="VARCHAR" />
+    <result column="rabat" property="rabat" jdbcType="INTEGER" />
+    <result column="rabatRes" property="rabatRes" jdbcType="VARCHAR" />
+    <result column="lungFunc" property="lungFunc" jdbcType="INTEGER" />
+    <result column="lungFuncRes" property="lungFuncRes" jdbcType="VARCHAR" />
+    <result column="ecg" property="ecg" jdbcType="INTEGER" />
+    <result column="ecgRes" property="ecgRes" jdbcType="VARCHAR" />
+    <result column="ucg" property="ucg" jdbcType="INTEGER" />
+    <result column="ucgRes" property="ucgRes" jdbcType="VARCHAR" />
+    <result column="liverFunc" property="liverFunc" jdbcType="INTEGER" />
+    <result column="liverFuncRes" property="liverFuncRes" jdbcType="VARCHAR" />
+    <result column="renalFunc" property="renalFunc" jdbcType="INTEGER" />
+    <result column="renalFuncRes" property="renalFuncRes" jdbcType="VARCHAR" />
+    <result column="coagulFunc" property="coagulFunc" jdbcType="INTEGER" />
+    <result column="coagulFuncRes" property="coagulFuncRes" jdbcType="VARCHAR" />
+    <result column="electrolytic" property="electrolytic" jdbcType="INTEGER" />
+    <result column="electrolyticRes" property="electrolyticRes" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, preVisitId, regOptId, routBloodTest, routBloodTestRes, routUrineTest, routUrineTestRes, 
+    rabat, rabatRes, lungFunc, lungFuncRes, ecg, ecgRes, ucg, ucgRes, liverFunc, liverFuncRes, 
+    renalFunc, renalFuncRes, coagulFunc, coagulFuncRes, electrolytic, electrolyticRes, 
+    other
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_previsit_accessexam
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+ <select id="selectByPreVisitId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_previsit_accessexam
+    where preVisitId = #{preVisitId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_previsit_accessexam
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAccessexam" >
+    insert into doc_previsit_accessexam (id, preVisitId, regOptId, 
+      routBloodTest, routBloodTestRes, routUrineTest, 
+      routUrineTestRes, rabat, rabatRes, 
+      lungFunc, lungFuncRes, ecg, 
+      ecgRes, ucg, ucgRes, 
+      liverFunc, liverFuncRes, renalFunc, 
+      renalFuncRes, coagulFunc, coagulFuncRes, 
+      electrolytic, electrolyticRes, other
+      )
+    values (#{id,jdbcType=VARCHAR}, #{preVisitId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
+      #{routBloodTest,jdbcType=INTEGER}, #{routBloodTestRes,jdbcType=VARCHAR}, #{routUrineTest,jdbcType=INTEGER}, 
+      #{routUrineTestRes,jdbcType=VARCHAR}, #{rabat,jdbcType=INTEGER}, #{rabatRes,jdbcType=VARCHAR}, 
+      #{lungFunc,jdbcType=INTEGER}, #{lungFuncRes,jdbcType=VARCHAR}, #{ecg,jdbcType=INTEGER}, 
+      #{ecgRes,jdbcType=VARCHAR}, #{ucg,jdbcType=INTEGER}, #{ucgRes,jdbcType=VARCHAR}, 
+      #{liverFunc,jdbcType=INTEGER}, #{liverFuncRes,jdbcType=VARCHAR}, #{renalFunc,jdbcType=INTEGER}, 
+      #{renalFuncRes,jdbcType=VARCHAR}, #{coagulFunc,jdbcType=INTEGER}, #{coagulFuncRes,jdbcType=VARCHAR}, 
+      #{electrolytic,jdbcType=INTEGER}, #{electrolyticRes,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAccessexam" >
+    insert into doc_previsit_accessexam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="preVisitId != null" >
+        preVisitId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="routBloodTest != null" >
+        routBloodTest,
+      </if>
+      <if test="routBloodTestRes != null" >
+        routBloodTestRes,
+      </if>
+      <if test="routUrineTest != null" >
+        routUrineTest,
+      </if>
+      <if test="routUrineTestRes != null" >
+        routUrineTestRes,
+      </if>
+      <if test="rabat != null" >
+        rabat,
+      </if>
+      <if test="rabatRes != null" >
+        rabatRes,
+      </if>
+      <if test="lungFunc != null" >
+        lungFunc,
+      </if>
+      <if test="lungFuncRes != null" >
+        lungFuncRes,
+      </if>
+      <if test="ecg != null" >
+        ecg,
+      </if>
+      <if test="ecgRes != null" >
+        ecgRes,
+      </if>
+      <if test="ucg != null" >
+        ucg,
+      </if>
+      <if test="ucgRes != null" >
+        ucgRes,
+      </if>
+      <if test="liverFunc != null" >
+        liverFunc,
+      </if>
+      <if test="liverFuncRes != null" >
+        liverFuncRes,
+      </if>
+      <if test="renalFunc != null" >
+        renalFunc,
+      </if>
+      <if test="renalFuncRes != null" >
+        renalFuncRes,
+      </if>
+      <if test="coagulFunc != null" >
+        coagulFunc,
+      </if>
+      <if test="coagulFuncRes != null" >
+        coagulFuncRes,
+      </if>
+      <if test="electrolytic != null" >
+        electrolytic,
+      </if>
+      <if test="electrolyticRes != null" >
+        electrolyticRes,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitId != null" >
+        #{preVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="routBloodTest != null" >
+        #{routBloodTest,jdbcType=INTEGER},
+      </if>
+      <if test="routBloodTestRes != null" >
+        #{routBloodTestRes,jdbcType=VARCHAR},
+      </if>
+      <if test="routUrineTest != null" >
+        #{routUrineTest,jdbcType=INTEGER},
+      </if>
+      <if test="routUrineTestRes != null" >
+        #{routUrineTestRes,jdbcType=VARCHAR},
+      </if>
+      <if test="rabat != null" >
+        #{rabat,jdbcType=INTEGER},
+      </if>
+      <if test="rabatRes != null" >
+        #{rabatRes,jdbcType=VARCHAR},
+      </if>
+      <if test="lungFunc != null" >
+        #{lungFunc,jdbcType=INTEGER},
+      </if>
+      <if test="lungFuncRes != null" >
+        #{lungFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ecg != null" >
+        #{ecg,jdbcType=INTEGER},
+      </if>
+      <if test="ecgRes != null" >
+        #{ecgRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ucg != null" >
+        #{ucg,jdbcType=INTEGER},
+      </if>
+      <if test="ucgRes != null" >
+        #{ucgRes,jdbcType=VARCHAR},
+      </if>
+      <if test="liverFunc != null" >
+        #{liverFunc,jdbcType=INTEGER},
+      </if>
+      <if test="liverFuncRes != null" >
+        #{liverFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="renalFunc != null" >
+        #{renalFunc,jdbcType=INTEGER},
+      </if>
+      <if test="renalFuncRes != null" >
+        #{renalFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="coagulFunc != null" >
+        #{coagulFunc,jdbcType=INTEGER},
+      </if>
+      <if test="coagulFuncRes != null" >
+        #{coagulFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="electrolytic != null" >
+        #{electrolytic,jdbcType=INTEGER},
+      </if>
+      <if test="electrolyticRes != null" >
+        #{electrolyticRes,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAccessexam" >
+    update doc_previsit_accessexam
+    <set >
+      <if test="preVisitId != null" >
+        preVisitId = #{preVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="routBloodTest != null" >
+        routBloodTest = #{routBloodTest,jdbcType=INTEGER},
+      </if>
+      <if test="routBloodTestRes != null" >
+        routBloodTestRes = #{routBloodTestRes,jdbcType=VARCHAR},
+      </if>
+      <if test="routUrineTest != null" >
+        routUrineTest = #{routUrineTest,jdbcType=INTEGER},
+      </if>
+      <if test="routUrineTestRes != null" >
+        routUrineTestRes = #{routUrineTestRes,jdbcType=VARCHAR},
+      </if>
+      <if test="rabat != null" >
+        rabat = #{rabat,jdbcType=INTEGER},
+      </if>
+      <if test="rabatRes != null" >
+        rabatRes = #{rabatRes,jdbcType=VARCHAR},
+      </if>
+      <if test="lungFunc != null" >
+        lungFunc = #{lungFunc,jdbcType=INTEGER},
+      </if>
+      <if test="lungFuncRes != null" >
+        lungFuncRes = #{lungFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ecg != null" >
+        ecg = #{ecg,jdbcType=INTEGER},
+      </if>
+      <if test="ecgRes != null" >
+        ecgRes = #{ecgRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ucg != null" >
+        ucg = #{ucg,jdbcType=INTEGER},
+      </if>
+      <if test="ucgRes != null" >
+        ucgRes = #{ucgRes,jdbcType=VARCHAR},
+      </if>
+      <if test="liverFunc != null" >
+        liverFunc = #{liverFunc,jdbcType=INTEGER},
+      </if>
+      <if test="liverFuncRes != null" >
+        liverFuncRes = #{liverFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="renalFunc != null" >
+        renalFunc = #{renalFunc,jdbcType=INTEGER},
+      </if>
+      <if test="renalFuncRes != null" >
+        renalFuncRes = #{renalFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="coagulFunc != null" >
+        coagulFunc = #{coagulFunc,jdbcType=INTEGER},
+      </if>
+      <if test="coagulFuncRes != null" >
+        coagulFuncRes = #{coagulFuncRes,jdbcType=VARCHAR},
+      </if>
+      <if test="electrolytic != null" >
+        electrolytic = #{electrolytic,jdbcType=INTEGER},
+      </if>
+      <if test="electrolyticRes != null" >
+        electrolyticRes = #{electrolyticRes,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPrevisitAccessexam" >
+    update doc_previsit_accessexam
+    set preVisitId = #{preVisitId,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      routBloodTest = #{routBloodTest,jdbcType=INTEGER},
+      routBloodTestRes = #{routBloodTestRes,jdbcType=VARCHAR},
+      routUrineTest = #{routUrineTest,jdbcType=INTEGER},
+      routUrineTestRes = #{routUrineTestRes,jdbcType=VARCHAR},
+      rabat = #{rabat,jdbcType=INTEGER},
+      rabatRes = #{rabatRes,jdbcType=VARCHAR},
+      lungFunc = #{lungFunc,jdbcType=INTEGER},
+      lungFuncRes = #{lungFuncRes,jdbcType=VARCHAR},
+      ecg = #{ecg,jdbcType=INTEGER},
+      ecgRes = #{ecgRes,jdbcType=VARCHAR},
+      ucg = #{ucg,jdbcType=INTEGER},
+      ucgRes = #{ucgRes,jdbcType=VARCHAR},
+      liverFunc = #{liverFunc,jdbcType=INTEGER},
+      liverFuncRes = #{liverFuncRes,jdbcType=VARCHAR},
+      renalFunc = #{renalFunc,jdbcType=INTEGER},
+      renalFuncRes = #{renalFuncRes,jdbcType=VARCHAR},
+      coagulFunc = #{coagulFunc,jdbcType=INTEGER},
+      coagulFuncRes = #{coagulFuncRes,jdbcType=VARCHAR},
+      electrolytic = #{electrolytic,jdbcType=INTEGER},
+      electrolyticRes = #{electrolyticRes,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

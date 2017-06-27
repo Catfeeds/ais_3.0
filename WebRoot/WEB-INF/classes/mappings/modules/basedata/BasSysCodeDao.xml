@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasSysCodeDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasSysCode" >
+    <id column="sysCodeId" property="sysCodeId" jdbcType="VARCHAR" />
+    <result column="groupId" property="groupId" jdbcType="VARCHAR" />
+    <result column="groupName" property="groupName" jdbcType="VARCHAR" />
+    <result column="codeValue" property="codeValue" jdbcType="VARCHAR" />
+    <result column="codeName" property="codeName" jdbcType="VARCHAR" />
+    <result column="order" property="order" jdbcType="INTEGER" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    sysCodeId, groupId, groupName, codeValue, codeName, `order`, `enable`, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_sys_code
+    where sysCodeId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasSysCode" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_sys_code
+    where 1=1 
+    <if test="sysCodeId != '' and sysCodeId != null">AND sysCodeId = #{sysCodeId} </if>
+    <if test="groupId != '' and groupId !=null">AND groupId = #{groupId} </if>
+    <if test="groupName != '' and groupName !=null">AND groupName = #{groupName} </if>
+    <if test="codeValue != '' and codeValue !=null">AND codeValue = #{codeValue} </if>
+    <if test="codeName != '' and codeName !=null">AND codeName LIKE CONCAT('%',#{codeName},'%') </if>
+    <if test="order !=null">AND order = #{order} </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+  </select>
+  
+  <select id="searchSysCodeByGroupId" resultType="com.digihealth.anesthesia.basedata.formbean.SysCodeFormbean">
+	select  
+	<include refid="Base_Column_List" />
+	from bas_sys_code
+	where groupId = #{groupId} and beid = #{beid} ORDER BY `order` ASC
+   </select>
+   
+   <select id="searchSysCodeByGroupIdAndCodeValue" resultType="com.digihealth.anesthesia.basedata.formbean.SysCodeFormbean">
+   select 
+   <include refid="Base_Column_List" />
+   from bas_sys_code
+   where groupId = #{groupId} 
+   <if test="codeValue != null and codeValue != ''">
+   	and codeValue = #{codeValue} 
+   </if>
+   and beid = #{beid}
+   ORDER BY `order`
+   </select>
+   
+   <select id="searchSysCodeByGroupIdAndCodeName" resultType="com.digihealth.anesthesia.basedata.formbean.SysCodeFormbean">
+   select * from bas_sys_code
+   where groupId = #{groupId} and codeName like CONCAT(CONCAT('%',#{codeName}),'%') and beid = #{beid}
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_sys_code
+    where sysCodeId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasSysCode" >
+    insert into bas_sys_code (sysCodeId, groupId, groupName, 
+      codeValue, codeName, `order`, 
+      `enable`, beid)
+    values (#{sysCodeId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
+      #{codeValue,jdbcType=VARCHAR}, #{codeName,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER}, 
+      #{enable,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+	<insert id="insertAnaesEvent">
+		INSERT INTO bas_sys_code(
+			sysCodeId,
+			groupId, 
+			groupName, 
+			codeValue,
+			codeName,
+			`order`,
+			`enable`,
+			beid
+		) VALUES (
+			#{sysCodeId},
+			#{groupId}, 
+			#{groupName}, 
+			#{codeValue},
+			#{codeName},
+			#{order},
+			#{enable},
+			#{beid}
+		)
+	</insert>
+	
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasSysCode" >
+    insert into bas_sys_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sysCodeId != null" >
+        sysCodeId,
+      </if>
+      <if test="groupId != null" >
+        groupId,
+      </if>
+      <if test="groupName != null" >
+        groupName,
+      </if>
+      <if test="codeValue != null" >
+        codeValue,
+      </if>
+      <if test="codeName != null" >
+        codeName,
+      </if>
+      <if test="order != null" >
+        `order`,
+      </if>
+      <if test="enable != null" >
+        `enable`,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sysCodeId != null" >
+        #{sysCodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null" >
+        #{codeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null" >
+        #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="order != null" >
+        #{order,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasSysCode" >
+    update bas_sys_code
+    <set >
+      <if test="groupId != null" >
+        groupId = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        groupName = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null" >
+        codeValue = #{codeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null" >
+        codeName = #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="order != null" >
+        `order` = #{order,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        `enable` = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sysCodeId = #{sysCodeId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasSysCode" >
+    update bas_sys_code
+    set groupId = #{groupId,jdbcType=VARCHAR},
+      groupName = #{groupName,jdbcType=VARCHAR},
+      codeValue = #{codeValue,jdbcType=VARCHAR},
+      codeName = #{codeName,jdbcType=VARCHAR},
+      `order` = #{order,jdbcType=INTEGER},
+      `enable` = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where sysCodeId = #{sysCodeId,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteByGroupId">
+		delete from  bas_sys_code 
+		WHERE groupId = #{groupId} and beid = #{beid}
+	</delete>
+
+	<select id="getMaxCodeValue" resultType="java.lang.Integer">
+		SELECT IFNULL(MAX(CONVERT(codeValue,SIGNED)),0) FROM bas_sys_code WHERE groupId = 'anaes_event_type' AND beid = #{beid}
+	</select>
+	
+	<select id="getMaxOrder" resultType="java.lang.Integer">
+		select MAX(`order`) from bas_sys_code where groupId = 'anaes_event_type' AND beid = #{beid}
+	</select>
+	
+	<update id="updateAnaesEvent" parameterType="com.digihealth.anesthesia.basedata.formbean.AnaesEventFormBean">
+		update bas_sys_code set enable = #{enable} where sysCodeId = #{sysCodeId}
+	</update>
+	
+	<delete id="deleteAnaesEvent">
+		delete from bas_sys_code WHERE sysCodeId = #{sysCodeId}
+	</delete>
+	
+	<select id="searchAnaesEvent" resultType="com.digihealth.anesthesia.basedata.formbean.AnaesEventFormBean">
+   		select * from bas_sys_code
+   		where groupId = 'anaes_event_type'
+   		and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+    </select>
+    
+	<select id="searchAnaesEventTotal" resultType="java.lang.Integer">
+   		select count(*) from bas_sys_code where groupId = 'anaes_event_type' and beid = #{systemSearchFormBean.beid} ${filter} 
+    </select>
+</mapper>

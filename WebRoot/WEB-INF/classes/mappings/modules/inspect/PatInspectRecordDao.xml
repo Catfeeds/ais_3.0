@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digihealth.anesthesia.inspect.dao.PatInspectRecordDao">
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInspectRecord">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="inspectId" jdbcType="VARCHAR" property="inspectId" />
+    <result column="docId" jdbcType="VARCHAR" property="docId" />
+    <result column="patId" jdbcType="VARCHAR" property="patId" />
+    <result column="no" jdbcType="VARCHAR" property="no" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="dep" jdbcType="VARCHAR" property="dep" />
+    <result column="samp" jdbcType="VARCHAR" property="samp" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="instruction" jdbcType="VARCHAR" property="instruction" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, inspectId,docId, patId, no, date, dep, samp, type, remark, instruction
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pat_inspect_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+<select id="getRegInfoListByPatInspect" resultType="com.digihealth.anesthesia.inspect.formbean.PatInspectRecordFormbean">
+	select DISTINCT i.patId,b.name,b.hid,b.opera_date,b.designed_opt_name,b.state,r.name room_name
+ 		 from pat_inspect_record i ,b_reg_opt b ,b_dispatch p,b_operroom r
+		where i.patId = b.reg_opt_id
+			and	i.patId = p.reg_opt_id
+			and r.oper_room_id = p.oper_room_id
+		<if test="filters != null">
+		 <foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+		     <choose>
+				 <when test="filter.field == 'starttime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<when test="filter.field == 'endtime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<otherwise>
+				<if test="filter.field != null and filter.field != '' ">
+					AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+				</if>
+				</otherwise>
+		     </choose>
+			</if>
+		 </foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+</select>
+	
+ <select id="getTotalRegInfoListByPatInspect" resultType="java.lang.Integer">
+    select count(DISTINCT i.patId) 
+     from pat_inspect_record i ,b_reg_opt b ,b_dispatch p,b_operroom r
+		where i.patId = b.reg_opt_id
+			and	i.patId = p.reg_opt_id
+			and r.oper_room_id = p.oper_room_id
+		<if test="filters != null">
+		 <foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+		     <choose>
+				 <when test="filter.field == 'starttime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<when test="filter.field == 'endtime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<otherwise>
+				<if test="filter.field != null and filter.field != '' ">
+					AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+				</if>
+				</otherwise>
+		     </choose>
+			</if>
+		 </foreach>
+		</if>
+</select>
+  
+<select id="getPatInspectRecordList" resultType="com.digihealth.anesthesia.basedata.po.BasInspectRecord">
+	select i.*
+ 		 from pat_inspect_record 
+		where 1 = 1
+		<if test="filters != null">
+		 <foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+		     <choose>
+				 <when test="filter.field == 'starttime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<when test="filter.field == 'endtime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<otherwise>
+				<if test="filter.field != null and filter.field != '' ">
+					AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+				</if>
+				</otherwise>
+		     </choose>
+			</if>
+		 </foreach>
+		</if>
+  		order by ${searchFormBean.sort} ${searchFormBean.orderBy}
+  		<if test="searchFormBean.pageSize != null" >
+	       limit #{searchFormBean.pageNo},#{searchFormBean.pageSize}
+	    </if>
+	</select>
+	
+<select id="getTotalPatInspectRecordList" resultType="java.lang.Integer">
+	select 
+     count(*)
+    from pat_inspect_record 
+		<if test="filters != null">
+		 <foreach collection="filters" item="filter" open=" " close=" " >
+		  <if test="filter.field != null and filter.field != '' ">
+		     <choose>
+				 <when test="filter.field == 'starttime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<when test="filter.field == 'endtime' ">
+					<if test="filter.value != null and filter.value != ''">
+						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
+					</if>
+				</when>
+				<otherwise>
+				<if test="filter.field != null and filter.field != '' ">
+					AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+				</if>
+				</otherwise>
+		     </choose>
+			</if>
+		 </foreach>
+		</if>
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pat_inspect_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectRecord">
+    insert into pat_inspect_record (id, inspectId,docId, patId, 
+      no, date, dep, samp, 
+      type, remark, instruction
+      )
+    values (#{id,jdbcType=VARCHAR}, #{inspectId,jdbcType=VARCHAR},#{docId,jdbcType=VARCHAR}, #{patId,jdbcType=VARCHAR}, 
+      #{no,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}, #{dep,jdbcType=VARCHAR}, #{samp,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{instruction,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectRecord">
+    insert into pat_inspect_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="docId != null">
+        inspectId,
+      </if>
+      <if test="docId != null">
+        docId,
+      </if>
+      <if test="patId != null">
+        patId,
+      </if>
+      <if test="no != null">
+        no,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="dep != null">
+        dep,
+      </if>
+      <if test="samp != null">
+        samp,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="instruction != null">
+        instruction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectId != null">
+        #{inspectId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null">
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="patId != null">
+        #{patId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dep != null">
+        #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="samp != null">
+        #{samp,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="instruction != null">
+        #{instruction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectRecord">
+    update pat_inspect_record
+    <set>
+      <if test="inspectId != null">
+        inspectId = #{inspectId,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null">
+        docId = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="patId != null">
+        patId = #{patId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        no = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dep != null">
+        dep = #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="samp != null">
+        samp = #{samp,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="instruction != null">
+        instruction = #{instruction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasInspectRecord">
+    update pat_inspect_record
+    set 
+      inspectId = #{inspectId,jdbcType=VARCHAR},
+      docId = #{docId,jdbcType=VARCHAR},
+      patId = #{patId,jdbcType=VARCHAR},
+      no = #{no,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      dep = #{dep,jdbcType=VARCHAR},
+      samp = #{samp,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      instruction = #{instruction,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

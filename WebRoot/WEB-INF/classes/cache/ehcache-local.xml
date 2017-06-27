@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="defaultCache">
+
+	<diskStore path="../temp/digihealth/ehcache" />
+
+	<!-- 默认缓存配置. -->
+	<!-- <defaultCache maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600"
+		overflowToDisk="true" maxEntriesLocalDisk="100000" /> -->
+		
+		<!-- 默认缓存配置. -->
+	<defaultCache maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+	
+	<!-- 系统缓存 -->
+	<cache name="sysCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+	
+	<!-- 用户缓存 -->
+	<cache name="userCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+	
+	<!-- 用户缓存 -->
+	<cache name="sysCodeCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/> 
+	
+	<!-- 路径缓存 -->
+	<cache name="routingAccessCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+	
+</ehcache>

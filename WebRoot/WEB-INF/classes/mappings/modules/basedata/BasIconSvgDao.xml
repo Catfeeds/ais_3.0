@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasIconSvgDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasIconSvg" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.digihealth.anesthesia.basedata.po.BasIconSvg" extends="BaseResultMap" >
+    <result column="svg" property="svg" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, icon, beid
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    svg
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bas_icon_svg
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_icon_svg
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasIconSvg" >
+    insert into bas_icon_svg (id, icon, beid, 
+      svg)
+    values (#{id,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}, 
+      #{svg,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasIconSvg" >
+    insert into bas_icon_svg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+      <if test="svg != null" >
+        svg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="svg != null" >
+        #{svg,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasIconSvg" >
+    update bas_icon_svg
+    <set >
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+      <if test="svg != null" >
+        svg = #{svg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digihealth.anesthesia.basedata.po.BasIconSvg" >
+    update bas_icon_svg
+    set icon = #{icon,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR},
+      svg = #{svg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasIconSvg" >
+    update bas_icon_svg
+    set icon = #{icon,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getSvgByIcon" resultType="java.lang.String">
+    select svg from bas_icon_svg where icon = #{icon} and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

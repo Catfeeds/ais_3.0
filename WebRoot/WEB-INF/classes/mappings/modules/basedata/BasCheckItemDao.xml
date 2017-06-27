@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasCheckItemDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasCheckItem" >
+    <id column="chkItemId" property="chkItemId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    chkItemId, code, name, unit, enable, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_check_item
+    where chkItemId = #{chkItemId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_check_item
+    where chkItemId = #{chkItemId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasCheckItem" >
+    insert into bas_check_item (chkItemId, code, name, 
+      unit, enable, beid)
+    values (#{chkItemId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasCheckItem" >
+    insert into bas_check_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chkItemId != null" >
+        chkItemId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chkItemId != null" >
+        #{chkItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasCheckItem" >
+    update bas_check_item
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where chkItemId = #{chkItemId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasCheckItem" >
+    update bas_check_item
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where chkItemId = #{chkItemId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="searchAllCheckItem" resultType="com.digihealth.anesthesia.basedata.po.BasCheckItem">
+		SELECT 
+			a.*
+		FROM bas_check_item a where 1 = 1
+		and beid = #{baseQuery.beid}
+		<if test="baseQuery.enable != null and baseQuery.enable != ''">
+			AND a.enable=#{baseQuery.enable}
+		</if>
+		order by a.name ASC
+	</select>
+	
+	
+	<select id="queryCheckItemList" resultType="com.digihealth.anesthesia.basedata.po.BasCheckItem">
+		SELECT * FROM bas_check_item where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+		order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryCheckItemListTotal" resultType="java.lang.Integer">
+		SELECT count(*) FROM bas_check_item where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="queryCheckItemById" resultType="com.digihealth.anesthesia.basedata.po.BasCheckItem">
+		SELECT * FROM bas_check_item where chkItemId = #{cheItemId}
+	</select>
+	
+	<delete id="deleteCheckItem">
+		delete from  bas_check_item 
+		WHERE chkItemId = #{cheItemId}
+	</delete>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasCheckItem">
+	select * from bas_check_item where code = #{code} and beid = #{beid}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_check_item set enable='0' where beid = #{beid};
+	</update>
+	
+	<select id="selectCheckItemByBeid" resultType="com.digihealth.anesthesia.basedata.po.BasCheckItem">
+	select * from bas_check_item where beid = #{beid}
+	</select>
+
+</mapper>

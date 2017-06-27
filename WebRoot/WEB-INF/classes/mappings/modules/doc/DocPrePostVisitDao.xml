@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocPrePostVisitDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocPrePostVisit" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="blood" property="blood" jdbcType="INTEGER" />
+    <result column="allergy" property="allergy" jdbcType="VARCHAR" />
+    <result column="briefHis" property="briefHis" jdbcType="VARCHAR" />
+    <result column="briefHisOther" property="briefHisOther" jdbcType="VARCHAR" />
+    <result column="nurseProblem" property="nurseProblem" jdbcType="VARCHAR" />
+    <result column="nurseProblemOther" property="nurseProblemOther" jdbcType="VARCHAR" />
+    <result column="preVisitorId" property="preVisitorId" jdbcType="VARCHAR" />
+    <result column="preVisitorName" property="preVisitorName" jdbcType="VARCHAR" />
+    <result column="preVisitTime" property="preVisitTime" jdbcType="TIMESTAMP" />
+    <result column="psychological" property="psychological" jdbcType="VARCHAR" />
+    <result column="psychologicalOther" property="psychologicalOther" jdbcType="VARCHAR" />
+    <result column="environment" property="environment" jdbcType="INTEGER" />
+    <result column="workAttitude" property="workAttitude" jdbcType="INTEGER" />
+    <result column="care" property="care" jdbcType="INTEGER" />
+    <result column="suggest" property="suggest" jdbcType="VARCHAR" />
+    <result column="postVisitorId" property="postVisitorId" jdbcType="INTEGER" />
+    <result column="postVisitorName" property="postVisitorName" jdbcType="VARCHAR" />
+    <result column="postVisitTime" property="postVisitTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, processState, blood, allergy, briefHis, briefHisOther, nurseProblem, 
+    nurseProblemOther, preVisitorId, preVisitorName, preVisitTime, psychological, psychologicalOther, 
+    environment, workAttitude, care, suggest, postVisitorId, postVisitorName, postVisitTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pre_post_visit
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_pre_post_visit
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_pre_post_visit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisit" >
+    insert into doc_pre_post_visit (id, regOptId, processState, 
+      blood, allergy, briefHis, 
+      briefHisOther, nurseProblem, nurseProblemOther, 
+      preVisitorId, preVisitorName, preVisitTime, 
+      psychological, psychologicalOther, environment, 
+      workAttitude, care, suggest, 
+      postVisitorId, postVisitorName, postVisitTime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
+      #{blood,jdbcType=INTEGER}, #{allergy,jdbcType=VARCHAR}, #{briefHis,jdbcType=VARCHAR}, 
+      #{briefHisOther,jdbcType=VARCHAR}, #{nurseProblem,jdbcType=VARCHAR}, #{nurseProblemOther,jdbcType=VARCHAR}, 
+      #{preVisitorId,jdbcType=INTEGER}, #{preVisitorName,jdbcType=VARCHAR}, #{preVisitTime,jdbcType=TIMESTAMP}, 
+      #{psychological,jdbcType=VARCHAR}, #{psychologicalOther,jdbcType=VARCHAR}, #{environment,jdbcType=INTEGER}, 
+      #{workAttitude,jdbcType=INTEGER}, #{care,jdbcType=INTEGER}, #{suggest,jdbcType=VARCHAR}, 
+      #{postVisitorId,jdbcType=INTEGER}, #{postVisitorName,jdbcType=VARCHAR}, #{postVisitTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisit" >
+    insert into doc_pre_post_visit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="blood != null" >
+        blood,
+      </if>
+      <if test="allergy != null" >
+        allergy,
+      </if>
+      <if test="briefHis != null" >
+        briefHis,
+      </if>
+      <if test="briefHisOther != null" >
+        briefHisOther,
+      </if>
+      <if test="nurseProblem != null" >
+        nurseProblem,
+      </if>
+      <if test="nurseProblemOther != null" >
+        nurseProblemOther,
+      </if>
+      <if test="preVisitorId != null" >
+        preVisitorId,
+      </if>
+      <if test="preVisitorName != null" >
+        preVisitorName,
+      </if>
+      <if test="preVisitTime != null" >
+        preVisitTime,
+      </if>
+      <if test="psychological != null" >
+        psychological,
+      </if>
+      <if test="psychologicalOther != null" >
+        psychologicalOther,
+      </if>
+      <if test="environment != null" >
+        environment,
+      </if>
+      <if test="workAttitude != null" >
+        workAttitude,
+      </if>
+      <if test="care != null" >
+        care,
+      </if>
+      <if test="suggest != null" >
+        suggest,
+      </if>
+      <if test="postVisitorId != null" >
+        postVisitorId,
+      </if>
+      <if test="postVisitorName != null" >
+        postVisitorName,
+      </if>
+      <if test="postVisitTime != null" >
+        postVisitTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        #{blood,jdbcType=INTEGER},
+      </if>
+      <if test="allergy != null" >
+        #{allergy,jdbcType=VARCHAR},
+      </if>
+      <if test="briefHis != null" >
+        #{briefHis,jdbcType=VARCHAR},
+      </if>
+      <if test="briefHisOther != null" >
+        #{briefHisOther,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseProblem != null" >
+        #{nurseProblem,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseProblemOther != null" >
+        #{nurseProblemOther,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitorId != null" >
+        #{preVisitorId,jdbcType=INTEGER},
+      </if>
+      <if test="preVisitorName != null" >
+        #{preVisitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitTime != null" >
+        #{preVisitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="psychological != null" >
+        #{psychological,jdbcType=VARCHAR},
+      </if>
+      <if test="psychologicalOther != null" >
+        #{psychologicalOther,jdbcType=VARCHAR},
+      </if>
+      <if test="environment != null" >
+        #{environment,jdbcType=INTEGER},
+      </if>
+      <if test="workAttitude != null" >
+        #{workAttitude,jdbcType=INTEGER},
+      </if>
+      <if test="care != null" >
+        #{care,jdbcType=INTEGER},
+      </if>
+      <if test="suggest != null" >
+        #{suggest,jdbcType=VARCHAR},
+      </if>
+      <if test="postVisitorId != null" >
+        #{postVisitorId,jdbcType=INTEGER},
+      </if>
+      <if test="postVisitorName != null" >
+        #{postVisitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="postVisitTime != null" >
+        #{postVisitTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisit" >
+    update doc_pre_post_visit
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="blood != null" >
+        blood = #{blood,jdbcType=INTEGER},
+      </if>
+      <if test="allergy != null" >
+        allergy = #{allergy,jdbcType=VARCHAR},
+      </if>
+      <if test="briefHis != null" >
+        briefHis = #{briefHis,jdbcType=VARCHAR},
+      </if>
+      <if test="briefHisOther != null" >
+        briefHisOther = #{briefHisOther,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseProblem != null" >
+        nurseProblem = #{nurseProblem,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseProblemOther != null" >
+        nurseProblemOther = #{nurseProblemOther,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitorId != null" >
+        preVisitorId = #{preVisitorId,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitorName != null" >
+        preVisitorName = #{preVisitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="preVisitTime != null" >
+        preVisitTime = #{preVisitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="psychological != null" >
+        psychological = #{psychological,jdbcType=VARCHAR},
+      </if>
+      <if test="psychologicalOther != null" >
+        psychologicalOther = #{psychologicalOther,jdbcType=VARCHAR},
+      </if>
+      <if test="environment != null" >
+        environment = #{environment,jdbcType=INTEGER},
+      </if>
+      <if test="workAttitude != null" >
+        workAttitude = #{workAttitude,jdbcType=INTEGER},
+      </if>
+      <if test="care != null" >
+        care = #{care,jdbcType=INTEGER},
+      </if>
+      <if test="suggest != null" >
+        suggest = #{suggest,jdbcType=VARCHAR},
+      </if>
+      <if test="postVisitorId != null" >
+        postVisitorId = #{postVisitorId,jdbcType=INTEGER},
+      </if>
+      <if test="postVisitorName != null" >
+        postVisitorName = #{postVisitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="postVisitTime != null" >
+        postVisitTime = #{postVisitTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisit" >
+    update doc_pre_post_visit
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      blood = #{blood,jdbcType=INTEGER},
+      allergy = #{allergy,jdbcType=VARCHAR},
+      briefHis = #{briefHis,jdbcType=VARCHAR},
+      briefHisOther = #{briefHisOther,jdbcType=VARCHAR},
+      nurseProblem = #{nurseProblem,jdbcType=VARCHAR},
+      nurseProblemOther = #{nurseProblemOther,jdbcType=VARCHAR},
+      preVisitorId = #{preVisitorId,jdbcType=INTEGER},
+      preVisitorName = #{preVisitorName,jdbcType=VARCHAR},
+      preVisitTime = #{preVisitTime,jdbcType=TIMESTAMP},
+      psychological = #{psychological,jdbcType=VARCHAR},
+      psychologicalOther = #{psychologicalOther,jdbcType=VARCHAR},
+      environment = #{environment,jdbcType=INTEGER},
+      workAttitude = #{workAttitude,jdbcType=INTEGER},
+      care = #{care,jdbcType=INTEGER},
+      suggest = #{suggest,jdbcType=VARCHAR},
+      postVisitorId = #{postVisitorId,jdbcType=INTEGER},
+      postVisitorName = #{postVisitorName,jdbcType=VARCHAR},
+      postVisitTime = #{postVisitTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.operProceed.dao.BasObserveDataDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.operProceed.po.BasObserveData" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="observeId" property="observeId" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="REAL" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="observeName" property="observeName" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="freq" property="freq" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="intervalTime" property="intervalTime" jdbcType="INTEGER" />
+    <result column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, time, regOptId, observeId, value, state, observeName, icon, color, freq, position, 
+    intervalTime, deviceId
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_observe_data
+    where id = #{id,jdbcType=VARCHAR}
+      and time = #{time,jdbcType=TIMESTAMP}
+  </select>
+  
+  <select id="searchObserveDataList" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+		SELECT 
+			a.*
+		FROM bas_observe_data a 
+		WHERE
+		a.regOptId = #{baseQuery.regOptId}
+		and a.time in (
+		SELECT time from 
+		(
+			SELECT DISTINCT (a.time) FROM bas_observe_data a 
+	        WHERE a.regOptId = #{baseQuery.regOptId}
+	        ORDER BY a.time, a.freq, a.observeId 
+	        <if test="baseQuery.pageSize !=null and baseQuery.pageSize!=0">
+	        	LIMIT #{baseQuery.pageNo},#{baseQuery.pageSize}  
+	        </if>   
+		) b
+		)
+
+   </select>
+   
+   <select id="searchObserveDataListTotal" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(DISTINCT(a.time))
+		FROM bas_observe_data a 
+		WHERE
+		a.regOptId = #{baseQuery.regOptId}
+		      order by a.time, a.freq, a.observeId
+	</select>
+	
+	<select id="searchObserveTimeById" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+		SELECT 
+			DISTINCT(a.time)
+		FROM bas_observe_data a 
+		WHERE
+		a.regOptId = #{regOptId}
+		order by a.time asc
+	</select>
+	
+	<select id="searchObserveIdById" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+		SELECT 
+			DISTINCT(a.observeId)
+		FROM bas_observe_data a 
+		WHERE
+		a.regOptId = #{regOptId}
+		and a.position='0'
+	</select>
+	
+	<select id="searchObserveDataById" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+		SELECT 
+			*
+		FROM bas_observe_data a 
+		WHERE
+		a.regOptId = #{regOptId}
+		<if test="items != null and items != ''">
+			 and a.observeId in <foreach collection="obserIdItems" item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach>
+		</if>
+		
+		order by a.observeId asc
+	</select>
+	
+	<select id="searchObserveDataByObserveId" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+        SELECT 
+            a.*
+        FROM bas_observe_data a 
+        WHERE a.id = #{id} limit 1
+    </select>
+    
+    <select id="searchObserveDataBytime" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+	   SELECT * FROM bas_observe_data a WHERE a.time &lt;= #{time} 
+    </select>
+    
+    <select id="queryDbTime" resultType="java.sql.Timestamp" >
+    	select now()
+    </select>
+    
+    <select id="getUniqObserveData" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+    	SELECT 
+			a.*
+		FROM bas_observe_data a 
+		WHERE
+		a.regOptId = #{regOptId}
+		and a.time = #{time}
+		and a.observeId = #{observeId}
+    </select>
+    
+  <!-- 解决limit 1 的效率问题，order by time desc 不走索引 -->
+    <select id="searchObserveDataByPosition" resultType="com.digihealth.anesthesia.operProceed.formbean.RealTimeDataFormBean">
+		<!-- SELECT a.observe_id,a.observe_name,a.value,a.state,a.time
+		FROM b_observe_data a 
+		WHERE a.position = -1
+		AND a.doc_id = #{baseQuery.regOptId}
+		AND a.time = (
+		SELECT DISTINCT (a.time) FROM b_observe_data a 
+		WHERE a.doc_id = #{baseQuery.regOptId}
+		ORDER BY a.time DESC,a.observe_id 
+		LIMIT 1 ) -->
+		SELECT a.observeId,a.observeName ,a.value,a.state,a.time FROM bas_observe_data a 
+		WHERE a.position = -1 AND a.regOptId = #{baseQuery.regOptId} 
+		AND a.time = (SELECT MAX(TIME) FROM bas_observe_data a WHERE a.regOptId = #{baseQuery.regOptId} ) 
+		ORDER BY a.observeId 
+	</select>
+	
+  <select id="findObserveDataListByTime" resultType="com.digihealth.anesthesia.operProceed.po.BasObserveData">
+		SELECT * FROM bas_observe_data a 
+		where a.regOptId = #{regOptId} 
+		and a.time = #{time}
+		<if test="observeIds != null and observeIds != '' and observeIds.size>0 ">
+		AND a.observeId IN
+			<foreach collection="observeIds" item="observeId" open="("  separator="," close=")">
+				 #{observeId}
+			</foreach>
+		</if>
+		order by a.time ,a.observeId 
+   </select>
+   
+   <select  id="searchObserveListByBedId" resultType="com.digihealth.anesthesia.operProceed.po.Observe">
+	SELECT a.eventId AS observeId ,a.paraId ,a.paraName ,a.deviceId 
+         FROM  bas_device_monitor_config a , bas_device_config b
+	     WHERE a.deviceId = b.deviceId
+	           and b.bedId = #{bedId}
+	</select>
+	
+	<select id="searchMonitorDisplayByTime" resultType="java.lang.Integer">
+    	select 
+	  	count(1)
+	  	from bas_observe_data
+	  	where regOptId = #{regOptId,jdbcType=VARCHAR} 
+	  	and time = #{time}
+	  	order by time desc
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from bas_observe_data
+    where id = #{id,jdbcType=VARCHAR}
+      and time = #{time,jdbcType=TIMESTAMP}
+  </delete>
+  
+  <!-- 根据id删除当前记录  -->
+  <delete id="deleteObserveDataById" >
+    delete FROM bas_observe_data WHERE id = #{id} 
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.operProceed.po.BasObserveData" >
+    insert into bas_observe_data (id, time, regOptId, 
+      observeId, value, state, 
+      observeName, icon, color, 
+      freq, position, intervalTime, 
+      deviceId)
+    values (#{id,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{regOptId,jdbcType=VARCHAR}, 
+      #{observeId,jdbcType=VARCHAR}, #{value,jdbcType=REAL}, #{state,jdbcType=INTEGER}, 
+      #{observeName,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{freq,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, #{intervalTime,jdbcType=INTEGER}, 
+      #{deviceId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasObserveData" >
+    insert into bas_observe_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="observeId != null" >
+        observeId,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="observeName != null" >
+        observeName,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="freq != null" >
+        freq,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="intervalTime != null" >
+        intervalTime,
+      </if>
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="observeId != null" >
+        #{observeId,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=REAL},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="observeName != null" >
+        #{observeName,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="freq != null" >
+        #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="intervalTime != null" >
+        #{intervalTime,jdbcType=INTEGER},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.operProceed.po.BasObserveData" >
+    update bas_observe_data
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="observeId != null" >
+        observeId = #{observeId,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=REAL},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="observeName != null" >
+        observeName = #{observeName,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="freq != null" >
+        freq = #{freq,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="intervalTime != null" >
+        intervalTime = #{intervalTime,jdbcType=INTEGER},
+      </if>
+      <if test="deviceId != null" >
+        deviceId = #{deviceId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+      and time = #{time,jdbcType=TIMESTAMP}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.operProceed.po.BasObserveData" >
+    update bas_observe_data
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      observeId = #{observeId,jdbcType=VARCHAR},
+      value = #{value,jdbcType=REAL},
+      state = #{state,jdbcType=INTEGER},
+      observeName = #{observeName,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      freq = #{freq,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      intervalTime = #{intervalTime,jdbcType=INTEGER},
+      deviceId = #{deviceId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+      and time = #{time,jdbcType=TIMESTAMP}
+  </update>
+  
+  <update id="updateIconAndColor">
+        UPDATE bas_observe_data SET 
+            icon = #{icon},
+            color = #{color}
+        WHERE regOptId = #{regOptId}
+        and observeId = #{observeId}
+        ORDER BY time DESC
+  </update>
+    
+   <update id="updateIntervalTime">
+        UPDATE bas_observe_data SET 
+            intervalTime = #{intervalTime}
+        WHERE id = #{id} 
+       <!-- doc_id = #{docId} 
+        and observe_id = #{observeId}
+        and time = #{time}  --> 
+    </update>
+    
+    <update id="updateValue">
+		update bas_observe_data set value = #{value} , state = #{state} 
+		where id = #{id} 
+	</update>
+
+</mapper>

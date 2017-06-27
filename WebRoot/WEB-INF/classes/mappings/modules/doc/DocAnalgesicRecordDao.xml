@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnalgesicRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnalgesicRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="anaesId" property="anaesId" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="analgesicMethod" property="analgesicMethod" jdbcType="VARCHAR" />
+    <result column="extraCatheterLoca" property="extraCatheterLoca" jdbcType="VARCHAR" />
+    <result column="intravCatheterLoca" property="intravCatheterLoca" jdbcType="VARCHAR" />
+    <result column="analgesicPumpsType" property="analgesicPumpsType" jdbcType="VARCHAR" />
+    <result column="pcaStart" property="pcaStart" jdbcType="TIMESTAMP" />
+    <result column="pcaStop" property="pcaStop" jdbcType="TIMESTAMP" />
+    <result column="firstDosage" property="firstDosage" jdbcType="REAL" />
+    <result column="durativeDosage" property="durativeDosage" jdbcType="REAL" />
+    <result column="pcaDosage" property="pcaDosage" jdbcType="REAL" />
+    <result column="lockTime" property="lockTime" jdbcType="REAL" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="INTEGER" />
+    <result column="formula1" property="formula1" jdbcType="REAL" />
+    <result column="loadCapacity1" property="loadCapacity1" jdbcType="REAL" />
+    <result column="mainteAmount1" property="mainteAmount1" jdbcType="REAL" />
+    <result column="addAmount1" property="addAmount1" jdbcType="REAL" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="anaesDocId" property="anaesDocId" jdbcType="VARCHAR" />
+    <result column="anaesDocName" property="anaesDocName" jdbcType="VARCHAR" />
+    <result column="formula2" property="formula2" jdbcType="REAL" />
+    <result column="continuePumpTime" property="continuePumpTime" jdbcType="TIMESTAMP" />
+    <result column="loadCapacity2" property="loadCapacity2" jdbcType="REAL" />
+    <result column="mainteAmount2" property="mainteAmount2" jdbcType="REAL" />
+    <result column="addAmount2" property="addAmount2" jdbcType="REAL" />
+    <result column="continuePumpDocId" property="continuePumpDocId" jdbcType="VARCHAR" />
+    <result column="continuePumpDocName" property="continuePumpDocName" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="pullPump" property="pullPump" jdbcType="VARCHAR" />
+    <result column="pullPumpName" property="pullPumpName" jdbcType="VARCHAR" />
+    <result column="otherSystemSick" property="otherSystemSick" jdbcType="VARCHAR" />
+    <result column="operingCase" property="operingCase" jdbcType="VARCHAR" />
+    <result column="totalVolume" property="totalVolume" jdbcType="REAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, regOptId, anaesId, state, analgesicMethod, extraCatheterLoca, intravCatheterLoca, 
+    analgesicPumpsType, pcaStart, pcaStop, firstDosage, durativeDosage, pcaDosage, lockTime, 
+    processState, other, channel, formula1, loadCapacity1, mainteAmount1, addAmount1, 
+    startTime, anaesDocId, anaesDocName, formula2, continuePumpTime, loadCapacity2, mainteAmount2, 
+    addAmount2, continuePumpDocId, continuePumpDocName, endTime, pullPump, pullPumpName, 
+    otherSystemSick, operingCase, totalVolume
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_analgesic_record
+    where id = #{id,jdbcType=VARCHAR}
+      and state = #{state,jdbcType=VARCHAR}
+  </select>
+
+  <select id="searchAnalgesicRecordByPatId" resultType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecord">
+		SELECT DISTINCT *
+		FROM doc_analgesic_record d
+		WHERE d.regOptId = #{regOptId} 
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_analgesic_record
+    where id = #{id,jdbcType=VARCHAR}
+      and state = #{state,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecord" >
+    insert into doc_analgesic_record (id, regOptId, anaesId, 
+      state, analgesicMethod, extraCatheterLoca, 
+      intravCatheterLoca, analgesicPumpsType, 
+      pcaStart, pcaStop, firstDosage, 
+      durativeDosage, pcaDosage, lockTime, 
+      processState, other, channel, 
+      formula1, loadCapacity1, mainteAmount1, 
+      addAmount1, startTime, anaesDocId, 
+      anaesDocName, formula2, continuePumpTime, 
+      loadCapacity2, mainteAmount2, addAmount2, 
+      continuePumpDocId, continuePumpDocName, 
+      endTime, pullPump, pullPumpName, 
+      otherSystemSick, operingCase, totalVolume
+      )
+    values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{anaesId,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{analgesicMethod,jdbcType=VARCHAR}, #{extraCatheterLoca,jdbcType=VARCHAR}, 
+      #{intravCatheterLoca,jdbcType=VARCHAR}, #{analgesicPumpsType,jdbcType=VARCHAR}, 
+      #{pcaStart,jdbcType=TIMESTAMP}, #{pcaStop,jdbcType=TIMESTAMP}, #{firstDosage,jdbcType=REAL}, 
+      #{durativeDosage,jdbcType=REAL}, #{pcaDosage,jdbcType=REAL}, #{lockTime,jdbcType=REAL}, 
+      #{processState,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}, #{channel,jdbcType=INTEGER}, 
+      #{formula1,jdbcType=REAL}, #{loadCapacity1,jdbcType=REAL}, #{mainteAmount1,jdbcType=REAL}, 
+      #{addAmount1,jdbcType=REAL}, #{startTime,jdbcType=TIMESTAMP}, #{anaesDocId,jdbcType=VARCHAR}, 
+      #{anaesDocName,jdbcType=VARCHAR}, #{formula2,jdbcType=REAL}, #{continuePumpTime,jdbcType=TIMESTAMP}, 
+      #{loadCapacity2,jdbcType=REAL}, #{mainteAmount2,jdbcType=REAL}, #{addAmount2,jdbcType=REAL}, 
+      #{continuePumpDocId,jdbcType=VARCHAR}, #{continuePumpDocName,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{pullPump,jdbcType=VARCHAR}, #{pullPumpName,jdbcType=VARCHAR}, 
+      #{otherSystemSick,jdbcType=VARCHAR}, #{operingCase,jdbcType=VARCHAR}, #{totalVolume,jdbcType=REAL}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecord" >
+    insert into doc_analgesic_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="anaesId != null" >
+        anaesId,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="analgesicMethod != null" >
+        analgesicMethod,
+      </if>
+      <if test="extraCatheterLoca != null" >
+        extraCatheterLoca,
+      </if>
+      <if test="intravCatheterLoca != null" >
+        intravCatheterLoca,
+      </if>
+      <if test="analgesicPumpsType != null" >
+        analgesicPumpsType,
+      </if>
+      <if test="pcaStart != null" >
+        pcaStart,
+      </if>
+      <if test="pcaStop != null" >
+        pcaStop,
+      </if>
+      <if test="firstDosage != null" >
+        firstDosage,
+      </if>
+      <if test="durativeDosage != null" >
+        durativeDosage,
+      </if>
+      <if test="pcaDosage != null" >
+        pcaDosage,
+      </if>
+      <if test="lockTime != null" >
+        lockTime,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="formula1 != null" >
+        formula1,
+      </if>
+      <if test="loadCapacity1 != null" >
+        loadCapacity1,
+      </if>
+      <if test="mainteAmount1 != null" >
+        mainteAmount1,
+      </if>
+      <if test="addAmount1 != null" >
+        addAmount1,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="anaesDocId != null" >
+        anaesDocId,
+      </if>
+      <if test="anaesDocName != null" >
+        anaesDocName,
+      </if>
+      <if test="formula2 != null" >
+        formula2,
+      </if>
+      <if test="continuePumpTime != null" >
+        continuePumpTime,
+      </if>
+      <if test="loadCapacity2 != null" >
+        loadCapacity2,
+      </if>
+      <if test="mainteAmount2 != null" >
+        mainteAmount2,
+      </if>
+      <if test="addAmount2 != null" >
+        addAmount2,
+      </if>
+      <if test="continuePumpDocId != null" >
+        continuePumpDocId,
+      </if>
+      <if test="continuePumpDocName != null" >
+        continuePumpDocName,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="pullPump != null" >
+        pullPump,
+      </if>
+      <if test="pullPumpName != null" >
+        pullPumpName,
+      </if>
+      <if test="otherSystemSick != null" >
+        otherSystemSick,
+      </if>
+      <if test="operingCase != null" >
+        operingCase,
+      </if>
+      <if test="totalVolume != null" >
+        totalVolume,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesId != null" >
+        #{anaesId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicMethod != null" >
+        #{analgesicMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="extraCatheterLoca != null" >
+        #{extraCatheterLoca,jdbcType=VARCHAR},
+      </if>
+      <if test="intravCatheterLoca != null" >
+        #{intravCatheterLoca,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicPumpsType != null" >
+        #{analgesicPumpsType,jdbcType=VARCHAR},
+      </if>
+      <if test="pcaStart != null" >
+        #{pcaStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pcaStop != null" >
+        #{pcaStop,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstDosage != null" >
+        #{firstDosage,jdbcType=REAL},
+      </if>
+      <if test="durativeDosage != null" >
+        #{durativeDosage,jdbcType=REAL},
+      </if>
+      <if test="pcaDosage != null" >
+        #{pcaDosage,jdbcType=REAL},
+      </if>
+      <if test="lockTime != null" >
+        #{lockTime,jdbcType=REAL},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="formula1 != null" >
+        #{formula1,jdbcType=REAL},
+      </if>
+      <if test="loadCapacity1 != null" >
+        #{loadCapacity1,jdbcType=REAL},
+      </if>
+      <if test="mainteAmount1 != null" >
+        #{mainteAmount1,jdbcType=REAL},
+      </if>
+      <if test="addAmount1 != null" >
+        #{addAmount1,jdbcType=REAL},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="anaesDocId != null" >
+        #{anaesDocId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesDocName != null" >
+        #{anaesDocName,jdbcType=VARCHAR},
+      </if>
+      <if test="formula2 != null" >
+        #{formula2,jdbcType=REAL},
+      </if>
+      <if test="continuePumpTime != null" >
+        #{continuePumpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loadCapacity2 != null" >
+        #{loadCapacity2,jdbcType=REAL},
+      </if>
+      <if test="mainteAmount2 != null" >
+        #{mainteAmount2,jdbcType=REAL},
+      </if>
+      <if test="addAmount2 != null" >
+        #{addAmount2,jdbcType=REAL},
+      </if>
+      <if test="continuePumpDocId != null" >
+        #{continuePumpDocId,jdbcType=VARCHAR},
+      </if>
+      <if test="continuePumpDocName != null" >
+        #{continuePumpDocName,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pullPump != null" >
+        #{pullPump,jdbcType=VARCHAR},
+      </if>
+      <if test="pullPumpName != null" >
+        #{pullPumpName,jdbcType=VARCHAR},
+      </if>
+      <if test="otherSystemSick != null" >
+        #{otherSystemSick,jdbcType=VARCHAR},
+      </if>
+      <if test="operingCase != null" >
+        #{operingCase,jdbcType=VARCHAR},
+      </if>
+      <if test="totalVolume != null" >
+        #{totalVolume,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecord" >
+    update doc_analgesic_record
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesId != null" >
+        anaesId = #{anaesId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicMethod != null" >
+        analgesicMethod = #{analgesicMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="extraCatheterLoca != null" >
+        extraCatheterLoca = #{extraCatheterLoca,jdbcType=VARCHAR},
+      </if>
+      <if test="intravCatheterLoca != null" >
+        intravCatheterLoca = #{intravCatheterLoca,jdbcType=VARCHAR},
+      </if>
+      <if test="analgesicPumpsType != null" >
+        analgesicPumpsType = #{analgesicPumpsType,jdbcType=VARCHAR},
+      </if>
+      <if test="pcaStart != null" >
+        pcaStart = #{pcaStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pcaStop != null" >
+        pcaStop = #{pcaStop,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstDosage != null" >
+        firstDosage = #{firstDosage,jdbcType=REAL},
+      </if>
+      <if test="durativeDosage != null" >
+        durativeDosage = #{durativeDosage,jdbcType=REAL},
+      </if>
+      <if test="pcaDosage != null" >
+        pcaDosage = #{pcaDosage,jdbcType=REAL},
+      </if>
+      <if test="lockTime != null" >
+        lockTime = #{lockTime,jdbcType=REAL},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="formula1 != null" >
+        formula1 = #{formula1,jdbcType=REAL},
+      </if>
+      <if test="loadCapacity1 != null" >
+        loadCapacity1 = #{loadCapacity1,jdbcType=REAL},
+      </if>
+      <if test="mainteAmount1 != null" >
+        mainteAmount1 = #{mainteAmount1,jdbcType=REAL},
+      </if>
+      <if test="addAmount1 != null" >
+        addAmount1 = #{addAmount1,jdbcType=REAL},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="anaesDocId != null" >
+        anaesDocId = #{anaesDocId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesDocName != null" >
+        anaesDocName = #{anaesDocName,jdbcType=VARCHAR},
+      </if>
+      <if test="formula2 != null" >
+        formula2 = #{formula2,jdbcType=REAL},
+      </if>
+      <if test="continuePumpTime != null" >
+        continuePumpTime = #{continuePumpTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loadCapacity2 != null" >
+        loadCapacity2 = #{loadCapacity2,jdbcType=REAL},
+      </if>
+      <if test="mainteAmount2 != null" >
+        mainteAmount2 = #{mainteAmount2,jdbcType=REAL},
+      </if>
+      <if test="addAmount2 != null" >
+        addAmount2 = #{addAmount2,jdbcType=REAL},
+      </if>
+      <if test="continuePumpDocId != null" >
+        continuePumpDocId = #{continuePumpDocId,jdbcType=VARCHAR},
+      </if>
+      <if test="continuePumpDocName != null" >
+        continuePumpDocName = #{continuePumpDocName,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pullPump != null" >
+        pullPump = #{pullPump,jdbcType=VARCHAR},
+      </if>
+      <if test="pullPumpName != null" >
+        pullPumpName = #{pullPumpName,jdbcType=VARCHAR},
+      </if>
+      <if test="otherSystemSick != null" >
+        otherSystemSick = #{otherSystemSick,jdbcType=VARCHAR},
+      </if>
+      <if test="operingCase != null" >
+        operingCase = #{operingCase,jdbcType=VARCHAR},
+      </if>
+      <if test="totalVolume != null" >
+        totalVolume = #{totalVolume,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnalgesicRecord" >
+    update doc_analgesic_record
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      anaesId = #{anaesId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      analgesicMethod = #{analgesicMethod,jdbcType=VARCHAR},
+      extraCatheterLoca = #{extraCatheterLoca,jdbcType=VARCHAR},
+      intravCatheterLoca = #{intravCatheterLoca,jdbcType=VARCHAR},
+      analgesicPumpsType = #{analgesicPumpsType,jdbcType=VARCHAR},
+      pcaStart = #{pcaStart,jdbcType=TIMESTAMP},
+      pcaStop = #{pcaStop,jdbcType=TIMESTAMP},
+      firstDosage = #{firstDosage,jdbcType=REAL},
+      durativeDosage = #{durativeDosage,jdbcType=REAL},
+      pcaDosage = #{pcaDosage,jdbcType=REAL},
+      lockTime = #{lockTime,jdbcType=REAL},
+      processState = #{processState,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=INTEGER},
+      formula1 = #{formula1,jdbcType=REAL},
+      loadCapacity1 = #{loadCapacity1,jdbcType=REAL},
+      mainteAmount1 = #{mainteAmount1,jdbcType=REAL},
+      addAmount1 = #{addAmount1,jdbcType=REAL},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      anaesDocId = #{anaesDocId,jdbcType=VARCHAR},
+      anaesDocName = #{anaesDocName,jdbcType=VARCHAR},
+      formula2 = #{formula2,jdbcType=REAL},
+      continuePumpTime = #{continuePumpTime,jdbcType=TIMESTAMP},
+      loadCapacity2 = #{loadCapacity2,jdbcType=REAL},
+      mainteAmount2 = #{mainteAmount2,jdbcType=REAL},
+      addAmount2 = #{addAmount2,jdbcType=REAL},
+      continuePumpDocId = #{continuePumpDocId,jdbcType=VARCHAR},
+      continuePumpDocName = #{continuePumpDocName,jdbcType=VARCHAR},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      pullPump = #{pullPump,jdbcType=VARCHAR},
+      pullPumpName = #{pullPumpName,jdbcType=VARCHAR},
+      otherSystemSick = #{otherSystemSick,jdbcType=VARCHAR},
+      operingCase = #{operingCase,jdbcType=VARCHAR},
+      totalVolume = #{totalVolume,jdbcType=REAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

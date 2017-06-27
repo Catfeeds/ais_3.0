@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasRegionDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasRegion" >
+    <id column="regionId" property="regionId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    regionId, name, enable, pinYin, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_region
+    where regionId = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEntityList" resultMap="BaseResultMap" parameterType="com.digihealth.anesthesia.basedata.po.BasRegion" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_region
+    where 1=1 
+    <if test="regionId != '' and regionId != null">AND regionId = #{regionId} </if>
+    <if test="name != '' and name !=null">AND name LIKE CONCAT('%',#{name},'%') </if>
+    <if test="enable != null">AND enable = #{enable} </if>
+    <if test="beid != '' and beid != null">AND beid = #{beid} </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_region
+    where regionId = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRegion" >
+    insert into bas_region (regionId, name, enable, 
+      pinYin,beid)
+    values (#{regionId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, 
+      #{pinYin,jdbcType=VARCHAR},#{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegion" >
+    insert into bas_region
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regionId != null" >
+        regionId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regionId != null" >
+        #{regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegion" >
+    update bas_region
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where regionId = #{regionId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasRegion" >
+    update bas_region
+    set name = #{name,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      beid = #{beid,jdbcType=VARCHAR}
+    where regionId = #{regionId,jdbcType=VARCHAR}
+  </update>
+  
+  
+    <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasRegion">
+		SELECT 
+			a.*
+		FROM bas_region a   where a.enable ='1' and a.beid = #{baseQuery.beid,jdbcType=VARCHAR}
+		<if test="baseQuery.name !=null and baseQuery.name!=''">
+		    and (name like CONCAT(CONCAT('%',#{baseQuery.name}),'%')  or pinYin like CONCAT(CONCAT('%',#{baseQuery.name}),'%') )
+		</if>
+		order by a.name ASC
+		<if test="baseQuery.pageSize !=null and baseQuery.pageSize!=''">
+		    limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
+   </select>
+	
+	<select id="searchRegionById" resultType="com.digihealth.anesthesia.basedata.po.BasRegion">
+	SELECT * FROM bas_region where regionId = #{regionId}
+	</select>
+	
+	<select id="queryRegionList" resultType="com.digihealth.anesthesia.basedata.po.BasRegion">
+	SELECT * FROM bas_region where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryRegionListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_region where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasRegion">
+	select * from bas_region where regionId = #{code}
+	</select>
+	
+	<update id="updateEnable">
+		update bas_region set enable='0' where beid = #{beid,jdbcType=VARCHAR};
+	</update>
+
+</mapper>

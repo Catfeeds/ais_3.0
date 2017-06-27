@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasTitleStyleDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasTitleStyle" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+    <result column="flipTime" property="flipTime" jdbcType="REAL" />
+    <result column="broderState" property="broderState" jdbcType="INTEGER" />
+    <result column="fullScreen" property="fullScreen" jdbcType="INTEGER" />
+    <result column="chooseState" property="chooseState" jdbcType="INTEGER" />
+    <result column="columnStyle" property="columnStyle" jdbcType="VARCHAR" />
+    <result column="pageSize" property="pageSize" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, type, title, style, flipTime, broderState, fullScreen, chooseState, columnStyle, 
+    pageSize, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_title_style
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_title_style
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasTitleStyle" >
+    insert into bas_title_style (id, type, title, 
+      style, flipTime, broderState, 
+      fullScreen, chooseState, columnStyle, 
+      pageSize, beid)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{style,jdbcType=VARCHAR}, #{flipTime,jdbcType=REAL}, #{broderState,jdbcType=INTEGER}, 
+      #{fullScreen,jdbcType=INTEGER}, #{chooseState,jdbcType=INTEGER}, #{columnStyle,jdbcType=VARCHAR}, 
+      #{pageSize,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasTitleStyle" >
+    insert into bas_title_style
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+      <if test="flipTime != null" >
+        flipTime,
+      </if>
+      <if test="broderState != null" >
+        broderState,
+      </if>
+      <if test="fullScreen != null" >
+        fullScreen,
+      </if>
+      <if test="chooseState != null" >
+        chooseState,
+      </if>
+      <if test="columnStyle != null" >
+        columnStyle,
+      </if>
+      <if test="pageSize != null" >
+        pageSize,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="flipTime != null" >
+        #{flipTime,jdbcType=REAL},
+      </if>
+      <if test="broderState != null" >
+        #{broderState,jdbcType=INTEGER},
+      </if>
+      <if test="fullScreen != null" >
+        #{fullScreen,jdbcType=INTEGER},
+      </if>
+      <if test="chooseState != null" >
+        #{chooseState,jdbcType=INTEGER},
+      </if>
+      <if test="columnStyle != null" >
+        #{columnStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="pageSize != null" >
+        #{pageSize,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasTitleStyle" >
+    update bas_title_style
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="flipTime != null" >
+        flipTime = #{flipTime,jdbcType=REAL},
+      </if>
+      <if test="broderState != null" >
+        broderState = #{broderState,jdbcType=INTEGER},
+      </if>
+      <if test="fullScreen != null" >
+        fullScreen = #{fullScreen,jdbcType=INTEGER},
+      </if>
+      <if test="chooseState != null" >
+        chooseState = #{chooseState,jdbcType=INTEGER},
+      </if>
+      <if test="columnStyle != null" >
+        columnStyle = #{columnStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="pageSize != null" >
+        pageSize = #{pageSize,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasTitleStyle" >
+    update bas_title_style
+    set type = #{type,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR},
+      flipTime = #{flipTime,jdbcType=REAL},
+      broderState = #{broderState,jdbcType=INTEGER},
+      fullScreen = #{fullScreen,jdbcType=INTEGER},
+      chooseState = #{chooseState,jdbcType=INTEGER},
+      columnStyle = #{columnStyle,jdbcType=VARCHAR},
+      pageSize = #{pageSize,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultMap="BaseResultMap" parameterType="java.lang.String"  >
+    select 
+    *
+    from bas_title_style
+     where type = #{type,jdbcType=VARCHAR}
+     and beid = #{beid,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

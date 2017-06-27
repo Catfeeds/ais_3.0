@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.tmp.dao.TmpIoEventDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.tmp.po.TmpIoEvent" >
+    <id column="ioeventId" property="ioeventId" jdbcType="VARCHAR" />
+    <result column="medTempId" property="medTempId" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="dosageAmount" property="dosageAmount" jdbcType="REAL" />
+    <result column="isCharged" property="isCharged" jdbcType="INTEGER" />
+    <result column="ioDefId" property="ioDefId" jdbcType="VARCHAR" />
+    <result column="passage" property="passage" jdbcType="VARCHAR" />
+    <result column="priceId" property="priceId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ioeventId, medTempId, startTime, endTime, createUser, dosageAmount, isCharged, ioDefId, 
+    passage, priceId
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tmp_io_event
+    where ioeventId = #{ioeventId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tmp_io_event
+    where ioeventId = #{ioeventId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.tmp.po.TmpIoEvent" >
+    insert into tmp_io_event (ioeventId, medTempId, startTime, 
+      endTime, createUser, dosageAmount, 
+      isCharged, ioDefId, passage, 
+      priceId)
+    values (#{ioeventId,jdbcType=VARCHAR}, #{medTempId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{dosageAmount,jdbcType=REAL}, 
+      #{isCharged,jdbcType=INTEGER}, #{ioDefId,jdbcType=VARCHAR}, #{passage,jdbcType=VARCHAR}, 
+      #{priceId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpIoEvent" >
+    insert into tmp_io_event
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ioeventId != null" >
+        ioeventId,
+      </if>
+      <if test="medTempId != null" >
+        medTempId,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="dosageAmount != null" >
+        dosageAmount,
+      </if>
+      <if test="isCharged != null" >
+        isCharged,
+      </if>
+      <if test="ioDefId != null" >
+        ioDefId,
+      </if>
+      <if test="passage != null" >
+        passage,
+      </if>
+      <if test="priceId != null" >
+        priceId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ioeventId != null" >
+        #{ioeventId,jdbcType=VARCHAR},
+      </if>
+      <if test="medTempId != null" >
+        #{medTempId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageAmount != null" >
+        #{dosageAmount,jdbcType=REAL},
+      </if>
+      <if test="isCharged != null" >
+        #{isCharged,jdbcType=INTEGER},
+      </if>
+      <if test="ioDefId != null" >
+        #{ioDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="passage != null" >
+        #{passage,jdbcType=VARCHAR},
+      </if>
+      <if test="priceId != null" >
+        #{priceId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.tmp.po.TmpIoEvent" >
+    update tmp_io_event
+    <set >
+      <if test="medTempId != null" >
+        medTempId = #{medTempId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageAmount != null" >
+        dosageAmount = #{dosageAmount,jdbcType=REAL},
+      </if>
+      <if test="isCharged != null" >
+        isCharged = #{isCharged,jdbcType=INTEGER},
+      </if>
+      <if test="ioDefId != null" >
+        ioDefId = #{ioDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="passage != null" >
+        passage = #{passage,jdbcType=VARCHAR},
+      </if>
+      <if test="priceId != null" >
+        priceId = #{priceId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ioeventId = #{ioeventId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.tmp.po.TmpIoEvent" >
+    update tmp_io_event
+    set medTempId = #{medTempId,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      dosageAmount = #{dosageAmount,jdbcType=REAL},
+      isCharged = #{isCharged,jdbcType=INTEGER},
+      ioDefId = #{ioDefId,jdbcType=VARCHAR},
+      passage = #{passage,jdbcType=VARCHAR},
+      priceId = #{priceId,jdbcType=VARCHAR}
+    where ioeventId = #{ioeventId,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteByMedTempId" parameterType = "java.util.List">
+	delete from tmp_io_event where medTempId = #{medTempId}
+	</delete>
+	
+	<select id="selectIoTempEventByMedTempId" resultType="com.digihealth.anesthesia.tmp.po.TmpIoEvent">
+	select t.*,(select io.name from bas_io_defination io where io.ioDefId = t.ioDefId) as "name",(select io.spec from bas_io_defination io where io.ioDefId = t.ioDefId) as "spec" from tmp_io_event t where t.medTempId = #{medTempId}
+	</select>
+	
+	<select id="queryIoTempEvemtById" resultType="com.digihealth.anesthesia.tmp.po.TmpIoEvent">
+		SELECT 
+			a.*
+		FROM tmp_io_event a where a.ioeventId = #{ioeventId}
+		 
+	</select>
+
+</mapper>

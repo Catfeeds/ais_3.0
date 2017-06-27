@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocAnaesPostopDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocAnaesPostop" >
+    <id column="anaPostopId" property="anaPostopId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="beforeBloodPre" property="beforeBloodPre" jdbcType="VARCHAR" />
+    <result column="beforeHeartrate" property="beforeHeartrate" jdbcType="INTEGER" />
+    <result column="beforeBreath" property="beforeBreath" jdbcType="INTEGER" />
+    <result column="beforeMentalState" property="beforeMentalState" jdbcType="VARCHAR" />
+    <result column="beforeFeel" property="beforeFeel" jdbcType="VARCHAR" />
+    <result column="beforeMotorFunction" property="beforeMotorFunction" jdbcType="VARCHAR" />
+    <result column="spo2" property="spo2" jdbcType="INTEGER" />
+    <result column="anaesCatheter" property="anaesCatheter" jdbcType="VARCHAR" />
+    <result column="removalTime" property="removalTime" jdbcType="VARCHAR" />
+    <result column="beforeOther" property="beforeOther" jdbcType="VARCHAR" />
+    <result column="afterHeartrate" property="afterHeartrate" jdbcType="INTEGER" />
+    <result column="afterBreath" property="afterBreath" jdbcType="INTEGER" />
+    <result column="afterBloodPre" property="afterBloodPre" jdbcType="VARCHAR" />
+    <result column="afterMentalState" property="afterMentalState" jdbcType="VARCHAR" />
+    <result column="afterFeel" property="afterFeel" jdbcType="VARCHAR" />
+    <result column="afterMotorFunction" property="afterMotorFunction" jdbcType="VARCHAR" />
+    <result column="opePartsCase" property="opePartsCase" jdbcType="VARCHAR" />
+    <result column="afterOther" property="afterOther" jdbcType="VARCHAR" />
+    <result column="anaestheitistId" property="anaestheitistId" jdbcType="VARCHAR" />
+    <result column="signTime" property="signTime" jdbcType="VARCHAR" />
+    <result column="throatAche" property="throatAche" jdbcType="INTEGER" />
+    <result column="cough" property="cough" jdbcType="INTEGER" />
+    <result column="respTractInfarct" property="respTractInfarct" jdbcType="INTEGER" />
+    <result column="anoxia" property="anoxia" jdbcType="INTEGER" />
+    <result column="respDepress" property="respDepress" jdbcType="INTEGER" />
+    <result column="soundHoarseness" property="soundHoarseness" jdbcType="INTEGER" />
+    <result column="carboDioxidAccum" property="carboDioxidAccum" jdbcType="INTEGER" />
+    <result column="atelectasis" property="atelectasis" jdbcType="INTEGER" />
+    <result column="pulmInfect" property="pulmInfect" jdbcType="INTEGER" />
+    <result column="respSystemCond" property="respSystemCond" jdbcType="VARCHAR" />
+    <result column="circulSystem" property="circulSystem" jdbcType="INTEGER" />
+    <result column="bloodCond" property="bloodCond" jdbcType="INTEGER" />
+    <result column="arrhythmia" property="arrhythmia" jdbcType="INTEGER" />
+    <result column="ischMyocard" property="ischMyocard" jdbcType="INTEGER" />
+    <result column="shock" property="shock" jdbcType="INTEGER" />
+    <result column="intraoperAware" property="intraoperAware" jdbcType="INTEGER" />
+    <result column="consciousness" property="consciousness" jdbcType="INTEGER" />
+    <result column="postoperAgit" property="postoperAgit" jdbcType="INTEGER" />
+    <result column="disgnosia" property="disgnosia" jdbcType="INTEGER" />
+    <result column="circulSystemCond" property="circulSystemCond" jdbcType="VARCHAR" />
+    <result column="painDeg" property="painDeg" jdbcType="INTEGER" />
+    <result column="hiccup" property="hiccup" jdbcType="INTEGER" />
+    <result column="disgorge" property="disgorge" jdbcType="INTEGER" />
+    <result column="naupathia" property="naupathia" jdbcType="INTEGER" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    anaPostopId, regOptId, beforeBloodPre, beforeHeartrate, beforeBreath, beforeMentalState, 
+    beforeFeel, beforeMotorFunction, spo2, anaesCatheter, removalTime, beforeOther, afterHeartrate, 
+    afterBreath, afterBloodPre, afterMentalState, afterFeel, afterMotorFunction, opePartsCase, 
+    afterOther, anaestheitistId, signTime, throatAche, cough, respTractInfarct, anoxia, 
+    respDepress, soundHoarseness, carboDioxidAccum, atelectasis, pulmInfect, respSystemCond, 
+    circulSystem, bloodCond, arrhythmia, ischMyocard, shock, intraoperAware, consciousness, 
+    postoperAgit, disgnosia, circulSystemCond, painDeg, hiccup, disgorge, naupathia, 
+    processState
+  </sql>
+
+	<select id="searchAnaesPostopByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesPostop">
+		SELECT 
+			DISTINCT *
+		FROM doc_anaes_postop d where d.regOptId = #{regOptId}
+	</select>
+	
+	<select id="searchAnaesPostopById" resultType="com.digihealth.anesthesia.doc.po.DocAnaesPostop">
+		SELECT DISTINCT *
+		FROM doc_anaes_postop d 
+		WHERE d.anaPostopId = #{id}
+	</select>
+	
+	<select id="searchNoEndAnaesPostop" resultType="com.digihealth.anesthesia.evt.formbean.SearchMyOperationFormBean">
+		SELECT
+			DISTINCT a.regOptId,a.name,a.hid,a.operaDate
+		FROM doc_anaes_postop p left join bas_reg_opt a on p.regOptId = a.regOptId  left join bas_dispatch c on a.regOptId = c.regOptId
+		WHERE 1 = 1 and a.beid = #{beid} and ( p.processState != 'END' or p.processState is null)
+		and (a.archstate !='AR' or a.archstate is null)
+		<if test="loginName !=0">
+		AND (c.anesthetistId = #{loginName} or c.circunurseId1 = #{loginName} or c.circunurseId2 = #{loginName} or c.instrnurseId1 = #{loginName} or c.instrnurseId2 = #{loginName}) 
+		</if>
+			 and a.state in <foreach collection="searchConditionFormBean.stateItems" item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach>
+		 order by a.${searchConditionFormBean.sort} ${searchConditionFormBean.orderBy}
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_anaes_postop
+    where anaPostopId = #{anaPostopId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_anaes_postop
+    where anaPostopId = #{anaPostopId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPostop" >
+    insert into doc_anaes_postop (anaPostopId, regOptId, beforeBloodPre, 
+      beforeHeartrate, beforeBreath, beforeMentalState, 
+      beforeFeel, beforeMotorFunction, spo2, 
+      anaesCatheter, removalTime, beforeOther, 
+      afterHeartrate, afterBreath, afterBloodPre, 
+      afterMentalState, afterFeel, afterMotorFunction, 
+      opePartsCase, afterOther, anaestheitistId, 
+      signTime, throatAche, cough, 
+      respTractInfarct, anoxia, respDepress, 
+      soundHoarseness, carboDioxidAccum, atelectasis, 
+      pulmInfect, respSystemCond, circulSystem, 
+      bloodCond, arrhythmia, ischMyocard, 
+      shock, intraoperAware, consciousness, 
+      postoperAgit, disgnosia, circulSystemCond, 
+      painDeg, hiccup, disgorge, 
+      naupathia, processState)
+    values (#{anaPostopId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{beforeBloodPre,jdbcType=VARCHAR}, 
+      #{beforeHeartrate,jdbcType=INTEGER}, #{beforeBreath,jdbcType=INTEGER}, #{beforeMentalState,jdbcType=VARCHAR}, 
+      #{beforeFeel,jdbcType=VARCHAR}, #{beforeMotorFunction,jdbcType=VARCHAR}, #{spo2,jdbcType=INTEGER}, 
+      #{anaesCatheter,jdbcType=VARCHAR}, #{removalTime,jdbcType=VARCHAR}, #{beforeOther,jdbcType=VARCHAR}, 
+      #{afterHeartrate,jdbcType=INTEGER}, #{afterBreath,jdbcType=INTEGER}, #{afterBloodPre,jdbcType=VARCHAR}, 
+      #{afterMentalState,jdbcType=VARCHAR}, #{afterFeel,jdbcType=VARCHAR}, #{afterMotorFunction,jdbcType=VARCHAR}, 
+      #{opePartsCase,jdbcType=VARCHAR}, #{afterOther,jdbcType=VARCHAR}, #{anaestheitistId,jdbcType=VARCHAR}, 
+      #{signTime,jdbcType=VARCHAR}, #{throatAche,jdbcType=INTEGER}, #{cough,jdbcType=INTEGER}, 
+      #{respTractInfarct,jdbcType=INTEGER}, #{anoxia,jdbcType=INTEGER}, #{respDepress,jdbcType=INTEGER}, 
+      #{soundHoarseness,jdbcType=INTEGER}, #{carboDioxidAccum,jdbcType=INTEGER}, #{atelectasis,jdbcType=INTEGER}, 
+      #{pulmInfect,jdbcType=INTEGER}, #{respSystemCond,jdbcType=VARCHAR}, #{circulSystem,jdbcType=INTEGER}, 
+      #{bloodCond,jdbcType=INTEGER}, #{arrhythmia,jdbcType=INTEGER}, #{ischMyocard,jdbcType=INTEGER}, 
+      #{shock,jdbcType=INTEGER}, #{intraoperAware,jdbcType=INTEGER}, #{consciousness,jdbcType=INTEGER}, 
+      #{postoperAgit,jdbcType=INTEGER}, #{disgnosia,jdbcType=INTEGER}, #{circulSystemCond,jdbcType=VARCHAR}, 
+      #{painDeg,jdbcType=INTEGER}, #{hiccup,jdbcType=INTEGER}, #{disgorge,jdbcType=INTEGER}, 
+      #{naupathia,jdbcType=INTEGER}, #{processState,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPostop" >
+    insert into doc_anaes_postop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anaPostopId != null" >
+        anaPostopId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="beforeBloodPre != null" >
+        beforeBloodPre,
+      </if>
+      <if test="beforeHeartrate != null" >
+        beforeHeartrate,
+      </if>
+      <if test="beforeBreath != null" >
+        beforeBreath,
+      </if>
+      <if test="beforeMentalState != null" >
+        beforeMentalState,
+      </if>
+      <if test="beforeFeel != null" >
+        beforeFeel,
+      </if>
+      <if test="beforeMotorFunction != null" >
+        beforeMotorFunction,
+      </if>
+      <if test="spo2 != null" >
+        spo2,
+      </if>
+      <if test="anaesCatheter != null" >
+        anaesCatheter,
+      </if>
+      <if test="removalTime != null" >
+        removalTime,
+      </if>
+      <if test="beforeOther != null" >
+        beforeOther,
+      </if>
+      <if test="afterHeartrate != null" >
+        afterHeartrate,
+      </if>
+      <if test="afterBreath != null" >
+        afterBreath,
+      </if>
+      <if test="afterBloodPre != null" >
+        afterBloodPre,
+      </if>
+      <if test="afterMentalState != null" >
+        afterMentalState,
+      </if>
+      <if test="afterFeel != null" >
+        afterFeel,
+      </if>
+      <if test="afterMotorFunction != null" >
+        afterMotorFunction,
+      </if>
+      <if test="opePartsCase != null" >
+        opePartsCase,
+      </if>
+      <if test="afterOther != null" >
+        afterOther,
+      </if>
+      <if test="anaestheitistId != null" >
+        anaestheitistId,
+      </if>
+      <if test="signTime != null" >
+        signTime,
+      </if>
+      <if test="throatAche != null" >
+        throatAche,
+      </if>
+      <if test="cough != null" >
+        cough,
+      </if>
+      <if test="respTractInfarct != null" >
+        respTractInfarct,
+      </if>
+      <if test="anoxia != null" >
+        anoxia,
+      </if>
+      <if test="respDepress != null" >
+        respDepress,
+      </if>
+      <if test="soundHoarseness != null" >
+        soundHoarseness,
+      </if>
+      <if test="carboDioxidAccum != null" >
+        carboDioxidAccum,
+      </if>
+      <if test="atelectasis != null" >
+        atelectasis,
+      </if>
+      <if test="pulmInfect != null" >
+        pulmInfect,
+      </if>
+      <if test="respSystemCond != null" >
+        respSystemCond,
+      </if>
+      <if test="circulSystem != null" >
+        circulSystem,
+      </if>
+      <if test="bloodCond != null" >
+        bloodCond,
+      </if>
+      <if test="arrhythmia != null" >
+        arrhythmia,
+      </if>
+      <if test="ischMyocard != null" >
+        ischMyocard,
+      </if>
+      <if test="shock != null" >
+        shock,
+      </if>
+      <if test="intraoperAware != null" >
+        intraoperAware,
+      </if>
+      <if test="consciousness != null" >
+        consciousness,
+      </if>
+      <if test="postoperAgit != null" >
+        postoperAgit,
+      </if>
+      <if test="disgnosia != null" >
+        disgnosia,
+      </if>
+      <if test="circulSystemCond != null" >
+        circulSystemCond,
+      </if>
+      <if test="painDeg != null" >
+        painDeg,
+      </if>
+      <if test="hiccup != null" >
+        hiccup,
+      </if>
+      <if test="disgorge != null" >
+        disgorge,
+      </if>
+      <if test="naupathia != null" >
+        naupathia,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anaPostopId != null" >
+        #{anaPostopId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeBloodPre != null" >
+        #{beforeBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeHeartrate != null" >
+        #{beforeHeartrate,jdbcType=INTEGER},
+      </if>
+      <if test="beforeBreath != null" >
+        #{beforeBreath,jdbcType=INTEGER},
+      </if>
+      <if test="beforeMentalState != null" >
+        #{beforeMentalState,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeFeel != null" >
+        #{beforeFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeMotorFunction != null" >
+        #{beforeMotorFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="spo2 != null" >
+        #{spo2,jdbcType=INTEGER},
+      </if>
+      <if test="anaesCatheter != null" >
+        #{anaesCatheter,jdbcType=VARCHAR},
+      </if>
+      <if test="removalTime != null" >
+        #{removalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeOther != null" >
+        #{beforeOther,jdbcType=VARCHAR},
+      </if>
+      <if test="afterHeartrate != null" >
+        #{afterHeartrate,jdbcType=INTEGER},
+      </if>
+      <if test="afterBreath != null" >
+        #{afterBreath,jdbcType=INTEGER},
+      </if>
+      <if test="afterBloodPre != null" >
+        #{afterBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="afterMentalState != null" >
+        #{afterMentalState,jdbcType=VARCHAR},
+      </if>
+      <if test="afterFeel != null" >
+        #{afterFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="afterMotorFunction != null" >
+        #{afterMotorFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="opePartsCase != null" >
+        #{opePartsCase,jdbcType=VARCHAR},
+      </if>
+      <if test="afterOther != null" >
+        #{afterOther,jdbcType=VARCHAR},
+      </if>
+      <if test="anaestheitistId != null" >
+        #{anaestheitistId,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=VARCHAR},
+      </if>
+      <if test="throatAche != null" >
+        #{throatAche,jdbcType=INTEGER},
+      </if>
+      <if test="cough != null" >
+        #{cough,jdbcType=INTEGER},
+      </if>
+      <if test="respTractInfarct != null" >
+        #{respTractInfarct,jdbcType=INTEGER},
+      </if>
+      <if test="anoxia != null" >
+        #{anoxia,jdbcType=INTEGER},
+      </if>
+      <if test="respDepress != null" >
+        #{respDepress,jdbcType=INTEGER},
+      </if>
+      <if test="soundHoarseness != null" >
+        #{soundHoarseness,jdbcType=INTEGER},
+      </if>
+      <if test="carboDioxidAccum != null" >
+        #{carboDioxidAccum,jdbcType=INTEGER},
+      </if>
+      <if test="atelectasis != null" >
+        #{atelectasis,jdbcType=INTEGER},
+      </if>
+      <if test="pulmInfect != null" >
+        #{pulmInfect,jdbcType=INTEGER},
+      </if>
+      <if test="respSystemCond != null" >
+        #{respSystemCond,jdbcType=VARCHAR},
+      </if>
+      <if test="circulSystem != null" >
+        #{circulSystem,jdbcType=INTEGER},
+      </if>
+      <if test="bloodCond != null" >
+        #{bloodCond,jdbcType=INTEGER},
+      </if>
+      <if test="arrhythmia != null" >
+        #{arrhythmia,jdbcType=INTEGER},
+      </if>
+      <if test="ischMyocard != null" >
+        #{ischMyocard,jdbcType=INTEGER},
+      </if>
+      <if test="shock != null" >
+        #{shock,jdbcType=INTEGER},
+      </if>
+      <if test="intraoperAware != null" >
+        #{intraoperAware,jdbcType=INTEGER},
+      </if>
+      <if test="consciousness != null" >
+        #{consciousness,jdbcType=INTEGER},
+      </if>
+      <if test="postoperAgit != null" >
+        #{postoperAgit,jdbcType=INTEGER},
+      </if>
+      <if test="disgnosia != null" >
+        #{disgnosia,jdbcType=INTEGER},
+      </if>
+      <if test="circulSystemCond != null" >
+        #{circulSystemCond,jdbcType=VARCHAR},
+      </if>
+      <if test="painDeg != null" >
+        #{painDeg,jdbcType=INTEGER},
+      </if>
+      <if test="hiccup != null" >
+        #{hiccup,jdbcType=INTEGER},
+      </if>
+      <if test="disgorge != null" >
+        #{disgorge,jdbcType=INTEGER},
+      </if>
+      <if test="naupathia != null" >
+        #{naupathia,jdbcType=INTEGER},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPostop" >
+    update doc_anaes_postop
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeBloodPre != null" >
+        beforeBloodPre = #{beforeBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeHeartrate != null" >
+        beforeHeartrate = #{beforeHeartrate,jdbcType=INTEGER},
+      </if>
+      <if test="beforeBreath != null" >
+        beforeBreath = #{beforeBreath,jdbcType=INTEGER},
+      </if>
+      <if test="beforeMentalState != null" >
+        beforeMentalState = #{beforeMentalState,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeFeel != null" >
+        beforeFeel = #{beforeFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeMotorFunction != null" >
+        beforeMotorFunction = #{beforeMotorFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="spo2 != null" >
+        spo2 = #{spo2,jdbcType=INTEGER},
+      </if>
+      <if test="anaesCatheter != null" >
+        anaesCatheter = #{anaesCatheter,jdbcType=VARCHAR},
+      </if>
+      <if test="removalTime != null" >
+        removalTime = #{removalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeOther != null" >
+        beforeOther = #{beforeOther,jdbcType=VARCHAR},
+      </if>
+      <if test="afterHeartrate != null" >
+        afterHeartrate = #{afterHeartrate,jdbcType=INTEGER},
+      </if>
+      <if test="afterBreath != null" >
+        afterBreath = #{afterBreath,jdbcType=INTEGER},
+      </if>
+      <if test="afterBloodPre != null" >
+        afterBloodPre = #{afterBloodPre,jdbcType=VARCHAR},
+      </if>
+      <if test="afterMentalState != null" >
+        afterMentalState = #{afterMentalState,jdbcType=VARCHAR},
+      </if>
+      <if test="afterFeel != null" >
+        afterFeel = #{afterFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="afterMotorFunction != null" >
+        afterMotorFunction = #{afterMotorFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="opePartsCase != null" >
+        opePartsCase = #{opePartsCase,jdbcType=VARCHAR},
+      </if>
+      <if test="afterOther != null" >
+        afterOther = #{afterOther,jdbcType=VARCHAR},
+      </if>
+      <if test="anaestheitistId != null" >
+        anaestheitistId = #{anaestheitistId,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        signTime = #{signTime,jdbcType=VARCHAR},
+      </if>
+      <if test="throatAche != null" >
+        throatAche = #{throatAche,jdbcType=INTEGER},
+      </if>
+      <if test="cough != null" >
+        cough = #{cough,jdbcType=INTEGER},
+      </if>
+      <if test="respTractInfarct != null" >
+        respTractInfarct = #{respTractInfarct,jdbcType=INTEGER},
+      </if>
+      <if test="anoxia != null" >
+        anoxia = #{anoxia,jdbcType=INTEGER},
+      </if>
+      <if test="respDepress != null" >
+        respDepress = #{respDepress,jdbcType=INTEGER},
+      </if>
+      <if test="soundHoarseness != null" >
+        soundHoarseness = #{soundHoarseness,jdbcType=INTEGER},
+      </if>
+      <if test="carboDioxidAccum != null" >
+        carboDioxidAccum = #{carboDioxidAccum,jdbcType=INTEGER},
+      </if>
+      <if test="atelectasis != null" >
+        atelectasis = #{atelectasis,jdbcType=INTEGER},
+      </if>
+      <if test="pulmInfect != null" >
+        pulmInfect = #{pulmInfect,jdbcType=INTEGER},
+      </if>
+      <if test="respSystemCond != null" >
+        respSystemCond = #{respSystemCond,jdbcType=VARCHAR},
+      </if>
+      <if test="circulSystem != null" >
+        circulSystem = #{circulSystem,jdbcType=INTEGER},
+      </if>
+      <if test="bloodCond != null" >
+        bloodCond = #{bloodCond,jdbcType=INTEGER},
+      </if>
+      <if test="arrhythmia != null" >
+        arrhythmia = #{arrhythmia,jdbcType=INTEGER},
+      </if>
+      <if test="ischMyocard != null" >
+        ischMyocard = #{ischMyocard,jdbcType=INTEGER},
+      </if>
+      <if test="shock != null" >
+        shock = #{shock,jdbcType=INTEGER},
+      </if>
+      <if test="intraoperAware != null" >
+        intraoperAware = #{intraoperAware,jdbcType=INTEGER},
+      </if>
+      <if test="consciousness != null" >
+        consciousness = #{consciousness,jdbcType=INTEGER},
+      </if>
+      <if test="postoperAgit != null" >
+        postoperAgit = #{postoperAgit,jdbcType=INTEGER},
+      </if>
+      <if test="disgnosia != null" >
+        disgnosia = #{disgnosia,jdbcType=INTEGER},
+      </if>
+      <if test="circulSystemCond != null" >
+        circulSystemCond = #{circulSystemCond,jdbcType=VARCHAR},
+      </if>
+      <if test="painDeg != null" >
+        painDeg = #{painDeg,jdbcType=INTEGER},
+      </if>
+      <if test="hiccup != null" >
+        hiccup = #{hiccup,jdbcType=INTEGER},
+      </if>
+      <if test="disgorge != null" >
+        disgorge = #{disgorge,jdbcType=INTEGER},
+      </if>
+      <if test="naupathia != null" >
+        naupathia = #{naupathia,jdbcType=INTEGER},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where anaPostopId = #{anaPostopId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesPostop" >
+    update doc_anaes_postop
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      beforeBloodPre = #{beforeBloodPre,jdbcType=VARCHAR},
+      beforeHeartrate = #{beforeHeartrate,jdbcType=INTEGER},
+      beforeBreath = #{beforeBreath,jdbcType=INTEGER},
+      beforeMentalState = #{beforeMentalState,jdbcType=VARCHAR},
+      beforeFeel = #{beforeFeel,jdbcType=VARCHAR},
+      beforeMotorFunction = #{beforeMotorFunction,jdbcType=VARCHAR},
+      spo2 = #{spo2,jdbcType=INTEGER},
+      anaesCatheter = #{anaesCatheter,jdbcType=VARCHAR},
+      removalTime = #{removalTime,jdbcType=VARCHAR},
+      beforeOther = #{beforeOther,jdbcType=VARCHAR},
+      afterHeartrate = #{afterHeartrate,jdbcType=INTEGER},
+      afterBreath = #{afterBreath,jdbcType=INTEGER},
+      afterBloodPre = #{afterBloodPre,jdbcType=VARCHAR},
+      afterMentalState = #{afterMentalState,jdbcType=VARCHAR},
+      afterFeel = #{afterFeel,jdbcType=VARCHAR},
+      afterMotorFunction = #{afterMotorFunction,jdbcType=VARCHAR},
+      opePartsCase = #{opePartsCase,jdbcType=VARCHAR},
+      afterOther = #{afterOther,jdbcType=VARCHAR},
+      anaestheitistId = #{anaestheitistId,jdbcType=VARCHAR},
+      signTime = #{signTime,jdbcType=VARCHAR},
+      throatAche = #{throatAche,jdbcType=INTEGER},
+      cough = #{cough,jdbcType=INTEGER},
+      respTractInfarct = #{respTractInfarct,jdbcType=INTEGER},
+      anoxia = #{anoxia,jdbcType=INTEGER},
+      respDepress = #{respDepress,jdbcType=INTEGER},
+      soundHoarseness = #{soundHoarseness,jdbcType=INTEGER},
+      carboDioxidAccum = #{carboDioxidAccum,jdbcType=INTEGER},
+      atelectasis = #{atelectasis,jdbcType=INTEGER},
+      pulmInfect = #{pulmInfect,jdbcType=INTEGER},
+      respSystemCond = #{respSystemCond,jdbcType=VARCHAR},
+      circulSystem = #{circulSystem,jdbcType=INTEGER},
+      bloodCond = #{bloodCond,jdbcType=INTEGER},
+      arrhythmia = #{arrhythmia,jdbcType=INTEGER},
+      ischMyocard = #{ischMyocard,jdbcType=INTEGER},
+      shock = #{shock,jdbcType=INTEGER},
+      intraoperAware = #{intraoperAware,jdbcType=INTEGER},
+      consciousness = #{consciousness,jdbcType=INTEGER},
+      postoperAgit = #{postoperAgit,jdbcType=INTEGER},
+      disgnosia = #{disgnosia,jdbcType=INTEGER},
+      circulSystemCond = #{circulSystemCond,jdbcType=VARCHAR},
+      painDeg = #{painDeg,jdbcType=INTEGER},
+      hiccup = #{hiccup,jdbcType=INTEGER},
+      disgorge = #{disgorge,jdbcType=INTEGER},
+      naupathia = #{naupathia,jdbcType=INTEGER},
+      processState = #{processState,jdbcType=VARCHAR}
+    where anaPostopId = #{anaPostopId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

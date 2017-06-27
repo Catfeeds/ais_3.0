@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasInstrsuitDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasInstrsuit" >
+    <id column="instrsuitId" property="instrsuitId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="totalAmount" property="totalAmount" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    instrsuitId, code, name, pinYin, enable, price, totalAmount, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_instrsuit
+    where instrsuitId = #{instrsuitId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bas_instrsuit
+    where instrsuitId = #{instrsuitId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrsuit" >
+    insert into bas_instrsuit (instrsuitId, code, name, 
+      pinYin, enable, price, 
+      totalAmount, beid)
+    values (#{instrsuitId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{pinYin,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{price,jdbcType=REAL}, 
+      #{totalAmount,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrsuit" >
+    insert into bas_instrsuit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="instrsuitId != null" >
+        instrsuitId,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="totalAmount != null" >
+        totalAmount,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="instrsuitId != null" >
+        #{instrsuitId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrsuit" >
+    update bas_instrsuit
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="totalAmount != null" >
+        totalAmount = #{totalAmount,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where instrsuitId = #{instrsuitId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.digihealth.anesthesia.basedata.po.BasInstrsuit" >
+    update bas_instrsuit
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      price = #{price,jdbcType=REAL},
+      totalAmount = #{totalAmount,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where instrsuitId = #{instrsuitId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasInstrsuit">
+		SELECT 
+			a.*
+		FROM bas_instrsuit a where 1 = 1 and beid = #{baseQuery.beid}
+		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
+			AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
+		</if>
+		AND a.enable = 1 
+	</select>
+	
+	<select id="searchInstrsuitOrderId" resultType="com.digihealth.anesthesia.basedata.po.BasInstrsuit">
+	SELECT DISTINCT * FROM bas_instrsuit order by CONVERT(instrsuitId,SIGNED) DESC
+	</select>
+	
+	<select id="queryInstrsuitList" resultType="com.digihealth.anesthesia.basedata.po.BasInstrsuit">
+	SELECT * FROM bas_instrsuit where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+		 <if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		 	 limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+		 </if>
+	</select>
+	
+	<select id="queryInstrsuitListTotal" resultType="java.lang.Integer">
+	SELECT count(*) FROM bas_instrsuit where 1=1 and beid = #{systemSearchFormBean.beid} ${filter} 
+	</select>
+	
+	<select id="searchInstrsuitById" resultType="com.digihealth.anesthesia.basedata.po.BasInstrsuit">
+	select * from bas_instrsuit where instrsuitId = #{instrsuitId}
+	</select>
+
+</mapper>

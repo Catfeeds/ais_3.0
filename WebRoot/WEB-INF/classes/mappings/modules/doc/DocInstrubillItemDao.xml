@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocInstrubillItemDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocInstrubillItem" >
+    <id column="instruItemId" property="instruItemId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="instrumentId" property="instrumentId" jdbcType="VARCHAR" />
+    <result column="origamount" property="origamount" jdbcType="INTEGER" />
+    <result column="inadd" property="inadd" jdbcType="INTEGER" />
+    <result column="hollowViscus" property="hollowViscus" jdbcType="INTEGER" />
+    <result column="cloBeBody" property="cloBeBody" jdbcType="INTEGER" />
+    <result column="cloAfBody" property="cloAfBody" jdbcType="INTEGER" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    instruItemId, regOptId, instrumentId, origamount, inadd, hollowViscus, cloBeBody, 
+    cloAfBody, createUser, createTime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_instrubill_item
+    where instruItemId = #{instruItemId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="searchInstrubillItemByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocInstrubillItem">
+		SELECT DISTINCT *,(select b.name from bas_instrument b where b.instrumentId = d.instrumentId) as "instruItemName"
+		FROM doc_instrubill_item d
+		WHERE d.regOptId = #{regOptId} 
+	</select>
+	
+	<select id="searchInstrubillItemById" resultType="com.digihealth.anesthesia.doc.po.DocInstrubillItem">
+		SELECT DISTINCT *
+		FROM doc_instrubill_item d
+		WHERE d.instruItemId = #{id} 
+	</select>
+	
+	<select id="searchInstrubillItemByInstrumentId" resultType="com.digihealth.anesthesia.doc.po.DocInstrubillItem">
+		SELECT DISTINCT *
+		FROM doc_instrubill_item d
+		WHERE d.instrumentId = #{instrumentId} 
+	</select>
+	
+	<select id="searchInstrubillItemByCodeAndRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocInstrubillItem">
+		SELECT DISTINCT *
+		FROM doc_instrubill_item d
+		WHERE d.regOptId = #{regOptId}  and d.instrumentId =#{instrumentId}
+	</select>
+	
+	<update id="updateInstrubillItem">
+		UPDATE doc_instrubill_item SET
+		origamount = #{instrubillItem.origamount},
+		inadd = #{instrubillItem.inadd},
+		hollowViscus = #{instrubillItem.hollowViscus},
+		cloBeBody = #{instrubillItem.cloBeBody},
+		cloAfBody = #{instrubillItem.cloAfBody},
+		createUser = #{instrubillItem.createUser},
+		createTime = #{instrubillItem.createTime}
+		where instruItemId = #{instrubillItem.instruItemId}
+	</update>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_instrubill_item
+    where instruItemId = #{instruItemId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocInstrubillItem" >
+    insert into doc_instrubill_item (instruItemId, regOptId, instrumentId, 
+      origamount, inadd, hollowViscus, 
+      cloBeBody, cloAfBody, createUser, 
+      createTime)
+    values (#{instruItemId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{instrumentId,jdbcType=VARCHAR}, 
+      #{origamount,jdbcType=INTEGER}, #{inadd,jdbcType=INTEGER}, #{hollowViscus,jdbcType=INTEGER}, 
+      #{cloBeBody,jdbcType=INTEGER}, #{cloAfBody,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocInstrubillItem" >
+    insert into doc_instrubill_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="instruItemId != null" >
+        instruItemId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="instrumentId != null" >
+        instrumentId,
+      </if>
+      <if test="origamount != null" >
+        origamount,
+      </if>
+      <if test="inadd != null" >
+        inadd,
+      </if>
+      <if test="hollowViscus != null" >
+        hollowViscus,
+      </if>
+      <if test="cloBeBody != null" >
+        cloBeBody,
+      </if>
+      <if test="cloAfBody != null" >
+        cloAfBody,
+      </if>
+      <if test="createUser != null" >
+        createUser,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="instruItemId != null" >
+        #{instruItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumentId != null" >
+        #{instrumentId,jdbcType=VARCHAR},
+      </if>
+      <if test="origamount != null" >
+        #{origamount,jdbcType=INTEGER},
+      </if>
+      <if test="inadd != null" >
+        #{inadd,jdbcType=INTEGER},
+      </if>
+      <if test="hollowViscus != null" >
+        #{hollowViscus,jdbcType=INTEGER},
+      </if>
+      <if test="cloBeBody != null" >
+        #{cloBeBody,jdbcType=INTEGER},
+      </if>
+      <if test="cloAfBody != null" >
+        #{cloAfBody,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocInstrubillItem" >
+    update doc_instrubill_item
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumentId != null" >
+        instrumentId = #{instrumentId,jdbcType=VARCHAR},
+      </if>
+      <if test="origamount != null" >
+        origamount = #{origamount,jdbcType=INTEGER},
+      </if>
+      <if test="inadd != null" >
+        inadd = #{inadd,jdbcType=INTEGER},
+      </if>
+      <if test="hollowViscus != null" >
+        hollowViscus = #{hollowViscus,jdbcType=INTEGER},
+      </if>
+      <if test="cloBeBody != null" >
+        cloBeBody = #{cloBeBody,jdbcType=INTEGER},
+      </if>
+      <if test="cloAfBody != null" >
+        cloAfBody = #{cloAfBody,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        createUser = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where instruItemId = #{instruItemId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocInstrubillItem" >
+    update doc_instrubill_item
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      instrumentId = #{instrumentId,jdbcType=VARCHAR},
+      origamount = #{origamount,jdbcType=INTEGER},
+      inadd = #{inadd,jdbcType=INTEGER},
+      hollowViscus = #{hollowViscus,jdbcType=INTEGER},
+      cloBeBody = #{cloBeBody,jdbcType=INTEGER},
+      cloAfBody = #{cloAfBody,jdbcType=INTEGER},
+      createUser = #{createUser,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where instruItemId = #{instruItemId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

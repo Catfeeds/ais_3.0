@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocOptRiskEvaluationDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation" >
+    <id column="optRiskEvaluationId" property="optRiskEvaluationId" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="IncisionCleanliness" property="incisionCleanliness" jdbcType="VARCHAR" />
+    <result column="surgeryCategory" property="surgeryCategory" jdbcType="VARCHAR" />
+    <result column="asa" property="asa" jdbcType="VARCHAR" />
+    <result column="durationSurgery" property="durationSurgery" jdbcType="VARCHAR" />
+    <result column="emergency" property="emergency" jdbcType="BIT" />
+    <result column="riskEvaluation" property="riskEvaluation" jdbcType="VARCHAR" />
+    <result column="nnis" property="nnis" jdbcType="VARCHAR" />
+    <result column="healingInfections" property="healingInfections" jdbcType="VARCHAR" />
+    <result column="processState" property="processState" jdbcType="VARCHAR" />
+    <result column="finishTime" property="finishTime" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+    <result column="doctorId" property="doctorId" jdbcType="VARCHAR" />
+    <result column="doctorName" property="doctorName" jdbcType="VARCHAR" />
+    <result column="anesthesId" property="anesthesId" jdbcType="VARCHAR" />
+    <result column="anesthesName" property="anesthesName" jdbcType="VARCHAR" />
+    <result column="nurseId" property="nurseId" jdbcType="VARCHAR" />
+    <result column="tourNurseName" property="tourNurseName" jdbcType="VARCHAR" />
+    <result column="nnisDoctorName" property="nnisDoctorName" jdbcType="VARCHAR" />
+    <result column="managerDoctorName" property="managerDoctorName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    optRiskEvaluationId, regOptId, IncisionCleanliness, surgeryCategory, asa, durationSurgery, 
+    emergency, riskEvaluation, nnis, healingInfections, processState, finishTime, flag, 
+    doctorId, doctorName, anesthesId, anesthesName, nurseId, tourNurseName, nnisDoctorName, 
+    managerDoctorName
+  </sql>
+
+	<select id="searchOptRiskEvaluationByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation">
+		select * from doc_opt_risk_evaluation where regOptId = #{optRiskEvaluation.regOptId}
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_opt_risk_evaluation
+    where optRiskEvaluationId = #{optRiskEvaluationId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_opt_risk_evaluation
+    where optRiskEvaluationId = #{optRiskEvaluationId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation" >
+    insert into doc_opt_risk_evaluation (optRiskEvaluationId, regOptId, IncisionCleanliness, 
+      surgeryCategory, asa, durationSurgery, 
+      emergency, riskEvaluation, nnis, 
+      healingInfections, processState, finishTime, 
+      flag, doctorId, doctorName, 
+      anesthesId, anesthesName, nurseId, 
+      tourNurseName, nnisDoctorName, managerDoctorName
+      )
+    values (#{optRiskEvaluationId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{incisionCleanliness,jdbcType=VARCHAR}, 
+      #{surgeryCategory,jdbcType=VARCHAR}, #{asa,jdbcType=VARCHAR}, #{durationSurgery,jdbcType=VARCHAR}, 
+      #{emergency,jdbcType=BIT}, #{riskEvaluation,jdbcType=VARCHAR}, #{nnis,jdbcType=VARCHAR}, 
+      #{healingInfections,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, #{finishTime,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=VARCHAR}, #{doctorId,jdbcType=VARCHAR}, #{doctorName,jdbcType=VARCHAR}, 
+      #{anesthesId,jdbcType=VARCHAR}, #{anesthesName,jdbcType=VARCHAR}, #{nurseId,jdbcType=VARCHAR}, 
+      #{tourNurseName,jdbcType=VARCHAR}, #{nnisDoctorName,jdbcType=VARCHAR}, #{managerDoctorName,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation" >
+    insert into doc_opt_risk_evaluation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="optRiskEvaluationId != null" >
+        optRiskEvaluationId,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="incisionCleanliness != null" >
+        IncisionCleanliness,
+      </if>
+      <if test="surgeryCategory != null" >
+        surgeryCategory,
+      </if>
+      <if test="asa != null" >
+        asa,
+      </if>
+      <if test="durationSurgery != null" >
+        durationSurgery,
+      </if>
+      <if test="emergency != null" >
+        emergency,
+      </if>
+      <if test="riskEvaluation != null" >
+        riskEvaluation,
+      </if>
+      <if test="nnis != null" >
+        nnis,
+      </if>
+      <if test="healingInfections != null" >
+        healingInfections,
+      </if>
+      <if test="processState != null" >
+        processState,
+      </if>
+      <if test="finishTime != null" >
+        finishTime,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="doctorId != null" >
+        doctorId,
+      </if>
+      <if test="doctorName != null" >
+        doctorName,
+      </if>
+      <if test="anesthesId != null" >
+        anesthesId,
+      </if>
+      <if test="anesthesName != null" >
+        anesthesName,
+      </if>
+      <if test="nurseId != null" >
+        nurseId,
+      </if>
+      <if test="tourNurseName != null" >
+        tourNurseName,
+      </if>
+      <if test="nnisDoctorName != null" >
+        nnisDoctorName,
+      </if>
+      <if test="managerDoctorName != null" >
+        managerDoctorName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="optRiskEvaluationId != null" >
+        #{optRiskEvaluationId,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="incisionCleanliness != null" >
+        #{incisionCleanliness,jdbcType=VARCHAR},
+      </if>
+      <if test="surgeryCategory != null" >
+        #{surgeryCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        #{asa,jdbcType=VARCHAR},
+      </if>
+      <if test="durationSurgery != null" >
+        #{durationSurgery,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        #{emergency,jdbcType=BIT},
+      </if>
+      <if test="riskEvaluation != null" >
+        #{riskEvaluation,jdbcType=VARCHAR},
+      </if>
+      <if test="nnis != null" >
+        #{nnis,jdbcType=VARCHAR},
+      </if>
+      <if test="healingInfections != null" >
+        #{healingInfections,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null" >
+        #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorName != null" >
+        #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthesId != null" >
+        #{anesthesId,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthesName != null" >
+        #{anesthesName,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseId != null" >
+        #{nurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="tourNurseName != null" >
+        #{tourNurseName,jdbcType=VARCHAR},
+      </if>
+      <if test="nnisDoctorName != null" >
+        #{nnisDoctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDoctorName != null" >
+        #{managerDoctorName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation" >
+    update doc_opt_risk_evaluation
+    <set >
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="incisionCleanliness != null" >
+        IncisionCleanliness = #{incisionCleanliness,jdbcType=VARCHAR},
+      </if>
+      <if test="surgeryCategory != null" >
+        surgeryCategory = #{surgeryCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="asa != null" >
+        asa = #{asa,jdbcType=VARCHAR},
+      </if>
+      <if test="durationSurgery != null" >
+        durationSurgery = #{durationSurgery,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        emergency = #{emergency,jdbcType=BIT},
+      </if>
+      <if test="riskEvaluation != null" >
+        riskEvaluation = #{riskEvaluation,jdbcType=VARCHAR},
+      </if>
+      <if test="nnis != null" >
+        nnis = #{nnis,jdbcType=VARCHAR},
+      </if>
+      <if test="healingInfections != null" >
+        healingInfections = #{healingInfections,jdbcType=VARCHAR},
+      </if>
+      <if test="processState != null" >
+        processState = #{processState,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        finishTime = #{finishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null" >
+        doctorId = #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorName != null" >
+        doctorName = #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthesId != null" >
+        anesthesId = #{anesthesId,jdbcType=VARCHAR},
+      </if>
+      <if test="anesthesName != null" >
+        anesthesName = #{anesthesName,jdbcType=VARCHAR},
+      </if>
+      <if test="nurseId != null" >
+        nurseId = #{nurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="tourNurseName != null" >
+        tourNurseName = #{tourNurseName,jdbcType=VARCHAR},
+      </if>
+      <if test="nnisDoctorName != null" >
+        nnisDoctorName = #{nnisDoctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDoctorName != null" >
+        managerDoctorName = #{managerDoctorName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where optRiskEvaluationId = #{optRiskEvaluationId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation" >
+    update doc_opt_risk_evaluation
+    set regOptId = #{regOptId,jdbcType=VARCHAR},
+      IncisionCleanliness = #{incisionCleanliness,jdbcType=VARCHAR},
+      surgeryCategory = #{surgeryCategory,jdbcType=VARCHAR},
+      asa = #{asa,jdbcType=VARCHAR},
+      durationSurgery = #{durationSurgery,jdbcType=VARCHAR},
+      emergency = #{emergency,jdbcType=BIT},
+      riskEvaluation = #{riskEvaluation,jdbcType=VARCHAR},
+      nnis = #{nnis,jdbcType=VARCHAR},
+      healingInfections = #{healingInfections,jdbcType=VARCHAR},
+      processState = #{processState,jdbcType=VARCHAR},
+      finishTime = #{finishTime,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      doctorId = #{doctorId,jdbcType=VARCHAR},
+      doctorName = #{doctorName,jdbcType=VARCHAR},
+      anesthesId = #{anesthesId,jdbcType=VARCHAR},
+      anesthesName = #{anesthesName,jdbcType=VARCHAR},
+      nurseId = #{nurseId,jdbcType=VARCHAR},
+      tourNurseName = #{tourNurseName,jdbcType=VARCHAR},
+      nnisDoctorName = #{nnisDoctorName,jdbcType=VARCHAR},
+      managerDoctorName = #{managerDoctorName,jdbcType=VARCHAR}
+    where optRiskEvaluationId = #{optRiskEvaluationId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

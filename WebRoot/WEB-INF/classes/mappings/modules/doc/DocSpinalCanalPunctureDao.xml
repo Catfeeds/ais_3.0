@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.doc.dao.DocSpinalCanalPunctureDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.doc.po.DocSpinalCanalPuncture" >
+    <id column="spinalCanalId" property="spinalCanalId" jdbcType="VARCHAR" />
+    <result column="anaSumId" property="anaSumId" jdbcType="VARCHAR" />
+    <result column="puncBodyPoint" property="puncBodyPoint" jdbcType="VARCHAR" />
+    <result column="puncPosi" property="puncPosi" jdbcType="VARCHAR" />
+    <result column="puncPoint" property="puncPoint" jdbcType="VARCHAR" />
+    <result column="isSucc" property="isSucc" jdbcType="VARCHAR" />
+    <result column="ligamentumFlavum" property="ligamentumFlavum" jdbcType="VARCHAR" />
+    <result column="intubation" property="intubation" jdbcType="VARCHAR" />
+    <result column="diffFeel" property="diffFeel" jdbcType="VARCHAR" />
+    <result column="catheterBlood" property="catheterBlood" jdbcType="VARCHAR" />
+    <result column="experDose" property="experDose" jdbcType="VARCHAR" />
+    <result column="anaesRange" property="anaesRange" jdbcType="VARCHAR" />
+    <result column="untowardEffect" property="untowardEffect" jdbcType="VARCHAR" />
+    <result column="effect" property="effect" jdbcType="VARCHAR" />
+    <result column="sacrococcygealLigamentum" property="sacrococcygealLigamentum" jdbcType="VARCHAR" />
+    <result column="sacrococcygealLigamentumSucc" property="sacrococcygealLigamentumSucc" jdbcType="VARCHAR" />
+    <result column="bubbleCompress" property="bubbleCompress" jdbcType="VARCHAR" />
+    <result column="negativePressure" property="negativePressure" jdbcType="VARCHAR" />
+    <result column="bubbleOutside" property="bubbleOutside" jdbcType="VARCHAR" />
+    <result column="sacralCanalPuncture" property="sacralCanalPuncture" jdbcType="VARCHAR" />
+    <result column="resistanceDisappear" property="resistanceDisappear" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    spinalCanalId, anaSumId, puncBodyPoint, puncPosi, puncPoint, isSucc, ligamentumFlavum, 
+    intubation, diffFeel, catheterBlood, experDose, anaesRange, untowardEffect, effect, 
+    sacrococcygealLigamentum, sacrococcygealLigamentumSucc, bubbleCompress, negativePressure, 
+    bubbleOutside, sacralCanalPuncture, resistanceDisappear
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_spinal_canal_puncture
+    where spinalCanalId = #{spinalCanalId,jdbcType=VARCHAR}
+  </select>
+
+	<select id="searchSpinalCanalPunctureList" resultType="com.digihealth.anesthesia.doc.po.DocSpinalCanalPuncture">
+		SELECT DISTINCT *
+		FROM doc_spinal_canal_puncture a where 1  = 1
+		<if test="searchBean.id != null and searchBean.id != ''">
+			AND a.spinalCanalId = #{searchBean.id}
+		</if>
+		<if test="searchBean.anaSumId != null and searchBean.anaSumId != ''">
+			AND a.anaSumId = #{searchBean.anaSumId}
+		</if>
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from doc_spinal_canal_puncture
+    where spinalCanalId = #{spinalCanalId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.doc.po.DocSpinalCanalPuncture" >
+    insert into doc_spinal_canal_puncture (spinalCanalId, anaSumId, puncBodyPoint, 
+      puncPosi, puncPoint, isSucc, 
+      ligamentumFlavum, intubation, diffFeel, 
+      catheterBlood, experDose, anaesRange, 
+      untowardEffect, effect, sacrococcygealLigamentum, 
+      sacrococcygealLigamentumSucc, bubbleCompress, 
+      negativePressure, bubbleOutside, sacralCanalPuncture, 
+      resistanceDisappear)
+    values (#{spinalCanalId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{puncBodyPoint,jdbcType=VARCHAR}, 
+      #{puncPosi,jdbcType=VARCHAR}, #{puncPoint,jdbcType=VARCHAR}, #{isSucc,jdbcType=VARCHAR}, 
+      #{ligamentumFlavum,jdbcType=VARCHAR}, #{intubation,jdbcType=VARCHAR}, #{diffFeel,jdbcType=VARCHAR}, 
+      #{catheterBlood,jdbcType=VARCHAR}, #{experDose,jdbcType=VARCHAR}, #{anaesRange,jdbcType=VARCHAR}, 
+      #{untowardEffect,jdbcType=VARCHAR}, #{effect,jdbcType=VARCHAR}, #{sacrococcygealLigamentum,jdbcType=VARCHAR}, 
+      #{sacrococcygealLigamentumSucc,jdbcType=VARCHAR}, #{bubbleCompress,jdbcType=VARCHAR}, 
+      #{negativePressure,jdbcType=VARCHAR}, #{bubbleOutside,jdbcType=VARCHAR}, #{sacralCanalPuncture,jdbcType=VARCHAR}, 
+      #{resistanceDisappear,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocSpinalCanalPuncture" >
+    insert into doc_spinal_canal_puncture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="spinalCanalId != null" >
+        spinalCanalId,
+      </if>
+      <if test="anaSumId != null" >
+        anaSumId,
+      </if>
+      <if test="puncBodyPoint != null" >
+        puncBodyPoint,
+      </if>
+      <if test="puncPosi != null" >
+        puncPosi,
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint,
+      </if>
+      <if test="isSucc != null" >
+        isSucc,
+      </if>
+      <if test="ligamentumFlavum != null" >
+        ligamentumFlavum,
+      </if>
+      <if test="intubation != null" >
+        intubation,
+      </if>
+      <if test="diffFeel != null" >
+        diffFeel,
+      </if>
+      <if test="catheterBlood != null" >
+        catheterBlood,
+      </if>
+      <if test="experDose != null" >
+        experDose,
+      </if>
+      <if test="anaesRange != null" >
+        anaesRange,
+      </if>
+      <if test="untowardEffect != null" >
+        untowardEffect,
+      </if>
+      <if test="effect != null" >
+        effect,
+      </if>
+      <if test="sacrococcygealLigamentum != null" >
+        sacrococcygealLigamentum,
+      </if>
+      <if test="sacrococcygealLigamentumSucc != null" >
+        sacrococcygealLigamentumSucc,
+      </if>
+      <if test="bubbleCompress != null" >
+        bubbleCompress,
+      </if>
+      <if test="negativePressure != null" >
+        negativePressure,
+      </if>
+      <if test="bubbleOutside != null" >
+        bubbleOutside,
+      </if>
+      <if test="sacralCanalPuncture != null" >
+        sacralCanalPuncture,
+      </if>
+      <if test="resistanceDisappear != null" >
+        resistanceDisappear,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="spinalCanalId != null" >
+        #{spinalCanalId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaSumId != null" >
+        #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="puncBodyPoint != null" >
+        #{puncBodyPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPosi != null" >
+        #{puncPosi,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint != null" >
+        #{puncPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="isSucc != null" >
+        #{isSucc,jdbcType=VARCHAR},
+      </if>
+      <if test="ligamentumFlavum != null" >
+        #{ligamentumFlavum,jdbcType=VARCHAR},
+      </if>
+      <if test="intubation != null" >
+        #{intubation,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFeel != null" >
+        #{diffFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterBlood != null" >
+        #{catheterBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="experDose != null" >
+        #{experDose,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesRange != null" >
+        #{anaesRange,jdbcType=VARCHAR},
+      </if>
+      <if test="untowardEffect != null" >
+        #{untowardEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="sacrococcygealLigamentum != null" >
+        #{sacrococcygealLigamentum,jdbcType=VARCHAR},
+      </if>
+      <if test="sacrococcygealLigamentumSucc != null" >
+        #{sacrococcygealLigamentumSucc,jdbcType=VARCHAR},
+      </if>
+      <if test="bubbleCompress != null" >
+        #{bubbleCompress,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePressure != null" >
+        #{negativePressure,jdbcType=VARCHAR},
+      </if>
+      <if test="bubbleOutside != null" >
+        #{bubbleOutside,jdbcType=VARCHAR},
+      </if>
+      <if test="sacralCanalPuncture != null" >
+        #{sacralCanalPuncture,jdbcType=VARCHAR},
+      </if>
+      <if test="resistanceDisappear != null" >
+        #{resistanceDisappear,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.doc.po.DocSpinalCanalPuncture" >
+    update doc_spinal_canal_puncture
+    <set >
+      <if test="anaSumId != null" >
+        anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      </if>
+      <if test="puncBodyPoint != null" >
+        puncBodyPoint = #{puncBodyPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPosi != null" >
+        puncPosi = #{puncPosi,jdbcType=VARCHAR},
+      </if>
+      <if test="puncPoint != null" >
+        puncPoint = #{puncPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="isSucc != null" >
+        isSucc = #{isSucc,jdbcType=VARCHAR},
+      </if>
+      <if test="ligamentumFlavum != null" >
+        ligamentumFlavum = #{ligamentumFlavum,jdbcType=VARCHAR},
+      </if>
+      <if test="intubation != null" >
+        intubation = #{intubation,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFeel != null" >
+        diffFeel = #{diffFeel,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterBlood != null" >
+        catheterBlood = #{catheterBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="experDose != null" >
+        experDose = #{experDose,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesRange != null" >
+        anaesRange = #{anaesRange,jdbcType=VARCHAR},
+      </if>
+      <if test="untowardEffect != null" >
+        untowardEffect = #{untowardEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        effect = #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="sacrococcygealLigamentum != null" >
+        sacrococcygealLigamentum = #{sacrococcygealLigamentum,jdbcType=VARCHAR},
+      </if>
+      <if test="sacrococcygealLigamentumSucc != null" >
+        sacrococcygealLigamentumSucc = #{sacrococcygealLigamentumSucc,jdbcType=VARCHAR},
+      </if>
+      <if test="bubbleCompress != null" >
+        bubbleCompress = #{bubbleCompress,jdbcType=VARCHAR},
+      </if>
+      <if test="negativePressure != null" >
+        negativePressure = #{negativePressure,jdbcType=VARCHAR},
+      </if>
+      <if test="bubbleOutside != null" >
+        bubbleOutside = #{bubbleOutside,jdbcType=VARCHAR},
+      </if>
+      <if test="sacralCanalPuncture != null" >
+        sacralCanalPuncture = #{sacralCanalPuncture,jdbcType=VARCHAR},
+      </if>
+      <if test="resistanceDisappear != null" >
+        resistanceDisappear = #{resistanceDisappear,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where spinalCanalId = #{spinalCanalId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.doc.po.DocSpinalCanalPuncture" >
+    update doc_spinal_canal_puncture
+    set anaSumId = #{anaSumId,jdbcType=VARCHAR},
+      puncBodyPoint = #{puncBodyPoint,jdbcType=VARCHAR},
+      puncPosi = #{puncPosi,jdbcType=VARCHAR},
+      puncPoint = #{puncPoint,jdbcType=VARCHAR},
+      isSucc = #{isSucc,jdbcType=VARCHAR},
+      ligamentumFlavum = #{ligamentumFlavum,jdbcType=VARCHAR},
+      intubation = #{intubation,jdbcType=VARCHAR},
+      diffFeel = #{diffFeel,jdbcType=VARCHAR},
+      catheterBlood = #{catheterBlood,jdbcType=VARCHAR},
+      experDose = #{experDose,jdbcType=VARCHAR},
+      anaesRange = #{anaesRange,jdbcType=VARCHAR},
+      untowardEffect = #{untowardEffect,jdbcType=VARCHAR},
+      effect = #{effect,jdbcType=VARCHAR},
+      sacrococcygealLigamentum = #{sacrococcygealLigamentum,jdbcType=VARCHAR},
+      sacrococcygealLigamentumSucc = #{sacrococcygealLigamentumSucc,jdbcType=VARCHAR},
+      bubbleCompress = #{bubbleCompress,jdbcType=VARCHAR},
+      negativePressure = #{negativePressure,jdbcType=VARCHAR},
+      bubbleOutside = #{bubbleOutside,jdbcType=VARCHAR},
+      sacralCanalPuncture = #{sacralCanalPuncture,jdbcType=VARCHAR},
+      resistanceDisappear = #{resistanceDisappear,jdbcType=VARCHAR}
+    where spinalCanalId = #{spinalCanalId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
