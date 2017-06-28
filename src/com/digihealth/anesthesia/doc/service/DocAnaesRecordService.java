@@ -8,7 +8,9 @@
 
 package com.digihealth.anesthesia.doc.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,7 +86,7 @@ public class DocAnaesRecordService extends BaseService {
 		DocAnaesRecord oldAnaesRecord = docAnaesRecordDao.searchAnaesRecordById(anaesRecord.getAnaRecordId());
 		// 如果状态没发生改变，直接修改数据
 		//if (controller.getState().equals(oldAnaesRecord.getState())) {
-			
+		anaesRecord.setOptBody(getOptBody(anaesRecord.getOptBodys()));
 			//如果手术体位发生改变，则需要记录到变更表中
 			if(StringUtils.isNotBlank(anaesRecord.getOptBody()) && StringUtils.isNotBlank(oldAnaesRecord.getOptBody())){
 				if(!anaesRecord.getOptBody().equals(oldAnaesRecord.getOptBody())){
@@ -227,4 +229,28 @@ public class DocAnaesRecordService extends BaseService {
 		return docAnaesRecordDao.searchAnaesRecordByRegOptId(regOptId);
 	}
 
+	public String getOptBody(List<String> optBodys) {
+		String optBody = "";
+		if(!optBodys.isEmpty() && optBodys.size() > 0) {
+			for(int i=0; i<optBodys.size(); i++) {
+				if(StringUtils.isBlank(optBody)) {
+					optBody = optBodys.get(i);
+				}else {
+					optBody += "," + optBodys.get(i);
+				}
+			}
+		}
+		return optBody;
+	}
+	
+	public List<String> getOptBodys(String optBodys) {
+		List<String> optBodys_ = new ArrayList<String>();
+		if (StringUtils.isNotBlank(optBodys)) {
+			String[] optBody = optBodys.split(",");
+			for (int i = 0; i < optBody.length; i++) {
+				optBodys_.add(optBody[i]);
+			}
+		}
+		return optBodys_;
+	}
 }

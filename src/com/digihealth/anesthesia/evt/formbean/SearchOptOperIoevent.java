@@ -8,7 +8,7 @@ public class SearchOptOperIoevent {
 	private String createUser;
 	private float dosageAmount;
 	private String isCharged;
-	private Integer ioDefId;
+	private String ioDefId;
 	private String docId;
 	private String passage;
 	private String state;
@@ -138,11 +138,11 @@ public class SearchOptOperIoevent {
 		this.isCharged = isCharged;
 	}
 
-	public Integer getIoDefId() {
+	public String getIoDefId() {
 		return ioDefId;
 	}
 
-	public void setIoDefId(Integer ioDefId) {
+	public void setIoDefId(String ioDefId) {
 		this.ioDefId = ioDefId;
 	}
 

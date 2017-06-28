@@ -212,7 +212,7 @@ public class DataCollMgr {
         List<Observe> newObserves = (List<Observe>) JSONArray.toCollection(
                 observeArray, Observe.class);
         JSONArray phyAlarmData = new JSONArray();
-        if (newObserves != null) {
+        if (newObserves != null && newObserves.size() > 0) {
             java.util.Iterator<Observe> ite = newObserves.iterator();
             while (ite.hasNext()) {
                 Observe newObserve = ite.next();

@@ -49,7 +49,7 @@ public interface DocPreVisitDao extends CrudDao<DocPreVisit>{
 	     * @created 2015-10-21 上午11:18:09     
 	     * @param preVisit
 	 */
-	public void updatePreVisit(@Param("preVisit")DocPreVisit preVisit);
+	public void updatePreVisit(DocPreVisit preVisit);
 	
 	/**
 	 * 

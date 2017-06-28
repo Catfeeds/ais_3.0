@@ -71,7 +71,6 @@ public class DocExitOperSafeCheckService extends BaseService {
 			resp.setResultMessage("出手术室前核查单不存在!");
 			return resp;
 		}
-		exitOperSafeCheck.setProcessState("END");
 		String regOptId = exitOperSafeCheck.getRegOptId() != null ? exitOperSafeCheck.getRegOptId() : "";
 		Controller controller = controllerDao
 				.getControllerById(regOptId);

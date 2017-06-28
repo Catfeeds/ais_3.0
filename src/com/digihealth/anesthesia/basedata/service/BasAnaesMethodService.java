@@ -14,6 +14,7 @@ import com.digihealth.anesthesia.basedata.formbean.BaseInfoQuery;
 import com.digihealth.anesthesia.basedata.formbean.SystemSearchFormBean;
 import com.digihealth.anesthesia.basedata.po.BasAnaesMethod;
 import com.digihealth.anesthesia.common.service.BaseService;
+import com.digihealth.anesthesia.common.utils.GenerateSequenceUtil;
 import com.digihealth.anesthesia.common.utils.PingYinUtil;
 import com.digihealth.anesthesia.evt.formbean.Filter;
 /**
@@ -130,7 +131,6 @@ public class BasAnaesMethodService extends BaseService {
 		return anaesMethod;
 	}
 	
-	
 	public BasAnaesMethod searchAnaesMethodById(String anaMedId){
 		return basAnaesMethodDao.searchAnaesMethodById(anaMedId);
 	}
@@ -143,19 +143,21 @@ public class BasAnaesMethodService extends BaseService {
 			basAnaesMethodDao.update(anaesMethod);
 			return "修改麻醉方法成功";
 		} else {
-			int id = 1; 
-			List<BasAnaesMethod> list = basAnaesMethodDao.searchAnaesMethodOrberById();
+			List<BasAnaesMethod> list = basAnaesMethodDao.searchAnaesMethodOrberById(anaesMethod.getBeid());
 			if(list != null&&list.size()>0 ){
-				anaesMethod.setAnaMedId(list.get(0).getAnaMedId()+1);
-				anaesMethod.setCode((list.get(0).getAnaMedId()+1)+"");
+				anaesMethod.setAnaMedId(GenerateSequenceUtil.generateSequenceNo());
+				anaesMethod.setCode(list.size() + 1 + "");
 			}else{
-				anaesMethod.setCode(id+"");
+				anaesMethod.setCode("1");
+			}
+			if("局麻".equals(anaesMethod.getName())) {
+				anaesMethod.setIsLocalAnaes(1);
+			}else {
+				anaesMethod.setIsLocalAnaes(0);
 			}
 			basAnaesMethodDao.insert(anaesMethod);
 			return "创建麻醉方法成功";
 		}
 	}
-	
-	
 	
 }

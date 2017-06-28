@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineLoseRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineLoseRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="loseType" property="loseType" jdbcType="VARCHAR" />
+    <result column="outRecordId" property="outRecordId" jdbcType="INTEGER" />
+    <result column="storageId" property="storageId" jdbcType="INTEGER" />
+    <result column="loseNumber" property="loseNumber" jdbcType="INTEGER" />
+    <result column="loseTime" property="loseTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="loseName" property="loseName" jdbcType="VARCHAR" />
+    <result column="loseReason" property="loseReason" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, loseType, outRecordId, storageId, loseNumber, loseTime, operator, loseName, loseReason, 
+    regOptId, remark,enable, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_lose_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryMedicineLoseRecordList" resultType="com.digihealth.anesthesia.basedata.formbean.BasAnaesMedicineLoseRecordFormBean">
+     select * from 
+     (
+         select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
+                o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+                from bas_anaes_medicine_lose_record r,bas_anaes_medicine_out_record o
+          where r.outRecordId = o.id
+                and r.loseType in('1','2')
+                and r.enable=1
+         UNION all
+         select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
+                m.medicineName,m.firm,m.spec,m.batch,m.minPackageUnit
+                from bas_anaes_medicine_lose_record r,bas_anaes_medicine_storage m
+          where r.storageId = m.id
+                and r.loseType = '3'
+                and r.enable=1
+     ) x where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(loseTime,'%Y-%m-%d') &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(loseTime, '%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outRecordid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'queryType' ">
+							<if test="filter.value != null and filter.value != ''"></if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryMedicineLoseRecordListTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+      select * from (       
+	      select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
+                o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+                from bas_anaes_medicine_lose_record r,bas_anaes_medicine_out_record o
+          where r.outRecordId = o.id
+                and r.loseType in('1','2')
+                and r.enable=1
+         UNION all
+         select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
+                m.medicineName,m.firm,m.spec,m.batch,m.minPackageUnit
+                from bas_anaes_medicine_lose_record r,bas_anaes_medicine_storage m
+          where r.storageId = m.id
+                and r.loseType = '3'
+                and r.enable=1
+     ) x where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(loseTime,'%Y-%m-%d') &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and DATE_FORMAT(loseTime, '%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outRecordid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'queryType' ">
+							<if test="filter.value != null and filter.value != ''"></if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	) c
+  </select>
+  
+  <select id="queryMedicineLoseRecordForLine" resultType="java.lang.Integer">
+  	SELECT IFNULL(SUM(loseNumber),0) AS 'loseDay' FROM
+	(
+		SELECT loseNumber, loseTime ,beid,enable
+		FROM bas_anaes_medicine_lose_record 
+		WHERE enable = 1
+		AND DATE_FORMAT(loseTime,'%Y-%m-%d') &gt;=  #{startTime} 
+		AND DATE_FORMAT(loseTime, '%Y-%m-%d') &lt;=  #{endTime} 
+		AND beid = #{beid,jdbcType=VARCHAR}
+	) a
+  </select>
+  
+  <select id="queryMedicineLoseRecordByReason" resultType="java.lang.Integer">
+  	SELECT IFNULL(SUM(loseNumber),0) AS 'loseDay' FROM
+	(
+		SELECT loseNumber, loseTime ,beid,enable
+		FROM bas_anaes_medicine_lose_record 
+		WHERE enable = 1
+		AND DATE_FORMAT(loseTime,'%Y-%m-%d') &gt;=  #{startTime} 
+		AND DATE_FORMAT(loseTime, '%Y-%m-%d') &lt;=  #{endTime} 
+		AND loseReason = #{reason,jdbcType=VARCHAR}
+		AND beid = #{beid,jdbcType=VARCHAR}
+	) a
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bas_anaes_medicine_lose_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineLoseRecord" >
+    insert into bas_anaes_medicine_lose_record (id, loseType, outRecordId, 
+      storageId, loseNumber, loseTime, 
+      operator, loseName, loseReason, 
+      regOptId, remark, enable,beid
+      )
+    values (#{id,jdbcType=INTEGER}, #{loseType,jdbcType=VARCHAR}, #{outRecordId,jdbcType=INTEGER}, 
+      #{storageId,jdbcType=INTEGER}, #{loseNumber,jdbcType=INTEGER}, #{loseTime,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=VARCHAR}, #{loseName,jdbcType=VARCHAR}, #{loseReason,jdbcType=VARCHAR}, 
+      #{regOptId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},#{beid,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineLoseRecord" >
+    insert into bas_anaes_medicine_lose_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loseType != null" >
+        loseType,
+      </if>
+      <if test="outRecordId != null" >
+        outRecordId,
+      </if>
+      <if test="storageId != null" >
+        storageId,
+      </if>
+      <if test="loseNumber != null" >
+        loseNumber,
+      </if>
+      <if test="loseTime != null" >
+        loseTime,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="loseName != null" >
+        loseName,
+      </if>
+      <if test="loseReason != null" >
+        loseReason,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="loseType != null" >
+        #{loseType,jdbcType=VARCHAR},
+      </if>
+      <if test="outRecordId != null" >
+        #{outRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="storageId != null" >
+        #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="loseNumber != null" >
+        #{loseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="loseTime != null" >
+        #{loseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="loseName != null" >
+        #{loseName,jdbcType=VARCHAR},
+      </if>
+      <if test="loseReason != null" >
+        #{loseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateEnableByOutRecordId" parameterType="java.lang.Integer" >
+    update bas_anaes_medicine_lose_record set enable = 0 where outRecordId = #{outRecordId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineLoseRecord" >
+    update bas_anaes_medicine_lose_record
+    <set >
+      <if test="loseType != null" >
+        loseType = #{loseType,jdbcType=VARCHAR},
+      </if>
+      <if test="outRecordId != null" >
+        outRecordId = #{outRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="storageId != null" >
+        storageId = #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="loseNumber != null" >
+        loseNumber = #{loseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="loseTime != null" >
+        loseTime = #{loseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="loseName != null" >
+        loseName = #{loseName,jdbcType=VARCHAR},
+      </if>
+      <if test="loseReason != null" >
+        loseReason = #{loseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineLoseRecord" >
+    update bas_anaes_medicine_lose_record
+    set loseType = #{loseType,jdbcType=VARCHAR},
+      outRecordId = #{outRecordId,jdbcType=INTEGER},
+      storageId = #{storageId,jdbcType=INTEGER},
+      loseNumber = #{loseNumber,jdbcType=INTEGER},
+      loseTime = #{loseTime,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR},
+      loseName = #{loseName,jdbcType=VARCHAR},
+      loseReason = #{loseReason,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

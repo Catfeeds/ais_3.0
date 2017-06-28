@@ -578,7 +578,7 @@ public class DocPreVisit {
 	private String anaestheitistName;
 
 	@ApiModelProperty(value = "拟行麻醉集合")
-	private List<Map> designedAnaesList;
+	private List<String> designedAnaesList;
 
 	@ApiModelProperty(value = "简要病史对象")
 	private Map<String, Object> briefHisMap;
@@ -624,6 +624,44 @@ public class DocPreVisit {
 
 	@ApiModelProperty(value = "术中监测对象")
 	private Map<String, Object> monitorMap;
+	
+	private Map specialTreatmentCondMap;
+
+	/**
+     * 其他病史详情
+     */
+	@ApiModelProperty(value = "其他病史详情")
+    private String otherBriefHisCond;
+
+    /**
+     * 气管偏移
+     */
+	@ApiModelProperty(value = "气管偏移")
+    private String tracheaOffset;
+
+    /**
+     * 心彩超及左心功能异常
+     */
+	@ApiModelProperty(value = "心彩超及左心功能异常")
+    private String ucgAbnormal;
+
+    /**
+     * EF
+     */
+	@ApiModelProperty(value = "EF")
+    private String ef;
+
+    /**
+     * 其他问题
+     */
+	@ApiModelProperty(value = "其他问题")
+    private String otherProblem;
+
+    /**
+     * 其他措施
+     */
+	@ApiModelProperty(value = "其他措施")
+    private String otherMeasures;
 
 	public String getPreVisitId() {
 		return preVisitId;
@@ -1571,12 +1609,82 @@ public class DocPreVisit {
 		this.anaestheitistName = anaestheitistName;
 	}
 
-	public List<Map> getDesignedAnaesList() {
+	public List<String> getDesignedAnaesList() {
 		return designedAnaesList;
 	}
 
-	public void setDesignedAnaesList(List<Map> designedAnaesList) {
+	public void setDesignedAnaesList(List<String> designedAnaesList) {
 		this.designedAnaesList = designedAnaesList;
 	}
+
+    public String getOtherBriefHisCond()
+    {
+        return otherBriefHisCond;
+    }
+
+    public void setOtherBriefHisCond(String otherBriefHisCond)
+    {
+        this.otherBriefHisCond = otherBriefHisCond;
+    }
+
+    public String getTracheaOffset()
+    {
+        return tracheaOffset;
+    }
+
+    public void setTracheaOffset(String tracheaOffset)
+    {
+        this.tracheaOffset = tracheaOffset;
+    }
+
+    public String getUcgAbnormal()
+    {
+        return ucgAbnormal;
+    }
+
+    public void setUcgAbnormal(String ucgAbnormal)
+    {
+        this.ucgAbnormal = ucgAbnormal;
+    }
+
+    public String getEf()
+    {
+        return ef;
+    }
+
+    public void setEf(String ef)
+    {
+        this.ef = ef;
+    }
+
+    public String getOtherProblem()
+    {
+        return otherProblem;
+    }
+
+    public void setOtherProblem(String otherProblem)
+    {
+        this.otherProblem = otherProblem;
+    }
+
+    public String getOtherMeasures()
+    {
+        return otherMeasures;
+    }
+
+    public void setOtherMeasures(String otherMeasures)
+    {
+        this.otherMeasures = otherMeasures;
+    }
+
+    public Map getSpecialTreatmentCondMap()
+    {
+        return specialTreatmentCondMap;
+    }
+
+    public void setSpecialTreatmentCondMap(Map specialTreatmentCondMap)
+    {
+        this.specialTreatmentCondMap = specialTreatmentCondMap;
+    }
 
 }

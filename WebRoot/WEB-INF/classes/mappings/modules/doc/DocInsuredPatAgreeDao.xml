@@ -121,5 +121,19 @@
       signTime = #{signTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="searchByRegOptId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_pat_agree
+    where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="searchMedAndInstru" resultType="com.digihealth.anesthesia.doc.formbean.SearchMedAndInstruFormBean">
+    SELECT m.medicineId id,m.name NAME,m.spec spec,p.priceMinPackage price, 1 type FROM 
+		(SELECT * FROM bas_medicine a WHERE a.enable = '1' ${filter} and a.beid = #{beid}) m LEFT JOIN bas_price p ON m.code = p.code and m.beid = p.beid
+		UNION ALL
+	SELECT c.chargeItemId id,c.chargeItemName NAME,c.spec spec,c.price price, 2 type FROM bas_charge_item c WHERE c.enable = '1' ${filter} and c.beid = #{beid}; 
+  </select>
 
 </mapper>

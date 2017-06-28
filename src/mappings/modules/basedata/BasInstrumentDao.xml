@@ -131,16 +131,16 @@
 	</select>
 	
 	<select id="searchInstrument" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">
-		SELECT 
-			*
-		FROM bas_instrument a where 1=1 and a.beid =  #{baseQuery.beid}
+		SELECT * FROM bas_instrument a where 1=1 and a.beid =  #{baseQuery.beid}
 		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
 			AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
 		</if>
 		<if test="baseQuery.enable != null and baseQuery.enable != ''">
 			AND a.enable = #{baseQuery.enable}
 		</if>
-		
+		<if test="baseQuery.pageSize != 0 and baseQuery.pageSize!=null">
+		 	 limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
 	</select>
 	
 	<select id="queryInstrumentByInstrsuitId" resultType="com.digihealth.anesthesia.basedata.po.BasInstrument">

@@ -49,7 +49,7 @@ public class EvtEgress {
      * 出入量基础表主键
      */
 	@ApiModelProperty(value = "出入量基础表主键")
-    private Integer ioDefId;
+    private String ioDefId;
 
     /**
      * 检查值
@@ -103,11 +103,11 @@ public class EvtEgress {
         this.createUser = createUser == null ? null : createUser.trim();
     }
 
-    public Integer getIoDefId() {
+    public String getIoDefId() {
         return ioDefId;
     }
 
-    public void setIoDefId(Integer ioDefId) {
+    public void setIoDefId(String ioDefId) {
         this.ioDefId = ioDefId;
     }
 

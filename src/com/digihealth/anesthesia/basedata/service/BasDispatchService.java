@@ -552,7 +552,7 @@ public class BasDispatchService extends BaseService {
 
 	public List<PrintNoticeFormBean> getOperateInfoByInsideScreen() {
 
-		return basDispatchDao.getOperateInfoByInsideScreen();
+		return basDispatchDao.getOperateInfoByInsideScreen(getBeid());
 	}
 
 	public List<PrintNoticeFormBean> getOperateInfoByOutsideScreen() {
@@ -568,7 +568,7 @@ public class BasDispatchService extends BaseService {
 		if (basRegion != null) {
 			regOpt.setRegionName(basRegion.getName());
 		}
-		BasRegOptUtils.IsLocalAnaesSet(regOpt, regOpt.getDesignedAnaesMethodCode(), regOpt.getBeid());
+		BasRegOptUtils.IsLocalAnaesSet(regOpt, regOpt.getDesignedAnaesMethodCodes(), regOpt.getBeid());
 		if (StringUtils.isNotBlank(regOpt.getRegOptId())) {
 			basRegOptDao.updateByPrimaryKey(regOpt);
 			return "true";

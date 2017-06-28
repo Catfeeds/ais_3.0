@@ -99,7 +99,7 @@
   </update>
   
   <select id="selectHealNurse" resultType="com.digihealth.anesthesia.basedata.po.BasHealthNurse">
-  select t.id,t.operRoomId,(select op.name from bas_operroom op where op.operRoomId = t.operRoomId) as "operRoomName",t.operaDate,t.healthnurse,(select su.name from bas_user su where su.userName = t.healthnurse) as "healthnurseName" from bas_health_nurse t 
+  select t.id,t.operRoomId,(select op.name from bas_operroom op where op.operRoomId = t.operRoomId) as "operRoomName",t.operaDate,t.healthnurse,(select su.name from bas_user su where su.userName = t.healthnurse and su.beid = #{beid}) as "healthnurseName" from bas_health_nurse t 
   where t.operRoomId = #{operRoomId} and t.operaDate = #{operaDate} and t.beid = #{beid}
   </select>
 

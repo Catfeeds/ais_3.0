@@ -89,7 +89,7 @@ public interface BasDispatchDao extends CrudDao<BasDispatch>{
 	 * @param baseQuery
 	 * @return
 	 */
-	public List<PrintNoticeFormBean> getOperateInfoByInsideScreen();
+	public List<PrintNoticeFormBean> getOperateInfoByInsideScreen(@Param("beid") String beid);
 	/**
 	 * 手术室外屏显示信息
 	 * @param baseQuery

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.digihealth.anesthesia.basedata.formbean.SysCodeFormbean;
 import com.digihealth.anesthesia.basedata.po.BasRegOpt;
 import com.digihealth.anesthesia.common.beanvalidator.ValidatorBean;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
@@ -82,6 +83,20 @@ public class DocAnaesSummaryController extends BaseController {
 			blood = evtInEventService.getBloodByDocId(anaesRecord.getAnaRecordId());
 		}
 		result.put("blood", blood);	
+		
+		List<SysCodeFormbean> puncturePointList =  basSysCodeService.searchSysCodeByGroupId("puncture_point", searchBean.getBeid());
+        List<SysCodeFormbean> laryngealMaskList =  basSysCodeService.searchSysCodeByGroupId("laryngeal_mask_model", searchBean.getBeid());
+        List<SysCodeFormbean> anesthesiaModelList =  basSysCodeService.searchSysCodeByGroupId("anesthesia_model", searchBean.getBeid());
+        List<SysCodeFormbean> needleBevelList =  basSysCodeService.searchSysCodeByGroupId("needle_bevel", searchBean.getBeid());
+        List<SysCodeFormbean> negativePressList =  basSysCodeService.searchSysCodeByGroupId("negative_press", searchBean.getBeid());
+        List<SysCodeFormbean> analgesiaPumpList =  basSysCodeService.searchSysCodeByGroupId("analgesia_pump", searchBean.getBeid());
+        
+        result.put("puncturePointList", puncturePointList);//穿刺点
+        result.put("laryngealMaskList", laryngealMaskList);//喉罩型号
+        result.put("anesthesiaModelList", anesthesiaModelList);//全麻型号
+        result.put("needleBevelList", needleBevelList);//针斜面
+        result.put("negativePressList", negativePressList);//负压测试
+        result.put("analgesiaPumpList", analgesiaPumpList);//病人自控镇痛泵
 		
 		logger.info("-------------end searchAnaesSummaryDetail-------------");
 		return result.getJsonStr();

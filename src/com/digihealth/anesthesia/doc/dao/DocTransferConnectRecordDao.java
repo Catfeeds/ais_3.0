@@ -8,6 +8,8 @@
  */
 package com.digihealth.anesthesia.doc.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
 import com.digihealth.anesthesia.doc.po.DocTransferConnectRecord;
 @MyBatisDao
@@ -25,4 +27,6 @@ public interface DocTransferConnectRecordDao {
     int updateByPrimaryKeyWithBLOBs(DocTransferConnectRecord record);
 
     int updateByPrimaryKey(DocTransferConnectRecord record);
+    
+    public DocTransferConnectRecord selectByRegOptId(@Param("regOptId") String regOptId);
 }

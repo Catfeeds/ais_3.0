@@ -23,12 +23,49 @@
     <result column="postVisitorId" property="postVisitorId" jdbcType="INTEGER" />
     <result column="postVisitorName" property="postVisitorName" jdbcType="VARCHAR" />
     <result column="postVisitTime" property="postVisitTime" jdbcType="TIMESTAMP" />
+    <result column="hbsag" property="hbsag" jdbcType="INTEGER" />
+    <result column="hcv" property="hcv" jdbcType="INTEGER" />
+    <result column="hiv" property="hiv" jdbcType="INTEGER" />
+    <result column="tpha" property="tpha" jdbcType="INTEGER" />
+    <result column="bloodSugar" property="bloodSugar" jdbcType="REAL" />
+    <result column="isAllergy" property="isAllergy" jdbcType="INTEGER" />
+    <result column="operHis" property="operHis" jdbcType="INTEGER" />
+    <result column="bodyStatus" property="bodyStatus" jdbcType="INTEGER" />
+    <result column="bodyType" property="bodyType" jdbcType="INTEGER" />
+    <result column="mentalStatus" property="mentalStatus" jdbcType="INTEGER" />
+    <result column="moveObstacle" property="moveObstacle" jdbcType="INTEGER" />
+    <result column="bloodVessels" property="bloodVessels" jdbcType="INTEGER" />
+    <result column="informContent" property="informContent" jdbcType="INTEGER" />
+    <result column="precautions" property="precautions" jdbcType="VARCHAR" />
+    <result column="preDoctorSign" property="preDoctorSign" jdbcType="VARCHAR" />
+    <result column="preAnaesSign" property="preAnaesSign" jdbcType="VARCHAR" />
+    <result column="preNurseSign" property="preNurseSign" jdbcType="VARCHAR" />
+    <result column="spiritStatus" property="spiritStatus" jdbcType="INTEGER" />
+    <result column="temp" property="temp" jdbcType="INTEGER" />
+    <result column="pain" property="pain" jdbcType="INTEGER" />
+    <result column="painDegree" property="painDegree" jdbcType="INTEGER" />
+    <result column="skinDamaged" property="skinDamaged" jdbcType="INTEGER" />
+    <result column="skinDamagedDetails" property="skinDamagedDetails" jdbcType="VARCHAR" />
+    <result column="incisionDress" property="incisionDress" jdbcType="INTEGER" />
+    <result column="complication" property="complication" jdbcType="INTEGER" />
+    <result column="complicationDetails" property="complicationDetails" jdbcType="VARCHAR" />
+    <result column="jobAssess" property="jobAssess" jdbcType="INTEGER" />
+    <result column="visitAttitude" property="visitAttitude" jdbcType="INTEGER" />
+    <result column="specialOpinions" property="specialOpinions" jdbcType="VARCHAR" />
+    <result column="postDoctorSign" property="postDoctorSign" jdbcType="VARCHAR" />
+    <result column="postAnaesSign" property="postAnaesSign" jdbcType="VARCHAR" />
+    <result column="postNurseSign" property="postNurseSign" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     id, regOptId, processState, blood, allergy, briefHis, briefHisOther, nurseProblem, 
     nurseProblemOther, preVisitorId, preVisitorName, preVisitTime, psychological, psychologicalOther, 
-    environment, workAttitude, care, suggest, postVisitorId, postVisitorName, postVisitTime
+    environment, workAttitude, care, suggest, postVisitorId, postVisitorName, postVisitTime, 
+    hbsag, hcv, hiv, tpha, bloodSugar, isAllergy, operHis, bodyStatus, bodyType, mentalStatus, 
+    moveObstacle, bloodVessels, informContent, precautions, preDoctorSign, preAnaesSign, 
+    preNurseSign, spiritStatus, temp, pain, painDegree, skinDamaged, skinDamagedDetails, 
+    incisionDress, complication, complicationDetails, jobAssess, visitAttitude, specialOpinions, 
+    postDoctorSign, postAnaesSign, postNurseSign
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -57,16 +94,36 @@
       preVisitorId, preVisitorName, preVisitTime, 
       psychological, psychologicalOther, environment, 
       workAttitude, care, suggest, 
-      postVisitorId, postVisitorName, postVisitTime
-      )
+      postVisitorId, postVisitorName, postVisitTime, 
+      hbsag, hcv, hiv, tpha, 
+      bloodSugar, isAllergy, operHis, 
+      bodyStatus, bodyType, mentalStatus, 
+      moveObstacle, bloodVessels, informContent, 
+      precautions, preDoctorSign, preAnaesSign, 
+      preNurseSign, spiritStatus, temp, 
+      pain, painDegree, skinDamaged, 
+      skinDamagedDetails, incisionDress, complication, 
+      complicationDetails, jobAssess, visitAttitude, 
+      specialOpinions, postDoctorSign, postAnaesSign, 
+      postNurseSign)
     values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
       #{blood,jdbcType=INTEGER}, #{allergy,jdbcType=VARCHAR}, #{briefHis,jdbcType=VARCHAR}, 
       #{briefHisOther,jdbcType=VARCHAR}, #{nurseProblem,jdbcType=VARCHAR}, #{nurseProblemOther,jdbcType=VARCHAR}, 
-      #{preVisitorId,jdbcType=INTEGER}, #{preVisitorName,jdbcType=VARCHAR}, #{preVisitTime,jdbcType=TIMESTAMP}, 
+      #{preVisitorId,jdbcType=VARCHAR}, #{preVisitorName,jdbcType=VARCHAR}, #{preVisitTime,jdbcType=TIMESTAMP}, 
       #{psychological,jdbcType=VARCHAR}, #{psychologicalOther,jdbcType=VARCHAR}, #{environment,jdbcType=INTEGER}, 
       #{workAttitude,jdbcType=INTEGER}, #{care,jdbcType=INTEGER}, #{suggest,jdbcType=VARCHAR}, 
-      #{postVisitorId,jdbcType=INTEGER}, #{postVisitorName,jdbcType=VARCHAR}, #{postVisitTime,jdbcType=TIMESTAMP}
-      )
+      #{postVisitorId,jdbcType=VARCHAR}, #{postVisitorName,jdbcType=VARCHAR}, #{postVisitTime,jdbcType=TIMESTAMP}, 
+      #{hbsag,jdbcType=INTEGER}, #{hcv,jdbcType=INTEGER}, #{hiv,jdbcType=INTEGER}, #{tpha,jdbcType=INTEGER}, 
+      #{bloodSugar,jdbcType=REAL}, #{isAllergy,jdbcType=INTEGER}, #{operHis,jdbcType=INTEGER}, 
+      #{bodyStatus,jdbcType=INTEGER}, #{bodyType,jdbcType=INTEGER}, #{mentalStatus,jdbcType=INTEGER}, 
+      #{moveObstacle,jdbcType=INTEGER}, #{bloodVessels,jdbcType=INTEGER}, #{informContent,jdbcType=INTEGER}, 
+      #{precautions,jdbcType=VARCHAR}, #{preDoctorSign,jdbcType=VARCHAR}, #{preAnaesSign,jdbcType=VARCHAR}, 
+      #{preNurseSign,jdbcType=VARCHAR}, #{spiritStatus,jdbcType=INTEGER}, #{temp,jdbcType=INTEGER}, 
+      #{pain,jdbcType=INTEGER}, #{painDegree,jdbcType=INTEGER}, #{skinDamaged,jdbcType=INTEGER}, 
+      #{skinDamagedDetails,jdbcType=VARCHAR}, #{incisionDress,jdbcType=INTEGER}, #{complication,jdbcType=INTEGER}, 
+      #{complicationDetails,jdbcType=VARCHAR}, #{jobAssess,jdbcType=INTEGER}, #{visitAttitude,jdbcType=INTEGER}, 
+      #{specialOpinions,jdbcType=VARCHAR}, #{postDoctorSign,jdbcType=VARCHAR}, #{postAnaesSign,jdbcType=VARCHAR}, 
+      #{postNurseSign,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocPrePostVisit" >
@@ -135,6 +192,102 @@
       <if test="postVisitTime != null" >
         postVisitTime,
       </if>
+      <if test="hbsag != null" >
+        hbsag,
+      </if>
+      <if test="hcv != null" >
+        hcv,
+      </if>
+      <if test="hiv != null" >
+        hiv,
+      </if>
+      <if test="tpha != null" >
+        tpha,
+      </if>
+      <if test="bloodSugar != null" >
+        bloodSugar,
+      </if>
+      <if test="isAllergy != null" >
+        isAllergy,
+      </if>
+      <if test="operHis != null" >
+        operHis,
+      </if>
+      <if test="bodyStatus != null" >
+        bodyStatus,
+      </if>
+      <if test="bodyType != null" >
+        bodyType,
+      </if>
+      <if test="mentalStatus != null" >
+        mentalStatus,
+      </if>
+      <if test="moveObstacle != null" >
+        moveObstacle,
+      </if>
+      <if test="bloodVessels != null" >
+        bloodVessels,
+      </if>
+      <if test="informContent != null" >
+        informContent,
+      </if>
+      <if test="precautions != null" >
+        precautions,
+      </if>
+      <if test="preDoctorSign != null" >
+        preDoctorSign,
+      </if>
+      <if test="preAnaesSign != null" >
+        preAnaesSign,
+      </if>
+      <if test="preNurseSign != null" >
+        preNurseSign,
+      </if>
+      <if test="spiritStatus != null" >
+        spiritStatus,
+      </if>
+      <if test="temp != null" >
+        temp,
+      </if>
+      <if test="pain != null" >
+        pain,
+      </if>
+      <if test="painDegree != null" >
+        painDegree,
+      </if>
+      <if test="skinDamaged != null" >
+        skinDamaged,
+      </if>
+      <if test="skinDamagedDetails != null" >
+        skinDamagedDetails,
+      </if>
+      <if test="incisionDress != null" >
+        incisionDress,
+      </if>
+      <if test="complication != null" >
+        complication,
+      </if>
+      <if test="complicationDetails != null" >
+        complicationDetails,
+      </if>
+      <if test="jobAssess != null" >
+        jobAssess,
+      </if>
+      <if test="visitAttitude != null" >
+        visitAttitude,
+      </if>
+      <if test="specialOpinions != null" >
+        specialOpinions,
+      </if>
+      <if test="postDoctorSign != null" >
+        postDoctorSign,
+      </if>
+      <if test="postAnaesSign != null" >
+        postAnaesSign,
+      </if>
+      <if test="postNurseSign != null" >
+        postNurseSign,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -165,7 +318,7 @@
         #{nurseProblemOther,jdbcType=VARCHAR},
       </if>
       <if test="preVisitorId != null" >
-        #{preVisitorId,jdbcType=INTEGER},
+        #{preVisitorId,jdbcType=VARCHAR},
       </if>
       <if test="preVisitorName != null" >
         #{preVisitorName,jdbcType=VARCHAR},
@@ -192,13 +345,109 @@
         #{suggest,jdbcType=VARCHAR},
       </if>
       <if test="postVisitorId != null" >
-        #{postVisitorId,jdbcType=INTEGER},
+        #{postVisitorId,jdbcType=VARCHAR},
       </if>
       <if test="postVisitorName != null" >
         #{postVisitorName,jdbcType=VARCHAR},
       </if>
       <if test="postVisitTime != null" >
         #{postVisitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hbsag != null" >
+        #{hbsag,jdbcType=INTEGER},
+      </if>
+      <if test="hcv != null" >
+        #{hcv,jdbcType=INTEGER},
+      </if>
+      <if test="hiv != null" >
+        #{hiv,jdbcType=INTEGER},
+      </if>
+      <if test="tpha != null" >
+        #{tpha,jdbcType=INTEGER},
+      </if>
+      <if test="bloodSugar != null" >
+        #{bloodSugar,jdbcType=REAL},
+      </if>
+      <if test="isAllergy != null" >
+        #{isAllergy,jdbcType=INTEGER},
+      </if>
+      <if test="operHis != null" >
+        #{operHis,jdbcType=INTEGER},
+      </if>
+      <if test="bodyStatus != null" >
+        #{bodyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="bodyType != null" >
+        #{bodyType,jdbcType=INTEGER},
+      </if>
+      <if test="mentalStatus != null" >
+        #{mentalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="moveObstacle != null" >
+        #{moveObstacle,jdbcType=INTEGER},
+      </if>
+      <if test="bloodVessels != null" >
+        #{bloodVessels,jdbcType=INTEGER},
+      </if>
+      <if test="informContent != null" >
+        #{informContent,jdbcType=INTEGER},
+      </if>
+      <if test="precautions != null" >
+        #{precautions,jdbcType=VARCHAR},
+      </if>
+      <if test="preDoctorSign != null" >
+        #{preDoctorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="preAnaesSign != null" >
+        #{preAnaesSign,jdbcType=VARCHAR},
+      </if>
+      <if test="preNurseSign != null" >
+        #{preNurseSign,jdbcType=VARCHAR},
+      </if>
+      <if test="spiritStatus != null" >
+        #{spiritStatus,jdbcType=INTEGER},
+      </if>
+      <if test="temp != null" >
+        #{temp,jdbcType=INTEGER},
+      </if>
+      <if test="pain != null" >
+        #{pain,jdbcType=INTEGER},
+      </if>
+      <if test="painDegree != null" >
+        #{painDegree,jdbcType=INTEGER},
+      </if>
+      <if test="skinDamaged != null" >
+        #{skinDamaged,jdbcType=INTEGER},
+      </if>
+      <if test="skinDamagedDetails != null" >
+        #{skinDamagedDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="incisionDress != null" >
+        #{incisionDress,jdbcType=INTEGER},
+      </if>
+      <if test="complication != null" >
+        #{complication,jdbcType=INTEGER},
+      </if>
+      <if test="complicationDetails != null" >
+        #{complicationDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="jobAssess != null" >
+        #{jobAssess,jdbcType=INTEGER},
+      </if>
+      <if test="visitAttitude != null" >
+        #{visitAttitude,jdbcType=INTEGER},
+      </if>
+      <if test="specialOpinions != null" >
+        #{specialOpinions,jdbcType=VARCHAR},
+      </if>
+      <if test="postDoctorSign != null" >
+        #{postDoctorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="postAnaesSign != null" >
+        #{postAnaesSign,jdbcType=VARCHAR},
+      </if>
+      <if test="postNurseSign != null" >
+        #{postNurseSign,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -258,13 +507,109 @@
         suggest = #{suggest,jdbcType=VARCHAR},
       </if>
       <if test="postVisitorId != null" >
-        postVisitorId = #{postVisitorId,jdbcType=INTEGER},
+        postVisitorId = #{postVisitorId,jdbcType=VARCHAR},
       </if>
       <if test="postVisitorName != null" >
         postVisitorName = #{postVisitorName,jdbcType=VARCHAR},
       </if>
       <if test="postVisitTime != null" >
         postVisitTime = #{postVisitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hbsag != null" >
+        hbsag = #{hbsag,jdbcType=INTEGER},
+      </if>
+      <if test="hcv != null" >
+        hcv = #{hcv,jdbcType=INTEGER},
+      </if>
+      <if test="hiv != null" >
+        hiv = #{hiv,jdbcType=INTEGER},
+      </if>
+      <if test="tpha != null" >
+        tpha = #{tpha,jdbcType=INTEGER},
+      </if>
+      <if test="bloodSugar != null" >
+        bloodSugar = #{bloodSugar,jdbcType=REAL},
+      </if>
+      <if test="isAllergy != null" >
+        isAllergy = #{isAllergy,jdbcType=INTEGER},
+      </if>
+      <if test="operHis != null" >
+        operHis = #{operHis,jdbcType=INTEGER},
+      </if>
+      <if test="bodyStatus != null" >
+        bodyStatus = #{bodyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="bodyType != null" >
+        bodyType = #{bodyType,jdbcType=INTEGER},
+      </if>
+      <if test="mentalStatus != null" >
+        mentalStatus = #{mentalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="moveObstacle != null" >
+        moveObstacle = #{moveObstacle,jdbcType=INTEGER},
+      </if>
+      <if test="bloodVessels != null" >
+        bloodVessels = #{bloodVessels,jdbcType=INTEGER},
+      </if>
+      <if test="informContent != null" >
+        informContent = #{informContent,jdbcType=INTEGER},
+      </if>
+      <if test="precautions != null" >
+        precautions = #{precautions,jdbcType=VARCHAR},
+      </if>
+      <if test="preDoctorSign != null" >
+        preDoctorSign = #{preDoctorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="preAnaesSign != null" >
+        preAnaesSign = #{preAnaesSign,jdbcType=VARCHAR},
+      </if>
+      <if test="preNurseSign != null" >
+        preNurseSign = #{preNurseSign,jdbcType=VARCHAR},
+      </if>
+      <if test="spiritStatus != null" >
+        spiritStatus = #{spiritStatus,jdbcType=INTEGER},
+      </if>
+      <if test="temp != null" >
+        temp = #{temp,jdbcType=INTEGER},
+      </if>
+      <if test="pain != null" >
+        pain = #{pain,jdbcType=INTEGER},
+      </if>
+      <if test="painDegree != null" >
+        painDegree = #{painDegree,jdbcType=INTEGER},
+      </if>
+      <if test="skinDamaged != null" >
+        skinDamaged = #{skinDamaged,jdbcType=INTEGER},
+      </if>
+      <if test="skinDamagedDetails != null" >
+        skinDamagedDetails = #{skinDamagedDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="incisionDress != null" >
+        incisionDress = #{incisionDress,jdbcType=INTEGER},
+      </if>
+      <if test="complication != null" >
+        complication = #{complication,jdbcType=INTEGER},
+      </if>
+      <if test="complicationDetails != null" >
+        complicationDetails = #{complicationDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="jobAssess != null" >
+        jobAssess = #{jobAssess,jdbcType=INTEGER},
+      </if>
+      <if test="visitAttitude != null" >
+        visitAttitude = #{visitAttitude,jdbcType=INTEGER},
+      </if>
+      <if test="specialOpinions != null" >
+        specialOpinions = #{specialOpinions,jdbcType=VARCHAR},
+      </if>
+      <if test="postDoctorSign != null" >
+        postDoctorSign = #{postDoctorSign,jdbcType=VARCHAR},
+      </if>
+      <if test="postAnaesSign != null" >
+        postAnaesSign = #{postAnaesSign,jdbcType=VARCHAR},
+      </if>
+      <if test="postNurseSign != null" >
+        postNurseSign = #{postNurseSign,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -280,7 +625,7 @@
       briefHisOther = #{briefHisOther,jdbcType=VARCHAR},
       nurseProblem = #{nurseProblem,jdbcType=VARCHAR},
       nurseProblemOther = #{nurseProblemOther,jdbcType=VARCHAR},
-      preVisitorId = #{preVisitorId,jdbcType=INTEGER},
+      preVisitorId = #{preVisitorId,jdbcType=VARCHAR},
       preVisitorName = #{preVisitorName,jdbcType=VARCHAR},
       preVisitTime = #{preVisitTime,jdbcType=TIMESTAMP},
       psychological = #{psychological,jdbcType=VARCHAR},
@@ -289,9 +634,41 @@
       workAttitude = #{workAttitude,jdbcType=INTEGER},
       care = #{care,jdbcType=INTEGER},
       suggest = #{suggest,jdbcType=VARCHAR},
-      postVisitorId = #{postVisitorId,jdbcType=INTEGER},
+      postVisitorId = #{postVisitorId,jdbcType=VARCHAR},
       postVisitorName = #{postVisitorName,jdbcType=VARCHAR},
-      postVisitTime = #{postVisitTime,jdbcType=TIMESTAMP}
+      postVisitTime = #{postVisitTime,jdbcType=TIMESTAMP},
+      hbsag = #{hbsag,jdbcType=INTEGER},
+      hcv = #{hcv,jdbcType=INTEGER},
+      hiv = #{hiv,jdbcType=INTEGER},
+      tpha = #{tpha,jdbcType=INTEGER},
+      bloodSugar = #{bloodSugar,jdbcType=REAL},
+      isAllergy = #{isAllergy,jdbcType=INTEGER},
+      operHis = #{operHis,jdbcType=INTEGER},
+      bodyStatus = #{bodyStatus,jdbcType=INTEGER},
+      bodyType = #{bodyType,jdbcType=INTEGER},
+      mentalStatus = #{mentalStatus,jdbcType=INTEGER},
+      moveObstacle = #{moveObstacle,jdbcType=INTEGER},
+      bloodVessels = #{bloodVessels,jdbcType=INTEGER},
+      informContent = #{informContent,jdbcType=INTEGER},
+      precautions = #{precautions,jdbcType=VARCHAR},
+      preDoctorSign = #{preDoctorSign,jdbcType=VARCHAR},
+      preAnaesSign = #{preAnaesSign,jdbcType=VARCHAR},
+      preNurseSign = #{preNurseSign,jdbcType=VARCHAR},
+      spiritStatus = #{spiritStatus,jdbcType=INTEGER},
+      temp = #{temp,jdbcType=INTEGER},
+      pain = #{pain,jdbcType=INTEGER},
+      painDegree = #{painDegree,jdbcType=INTEGER},
+      skinDamaged = #{skinDamaged,jdbcType=INTEGER},
+      skinDamagedDetails = #{skinDamagedDetails,jdbcType=VARCHAR},
+      incisionDress = #{incisionDress,jdbcType=INTEGER},
+      complication = #{complication,jdbcType=INTEGER},
+      complicationDetails = #{complicationDetails,jdbcType=VARCHAR},
+      jobAssess = #{jobAssess,jdbcType=INTEGER},
+      visitAttitude = #{visitAttitude,jdbcType=INTEGER},
+      specialOpinions = #{specialOpinions,jdbcType=VARCHAR},
+      postDoctorSign = #{postDoctorSign,jdbcType=VARCHAR},
+      postAnaesSign = #{postAnaesSign,jdbcType=VARCHAR},
+      postNurseSign = #{postNurseSign,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 

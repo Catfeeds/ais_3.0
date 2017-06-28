@@ -39,7 +39,7 @@ public interface BasAnaesMethodDao extends CrudDao<BasAnaesMethod> {
 	
 	public BasAnaesMethod searchAnaesMethodById(@Param("anaMedId")String anaMedId);
 	
-	public List<BasAnaesMethod> searchAnaesMethodOrberById();
+	public List<BasAnaesMethod> searchAnaesMethodOrberById(@Param("beid")String beid);
 	
 	public List<BasAnaesMethod> selectByCode(@Param("code")String code, @Param("beid")String beid);
 	

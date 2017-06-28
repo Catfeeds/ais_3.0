@@ -1,12 +1,14 @@
 package com.digihealth.anesthesia.evt.formbean;
 
+import java.util.Date;
+
 public class SearchOptOperEgress {
 
 	private String egressId;
-	private String startTime;
-	private String endTime;
+	private Date startTime;
+	private Date endTime;
 	private String createUser;
-	private Integer ioDefId;
+	private String ioDefId;
 	private String docId;
 	private String value;
 	private String state;
@@ -40,19 +42,19 @@ public class SearchOptOperEgress {
 		this.egressId = egressId;
 	}
 
-	public String getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
 
@@ -72,11 +74,11 @@ public class SearchOptOperEgress {
 		return createUserName;
 	}
 
-	public Integer getIoDefId() {
+	public String getIoDefId() {
 		return ioDefId;
 	}
 
-	public void setIoDefId(Integer ioDefId) {
+	public void setIoDefId(String ioDefId) {
 		this.ioDefId = ioDefId;
 	}
 

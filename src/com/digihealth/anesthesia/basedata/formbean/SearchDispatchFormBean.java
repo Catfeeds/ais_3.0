@@ -183,8 +183,34 @@ public class SearchDispatchFormBean implements Serializable {
 
 	@ApiModelProperty(value = "备注")
 	private String remark;
+	
+	@ApiModelProperty(value = "手术等级")
+	private String optLevel;
+	
+	@ApiModelProperty(value = "切口等级")
+	private Integer cutLevel;
+	
+	public String getOptLevel()
+    {
+        return optLevel;
+    }
 
-	public String getRemark() {
+    public void setOptLevel(String optLevel)
+    {
+        this.optLevel = optLevel;
+    }
+
+    public Integer getCutLevel()
+    {
+        return cutLevel;
+    }
+
+    public void setCutLevel(Integer cutLevel)
+    {
+        this.cutLevel = cutLevel;
+    }
+
+    public String getRemark() {
 		return remark;
 	}
 

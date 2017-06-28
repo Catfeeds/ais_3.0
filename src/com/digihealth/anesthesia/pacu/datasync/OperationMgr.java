@@ -65,7 +65,7 @@ public class OperationMgr {
 		}
 
 		List<BasPacuMonitorConfig> list = bedMap.get(bedId);
-		if (list == null) {
+		if (list == null || list.size() < 1) {
 			logger.info("init---------初始化bedMap！");
 			list = anaesPacuSocketService.getObserveList(bedId, beid);
 			bedMap.put(bedId, list);

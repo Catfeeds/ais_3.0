@@ -29,6 +29,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.digihealth.anesthesia.basedata.service.AnaesPacuSocketService;
 import com.digihealth.anesthesia.basedata.service.BasAnaesKndgbaseService;
+import com.digihealth.anesthesia.basedata.service.BasAnaesMedicineInRecordService;
+import com.digihealth.anesthesia.basedata.service.BasAnaesMedicineLoseRecordService;
+import com.digihealth.anesthesia.basedata.service.BasAnaesMedicineOutRecordService;
+import com.digihealth.anesthesia.basedata.service.BasAnaesMedicineRetreatRecordService;
+import com.digihealth.anesthesia.basedata.service.BasAnaesMedicineStorageService;
 import com.digihealth.anesthesia.basedata.service.BasAnaesMethodService;
 import com.digihealth.anesthesia.basedata.service.BasAnnouncementService;
 import com.digihealth.anesthesia.basedata.service.BasBusEntityService;
@@ -93,6 +98,7 @@ import com.digihealth.anesthesia.doc.service.DocExitOperSafeCheckService;
 import com.digihealth.anesthesia.doc.service.DocGeneralAnaesService;
 import com.digihealth.anesthesia.doc.service.DocInstrubillItemService;
 import com.digihealth.anesthesia.doc.service.DocInsuredChargeInformService;
+import com.digihealth.anesthesia.doc.service.DocInsuredPatAgreeService;
 import com.digihealth.anesthesia.doc.service.DocNerveBlockService;
 import com.digihealth.anesthesia.doc.service.DocOperBeforeSafeCheckService;
 import com.digihealth.anesthesia.doc.service.DocOptCareRecordService;
@@ -102,6 +108,7 @@ import com.digihealth.anesthesia.doc.service.DocOptRiskEvaluationService;
 import com.digihealth.anesthesia.doc.service.DocPackagesItemService;
 import com.digihealth.anesthesia.doc.service.DocPatOutRangeAgreeService;
 import com.digihealth.anesthesia.doc.service.DocPatShuttleTransferService;
+import com.digihealth.anesthesia.doc.service.DocPlacentaHandleAgreeService;
 import com.digihealth.anesthesia.doc.service.DocPostFollowRecordService;
 import com.digihealth.anesthesia.doc.service.DocPreOperVisitService;
 import com.digihealth.anesthesia.doc.service.DocPrePostVisitService;
@@ -109,6 +116,7 @@ import com.digihealth.anesthesia.doc.service.DocPreVisitService;
 import com.digihealth.anesthesia.doc.service.DocSafeCheckService;
 import com.digihealth.anesthesia.doc.service.DocSelfPayAccedeService;
 import com.digihealth.anesthesia.doc.service.DocSpinalCanalPunctureService;
+import com.digihealth.anesthesia.doc.service.DocTransferConnectRecordService;
 import com.digihealth.anesthesia.evt.service.EvtAnaesEventService;
 import com.digihealth.anesthesia.evt.service.EvtCheckEventService;
 import com.digihealth.anesthesia.evt.service.EvtCtlBreathService;
@@ -420,6 +428,22 @@ public abstract class BaseController {
 	protected TmpAnaesDoctempService tmpAnaesDoctempService;
 	@Autowired
 	protected EvtCheckEventService evtCheckEventService;
+	@Autowired
+	protected BasAnaesMedicineInRecordService basAnaesMedicineInRecordService;
+	@Autowired
+	protected BasAnaesMedicineStorageService basAnaesMedicineStorageService;
+	@Autowired
+	protected BasAnaesMedicineOutRecordService basAnaesMedicineOutRecordService;
+	@Autowired
+	protected BasAnaesMedicineRetreatRecordService basAnaesMedicineRetreatRecordService;
+	@Autowired
+    protected DocInsuredPatAgreeService docInsuredPatAgreeService;
+	@Autowired
+    protected DocTransferConnectRecordService docTransferConnectRecordService;
+	@Autowired
+    protected DocPlacentaHandleAgreeService docPlacentaHandleAgreeService;
+	@Autowired
+	protected BasAnaesMedicineLoseRecordService basAnaesMedicineLoseRecordService;
 
 	/**
 	 * 日志对象

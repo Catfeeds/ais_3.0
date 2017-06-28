@@ -125,7 +125,11 @@ public class BasOperationPeopleService extends BaseService {
 		if(null != operationPeople.getOperatorId()){
 			basOperationPeopleDao.update(operationPeople);
 		}else{
+			SystemSearchFormBean params = new SystemSearchFormBean();
+			params.setBeid(operationPeople.getBeid());
+			int total = basOperationPeopleDao.queryOperationPeopleListTotal("", params);
 		    operationPeople.setOperatorId(GenerateSequenceUtil.generateSequenceNo());
+		    operationPeople.setCode(total + 1 + "");
 			if(StringUtils.isNotBlank(operationPeople.getName())){
 				operationPeople.setPinYin(PingYinUtil.getFirstSpell(operationPeople.getName()));
 			}

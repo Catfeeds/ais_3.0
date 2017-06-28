@@ -213,10 +213,10 @@ public class EvtAnaesEventService extends BaseService {
 			DocAnaesPacuRec p = docAnaesPacuRecDao.selectPacuByRegOptId(regOptId);
 			if (p == null) {
 				record.setId(GenerateSequenceUtil.generateSequenceNo());
-				record.setProcessState("0");
+				record.setProcessState("NO_END");
+				record.setAnabioticState(0);
 				docAnaesPacuRecDao.insertSelective(record);
 			}
-
 		} else {
 			// 当leaveTo不为空则代表患者出复苏室，则需要将床位状态改成有效
 			if (StringUtils.isNotBlank(record.getLeaveTo() + "")) {
@@ -224,11 +224,12 @@ public class EvtAnaesEventService extends BaseService {
 				regionBed.setStatus(0);
 				regionBed.setRegOptId("");
 				basRegionBedDao.updateByPrimaryKey(regionBed);
-				record.setProcessState("2");
+				record.setProcessState("END");
+				record.setAnabioticState(2);
 				basRegOptDao.updateState(record.getRegOptId(), "06");
 			} else {
 				// regOptDao.updateState(record.getRegOptId(), "05");
-				record.setProcessState("1");
+				record.setAnabioticState(1);
 			}
 			docAnaesPacuRecDao.updateByPrimaryKeySelective(record);
 		}
@@ -304,43 +305,50 @@ public class EvtAnaesEventService extends BaseService {
 		}
 		// 将麻醉记录单表中的去向、出室时间进行修改，并将状态修改成为术后状态
 		if (OUT_ROOM.equals(code)) {
-			anaesRecord.setLeaveTo(anaesevent.getLeaveTo());
-			anaesRecord.setOutOperRoomTime(time);
+		    if (StringUtils.isBlank(anaesevent.getLeaveTo()))
+		    {
+		        anaesRecord.setOutOperRoomTime(time);
+		    }
+		    else
+		    {
+		        anaesRecord.setLeaveTo(anaesevent.getLeaveTo());
+	            anaesRecord.setOutOperRoomTime(time);
 
-			// 这里页面要求将麻醉结束时间设置成出室时间，麻醉结束时间不单独设置
-			// anaesRecord.setAnaesEndTime(event.getOccurtime());
-			String regOptId = anaesRecord.getRegOptId();
-			Controller controller = controllerDao.getControllerById(regOptId);
-			// 当麻醉事件提交数据为出室时，需要将控制表的状态改成POSTOPERATIVE 术后
-			if (null != controller) {
-				String state = controller.getState();
-				logger.info("state---------" + state + ",anaesRecord----" + regOptId);
-				logger.info("anaesevent-----" + anaesevent.toString());
-				
-				// 去pacu的处理
-				if ("2".equals(anaesevent.getLeaveTo()) && (!state.equals(OperationState.POSTOPERATIVE))) {
-					controller.setState(OperationState.RESUSCITATION); // 存入pacu
-					DocAnaesPacuRec p = docAnaesPacuRecDao.selectPacuByRegOptId(regOptId);
-					if (p == null) {
-						p = new DocAnaesPacuRec();
-						p.setRegOptId(regOptId);
-					}
-					saveAnaesPacuRec(p);
-				} else {
-					controller.setState(OperationState.POSTOPERATIVE);
-				}
+	            // 这里页面要求将麻醉结束时间设置成出室时间，麻醉结束时间不单独设置
+	            // anaesRecord.setAnaesEndTime(event.getOccurtime());
+	            String regOptId = anaesRecord.getRegOptId();
+	            Controller controller = controllerDao.getControllerById(regOptId);
+	            // 当麻醉事件提交数据为出室时，需要将控制表的状态改成POSTOPERATIVE 术后
+	            if (null != controller) {
+	                String state = controller.getState();
+	                logger.info("state---------" + state + ",anaesRecord----" + regOptId);
+	                logger.info("anaesevent-----" + anaesevent.toString());
+	                
+	                // 去pacu的处理
+	                if ("2".equals(anaesevent.getLeaveTo()) && (!state.equals(OperationState.POSTOPERATIVE))) {
+	                    controller.setState(OperationState.RESUSCITATION); // 存入pacu
+	                    DocAnaesPacuRec p = docAnaesPacuRecDao.selectPacuByRegOptId(regOptId);
+	                    if (p == null) {
+	                        p = new DocAnaesPacuRec();
+	                        p.setRegOptId(regOptId);
+	                    }
+	                    saveAnaesPacuRec(p);
+	                } else {
+	                    controller.setState(OperationState.POSTOPERATIVE);
+	                }
 
-				controllerDao.update(controller);
+	                controllerDao.update(controller);
 
-				// 当状态从术中转术后时，将事件表的数据备份
-				this.changeAnaesRecordState(anaesRecord);
-				isUpdate = true;
-			}
+	                // 当状态从术中转术后时，将事件表的数据备份
+	                this.changeAnaesRecordState(anaesRecord);
+	                isUpdate = true;
+	            }
 
-			// 将消息推送到手术室大屏
-			List<SysCodeFormbean> ls = basSysCodeDao.searchSysCodeByGroupIdAndCodeValue("leave_to", anaesevent.getLeaveTo(), beid);
-			String leaveTo = ls.size() > 0 ? ls.get(0).getCodeName() : "";
-			WebSocketHandler.sentMessageToAllUser(regOpt.getDeptName() + regOpt.getRegionName() + bedStr + regOpt.getName() + "手术已结束,去往" + leaveTo);
+	            // 将消息推送到手术室大屏
+	            List<SysCodeFormbean> ls = basSysCodeDao.searchSysCodeByGroupIdAndCodeValue("leave_to", anaesevent.getLeaveTo(), beid);
+	            String leaveTo = ls.size() > 0 ? ls.get(0).getCodeName() : "";
+	            WebSocketHandler.sentMessageToAllUser(regOpt.getDeptName() + regOpt.getRegionName() + bedStr + regOpt.getName() + "手术已结束,去往" + leaveTo);
+		    }
 		}else if(CANCEL_OPER.equals(code)){
 			logger.info("---进入---手术取消------CANCEL_OPER----");
 			if(StringUtils.isNotEmpty(anaesevent.getLeaveTo())){

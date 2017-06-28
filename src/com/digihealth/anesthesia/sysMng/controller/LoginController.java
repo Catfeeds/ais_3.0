@@ -2,9 +2,7 @@ package com.digihealth.anesthesia.sysMng.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
@@ -16,12 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.digihealth.anesthesia.sysMng.formbean.BasMenuFormBean;
-import com.digihealth.anesthesia.sysMng.po.BasMenu;
 import com.digihealth.anesthesia.basedata.po.BasOperateLog;
-import com.digihealth.anesthesia.sysMng.po.BasUser;
-import com.digihealth.anesthesia.sysMng.po.BasUserRole;
-import com.digihealth.anesthesia.sysMng.service.BasMenuService;
 import com.digihealth.anesthesia.basedata.utils.UserUtils;
 import com.digihealth.anesthesia.common.config.Global;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
@@ -29,10 +22,14 @@ import com.digihealth.anesthesia.common.jwt.JwtUtils;
 import com.digihealth.anesthesia.common.utils.CacheUtils;
 import com.digihealth.anesthesia.common.utils.DateUtils;
 import com.digihealth.anesthesia.common.utils.GenerateSequenceUtil;
-import com.digihealth.anesthesia.common.utils.JsonType;
 import com.digihealth.anesthesia.common.utils.Md5Utils;
 import com.digihealth.anesthesia.common.utils.PasswordHelper;
 import com.digihealth.anesthesia.common.web.BaseController;
+import com.digihealth.anesthesia.sysMng.formbean.BasMenuFormBean;
+import com.digihealth.anesthesia.sysMng.po.BasMenu;
+import com.digihealth.anesthesia.sysMng.po.BasUser;
+import com.digihealth.anesthesia.sysMng.po.BasUserRole;
+import com.digihealth.anesthesia.sysMng.service.BasMenuService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -50,7 +47,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/login")
 	@ResponseBody
 	@ApiOperation(value = "登录", httpMethod = "POST", notes = "登录处理方法，需要前台传用户名、密码、局点参数")
-	public String login(@ApiParam(name = "username", value = "用户名") @RequestParam("username") String username, @ApiParam(name = "password", value = "密码") @RequestParam("password") String password) {
+	public String login(@ApiParam(name = "username", value = "用户名") @RequestParam("username") String username, @ApiParam(name = "password", value = "密码") @RequestParam("password") String password,@RequestParam("logionBeid") String logionBeid) {
 		logger.info("-------------begin login-----------------");
 		String error = null;
 		ResponseValue resp = new ResponseValue();
@@ -62,8 +59,13 @@ public class LoginController extends BaseController {
 		// 如果是运营平台管理员
 		if (operatorAdmin.equals(username)) {
 			beid = operatorBeid;
-		} else {
-			// 查询当前使用的局点id
+		}
+		// 前台指定了beid,按前台传的处理
+		else if(StringUtils.isNotBlank(logionBeid)){
+			beid =  logionBeid;
+		}
+		// 查询当前使用的局点id
+		else {
 			beid = basBusEntityService.getBeid();
 		}
 		BasUser user = basUserService.selectByUsername(username, beid);

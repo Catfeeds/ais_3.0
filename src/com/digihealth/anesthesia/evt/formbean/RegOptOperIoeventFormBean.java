@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RegOptOperIoeventFormBean {
 
-	private Integer ioDefId;
+	private String ioDefId;
 	private String name;
 	private String unit;
 	private String totalAmout;
@@ -27,11 +27,11 @@ public class RegOptOperIoeventFormBean {
 		this.dosageUnit = dosageUnit;
 	}
 
-	public Integer getIoDefId() {
+	public String getIoDefId() {
 		return ioDefId;
 	}
 
-	public void setIoDefId(Integer ioDefId) {
+	public void setIoDefId(String ioDefId) {
 		this.ioDefId = ioDefId;
 	}
 

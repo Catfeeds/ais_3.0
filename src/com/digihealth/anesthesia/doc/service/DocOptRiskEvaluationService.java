@@ -47,8 +47,8 @@ public class DocOptRiskEvaluationService extends BaseService {
 	 */
 	@Transactional
 	public void saveOptRiskEvaluation(DocOptRiskEvaluation optRiskEvaluation){
-		optRiskEvaluation.setProcessState("END");
-		optRiskEvaluation.setFlag("1");
+//		optRiskEvaluation.setProcessState("END");
+//		optRiskEvaluation.setFlag("1");
 		if (StringUtils.isNotBlank(optRiskEvaluation.getOptRiskEvaluationId())) {
 			docOptRiskEvaluationDao.updateByPrimaryKey(optRiskEvaluation);
 		}else{

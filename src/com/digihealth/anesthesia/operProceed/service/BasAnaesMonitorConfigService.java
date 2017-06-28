@@ -136,6 +136,7 @@ public class BasAnaesMonitorConfigService extends BaseService {
 				String beid = anaesMonitorConfig.getBeid();
 				if(StringUtils.isBlank(beid)){//beid判空
 					anaesMonitorConfig.setBeid(getBeid());
+					beid = getBeid();
 				}
 				anaesMonitorConfig.setRealEventId(anaesMonitorConfig.getEventId());
 				BasMonitorConfigDefault monitorConfigDefault = basMonitorConfigDefaultDao.selectByEventName(anaesMonitorConfig.getEventName(),beid);

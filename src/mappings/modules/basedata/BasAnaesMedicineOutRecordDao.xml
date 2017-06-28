@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineOutRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineOutRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="storageId" property="storageId" jdbcType="INTEGER" />
+    <result column="medicineCode" property="medicineCode" jdbcType="VARCHAR" />
+    <result column="medicineName" property="medicineName" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="effectiveTime" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="outNumber" property="outNumber" jdbcType="INTEGER" />
+    <result column="retreatNumber" property="retreatNumber" jdbcType="INTEGER" />
+    <result column="loseNumber" property="loseNumber" jdbcType="INTEGER" />
+    <result column="actualNumber" property="actualNumber" jdbcType="INTEGER" />
+    <result column="minPackageUnit" property="minPackageUnit" jdbcType="VARCHAR" />
+    <result column="outTime" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="receiveName" property="receiveName" jdbcType="VARCHAR" />
+    <result column="outType" property="outType" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, storageId, medicineCode, medicineName, firm, spec, batch, effectiveTime, outNumber, 
+    retreatNumber, loseNumber, actualNumber, minPackageUnit, outTime, operator, receiveName, 
+    outType, regOptId, remark,enable, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_out_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryMedicineOutRecordList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+     from bas_anaes_medicine_out_record where enable=1
+     <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+				        <when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryMedicineOutRecordListTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+	 select 
+    <include refid="Base_Column_List" />
+     from bas_anaes_medicine_out_record where enable=1
+	<if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+				       <when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	) x
+  </select>
+  
+  <select id="selectRegOptInfoForOutRecordList" resultType="com.digihealth.anesthesia.basedata.formbean.BasMedicineRegOptFormBean">
+    select * from (
+    select r.regOptId,r.name,r.deptName,r.designedOptName,r.hid,r.operaDate,r.outMedicine,r.beid,d.anesthetistId,
+    (select name from bas_user u where u.userName = d.anesthetistId and u.beid = r.beid) as anesthetistName,
+    (select name from bas_user u where u.userName = d.circunurseId1 and u.beid = r.beid) as circunurseName
+     from bas_reg_opt r , bas_dispatch d
+     where r.regOptId = d.regOptId and r.state in('03','04','05','06')
+     ) x where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outMedicine' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outMedicine = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'anesthetistId' ">
+							<if test="filter.value != null and filter.value != ''">
+								and anesthetistId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="selectRegOptInfoForOutRecordListTotal" resultType="java.lang.Integer">
+    SELECT count(regOptId) FROM (
+	  select * from (
+    select r.regOptId,r.name,r.deptName,r.designedOptName,r.hid,r.operaDate,r.outMedicine,r.beid,d.anesthetistId,
+    (select name from bas_user u where u.userName = d.anesthetistId and u.beid = r.beid) as anesthetistName,
+    (select name from bas_user u where u.userName = d.circunurseId1 and u.beid = r.beid) as circunurseName
+     from bas_reg_opt r , bas_dispatch d
+     where r.regOptId = d.regOptId and r.state in('03','04','05','06')
+     ) x where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and operaDate &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outMedicine' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outMedicine = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'anesthetistId' ">
+							<if test="filter.value != null and filter.value != ''">
+								and anesthetistId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	) x
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bas_anaes_medicine_out_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineOutRecord" >
+    insert into bas_anaes_medicine_out_record (id, storageId, medicineCode, 
+      medicineName, firm, spec, 
+      batch, effectiveTime, outNumber, 
+      retreatNumber, loseNumber, actualNumber, 
+      minPackageUnit, outTime, operator, 
+      receiveName, outType, regOptId, 
+      remark,enable, beid)
+    values (#{id,jdbcType=INTEGER}, #{storageId,jdbcType=INTEGER}, #{medicineCode,jdbcType=VARCHAR}, 
+      #{medicineName,jdbcType=VARCHAR}, #{firm,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, 
+      #{batch,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP}, #{outNumber,jdbcType=INTEGER}, 
+      #{retreatNumber,jdbcType=INTEGER}, #{loseNumber,jdbcType=INTEGER}, #{actualNumber,jdbcType=INTEGER}, 
+      #{minPackageUnit,jdbcType=VARCHAR}, #{outTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, 
+      #{receiveName,jdbcType=VARCHAR}, #{outType,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},#{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineOutRecord" >
+    insert into bas_anaes_medicine_out_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="storageId != null" >
+        storageId,
+      </if>
+      <if test="medicineCode != null" >
+        medicineCode,
+      </if>
+      <if test="medicineName != null" >
+        medicineName,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="effectiveTime != null" >
+        effectiveTime,
+      </if>
+      <if test="outNumber != null" >
+        outNumber,
+      </if>
+      <if test="retreatNumber != null" >
+        retreatNumber,
+      </if>
+      <if test="loseNumber != null" >
+        loseNumber,
+      </if>
+      <if test="actualNumber != null" >
+        actualNumber,
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit,
+      </if>
+      <if test="outTime != null" >
+        outTime,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="receiveName != null" >
+        receiveName,
+      </if>
+      <if test="outType != null" >
+        outType,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="storageId != null" >
+        #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="medicineCode != null" >
+        #{medicineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null" >
+        #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outNumber != null" >
+        #{outNumber,jdbcType=INTEGER},
+      </if>
+      <if test="retreatNumber != null" >
+        #{retreatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="loseNumber != null" >
+        #{loseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="actualNumber != null" >
+        #{actualNumber,jdbcType=INTEGER},
+      </if>
+      <if test="minPackageUnit != null" >
+        #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="outType != null" >
+        #{outType,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineOutRecord" >
+    update bas_anaes_medicine_out_record
+    <set >
+      <if test="storageId != null" >
+        storageId = #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="medicineCode != null" >
+        medicineCode = #{medicineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null" >
+        medicineName = #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        effectiveTime = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outNumber != null" >
+        outNumber = #{outNumber,jdbcType=INTEGER},
+      </if>
+      <if test="retreatNumber != null" >
+        retreatNumber = #{retreatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="loseNumber != null" >
+        loseNumber = #{loseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="actualNumber != null" >
+        actualNumber = #{actualNumber,jdbcType=INTEGER},
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="outTime != null" >
+        outTime = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        receiveName = #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="outType != null" >
+        outType = #{outType,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineOutRecord" >
+    update bas_anaes_medicine_out_record
+    set storageId = #{storageId,jdbcType=INTEGER},
+      medicineCode = #{medicineCode,jdbcType=VARCHAR},
+      medicineName = #{medicineName,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      effectiveTime = #{effectiveTime,jdbcType=TIMESTAMP},
+      outNumber = #{outNumber,jdbcType=INTEGER},
+      retreatNumber = #{retreatNumber,jdbcType=INTEGER},
+      loseNumber = #{loseNumber,jdbcType=INTEGER},
+      actualNumber = #{actualNumber,jdbcType=INTEGER},
+      minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      outTime = #{outTime,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR},
+      receiveName = #{receiveName,jdbcType=VARCHAR},
+      outType = #{outType,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      enable=  #{actualNumber,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -309,7 +309,7 @@
 	<select id="searchMedicaleventList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperMedicalevent">
 		SELECT
 			a.medEventId,a.thickness,a.thicknessUnit,a.flow,a.flowUnit,a.diluentQuant,a.starttime,a.createuser,
-			(select name from bas_user where bas_user.username = a.createuser) createuserName,
+			(select name from bas_user where bas_user.username = a.createuser and bas_user.beid = ) createuserName,
 			a.endtime,a.ended,a.medicineId,a.occurHour,a.isContinued,a.priceId,
 			b.name,p.spec,b.dosageUnit,a.medTakeWayId,m.name as medTakeWayName,p.firm,a.reason,a.dosage,a.durable
 		FROM tmp_medicine_event a left join bas_medicine b on a.medicineId=b.medicineId 

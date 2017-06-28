@@ -24,14 +24,15 @@
     <result column="centralCatheter" property="centralCatheter" jdbcType="INTEGER" />
     <result column="spinalPuncture" property="spinalPuncture" jdbcType="INTEGER" />
     <result column="cureContent" property="cureContent" jdbcType="VARCHAR" />
-    
+    <result column="specialCase" property="cureContent" jdbcType="VARCHAR" />
+    <result column="otherCase" property="cureContent" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     accedeId, regOptId, other, anaestheitistId, anaestheitistSignTime, patient, patientRelationship, 
     patientSignTime, talkLocation, flag, processState, selected, diagnosisName, anaseMethodCode, 
     anaseMethod, otherRisk, patientChoose, trachealTntubation, catheterizationArtery, 
-    centralCatheter, spinalPuncture, cureContent
+    centralCatheter, spinalPuncture, cureContent, specialCase, otherCase
   </sql>
 
 	<select id="searchAccedeByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAccede">
@@ -66,7 +67,7 @@
       selected, diagnosisName, anaseMethodCode, 
       anaseMethod, otherRisk, patientChoose, 
       trachealTntubation, catheterizationArtery, 
-      centralCatheter, spinalPuncture, cureContent)
+      centralCatheter, spinalPuncture, cureContent, specialCase, otherCase)
     values (#{accedeId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}, 
       #{anaestheitistId,jdbcType=VARCHAR}, #{anaestheitistSignTime,jdbcType=VARCHAR}, 
       #{patient,jdbcType=VARCHAR}, #{patientRelationship,jdbcType=VARCHAR}, #{patientSignTime,jdbcType=VARCHAR}, 
@@ -74,7 +75,8 @@
       #{selected,jdbcType=VARCHAR}, #{diagnosisName,jdbcType=VARCHAR}, #{anaseMethodCode,jdbcType=VARCHAR}, 
       #{anaseMethod,jdbcType=VARCHAR}, #{otherRisk,jdbcType=VARCHAR}, #{patientChoose,jdbcType=VARCHAR}, 
       #{trachealTntubation,jdbcType=INTEGER}, #{catheterizationArtery,jdbcType=INTEGER}, 
-      #{centralCatheter,jdbcType=INTEGER}, #{spinalPuncture,jdbcType=INTEGER}, #{cureContent,jdbcType=VARCHAR})
+      #{centralCatheter,jdbcType=INTEGER}, #{spinalPuncture,jdbcType=INTEGER}, #{cureContent,jdbcType=VARCHAR}, 
+      #{specialCase,jdbcType=VARCHAR}, #{otherCase,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAccede" >
@@ -146,6 +148,12 @@
       <if test="cureContent != null" >
         cureContent,
       </if>
+      <if test="specialCase != null" >
+        specialCase,
+      </if>
+      <if test="otherCase != null" >
+        otherCase,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="accedeId != null" >
@@ -213,6 +221,12 @@
       </if>
       <if test="cureContent != null" >
         #{cureContent,jdbcType=VARCHAR},
+      </if>
+      <if test="specialCase != null" >
+        #{specialCase,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCase != null" >
+        #{otherCase,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -283,6 +297,12 @@
       <if test="cureContent != null" >
         cureContent = #{cureContent,jdbcType=VARCHAR},
       </if>
+      <if test="specialCase != null" >
+        specialCase = #{specialCase,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCase != null" >
+        otherCase = #{otherCase,jdbcType=VARCHAR},
+      </if>
     </set>
     where accedeId = #{accedeId,jdbcType=VARCHAR}
   </update>
@@ -309,7 +329,9 @@
       catheterizationArtery = #{catheterizationArtery,jdbcType=INTEGER},
       centralCatheter = #{centralCatheter,jdbcType=INTEGER},
       spinalPuncture = #{spinalPuncture,jdbcType=INTEGER},
-      cureContent = #{cureContent,jdbcType=VARCHAR}
+      cureContent = #{cureContent,jdbcType=VARCHAR},
+      specialCase = #{specialCase,jdbcType=VARCHAR},
+      otherCase = #{otherCase,jdbcType=VARCHAR}
     where accedeId = #{accedeId,jdbcType=VARCHAR}
   </update>
 

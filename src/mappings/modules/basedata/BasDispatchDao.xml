@@ -246,7 +246,7 @@
 		SELECT 
 		a.startTime,
 		o.regionId,o.name as regOptName,o.hid, o.age,o.sex,o.ageMon,o.ageDay, o.designedOptName,o.designedAnaesMethodName,o.diagnosisName,m.name as operRoomName,a.operRoomId,o.bed,
-		o.realoperationName,o.operaDate,
+		o.realoperationName,o.operaDate, o.optLevel, o.cutLevel,
 		IF(o.deptName IS NULL OR o.deptName = '' , (SELECT NAME FROM bas_dept t WHERE t.deptId = o.deptId ) ,o.deptName) deptName,
 		a.optBody,(select codeName from bas_sys_code where groupId='opt_body' and codeValue = a.optBody and beid = #{baseQuery.beid}) as opt_body_name,
 		(select name from bas_user where bas_user.userName = a.instrnurseId1 and beid = #{baseQuery.beid} )instrnurse_name1,instrnurseId1 ,
@@ -305,16 +305,16 @@
 		) seq,
 		o.operaDate,a.startTime,(select br.`name` from b_region br where br.regionId = o.regionId) as region_name ,o.bed,o.hid, o.name as regOptName,o.age,o.sex,o.ageMon,o.ageDay,o.diagnosisName,o.height,o.hypersusceptibility,
 o.hbsag,o.hcv,o.hiv,o.hp,o.designedOptName,a.optBody,(select codeName from bas_sys_code where groupId='opt_body' and codeValue = a.optBody and beid = #{baseQuery.beid}) as opt_body_name,
-o.designedAnaesMethodName,(select name from bas_user where bas_user.userName = a.anesthetistId)anesthetist_name,
+o.designedAnaesMethodName,(select name from bas_user where bas_user.userName = a.anesthetistId and bas_user.beid = #{baseQuery.beid})anesthetist_name,
  o.operatorName,o.assistantName,m.name as operRoomName,
 		o.realoperationName,o.deptName,o.remark,a.pcs,
-		(select name from bas_user where bas_user.userName = a.instrnurseId1)instrnurse_name1,instrnurseId1 ,
-		(select name from bas_user where bas_user.userName = a.circunurseId1)circunurse_name1,circunurseId1,
-		(select name from bas_user where bas_user.userName = a.circuanesthetistId)circuanesthetist_name,circuanesthetistId,
-		(select name from bas_user where bas_user.userName = a.instrnurseId2)instrnurse_name2,instrnurseId2,
-		(select name from bas_user where bas_user.userName = a.circunurseId2)circunurse_name2,circunurseId2,
-		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.instrnurseId1),(select name from bas_user where bas_user.userName = a.instrnurseId2)) instrnurse_name,
-		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1),(select name from bas_user where bas_user.userName = a.circunurseId2)) circunurse_name
+		(select name from bas_user where bas_user.userName = a.instrnurseId1 and bas_user.beid = #{baseQuery.beid})instrnurse_name1,instrnurseId1 ,
+		(select name from bas_user where bas_user.userName = a.circunurseId1 and bas_user.beid = #{baseQuery.beid})circunurse_name1,circunurseId1,
+		(select name from bas_user where bas_user.userName = a.circuanesthetistId and bas_user.beid = #{baseQuery.beid})circuanesthetist_name,circuanesthetistId,
+		(select name from bas_user where bas_user.userName = a.instrnurseId2 and bas_user.beid = #{baseQuery.beid})instrnurse_name2,instrnurseId2,
+		(select name from bas_user where bas_user.userName = a.circunurseId2 and bas_user.beid = #{baseQuery.beid})circunurse_name2,circunurseId2,
+		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.instrnurseId1 and bas_user.beid = #{baseQuery.beid}),(select name from bas_user where bas_user.userName = a.instrnurseId2 and bas_user.beid = #{baseQuery.beid})) instrnurse_name,
+		CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1 and bas_user.beid = #{baseQuery.beid}),(select name from bas_user where bas_user.userName = a.circunurseId2 and bas_user.beid = #{baseQuery.beid})) circunurse_name
 		FROM bas_dispatch a left join bas_reg_opt o on a.regOptId = o.regOptId
 		left join bas_operroom m on a.operRoomId = m.operRoomId
 		where 1 = 1
@@ -335,9 +335,9 @@ o.designedAnaesMethodName,(select name from bas_user where bas_user.userName = a
 				and k.operRoomId=a.operRoomId
 				AND k.isHold = a.isHold	
 			) seq,o.deptName,o.name,o.designedOptName as realoperationName,o.designedAnaesMethodName,
-			(select name from bas_user where bas_user.userName = a.anesthetistId)anesthetist_name,
+			(select name from bas_user where bas_user.userName = a.anesthetistId and bas_user.beid = #{beid})anesthetist_name,
 			SUBSTRING(o.operatorName,LOCATE(',',o.operatorName)+1) operator_sec_name,
-			CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1),(select name from bas_user where bas_user.userName = a.circunurseId2)) circunurse_name	
+			CONCAT_WS(',',(select name from bas_user where bas_user.userName = a.circunurseId1 and bas_user.beid = #{beid}),(select name from bas_user where bas_user.userName = a.circunurseId2 and bas_user.beid = #{beid})) circunurse_name	
 			FROM bas_dispatch a left join bas_reg_opt o on a.regOptId = o.regOptId
 			left join bas_operroom m on a.operRoomId = m.operRoomId
 			where 1 = 1

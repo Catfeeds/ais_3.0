@@ -77,6 +77,7 @@ public class BasAnnouncementService extends BaseService {
 	    if (user != null) {
 	    	announcement.setCreateUser(user.getUserName());
 	    }
+	    announcement.setEnable(1);
 		announcement.setTime(DateUtils.getCurrDate());
 		announcement.setId(GenerateSequenceUtil.generateSequenceNo());
 		return basAnnouncementDao.insert(announcement);

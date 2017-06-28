@@ -553,12 +553,13 @@ public class QCManagerController extends BaseController{
 		}
         
         //同期转入ICU患者
-        List<SearchOperFormBean> toICUQmOperList = qcManagerService.searchQmIcuNum(searchFormBean);
-        List<SearchOperFormBean> toICUJmOperList = qcManagerService.searchJmIcuNum(searchFormBean);
+        //List<SearchOperFormBean> toICUQmOperList = qcManagerService.searchQmIcuNum(searchFormBean);
+        //List<SearchOperFormBean> toICUJmOperList = qcManagerService.searchJmIcuNum(searchFormBean);
+        List<SearchOperFormBean> toICUQmOperList = qcManagerService.searchEnterPacuNum(searchFormBean);
         
         //非计划转入ICU
         List<SearchOperFormBean> toICUQmFjhOperList = qcManagerService.searchQmFjgIcuNum(searchFormBean);
-        toICUQmOperList.addAll(toICUJmOperList);
+        //toICUQmOperList.addAll(toICUJmOperList);
         int toICUOperTotal = 0;
         
         // 暂时做不了

@@ -2,6 +2,7 @@ package com.digihealth.anesthesia.evt.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +60,7 @@ public class EvtEgressController extends BaseController {
 			value.setResultMessage(validatorBean.getMessage());
 			return value.getJsonStr();
 		}
-		if (egress.getIoDefId() == null) {
+		if (StringUtils.isBlank(egress.getIoDefId())) {
 			value.setResultCode("70000000");
 			value.setResultMessage("ioDefId必须传");
 			return value.getJsonStr();

@@ -42,4 +42,6 @@ public interface BasDiagnosedefDao extends CrudDao<BasDiagnosedef> {
 	public List<BasDiagnosedef> selectOrderByIdDesc();
 	
 	public int insertSelective(BasDiagnosedef basDiagnosedef);
+	
+	public int initData(BasDiagnosedef basDiagnosedef);
 }

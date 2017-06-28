@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineStorageDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="medicineCode" property="medicineCode" jdbcType="VARCHAR" />
+    <result column="medicineName" property="medicineName" jdbcType="VARCHAR" />
+    <result column="firm" property="firm" jdbcType="VARCHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="minPackageUnit" property="minPackageUnit" jdbcType="VARCHAR" />
+    <result column="productionTime" property="productionTime" jdbcType="TIMESTAMP" />
+    <result column="effectiveTime" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, medicineCode, medicineName, firm, spec, batch, number, minPackageUnit, productionTime,effectiveTime, 
+    beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_storage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMedicineByMFSB" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_storage
+    where medicineName = #{medicineCode,jdbcType=VARCHAR}
+    and firm = #{firm,jdbcType=VARCHAR}
+    and spec = #{spec,jdbcType=VARCHAR}
+    and batch = #{batch,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryAnaesMedicineListGroupByNFS" resultMap="BaseResultMap">
+     select 
+     s.id, s.medicineCode, s.medicineName, s.firm, s.spec, s.batch, sum(s.number) as number, 
+     s.minPackageUnit, s.productionTime,s.effectiveTime, s.beid
+     from bas_anaes_medicine_storage s where 1=1
+     <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	group by medicineName,firm,spec
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryAnaesMedicineListGroupByNFSTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+	 select 
+       <include refid="Base_Column_List" />
+     from bas_anaes_medicine_storage 
+	 where 1 = 1
+	 <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	group by medicineName,firm,spec
+	) x
+  </select>
+  
+  
+  <select id="queryAnaesMedicineByMonth" resultType="com.digihealth.anesthesia.basedata.formbean.BasAnaesMedicineStorageFormbean">
+     select 
+     s.id, s.medicineCode, s.medicineName, s.firm, s.spec, s.batch,  
+     s.minPackageUnit, s.productionTime,s.effectiveTime,
+     (SELECT statisticsNum FROM bas_anaes_medicine_storage_his his WHERE DATE_FORMAT( date_add(his.statisticsTime, interval 1 MONTH)  ,'%Y-%m') =  #{queryMonth} and his.beid = s.beid and his.storageId = s.id) as lastMonthAllNum,
+     (select sum(i.number) from bas_anaes_medicine_in_record i where i.`status` = 1 and DATE_FORMAT(i.operateTime,'%Y-%m') =  #{queryMonth} and i.beid = s.beid and i.medicineName=s.medicineName and i.firm =s.firm and i.spec = s.spec) as monthAllInNum,
+     (select sum(ou.outNumber) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec) as monthAllOutNum,
+     (select sum(ou.retreatNumber) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec ) as monthAllRetreatNum,
+     ( (select IFNULL(sum(ou.loseNumber),0) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec)
+     + (select IFNULL(sum(los.loseNumber),0) from bas_anaes_medicine_lose_record los where los.loseType='3' and los.`enable` = 1 and DATE_FORMAT(los.loseTime,'%Y-%m') = #{queryMonth} and los.beid = s.beid) ) as monthAllLoseNum,
+     (SELECT statisticsNum FROM bas_anaes_medicine_storage_his his WHERE DATE_FORMAT(his.statisticsTime,'%Y-%m') =  #{queryMonth} and his.beid = s.beid and his.storageId = s.id) as monthAllNum
+     from bas_anaes_medicine_storage s where 1=1
+     <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+				        <when test="filter.field == 'queryMonth' ">
+					    </when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	group by medicineName,firm,spec
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryAnaesMedicineByMonthTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+	 select 
+       <include refid="Base_Column_List" />
+     from bas_anaes_medicine_storage 
+	 where 1 = 1
+	 <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+				        <when test="filter.field == 'queryMonth' ">
+					    </when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	group by medicineName,firm,spec
+	) x
+  </select>
+  
+  
+  <select id="queryAnaesMedicineByPersonal" resultType="com.digihealth.anesthesia.basedata.formbean.BasAnaesMedicineOutRecordFormBean">
+     select 
+     medicineCode, medicineName, firm, spec, batch, minPackageUnit,outTime,receiveName,outType,enable,beid,
+     sum(outNumber) as allOutNumber,
+     sum(retreatNumber) as allRetreatNumber,
+     sum(loseNumber) as allLoseNumber,
+     sum(actualNumber) as allActualNumber
+     from bas_anaes_medicine_out_record  where `enable` = 1
+     <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+				        <when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	group by medicineName,firm,spec
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryAnaesMedicineByPersonalTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+	 select 
+      id, medicineCode, medicineName, firm, spec, batch, minPackageUnit,outTime,receiveName,outType,enable,beid
+     from bas_anaes_medicine_out_record 
+	 where `enable` = 1
+	 <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+				        <when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	group by medicineName,firm,spec
+	) x
+  </select>
+  
+  
+  
+  <select id="queryMedicineList" resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+     from bas_anaes_medicine_storage where number > 0
+     <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryMedicineListTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+	 select 
+       <include refid="Base_Column_List" />
+     from bas_anaes_medicine_storage 
+	 where number > 0
+	 <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	) x
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bas_anaes_medicine_storage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage" >
+    insert into bas_anaes_medicine_storage (id, medicineCode, medicineName, 
+      firm, spec, batch, 
+      number, minPackageUnit, effectiveTime, 
+      productionTime, beid)
+    values (#{id,jdbcType=INTEGER}, #{medicineCode,jdbcType=VARCHAR}, #{medicineName,jdbcType=VARCHAR}, 
+      #{firm,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, 
+      #{number,jdbcType=INTEGER}, #{minPackageUnit,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP}, 
+      #{productionTime,jdbcType=TIMESTAMP}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage" >
+    insert into bas_anaes_medicine_storage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="medicineCode != null" >
+        medicineCode,
+      </if>
+      <if test="medicineName != null" >
+        medicineName,
+      </if>
+      <if test="firm != null" >
+        firm,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit,
+      </if>
+      <if test="effectiveTime != null" >
+        effectiveTime,
+      </if>
+      <if test="productionTime != null" >
+        productionTime,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="medicineCode != null" >
+        #{medicineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null" >
+        #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="minPackageUnit != null" >
+        #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productionTime != null" >
+        #{productionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage" >
+    update bas_anaes_medicine_storage
+    <set >
+      <if test="medicineCode != null" >
+        medicineCode = #{medicineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null" >
+        medicineName = #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="firm != null" >
+        firm = #{firm,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="minPackageUnit != null" >
+        minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        effectiveTime = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productionTime != null" >
+        productionTime = #{productionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage" >
+    update bas_anaes_medicine_storage
+    set medicineCode = #{medicineCode,jdbcType=VARCHAR},
+      medicineName = #{medicineName,jdbcType=VARCHAR},
+      firm = #{firm,jdbcType=VARCHAR},
+      spec = #{spec,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
+      effectiveTime = #{effectiveTime,jdbcType=TIMESTAMP},
+      productionTime = #{productionTime,jdbcType=TIMESTAMP},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

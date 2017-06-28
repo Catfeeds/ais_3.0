@@ -147,7 +147,7 @@
  	and a.beid = #{beid,jdbcType=VARCHAR} and b.beid = #{beid,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectByBedIdWithOpt" resultType="com.digihealth.anesthesia.basedata.po.BasPacuDeviceConfig">
+  <select id="selectByBedIdWithOpt" resultType="com.digihealth.anesthesia.basedata.po.BasPacuMonitorConfig">
   	SELECT b.* FROM bas_pacu_bed_event_config a 
   	LEFT JOIN bas_pacu_monitor_config b ON a.eventId = b.eventId  
   	WHERE bedId =  #{bedId,jdbcType=VARCHAR} 

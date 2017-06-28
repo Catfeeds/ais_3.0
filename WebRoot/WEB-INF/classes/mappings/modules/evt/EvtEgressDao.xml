@@ -26,7 +26,7 @@
   <select id="searchEgressList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperEgress">
 	SELECT 
 		a.*,
-		(select name from bas_user where bas_user.userName = a.createUser limit 1 ) createUserName,b.unit,b.dosageUnit,
+		(select name from bas_user where bas_user.userName = a.createUser and bas_user.beid = #{searchBean.beid} limit 1 ) createUserName,b.unit,b.dosageUnit,
 		b.name FROM evt_egress a left join bas_io_defination b on a.ioDefId=b.ioDefId where 1 = 1 
 	<if test="searchBean.docId != null and searchBean.docId != ''">
 		AND a.docId = #{searchBean.docId}

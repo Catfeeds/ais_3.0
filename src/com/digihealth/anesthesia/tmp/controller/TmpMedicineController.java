@@ -152,7 +152,7 @@ public class TmpMedicineController extends BaseController {
 					for (int i = 0; i < ioTempEventList.size(); i++) {
 						SearchOptOperIoevent medEvent = new SearchOptOperIoevent();
 						medEvent.setDosageAmount(ioTempEventList.get(i).getDosageAmount());
-						medEvent.setIoDefId(Integer.parseInt(ioTempEventList.get(i).getIoDefId()));
+						medEvent.setIoDefId(ioTempEventList.get(i).getIoDefId());
 						medEvent.setIsCharged(ioTempEventList.get(i).getIsCharged() + "");
 						medEvent.setName(ioTempEventList.get(i).getName());
 						medEvent.setPassage(ioTempEventList.get(i).getPassage());
@@ -391,7 +391,7 @@ public class TmpMedicineController extends BaseController {
 				for (int i = 0; i < ioTempEventList.size(); i++) {
 					SearchOptOperIoevent medEvent = new SearchOptOperIoevent();
 					medEvent.setDosageAmount(ioTempEventList.get(i).getDosageAmount());
-					medEvent.setIoDefId(Integer.parseInt(ioTempEventList.get(i).getIoDefId()));
+					medEvent.setIoDefId(ioTempEventList.get(i).getIoDefId());
 					medEvent.setIsCharged(ioTempEventList.get(i).getIsCharged() + "");
 					medEvent.setName(ioTempEventList.get(i).getName());
 					medEvent.setPassage(ioTempEventList.get(i).getPassage());

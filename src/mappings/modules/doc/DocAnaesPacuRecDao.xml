@@ -35,7 +35,10 @@
     where regOptId = #{regOptId,jdbcType=VARCHAR}
   </select>
   
-
+  <select id="hasAnaesPacuRecByRegOptId" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(1) from doc_anaes_pacu_rec where regOptId = #{regOptId,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectPacuByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesPacuRec">
   select * from doc_anaes_pacu_rec where regOptId = #{regOptId}
   </select>
@@ -84,12 +87,12 @@
 			<foreach collection="filters" item="filter" open=" " close=" " >
 				<if test="filter.field != null and filter.field != '' ">
 					<choose>
-						<when test="filter.field == 'starttime' ">
+						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
 								and operaDate &gt;= #{filter.value}
 							</if>
 						</when>
-						<when test="filter.field == 'endtime' ">
+						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
 								and operaDate &lt;= #{filter.value}
 							</if>
@@ -127,12 +130,12 @@
 			<foreach collection="filters" item="filter" open=" " close=" " >
 				<if test="filter.field != null and filter.field != '' ">
 					<choose>
-						<when test="filter.field == 'starttime' ">
+						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
 								and operaDate &gt;= #{filter.value}
 							</if>
 						</when>
-						<when test="filter.field == 'endtime' ">
+						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
 								and operaDate &lt;= #{filter.value}
 							</if>

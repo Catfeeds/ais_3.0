@@ -43,6 +43,12 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Api(value="DocAnaesPacuObserveRecController",description="复苏记录单处理类")
 public class DocAnaesPacuObserveRecController extends BaseController{
 	
+    public static String OBSERVER_HR = "30001";
+    public static String OBSERVER_NIBP_SYS = "30004";
+    public static String OBSERVER_NIBP_DIA = "30005";
+    public static String OBSERVER_SPO2 = "30006";
+    public static String OBSERVER_RR = "40002";
+    
 	@RequestMapping(value = "/selectByPacuRecId")
 	@ResponseBody
 	@ApiOperation(value="根据id查询复苏记录单",httpMethod="POST",notes="根据id查询复苏记录单")
@@ -78,6 +84,11 @@ public class DocAnaesPacuObserveRecController extends BaseController{
           anaesPacuRec = docAnaesPacuRecService.getAnaesPacuRecByRegOptId(regOptId);
         }
 		
+        if(anaesPacuRec == null) {
+        	resp.setResultCode("1000000000");
+        	resp.setResultMessage("复苏室记录单不存在");
+        	return resp.getJsonStr();
+        }
 		BasRegOpt regOpt = basRegOptService.searchRegOptById(anaesPacuRec.getRegOptId());
 		String state = regOpt.getState();
 		
@@ -126,7 +137,18 @@ public class DocAnaesPacuObserveRecController extends BaseController{
 		logger.info("end selectByPacuRecId");
 		return resp.getJsonStr();
 	}
-	
+
+	@RequestMapping(value = "/hasAnaesPacuRec")
+	@ResponseBody
+	@ApiOperation(value="根据手术id查询复苏记录单是否存在",httpMethod="POST",notes="根据手术id查询复苏记录单是否存在")
+	public String hasAnaesPacuRec(@ApiParam(name="docAnaesPacuRec", value ="查询参数") @RequestBody DocAnaesPacuRec docAnaesPacuRec) {
+		logger.info("begin hasAnaesPacuRec");
+		ResponseValue resp = new ResponseValue();
+		boolean flag = docAnaesPacuRecService.hasAnaesPacuByRegOptId(docAnaesPacuRec.getRegOptId());
+		resp.put("flag", flag);
+		logger.info("end hasAnaesPacuRec");
+		return resp.getJsonStr();
+	}
 	
 	@RequestMapping(value = "/getPacuAnaesMedicalList")
 	@ResponseBody
@@ -217,21 +239,21 @@ public class DocAnaesPacuObserveRecController extends BaseController{
         List<BasCollectPacuData> dataList =
             basCollectPacuDataService.searchPacuObserveDataList(rec.getRegOptId(), record.getRecordTime());
 		for (BasCollectPacuData collectPacuData : dataList) {
-			if (collectPacuData.getObserveId().equals("31002")) {
-				record.setHr(collectPacuData.getValue());
-			}
-			if (collectPacuData.getObserveId().equals("31003")) {
-				record.setR(collectPacuData.getValue());
-			}
-			if (collectPacuData.getObserveId().equals("32001")) {
-				record.setSpo2(collectPacuData.getValue());
-			}
-			if (collectPacuData.getObserveId().equals("31004")) {
-				record.setHypertension(collectPacuData.getValue());
-			}
-			if (collectPacuData.getObserveId().equals("31005")) {
-				record.setHypopiesia(collectPacuData.getValue());
-			}
+		    if(collectPacuData.getObserveId().equals(OBSERVER_HR)){
+                record.setHr(collectPacuData.getValue());
+            }
+            if(collectPacuData.getObserveId().equals(OBSERVER_RR)){
+                record.setR(collectPacuData.getValue());
+            }
+            if(collectPacuData.getObserveId().equals(OBSERVER_SPO2)){
+                record.setSpo2(collectPacuData.getValue());
+            }
+            if(collectPacuData.getObserveId().equals(OBSERVER_NIBP_SYS)){
+                record.setHypertension(collectPacuData.getValue());
+            }
+            if(collectPacuData.getObserveId().equals(OBSERVER_NIBP_DIA)){
+                record.setHypopiesia(collectPacuData.getValue());
+            } 
 			/*
 			 * if(collectPacuData.getObserveId().equals("31002")){
 			 * record.setHr(collectPacuData.getValue()); }

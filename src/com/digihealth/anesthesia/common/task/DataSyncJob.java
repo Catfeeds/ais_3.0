@@ -66,9 +66,9 @@ public class DataSyncJob {
     }
     
     public void job() {
-        logger.info("job------数据同步定时任务开始");
-        receiveMsg();
-        sendMsg();
+//        logger.info("job------数据同步定时任务开始");
+//        receiveMsg();
+//        sendMsg();
     }
 
     /**

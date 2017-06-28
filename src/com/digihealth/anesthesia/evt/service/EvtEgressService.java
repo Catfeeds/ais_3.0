@@ -22,10 +22,19 @@ import com.digihealth.anesthesia.evt.po.EvtEgress;
 public class EvtEgressService extends BaseService {
 
 	public List<SearchOptOperEgress> searchEgressList(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+	    {
+	        searchBean.setBeid(getBeid());
+	    }
 		return evtEgressDao.searchEgressList(searchBean);
 	}
 
 	public List<RegOptOperEgressFormBean> searchEgressGroupByDefIdList(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
+	    
 		// 将相同药品的数据重新封装
 		List<RegOptOperEgressFormBean> resultList = evtEgressDao.searchEgressGroupByDefIdList(searchBean);
 		RegOptOperEgressFormBean bean = null;

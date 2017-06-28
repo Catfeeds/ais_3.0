@@ -8,6 +8,8 @@
 
 package com.digihealth.anesthesia.doc.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.digihealth.anesthesia.basedata.po.BasDispatch;
 import com.digihealth.anesthesia.basedata.po.BasOperationPeople;
+import com.digihealth.anesthesia.basedata.po.BasRegOpt;
 import com.digihealth.anesthesia.common.beanvalidator.ValidatorBean;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
+import com.digihealth.anesthesia.common.utils.StringUtils;
 import com.digihealth.anesthesia.common.web.BaseController;
 import com.digihealth.anesthesia.doc.formbean.SafeCheckFormBean;
 import com.digihealth.anesthesia.doc.formbean.UpdateSafeCheckFormbean;
@@ -241,7 +246,80 @@ public class DocSafeCheckController extends BaseController {
 			operBeforeSafeCheck.setCircunurseName(operBeforeSafeCheckC
 					.getName());
 		}
-		DocExitOperSafeCheck exitOperSafeCheck = docExitOperSafeCheckService
+		
+		
+		/**
+         * 进入安全核查页面时，如果手术医生、麻醉医生、护士为空则获取手术排班的数据
+         */
+        BasDispatch dispatch = basDispatchService.getDispatchOper(regOptId);
+        BasRegOpt regOpt = basRegOptService.searchRegOptById(regOptId);
+//        if(StringUtils.isBlank(operBeforeSafeCheck.getCircuNurseId())){
+//            operBeforeSafeCheck.setCircuNurseId(dispatch.getCircunurseId1());
+//        }
+//        if(StringUtils.isBlank(operBeforeSafeCheck.getOperatorId())){
+//            operBeforeSafeCheck.setOperatorId(regOpt.getOperatorId());
+//        }
+//        if(StringUtils.isBlank(operBeforeSafeCheck.getAnesthetistId())){
+//            operBeforeSafeCheck.setAnesthetistId(dispatch.getAnesthetistId());
+//        }
+        // 安全核查单护士
+        List<String> circunurseList = new ArrayList<String>();
+        if (null == operBeforeSafeCheck.getCircuNurseId())
+        {
+            if (nurseDocList != null && nurseDocList.size() > 0)
+            {
+                for (EvtParticipant pt : nurseDocList)
+                {
+                    circunurseList.add(pt.getUserLoginName());
+                }
+            }
+            operBeforeSafeCheck.setCircuNurseId(StringUtils.getStringByList(circunurseList));
+        }
+        else
+        {
+            circunurseList = StringUtils.getListByString(operBeforeSafeCheck.getCircuNurseId());
+        }
+        operBeforeSafeCheck.setCircunurseList(circunurseList);
+        
+        // 安全核查单麻醉医生
+        List<String> anesthetistList = new ArrayList<String>();
+        if (null == operBeforeSafeCheck.getAnesthetistId())
+        {
+            if (anaesDocList != null && anaesDocList.size() > 0)
+            {
+                for (EvtParticipant pt : anaesDocList)
+                {
+                    anesthetistList.add(pt.getUserLoginName());
+                }
+            }
+            operBeforeSafeCheck.setAnesthetistId(StringUtils.getStringByList(anesthetistList));
+        }
+        else if (StringUtils.isNotBlank(operBeforeSafeCheck.getAnesthetistId()))
+        {
+            anesthetistList = StringUtils.getListByString(operBeforeSafeCheck.getAnesthetistId());
+        }
+        operBeforeSafeCheck.setAnesthetistList(anesthetistList);
+        
+        // 安全核查单手术医生
+        List<String> operatorList = new ArrayList<String>();
+        if (null == operBeforeSafeCheck.getOperatorId())
+        {
+            if (operList != null && operList.size() > 0)
+            {
+                for (EvtParticipant pt : operList)
+                {
+                    operatorList.add(pt.getUserLoginName());
+                }
+            }
+            operBeforeSafeCheck.setOperatorId(StringUtils.getStringByList(operatorList));
+        }
+        else
+        {
+            operatorList = StringUtils.getListByString(operBeforeSafeCheck.getOperatorId());
+        }
+        operBeforeSafeCheck.setOperatorList(operatorList);
+
+        DocExitOperSafeCheck exitOperSafeCheck = docExitOperSafeCheckService
 				.searchExitOperCheckByRegOptId(regOptId);
 		BasUser exitOperSafeCheckA = basUserService.get(exitOperSafeCheck
 				.getAnesthetistId() != null ? exitOperSafeCheck

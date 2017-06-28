@@ -57,9 +57,9 @@ public class DocOptNurseService extends BaseService {
 		if (anaesRecord != null) {
 			opt = docOptNurseDao.searchOptNurseByRegOptId(regOptId);
 			if (opt != null) {
-				Integer bleeding = evtEgressDao.getEgressCountValueByIoDef("25", anaesRecord.getAnaRecordId())==null?0:evtEgressDao.getEgressCountValueByIoDef("25", anaesRecord.getAnaRecordId());
+				Integer bleeding = evtEgressDao.getEgressCountValueByIoDef("2", anaesRecord.getAnaRecordId())==null?0:evtEgressDao.getEgressCountValueByIoDef("2", anaesRecord.getAnaRecordId());
 				opt.setBleeding(bleeding); //失血量
-				Integer urine = evtEgressDao.getEgressCountValueByIoDef("26", anaesRecord.getAnaRecordId()) == null ?0:evtEgressDao.getEgressCountValueByIoDef("26", anaesRecord.getAnaRecordId());
+				Integer urine = evtEgressDao.getEgressCountValueByIoDef("1", anaesRecord.getAnaRecordId()) == null ?0:evtEgressDao.getEgressCountValueByIoDef("1", anaesRecord.getAnaRecordId());
 				opt.setUrine(urine);	//尿量
 				Integer infusion = evtInEventDao.getIoeventCountValueByIoDef(anaesRecord.getAnaRecordId(),null) == null?0:evtInEventDao.getIoeventCountValueByIoDef(anaesRecord.getAnaRecordId(),null);
 				opt.setInfusion(infusion);		//输液

@@ -43,7 +43,7 @@ public interface EvtMedicalEventDao {
 	public List<EvtMedicalEvent> checkMedicaleventCanInsert(@Param("searchBean")SearchFormBean searchBean,@Param("medicineId")String medicineId);
 	
 	//获取复苏记录观察项数据
-	public List<SearchOptOperMedicalevent> getPacuMedicaleventList(@Param("docId")String docId,@Param("medIds")String medIds,@Param("medIdLs") List<String> medIdLs);
+	public List<SearchOptOperMedicalevent> getPacuMedicaleventList(@Param("docId")String docId,@Param("medIds")String medIds,@Param("medIdLs") List<String> medIdLs, @Param("beid")String beid);
 	
 	//获取患者单个药品的汇总数据
 	public List<RegOptOperMedicaleventFormBean> getUseMedicalGroupByNameList(@Param("searchBean")SearchFormBean searchBean);

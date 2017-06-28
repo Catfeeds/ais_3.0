@@ -26,10 +26,19 @@ import com.digihealth.anesthesia.evt.po.EvtInEvent;
 public class EvtInEventService extends BaseService {
 
 	public List<SearchOptOperIoevent> searchIoeventList(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
 		return evtInEventDao.searchIoeventList(searchBean);
 	}
 
 	public List<RegOptOperIoeventFormBean> searchIoeventGroupByDefIdList(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
+	    
 		// 将相同药品的数据重新封装
 		List<RegOptOperIoeventFormBean> resultList = evtInEventDao.searchIoeventGroupByDefIdList(searchBean);
 		for (RegOptOperIoeventFormBean regOptOperIoeventFormBean : resultList) {

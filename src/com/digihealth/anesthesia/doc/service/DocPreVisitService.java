@@ -115,7 +115,6 @@ public class DocPreVisitService extends BaseService {
 
 	private void setSelectValue(DocPreVisit preVisit) {
 	    preVisit.setBriefHis(String.valueOf(preVisit.getBriefHisMap()));
-	    preVisit.setHeartBoolCond(String.valueOf(preVisit.getHeartBoolCondMap()));
 	    preVisit.setLungbreathCond(String.valueOf(preVisit.getLungbreathCondMap()));
 	    preVisit.setBrainNerve(String.valueOf(preVisit.getBrainNerveMap()));
 	    preVisit.setSpineLimb(String.valueOf(preVisit.getSpineLimbMap()));
@@ -127,8 +126,10 @@ public class DocPreVisitService extends BaseService {
 	    preVisit.setSpecialHandle(String.valueOf(preVisit.getSpecialHandleMap()));
 	    preVisit.setAnalgesicCond(String.valueOf(preVisit.getAnalgesicMap()));
 	    preVisit.setMonitor(String.valueOf(preVisit.getMonitorMap()));
+	    preVisit.setHeartBoolCond(String.valueOf(preVisit.getHeartBoolCondMap()));
         preVisit.setToothAbnormalCond(String.valueOf(preVisit.getToothAbnormalMap()));
         preVisit.setAssayAbnormalCond(String.valueOf(preVisit.getAssayAbnormalMap()));
+        preVisit.setSpecialTreatmentCond(String.valueOf(preVisit.getSpecialTreatmentCondMap()));
     }
 
     /**

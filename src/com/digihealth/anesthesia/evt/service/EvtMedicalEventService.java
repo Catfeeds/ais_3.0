@@ -36,6 +36,10 @@ public class EvtMedicalEventService extends BaseService {
 	 * @return
 	 */
 	public List<SearchOptOperMedicalevent> searchMedicaleventList(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
 		return evtMedicaleventDao.searchMedicaleventList(searchBean);
 	}
 
@@ -46,7 +50,10 @@ public class EvtMedicalEventService extends BaseService {
 	 * @return
 	 */
 	public List<RegOptOperMedicaleventFormBean> searchMedicaleventGroupByCodeList(SearchFormBean searchBean) {
-
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
 		// 将相同药品的数据重新封装
 		List<RegOptOperMedicaleventFormBean> resultList = null;
 		resultList = evtMedicaleventDao.getMedicalGroupByNameList(searchBean);
@@ -99,7 +106,7 @@ public class EvtMedicalEventService extends BaseService {
 	}
 
 	public List<SearchOptOperMedicalevent> getPacuMedicaleventList(String docId, String medIds, List<String> medIdLs) {
-		return evtMedicaleventDao.getPacuMedicaleventList(docId, medIds, medIdLs);
+		return evtMedicaleventDao.getPacuMedicaleventList(docId, medIds, medIdLs, getBeid());
 	}
 
 	@Transactional

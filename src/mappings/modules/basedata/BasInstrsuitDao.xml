@@ -134,13 +134,14 @@
   </update>
   
   <select id="findList" resultType="com.digihealth.anesthesia.basedata.po.BasInstrsuit">
-		SELECT 
-			a.*
-		FROM bas_instrsuit a where 1 = 1 and beid = #{baseQuery.beid}
+		SELECT a.* FROM bas_instrsuit a where 1 = 1 and beid = #{baseQuery.beid}
 		<if test="baseQuery.pinyin != null and baseQuery.pinyin != ''">
 			AND a.pinyin LIKE CONCAT(CONCAT('%',#{baseQuery.pinyin}),'%')
 		</if>
 		AND a.enable = 1 
+		<if test="baseQuery.pageSize != 0 and baseQuery.pageSize!=null">
+		 	 limit #{baseQuery.pageNo},#{baseQuery.pageSize}
+		</if>
 	</select>
 	
 	<select id="searchInstrsuitOrderId" resultType="com.digihealth.anesthesia.basedata.po.BasInstrsuit">

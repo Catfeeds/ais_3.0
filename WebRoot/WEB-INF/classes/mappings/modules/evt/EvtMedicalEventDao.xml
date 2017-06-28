@@ -46,7 +46,7 @@
   <select id="searchMedicaleventList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperMedicalevent">
 		SELECT
 			a.medEventId,a.thickness,a.thicknessUnit,a.flow,a.flowUnit,a.diluentQuant,a.startTime,a.createUser,a.docType,
-			(select name from bas_user where bas_user.userName = a.createuser limit 1 ) createUserName,
+			(select name from bas_user where bas_user.userName = a.createuser and bas_user.beid = #{searchBean.beid} limit 1 ) createUserName,
 			a.endTime,a.ended,a.medicineId,a.occurHour,a.docId,a.isContinued,a.priceId,
 			b.name,p.spec,b.dosageUnit,a.medTakeWayId,m.name as medTakeWayName,p.firm,a.reason,a.dosage,a.durable,a.pcorec,a.tcivalue,a.tciunit
 		FROM evt_medicalevent a left join bas_medicine b on a.medicineId=b.medicineId 
@@ -113,7 +113,7 @@
   <select id="getPacuMedicaleventList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperMedicalevent">
 		SELECT
 			a.medEventId,a.thickness,a.thicknessUnit,a.flow,a.flowUnit,a.diluentQuant,a.startTime,a.createUser,a.docType,
-			(select name from bas_user where bas_user.userName = a.createuser limit 1 ) createUserName,
+			(select name from bas_user where bas_user.userName = a.createuser and bas_user.beid = #{beid} limit 1 ) createUserName,
 			a.endTime,a.ended,a.medicineId,a.occurHour,a.docId,a.isContinued,a.priceId,
 			b.name,p.spec,b.dosageUnit,a.medTakeWayId,m.name as medTakeWayName,p.firm,a.reason,a.dosage,a.durable,a.pcorec,a.tcivalue,a.tciunit
 		FROM evt_medicalevent a left join bas_medicine b on a.medicineId=b.medicineId 

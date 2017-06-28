@@ -23,6 +23,7 @@ import com.digihealth.anesthesia.basedata.formbean.SysCodeFormbean;
 import com.digihealth.anesthesia.basedata.po.BasDeviceConfig;
 import com.digihealth.anesthesia.basedata.po.BasDispatch;
 import com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq;
+import com.digihealth.anesthesia.basedata.po.BasOperroom;
 import com.digihealth.anesthesia.basedata.po.BasRegOpt;
 import com.digihealth.anesthesia.basedata.po.Controller;
 import com.digihealth.anesthesia.basedata.po.Device;
@@ -53,6 +54,7 @@ import com.digihealth.anesthesia.evt.po.EvtCtlBreath;
 import com.digihealth.anesthesia.evt.po.EvtParticipant;
 import com.digihealth.anesthesia.evt.po.EvtRealAnaesMethod;
 import com.digihealth.anesthesia.evt.po.EvtRescueevent;
+import com.digihealth.anesthesia.evt.service.EvtAnaesEventService;
 import com.digihealth.anesthesia.evt.service.EvtParticipantService;
 import com.digihealth.anesthesia.operProceed.core.MyConstants;
 import com.digihealth.anesthesia.operProceed.datasync.MessageProcess;
@@ -233,6 +235,11 @@ public class MyObserveDataController extends BaseController {
 		if (null != baseQuery) {
 			// List<RealTimeDataFormBean> monitorList =
 			// basMonitorDisplayService.searchObserveDataByPosition(baseQuery);
+		    if (StringUtils.isBlank(baseQuery.getBeid()))
+		    {
+		        baseQuery.setBeid(getBeid());
+		    }
+		    
 			Map<String, RealTimeDataFormBean> resultMap = basMonitorDisplayService.searchObserveMapByPosition(baseQuery);
 			res.put("monitorList", resultMap);
 			// 获取设备列表
@@ -294,6 +301,11 @@ public class MyObserveDataController extends BaseController {
 		String regOptId = formBean.getRegOptId();
 		Integer position = 0;
 		String beid = formBean.getBeid();
+		if (StringUtils.isBlank(beid))
+		{
+		    beid = getBeid();
+		    formBean.setBeid(beid);
+		}
 
 		BaseInfoQuery baseQuery = new BaseInfoQuery();
 		baseQuery.setRegOptId(regOptId);
@@ -652,6 +664,11 @@ public class MyObserveDataController extends BaseController {
 		String regOptId = formBean.getRegOptId();
 		Integer position = 0;
 		String beid = formBean.getBeid();
+		if (StringUtils.isBlank(beid))
+		{
+		    beid = getBeid();
+		    formBean.setBeid(getBeid());
+		}
 
 		BaseInfoQuery baseQuery = new BaseInfoQuery();
 		baseQuery.setRegOptId(regOptId);
@@ -746,11 +763,11 @@ public class MyObserveDataController extends BaseController {
 					}
 					// seriesdata.setSymbolSize(8);
 					if (RESP_EVENT_ID.equals(md.getObserveId())) {
-						if ("1".equals(type)) {
+						if (1 == type) {
 							obj = new SeriesDataObj(md.getId(), md.getValue(), md.getTime(), md.getObserveId(), code_value_1, svg_value_1);
-						} else if ("2".equals(type)) {
+						} else if (2 == type) {
 							obj = new SeriesDataObj(md.getId(), md.getValue(), md.getTime(), md.getObserveId(), code_value_2, svg_value_2);
-						} else if ("3".equals(type)) {
+						} else if (3 == type) {
 							obj = new SeriesDataObj(md.getId(), md.getValue(), md.getTime(), md.getObserveId(), code_value_3, svg_value_3);
 						} else {
 							obj = new SeriesDataObj(md.getId(), md.getValue(), md.getTime(), md.getObserveId());
@@ -874,6 +891,11 @@ public class MyObserveDataController extends BaseController {
 			String regOptId = formbean.getRegOptId();
 			Integer position = 0;
 			String beid = formbean.getBeid();
+			if (StringUtils.isBlank(beid))
+			{
+			    beid = getBeid();
+			    formbean.setBeid(beid);
+			}
 
 			BaseInfoQuery baseQuery = new BaseInfoQuery();
 			baseQuery.setRegOptId(regOptId);
@@ -1392,10 +1414,15 @@ public class MyObserveDataController extends BaseController {
 	@ApiOperation(value = "开始手术", httpMethod = "POST", notes = "开始手术")
 	public String startOper(@ApiParam(name = "params", value = "参数") @RequestBody SearchFormBean searchBean) {
 		logger.info("----------------start startOper------------------------");
-
+		
 		Map result = new HashMap();
 		String regOptId = searchBean.getRegOptId();
 		String accessSource = searchBean.getAccessSource();
+		
+		if (StringUtils.isBlank(searchBean.getBeid()))
+		{
+		    searchBean.setBeid(getBeid());
+		}
 		// 麻醉记录单
 		DocAnaesRecord anaesRecord = docAnaesRecordService.searchAnaesRecordByRegOptId(regOptId);
 		String anaRecordId = anaesRecord.getAnaRecordId();
@@ -1470,6 +1497,14 @@ public class MyObserveDataController extends BaseController {
 				docAnaesRecordService.saveAnaesRecord(anaesRecord);
 			}
 
+			//当麻醉记录表中的手术室为空时则将排程表中的手术室字段写入
+            if(StringUtils.isBlank(anaesRecord.getOperRoomName()) && null != dispatch.getOperRoomId())
+            {
+                BasOperroom operroom = basOperroomService.queryRoomListById(dispatch.getOperRoomId().toString());
+                anaesRecord.setOperRoomName(null == operroom ? null : operroom.getName());
+                docAnaesRecordService.saveAnaesRecord(anaesRecord);
+            }
+			
 			if (flagInsert) {
 				// 实际麻醉方法
 				List<EvtRealAnaesMethod> realList = evtRealAnaesMethodService.searchRealAnaesMethodList(searchBean);
@@ -1525,6 +1560,7 @@ public class MyObserveDataController extends BaseController {
 			}
 		}
 
+		anaesRecord.setOptBodys(docAnaesRecordService.getOptBodys(anaesRecord.getOptBody()));
 		// 麻醉事件
 		List<EvtAnaesEvent> anaeseventList = evtAnaesEventService.searchAnaeseventList(searchBean);
 		// 实际麻醉方法
@@ -1730,6 +1766,21 @@ public class MyObserveDataController extends BaseController {
 		logger.info("endOperation----" + anaesevent);
 		String regOptId = formBean.getRegOptId();
 		if (anaesevent != null) {
+		    SearchFormBean searchBean = new SearchFormBean();
+		    searchBean.setDocId(anaesevent.getDocId());
+		    List<EvtAnaesEvent> resultList = evtAnaesEventService.searchAnaeseventList(searchBean);
+		    if (null != resultList && resultList.size() > 0)
+		    {
+		        for (EvtAnaesEvent event : resultList)
+		        {
+		            if (EvtAnaesEventService.OUT_ROOM.equals(event.getCode()))
+		            {
+		                anaesevent.setAnaEventId(event.getAnaEventId());
+		                break;
+		            }
+		        }
+		    }
+		    
 			evtAnaesEventService.saveAnaesevent(anaesevent, res);
 			if (res.getResultCode().equals("1")) { // 只有成功了，才执行正常结束手术命令
 				CmdMsg msg = new CmdMsg();
@@ -1737,6 +1788,7 @@ public class MyObserveDataController extends BaseController {
 				msg.setRegOptId(regOptId);
 				res = MessageProcess.process(msg);
 			}
+			res.put("resultList", resultList);
 		} else {
 			res.setResultCode("70000000");
 			res.setResultMessage(Global.getRetMsg(res.getResultCode()));

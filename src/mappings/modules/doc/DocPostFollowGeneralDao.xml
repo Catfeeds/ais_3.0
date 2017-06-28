@@ -29,7 +29,7 @@
 
  <select id="getInfoByPostFollowId" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowGeneral" parameterType="map" >
     select a.* ,u.name vistorName
-    from doc_post_follow_general a left join bas_user u on a.vistorId = u.userName
+    from doc_post_follow_general a left join (select * from bas_user where beid = #{beid}) u on a.vistorId = u.userName
     where postFollowId = #{postFollowId,jdbcType=VARCHAR}
   </select>
 

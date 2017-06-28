@@ -276,7 +276,7 @@ public class DocOptNurseRecordService extends BaseService {
 			if (null != bloodEventList && bloodEventList.size() > 0) {
 				bloodBuf.append("血制品：");
 				for (SearchOptOperIoevent ioEvent : bloodEventList) {
-					if (7 == ioEvent.getIoDefId()) {
+					if ("7".equals(ioEvent.getIoDefId())) {
 
 						bloodBuf.append("血型 ").append(ioEvent.getBlood())
 								.append(",").append(ioEvent.getName())
@@ -489,7 +489,7 @@ public class DocOptNurseRecordService extends BaseService {
 				egress1.setValue(optNurseRec.getBleeding() + "");
 				evtEgressDao.updateByPrimaryKeySelective(egress1);
 			} else {
-				egress.setIoDefId(2);
+				egress.setIoDefId("2");
 				egress.setEgressId(GenerateSequenceUtil.generateSequenceNo());
 				egress.setValue(optNurseRec.getBleeding() + "");
 				evtEgressDao.insert(egress);
@@ -507,7 +507,7 @@ public class DocOptNurseRecordService extends BaseService {
 				evtEgressDao.updateByPrimaryKeySelective(egress2);
 			} else {
 				egress.setEgressId(GenerateSequenceUtil.generateSequenceNo());
-				egress.setIoDefId(1);
+				egress.setIoDefId("1");
 				egress.setValue(optNurseRec.getUrine() + "");
 				evtEgressDao.insert(egress);
 			}
@@ -524,7 +524,7 @@ public class DocOptNurseRecordService extends BaseService {
 				evtEgressDao.updateByPrimaryKeySelective(egress3);
 			} else {
 				egress.setEgressId(GenerateSequenceUtil.generateSequenceNo());
-				egress.setIoDefId(3);
+				egress.setIoDefId("3");
 				egress.setValue(optNurseRec.getHematocele() + "");
 				evtEgressDao.insert(egress);
 			}
@@ -541,7 +541,7 @@ public class DocOptNurseRecordService extends BaseService {
 				evtEgressDao.updateByPrimaryKeySelective(egress4);
 			} else {
 				egress.setEgressId(GenerateSequenceUtil.generateSequenceNo());
-				egress.setIoDefId(6);
+				egress.setIoDefId("6");
 				egress.setValue(optNurseRec.getOutOther() + "");
 				evtEgressDao.insert(egress);
 			}

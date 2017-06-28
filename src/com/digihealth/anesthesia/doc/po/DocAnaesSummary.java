@@ -136,6 +136,38 @@ public class DocAnaesSummary {
 	@ApiModelProperty(value = "麻醉目录单")
     private Integer catalogDoc;//目录
 	
+	/**
+     * 人工气道/硬膜外导管拔除
+     */
+	@ApiModelProperty(value = "人工气道/硬膜外导管拔除")
+    private Integer artifiAirwayRemoval;
+    
+    /**
+     * 病人自控镇痛部位
+     */
+	@ApiModelProperty(value = "病人自控镇痛部位")
+    private Integer controAnalPlace;
+	
+    public Integer getArtifiAirwayRemoval()
+    {
+        return artifiAirwayRemoval;
+    }
+
+    public void setArtifiAirwayRemoval(Integer artifiAirwayRemoval)
+    {
+        this.artifiAirwayRemoval = artifiAirwayRemoval;
+    }
+
+    public Integer getControAnalPlace()
+    {
+        return controAnalPlace;
+    }
+
+    public void setControAnalPlace(Integer controAnalPlace)
+    {
+        this.controAnalPlace = controAnalPlace;
+    }
+
     public String getAnaSumId() {
         return anaSumId;
     }

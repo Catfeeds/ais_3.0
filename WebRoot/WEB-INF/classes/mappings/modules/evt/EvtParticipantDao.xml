@@ -68,7 +68,7 @@
 	
 	<select id="queryOperPersonListByDocId" resultType="com.digihealth.anesthesia.evt.po.EvtParticipant">
 		SELECT  a.docId,a.createUser,a.operatorType,a.partpId,a.role,a.userLoginName,isShiftChange,
-			(select bas_user.name from bas_user where bas_user.userName = a.userLoginName)  as name
+			(select bas_user.name from bas_user where bas_user.userName = a.userLoginName and bas_user.beid = #{searchBean.beid})  as name
 		FROM evt_participant a where  a.role in ('N','A')
 		<if test="searchBean.docId != null and searchBean.docId != ''">
 			AND a.docId = #{searchBean.docId}

@@ -31,4 +31,6 @@ public interface BasPacuDeviceSpecificationDao {
     int updateByPrimaryKey(BasPacuDeviceSpecification record);
     
     List<PacuDeviceSpecFormBean> getPacuDeviceByType(@Param("beid") String beid);
+    
+    public List<BasPacuDeviceSpecification> queryEntityByBeid(@Param("beid") String beid);
 }

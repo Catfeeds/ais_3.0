@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.digihealth.anesthesia.basedata.dao.BasAnaesKndgbaseDao;
+import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineInRecordDao;
+import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineLoseRecordDao;
+import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineOutRecordDao;
+import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineRetreatRecordDao;
+import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineStorageDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnaesMethodDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnnouncementDao;
 import com.digihealth.anesthesia.basedata.dao.BasBusEntityDao;
@@ -51,6 +56,7 @@ import com.digihealth.anesthesia.basedata.dao.BasOperdefDao;
 import com.digihealth.anesthesia.basedata.dao.BasOperroomDao;
 import com.digihealth.anesthesia.basedata.dao.BasPacuBedEventConfigDao;
 import com.digihealth.anesthesia.basedata.dao.BasPacuDeviceConfigDao;
+import com.digihealth.anesthesia.basedata.dao.BasPacuDeviceMonitorConfigDao;
 import com.digihealth.anesthesia.basedata.dao.BasPacuDeviceSpecificationDao;
 import com.digihealth.anesthesia.basedata.dao.BasPacuMonitorConfigDao;
 import com.digihealth.anesthesia.basedata.dao.BasPriceDao;
@@ -89,6 +95,8 @@ import com.digihealth.anesthesia.doc.dao.DocGeneralAnaesDao;
 import com.digihealth.anesthesia.doc.dao.DocInstrubillItemDao;
 import com.digihealth.anesthesia.doc.dao.DocInsuredChargeInformDao;
 import com.digihealth.anesthesia.doc.dao.DocInsuredChargeItemDao;
+import com.digihealth.anesthesia.doc.dao.DocInsuredItemDao;
+import com.digihealth.anesthesia.doc.dao.DocInsuredPatAgreeDao;
 import com.digihealth.anesthesia.doc.dao.DocNerveBlockDao;
 import com.digihealth.anesthesia.doc.dao.DocOperBeforeSafeCheckDao;
 import com.digihealth.anesthesia.doc.dao.DocOptCareRecordDao;
@@ -100,6 +108,7 @@ import com.digihealth.anesthesia.doc.dao.DocPatOutRangeAgreeDao;
 import com.digihealth.anesthesia.doc.dao.DocPatOutRangeItemDao;
 import com.digihealth.anesthesia.doc.dao.DocPatShuttleTransferContentDao;
 import com.digihealth.anesthesia.doc.dao.DocPatShuttleTransferDao;
+import com.digihealth.anesthesia.doc.dao.DocPlacentaHandleAgreeDao;
 import com.digihealth.anesthesia.doc.dao.DocPostFollowAnalgesicDao;
 import com.digihealth.anesthesia.doc.dao.DocPostFollowGeneralDao;
 import com.digihealth.anesthesia.doc.dao.DocPostFollowRecordDao;
@@ -114,6 +123,8 @@ import com.digihealth.anesthesia.doc.dao.DocPrevisitPhyexamDao;
 import com.digihealth.anesthesia.doc.dao.DocSafeCheckDao;
 import com.digihealth.anesthesia.doc.dao.DocSelfPayAccedeDao;
 import com.digihealth.anesthesia.doc.dao.DocSpinalCanalPunctureDao;
+import com.digihealth.anesthesia.doc.dao.DocTransferConnectRecordDao;
+import com.digihealth.anesthesia.doc.dao.DocTransferConnectTypeDao;
 import com.digihealth.anesthesia.evt.dao.EvtAnaesEventDao;
 import com.digihealth.anesthesia.evt.dao.EvtCheckEventDao;
 import com.digihealth.anesthesia.evt.dao.EvtCheckEventItemRelationDao;
@@ -491,6 +502,28 @@ public abstract class BaseService {
     protected BasPacuDeviceSpecificationDao basPacuDeviceSpecificationDao;
     @Autowired
     protected BasPacuMonitorConfigDao basPacuMonitorConfigDao;
+    @Autowired
+    protected BasAnaesMedicineInRecordDao basAnaesMedicineInRecordDao;
+    @Autowired
+    protected BasAnaesMedicineStorageDao basAnaesMedicineStorageDao;
+    @Autowired
+    protected BasAnaesMedicineOutRecordDao basAnaesMedicineOutRecordDao;
+    @Autowired
+    protected BasAnaesMedicineRetreatRecordDao basAnaesMedicineRetreatRecordDao;
+    @Autowired
+    protected BasAnaesMedicineLoseRecordDao basAnaesMedicineLoseRecordDao;
+    @Autowired
+    protected DocInsuredPatAgreeDao docInsuredPatAgreeDao;
+    @Autowired
+    protected DocInsuredItemDao docInsuredItemDao;
+    @Autowired
+    protected DocTransferConnectRecordDao docTransferConnectRecordDao;
+    @Autowired
+    protected DocTransferConnectTypeDao docTransferConnectTypeDao;
+    @Autowired
+    protected DocPlacentaHandleAgreeDao docPlacentaHandleAgreeDao;
+    @Autowired
+    protected BasPacuDeviceMonitorConfigDao basPacuDeviceMonitorConfigDao;
     
 	public String getBeid() {
 		String beid = null;

@@ -102,7 +102,6 @@ public class BasBusEntityService extends BaseService {
 					basMenu.setBeid(beid);
 					basMenu.setId(newMenuId);
 					
-					
 					//把对应关系也替换掉
 					for(BasMenu basMenu2 : basMenuList)
 					{
@@ -127,13 +126,11 @@ public class BasBusEntityService extends BaseService {
 										ptds[i] = newMenuId;
 									}
 								}
-								
-								String newPartids = ptds.toString();
+								String newPartids = StringUtils.join(ptds, ",");
 								basMenu2.setParentIds(newPartids);
 							}
 						}
 					}
-					
 					basMenuDao.insertSelective(basMenu);
 				}
 			}

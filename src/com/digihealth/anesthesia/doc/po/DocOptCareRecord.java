@@ -204,6 +204,12 @@ public class DocOptCareRecord {
      private String leaveTo;
 
     /**
+     * 送至
+     */
+    @ApiModelProperty(value = "其他去向")
+     private String leaveToOther;
+    
+    /**
      * 术后静脉输液
      */
     @ApiModelProperty(value = "术后静脉输液")
@@ -543,6 +549,14 @@ public class DocOptCareRecord {
 
 	public void setInstrnurseList(List<String> instrnurseList) {
 		this.instrnurseList = instrnurseList;
+	}
+
+	public String getLeaveToOther() {
+		return leaveToOther;
+	}
+
+	public void setLeaveToOther(String leaveToOther) {
+		this.leaveToOther = leaveToOther;
 	}
     
 }

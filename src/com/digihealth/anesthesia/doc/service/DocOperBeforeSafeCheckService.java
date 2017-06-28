@@ -17,6 +17,7 @@ import com.digihealth.anesthesia.basedata.utils.UserUtils;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
 import com.digihealth.anesthesia.common.service.BaseService;
 import com.digihealth.anesthesia.common.utils.JsonType;
+import com.digihealth.anesthesia.common.utils.StringUtils;
 import com.digihealth.anesthesia.doc.po.DocAnaesBeforeSafeCheck;
 import com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck;
 import com.digihealth.anesthesia.doc.po.DocOperBeforeSafeCheck;
@@ -71,7 +72,6 @@ public class DocOperBeforeSafeCheckService extends BaseService {
 			resp.setResultMessage("手术前核查单不存在!");
 			return resp;
 		}
-		operBeforeSafeCheck.setProcessState("END");
 		String regOptId = operBeforeSafeCheck.getRegOptId() != null ? operBeforeSafeCheck.getRegOptId() : "";
 		Controller controller = controllerDao.getControllerById(regOptId);
 		if (controller == null) {
@@ -80,6 +80,17 @@ public class DocOperBeforeSafeCheckService extends BaseService {
 			return resp;
 		}
 		DocOperBeforeSafeCheck oldOperBeforeSafeCheck = searchOperBeCheckById(operBeforeSafeCheck.getOperBeforeId() != null ? operBeforeSafeCheck.getOperBeforeId() : "");
+		if (oldOperBeforeSafeCheck == null) {
+            resp.setResultCode("40000005");
+            resp.setResultMessage("手术前核查单不存在!");
+            return resp;
+        }
+		
+		operBeforeSafeCheck.setAnesthetistId(StringUtils.getStringByList(operBeforeSafeCheck.getAnesthetistList()));
+        operBeforeSafeCheck.setOperatorId(StringUtils.getStringByList(operBeforeSafeCheck.getOperatorList()));
+        operBeforeSafeCheck.setCircuNurseId(StringUtils.getStringByList(operBeforeSafeCheck.getCircunurseList()));
+		
+		
 		//if (controller.getState().equals(oldOperBeforeSafeCheck.getState())) {
 		docOperBeforeSafeCheckDao.updateByPrimaryKey(operBeforeSafeCheck);
 		/*} else {
@@ -91,7 +102,7 @@ public class DocOperBeforeSafeCheckService extends BaseService {
 			newOperBeforeSafeCheck.setState(controller.getState());
 			newOperBeforeSafeCheck.setFlag("1");
 			operBeforeSafeCheckDao.insert(newOperBeforeSafeCheck);
-		}*/
+		}
 		DocAnaesBeforeSafeCheck ab = docAnaesBeforeSafeCheckDao.searchAnaBeCheckByRegOptId(regOptId);
 		DocExitOperSafeCheck eo = docExitOperSafeCheckDao.searchExitOperCheckByRegOptId(regOptId, getBeid());
 		if(ab!=null&&eo!=null){
@@ -102,7 +113,7 @@ public class DocOperBeforeSafeCheckService extends BaseService {
 					docSafeCheckDao.updateSafeCheck(safeCheck);
 				}
 			}
-		}
+		}*/
 		BasUser user = UserUtils.getUserCache();
 		LogUtils.saveOperateLog(regOptId, "4",
             "2", "手术前核查单修改", JsonType.jsonType(operBeforeSafeCheck),user, getBeid());

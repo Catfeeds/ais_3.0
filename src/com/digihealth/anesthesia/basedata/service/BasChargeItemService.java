@@ -47,8 +47,7 @@ public class BasChargeItemService extends BaseService {
 	 * @param systemSearchFormBean
 	 * @return
 	 */
-	public List<BasChargeItem> queryChargeItemList(
-			SystemSearchFormBean systemSearchFormBean) {
+	public List<BasChargeItem> queryChargeItemList(SystemSearchFormBean systemSearchFormBean) {
 		if (StringUtils.isEmpty(systemSearchFormBean.getBeid())) {
 			systemSearchFormBean.setBeid(getBeid());
 		}
@@ -63,11 +62,11 @@ public class BasChargeItemService extends BaseService {
 		if (filters != null && filters.size() > 0) {
 			for (int i = 0; i < filters.size(); i++) {
 				if (!StringUtils.isEmpty(filters.get(i).getValue().toString())) {
-					filter = filter + " AND " + filters.get(i).getField()
-							+ " like '%" + filters.get(i).getValue() + "%' ";
+					filter = filter + " AND " + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
 				}
 			}
 		}
+		filter += " AND enable = 1";
 		return basChargeItemDao.queryChargeItemList(filter, systemSearchFormBean);
 	}
 
@@ -99,6 +98,7 @@ public class BasChargeItemService extends BaseService {
 				}
 			}
 		}
+		filter += " AND enable = 1";
 		return basChargeItemDao.findListTotal(filter, systemSearchFormBean.getBeid());
 	}
 
@@ -125,12 +125,20 @@ public class BasChargeItemService extends BaseService {
 		}
 	}
 
-	public List<BasChargeItem> queryChargeItemByChargePackagesId(
-			String chargePkgId, String beid) {
+	public List<BasChargeItem> queryChargeItemByChargePackagesId(SystemSearchFormBean systemSearchFormBean, String chargePkgId, String beid) {
 		if (StringUtils.isEmpty(beid)) {
 			beid = getBeid();
 		}
-		return basChargeItemDao.queryChargeItemByChargePackagesId(chargePkgId, beid);
+		String filter = "";
+		List<Filter> filters = systemSearchFormBean.getFilters();
+		if (filters != null && filters.size() > 0) {
+			for (int i = 0; i < filters.size(); i++) {
+				if (!StringUtils.isEmpty(filters.get(i).getValue().toString()) && !"chargePkgId".equals(filters.get(i).getField().toString())) {
+					filter += " AND " + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
+				}
+			}
+		}
+		return basChargeItemDao.queryChargeItemByChargePackagesId(filter, chargePkgId, beid);
 	}
 	
 }

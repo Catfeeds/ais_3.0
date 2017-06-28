@@ -239,7 +239,7 @@
       maxOperNum = #{maxOperNum,jdbcType=INTEGER},
       healthNurse = #{healthNurse,jdbcType=VARCHAR},
       beid = #{beid,jdbcType=VARCHAR}
-    where operRoomId = #{operRoomId,jdbcType=VARCHAR}
+    where operRoomId = #{operRoomId,jdbcType=VARCHAR} and beid = #{beid,jdbcType=VARCHAR}
   </update>
 
 	<update id="updateHealthnurse">

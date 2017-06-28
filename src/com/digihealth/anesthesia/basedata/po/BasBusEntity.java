@@ -26,6 +26,12 @@ public class BasBusEntity {
     private String name;
 
     /**
+     * 局点编码
+     */
+    @ApiModelProperty(value="局点编码")
+    private String code;
+    
+    /**
      * 子名称
      */
     @ApiModelProperty(value="子名称")
@@ -77,7 +83,15 @@ public class BasBusEntity {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getSubName() {
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getSubName() {
         return subName;
     }
 

@@ -10,6 +10,8 @@
 package com.digihealth.anesthesia.doc.formbean;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
   
     /**        
@@ -42,9 +44,37 @@ public class SafeCheckFormBean implements Serializable{
 	private String realDiagnosisName;
 	private String realDesignedOptName;
 	
+	private List<String> circunurseList;
+    private List<String> anesthetistList;
+    private List<String> operatorList;
+	
 	
 
-	public String getRealDesignedOptName() {
+	public List<String> getCircunurseList()
+    {
+        return circunurseList;
+    }
+    public void setCircunurseList(List<String> circunurseList)
+    {
+        this.circunurseList = circunurseList;
+    }
+    public List<String> getAnesthetistList()
+    {
+        return anesthetistList;
+    }
+    public void setAnesthetistList(List<String> anesthetistList)
+    {
+        this.anesthetistList = anesthetistList;
+    }
+    public List<String> getOperatorList()
+    {
+        return operatorList;
+    }
+    public void setOperatorList(List<String> operatorList)
+    {
+        this.operatorList = operatorList;
+    }
+    public String getRealDesignedOptName() {
 		return realDesignedOptName;
 	}
 	public void setRealDesignedOptName(String realDesignedOptName) {

@@ -206,6 +206,10 @@
 		 </if>
 	</select>
 	
+	<select id="queryChargeItemByBeid" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">
+		SELECT * FROM bas_charge_item where beid = #{beid,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="findListTotal" resultType="java.lang.Integer">
 	SELECT count(*) FROM bas_charge_item where 1=1 and beid = #{beid,jdbcType=VARCHAR} ${filter} 
 	</select>
@@ -217,7 +221,7 @@
 	<select id="queryChargeItemByChargePackagesId" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">
 		SELECT DISTINCT i.*,s.chgItemAmount,s.chgItmPkgId FROM
 		bas_charge_item i left join bas_charge_item_packages_rel s on i.chargeItemId = s.chargeItemId 
-		where i.enable='1' and s.chargePkgId = #{chargePkgId} and i.beid = #{beid,jdbcType=VARCHAR}
+		where i.enable='1' ${filter} and s.chargePkgId = #{chargePkgId} and i.beid = #{beid,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasChargeItem">

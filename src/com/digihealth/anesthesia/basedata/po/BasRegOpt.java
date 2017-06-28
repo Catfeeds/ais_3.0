@@ -402,6 +402,13 @@ public class BasRegOpt {
 
 	@ApiModelProperty(value = "")
 	private String getData;
+	
+    /**
+     * 是否领取毒麻药 0 未领取 ， 1 已经领取
+     */
+	@ApiModelProperty(value = "是否领取毒麻药")
+    private Integer outMedicine;
+    
 	/**
 	 * 基线id
 	 */
@@ -1002,6 +1009,16 @@ public class BasRegOpt {
 
 	public void setAssistants(List<String> assistants) {
 		this.assistants = assistants;
+	}
+
+	public Integer getOutMedicine()
+	{
+		return outMedicine;
+	}
+
+	public void setOutMedicine(Integer outMedicine)
+	{
+		this.outMedicine = outMedicine;
 	}
 
 }

@@ -34,6 +34,8 @@ public interface BasRegionBedDao{
     
     public void updateByPatId(BasRegionBed regionBed);
     
+    public List<BasRegionBed> selectEntityList(BasRegionBed record);
+    
     public List<BasRegionBed> queryRegionBedList(@Param("filter")String filter,@Param("systemSearchFormBean")SystemSearchFormBean systemSearchFormBean);
 
     public int queryRegionBedListTotal(@Param("filter")String filter,@Param("systemSearchFormBean")SystemSearchFormBean systemSearchFormBean);

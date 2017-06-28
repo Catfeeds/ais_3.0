@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.util.StringUtils;
 import com.digihealth.anesthesia.basedata.formbean.BasChargePackagesFromBean;
 import com.digihealth.anesthesia.basedata.formbean.SystemSearchFormBean;
 import com.digihealth.anesthesia.basedata.po.BasChargeItem;
@@ -64,13 +65,21 @@ public class BasChargePackagesController extends BaseController{
 	@RequestMapping(value = "/queryChargePackagesById")
 	@ResponseBody
 	@ApiOperation(value = "查询单个收费项目包信息", httpMethod = "POST", notes = "查询单个收费项目包信息")
-	public String queryChargePackagesById(@ApiParam(name = "chargePackages", value = "收费项目包对象") @RequestBody BasChargePackages chargePackages){
+	public String queryChargePackagesById(@ApiParam(name = "chargePackages", value = "收费项目包对象") @RequestBody SystemSearchFormBean systemSearchFormBean){
 		logger.info("begin queryChargePackagesById");
 		ResponseValue resp = new ResponseValue();
-		BasChargePackages resultChargePackages = basChargePackagesService.searchChargePackagesById(chargePackages.getChargePkgId());
+		String chargePkgId = "";
+		if(!systemSearchFormBean.getFilters().isEmpty() && systemSearchFormBean.getFilters().size()>0) {
+			for (int i = 0; i < systemSearchFormBean.getFilters().size(); i++) {
+				if ("chargePkgId".equals(systemSearchFormBean.getFilters().get(i).getField().toString())) {
+					chargePkgId = systemSearchFormBean.getFilters().get(i).getValue();
+				}
+			}
+		}
+		BasChargePackages resultChargePackages = basChargePackagesService.searchChargePackagesById(chargePkgId);
 		List<BasChargeItem> chargeItemList = new ArrayList<BasChargeItem>();
 		if(resultChargePackages!=null){
-			chargeItemList = basChargeItemService.queryChargeItemByChargePackagesId(chargePackages.getChargePkgId(), chargePackages.getBeid());
+			chargeItemList = basChargeItemService.queryChargeItemByChargePackagesId(systemSearchFormBean, chargePkgId, systemSearchFormBean.getBeid());
 		}
 		resp.put("chargePackages", resultChargePackages);
 		resp.put("resultList", chargeItemList);

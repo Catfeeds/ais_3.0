@@ -43,13 +43,13 @@ public class DocPostFollowRecordService extends BaseService {
 	 */
 	public PostFollowRecordFormBean getPostFollowRecord(String regOptId){
 		PostFollowRecordFormBean record = new PostFollowRecordFormBean();
-		DocPostFollowRecord postFollowRecord = docPostFollowRecordDao.searchFollowRecordByRegOptId(regOptId);
+		DocPostFollowRecord postFollowRecord = docPostFollowRecordDao.searchFollowRecordByRegOptId(regOptId, getBeid());
 		if(postFollowRecord!=null){
 			String postFollowId = postFollowRecord.getPostFollowId();
 			record.setPostFollowRecord(postFollowRecord);
-			record.setPostFollowAnalgesicInfo(docPostFollowAnalgesicDao.getInfoByPostFollowId(postFollowId));
-			record.setPostFollowGeneralInfo(docPostFollowGeneralDao.getInfoByPostFollowId(postFollowId));
-			record.setPostFollowSpinalInfo(docPostFollowSpinalDao.getInfoByPostFollowId(postFollowId));
+			record.setPostFollowAnalgesicInfo(docPostFollowAnalgesicDao.getInfoByPostFollowId(postFollowId, getBeid()));
+			record.setPostFollowGeneralInfo(docPostFollowGeneralDao.getInfoByPostFollowId(postFollowId, getBeid()));
+			record.setPostFollowSpinalInfo(docPostFollowSpinalDao.getInfoByPostFollowId(postFollowId, getBeid()));
 		}
 		return record;
 	}
@@ -73,7 +73,7 @@ public class DocPostFollowRecordService extends BaseService {
 		
 //		postFollowRecord.setState(controller.getState());
 		
-		DocPostFollowRecord postFollow = docPostFollowRecordDao.searchFollowRecordByRegOptId(controller.getRegOptId());
+		DocPostFollowRecord postFollow = docPostFollowRecordDao.searchFollowRecordByRegOptId(controller.getRegOptId(), getBeid());
 		
 		if(postFollow!=null){
 			postFollowRecord.setPostFollowId(postFollow.getPostFollowId());

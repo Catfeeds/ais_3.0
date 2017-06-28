@@ -22,6 +22,7 @@
     <result column="specimen" property="specimen" jdbcType="INTEGER" />
     <result column="inspection" property="inspection" jdbcType="INTEGER" />
     <result column="specimenName" property="specimenName" jdbcType="VARCHAR" />
+    <result column="leaveToOther" property="leaveToOther" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="shiftChangedNurse" property="shiftChangedNurse" jdbcType="VARCHAR" />
     <result column="shiftChangeNurse" property="shiftChangeNurse" jdbcType="VARCHAR" />
@@ -44,7 +45,7 @@
   <sql id="Base_Column_List" >
     id, regOptId, processState, inOperRoomTime, outOperRoomTime, allergic, operationCode, 
     operationName, senses, venousInfusion1, venipuncture, pipeline, xray, CT, MRI, optbody, 
-    elecKnife, specimen, inspection, specimenName, remark, shiftChangedNurse, shiftChangeNurse, 
+    elecKnife, specimen, inspection, specimenName, leaveToOther, remark, shiftChangedNurse, shiftChangeNurse, 
     instrnurseId, shiftTime
   </sql>
 
@@ -83,7 +84,7 @@
       shiftChangeNurse, instrnurseId, shiftTime, 
       skin1, negativePosition, tourniquet, 
       supportMaterial, implants, leaveTo, 
-      venousInfusion2, drainageTube, 
+      leaveToOther, venousInfusion2, drainageTube, 
       skin2)
     values (#{id,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{processState,jdbcType=VARCHAR}, 
       #{inOperRoomTime,jdbcType=VARCHAR}, #{outOperRoomTime,jdbcType=VARCHAR}, #{allergic,jdbcType=INTEGER}, 
@@ -95,6 +96,7 @@
       #{shiftChangeNurse,jdbcType=VARCHAR}, #{instrnurseId,jdbcType=VARCHAR}, #{shiftTime,jdbcType=TIMESTAMP}, 
       #{skin1,jdbcType=LONGVARCHAR}, #{negativePosition,jdbcType=LONGVARCHAR}, #{tourniquet,jdbcType=LONGVARCHAR}, 
       #{supportMaterial,jdbcType=LONGVARCHAR}, #{implants,jdbcType=LONGVARCHAR}, #{leaveTo,jdbcType=LONGVARCHAR}, 
+      #{leaveToOther,jdbcType=VARCHAR}, 
       #{venousInfusion2,jdbcType=LONGVARCHAR}, #{drainageTube,jdbcType=LONGVARCHAR}, 
       #{skin2,jdbcType=LONGVARCHAR})
   </insert>
@@ -194,6 +196,9 @@
       </if>
       <if test="leaveTo != null" >
         leaveTo,
+      </if>
+      <if test="leaveToOther != null" >
+        leaveToOther,
       </if>
       <if test="venousInfusion2 != null" >
         venousInfusion2,
@@ -298,6 +303,9 @@
       </if>
       <if test="leaveTo != null" >
         #{leaveTo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="leaveToOther != null" >
+        #{leaveToOther,jdbcType=VARCHAR},
       </if>
       <if test="venousInfusion2 != null" >
         #{venousInfusion2,jdbcType=LONGVARCHAR},
@@ -404,6 +412,9 @@
       <if test="leaveTo != null" >
         leaveTo = #{leaveTo,jdbcType=LONGVARCHAR},
       </if>
+      <if test="leaveToOther != null" >
+        leaveToOther = #{leaveToOther,jdbcType=VARCHAR},
+      </if>
       <if test="venousInfusion2 != null" >
         venousInfusion2 = #{venousInfusion2,jdbcType=LONGVARCHAR},
       </if>
@@ -449,6 +460,7 @@
       supportMaterial = #{supportMaterial,jdbcType=LONGVARCHAR},
       implants = #{implants,jdbcType=LONGVARCHAR},
       leaveTo = #{leaveTo,jdbcType=LONGVARCHAR},
+      leaveToOther = #{leaveToOther,jdbcType=VARCHAR},
       venousInfusion2 = #{venousInfusion2,jdbcType=LONGVARCHAR},
       drainageTube = #{drainageTube,jdbcType=LONGVARCHAR},
       skin2 = #{skin2,jdbcType=LONGVARCHAR}
@@ -476,6 +488,8 @@
       specimen = #{specimen,jdbcType=INTEGER},
       inspection = #{inspection,jdbcType=INTEGER},
       specimenName = #{specimenName,jdbcType=VARCHAR},
+      leaveTo = #{leaveTo,jdbcType=LONGVARCHAR},
+      leaveToOther = #{leaveToOther,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       shiftChangedNurse = #{shiftChangedNurse,jdbcType=VARCHAR},
       shiftChangeNurse = #{shiftChangeNurse,jdbcType=VARCHAR},

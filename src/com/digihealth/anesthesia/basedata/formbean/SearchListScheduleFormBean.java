@@ -65,7 +65,7 @@ public class SearchListScheduleFormBean implements Serializable {
 	private String operaDate;
 	// 手术开始时间
 	@ApiModelProperty(value = "手术开始时间")
-	private Integer startTime;
+	private String startTime;
 	// 手术室ID
 	@ApiModelProperty(value = "手术室ID")
 	private Integer operRoomId;
@@ -251,11 +251,11 @@ public class SearchListScheduleFormBean implements Serializable {
 		this.operaDate = operaDate;
 	}
 
-	public Integer getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Integer startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 

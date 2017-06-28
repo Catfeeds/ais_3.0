@@ -123,7 +123,7 @@
   
   <select id="findList" resultType="com.digihealth.anesthesia.basedata.formbean.DeptFormBean">
 		SELECT 
-			a.deptId,a.name
+			a.deptId,a.name,a.pinYin
 		FROM bas_dept a where a.enable ='1' and a.beid = #{baseQuery.beid}
 		<if test="baseQuery !=null">
 		    <if test="baseQuery.name !=null and baseQuery.name!=''">

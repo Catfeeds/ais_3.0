@@ -166,6 +166,15 @@ public class DocAnaesPacuRecService extends BaseService {
 		return docAnaesPacuRecDao.getAnaesPacuRecByRegOptId(regOptId);
 	}
 	
+	public boolean hasAnaesPacuByRegOptId(String regOptId){
+		boolean flag = false;
+		Integer count = docAnaesPacuRecDao.hasAnaesPacuRecByRegOptId(regOptId);
+		if(count > 0) {
+			flag =  true;
+		}
+		return flag;
+	}
+	
 	@Transactional
     public void updatePacuRecEnterRoomTime(Date enterTime,String pacuRecId){
 	    docAnaesPacuRecDao.updatePacuRecEnterRoomTime(enterTime,pacuRecId);

@@ -167,5 +167,22 @@
       kind = #{kind,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="searchByInsuredId" resultType="com.digihealth.anesthesia.doc.po.DocInsuredItem" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_item
+    where insuredId = #{insuredId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="searchByTypeAndCode" resultType="com.digihealth.anesthesia.doc.po.DocInsuredItem">
+    select 
+    <include refid="Base_Column_List" />
+    from doc_insured_item
+    where insuredId = #{insuredId,jdbcType=VARCHAR}
+    and code = #{code,jdbcType=VARCHAR}
+    and type = #{type,jdbcType=INTEGER}
+    and kind = #{kind,jdbcType=INTEGER}
+  </select>
 
 </mapper>

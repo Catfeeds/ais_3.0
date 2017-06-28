@@ -124,22 +124,40 @@ public class DocTransferConnectType {
 	private Date joinTime;
 
 	/**
-	 * 皮肤情况
-	 */
-	@ApiModelProperty(value = "皮肤情况")
-	private String skinCase;
+     * 皮肤情况
+     */
+    @ApiModelProperty(value = "皮肤情况")
+    private Integer skinCase;
 
-	/**
-	 * 输液
-	 */
-	@ApiModelProperty(value = "输液")
-	private String transfusion;
+    /**
+     * 皮肤情况详情
+     */
+    @ApiModelProperty(value = "皮肤情况详情")
+    private String skinCaseDetails;
 
-	/**
-	 * 引流管
-	 */
-	@ApiModelProperty(value = "引流管")
-	private String drainageTube;
+    /**
+     * 输液
+     */
+    @ApiModelProperty(value = "输液")
+    private Integer transfusion;
+
+    /**
+     * 输液数量
+     */
+    @ApiModelProperty(value = "输液数量")
+    private Integer transfusionAmount;
+
+    /**
+     * 引流管
+     */
+    @ApiModelProperty(value = "引流管")
+    private Integer drainageTube;
+
+    /**
+     * 引流管数量
+     */
+    @ApiModelProperty(value = "引流管数量")
+    private Integer drainageTubeAmount;
 
 	public String getId() {
 		return id;
@@ -285,27 +303,63 @@ public class DocTransferConnectType {
 		this.joinTime = joinTime;
 	}
 
-	public String getSkinCase() {
-		return skinCase;
-	}
+    public Integer getSkinCase()
+    {
+        return skinCase;
+    }
 
-	public void setSkinCase(String skinCase) {
-		this.skinCase = skinCase == null ? null : skinCase.trim();
-	}
+    public void setSkinCase(Integer skinCase)
+    {
+        this.skinCase = skinCase;
+    }
 
-	public String getTransfusion() {
-		return transfusion;
-	}
+    public String getSkinCaseDetails()
+    {
+        return skinCaseDetails;
+    }
 
-	public void setTransfusion(String transfusion) {
-		this.transfusion = transfusion == null ? null : transfusion.trim();
-	}
+    public void setSkinCaseDetails(String skinCaseDetails)
+    {
+        this.skinCaseDetails = skinCaseDetails;
+    }
 
-	public String getDrainageTube() {
-		return drainageTube;
-	}
+    public Integer getTransfusion()
+    {
+        return transfusion;
+    }
 
-	public void setDrainageTube(String drainageTube) {
-		this.drainageTube = drainageTube == null ? null : drainageTube.trim();
-	}
+    public void setTransfusion(Integer transfusion)
+    {
+        this.transfusion = transfusion;
+    }
+
+    public Integer getTransfusionAmount()
+    {
+        return transfusionAmount;
+    }
+
+    public void setTransfusionAmount(Integer transfusionAmount)
+    {
+        this.transfusionAmount = transfusionAmount;
+    }
+
+    public Integer getDrainageTube()
+    {
+        return drainageTube;
+    }
+
+    public void setDrainageTube(Integer drainageTube)
+    {
+        this.drainageTube = drainageTube;
+    }
+
+    public Integer getDrainageTubeAmount()
+    {
+        return drainageTubeAmount;
+    }
+
+    public void setDrainageTubeAmount(Integer drainageTubeAmount)
+    {
+        this.drainageTubeAmount = drainageTubeAmount;
+    }
 }

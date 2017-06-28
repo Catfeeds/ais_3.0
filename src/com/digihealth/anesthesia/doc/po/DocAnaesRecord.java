@@ -8,6 +8,8 @@
  */
 package com.digihealth.anesthesia.doc.po;
 
+import java.util.List;
+
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -55,6 +57,12 @@ public class DocAnaesRecord {
 	@ApiModelProperty(value = "手术体位")
     private String optBody;
 
+    /**
+     * 手术体位
+     */
+	@ApiModelProperty(value = "手术体位集合")
+    private List<String> optBodys;
+	
 	@ApiModelProperty(value = "手术开始时间")
     private String operStartTime;
 
@@ -127,6 +135,32 @@ public class DocAnaesRecord {
 	@ApiModelProperty(value = "潮气量")
 	private Float vt;// 潮气量
 	
+	@ApiModelProperty(value = "术后状态")
+	private Integer postOperState;
+    
+	@ApiModelProperty(value = "手术间")
+    private String operRoomName;
+	
+    public Integer getPostOperState()
+    {
+        return postOperState;
+    }
+
+    public void setPostOperState(Integer postOperState)
+    {
+        this.postOperState = postOperState;
+    }
+
+    public String getOperRoomName()
+    {
+        return operRoomName;
+    }
+
+    public void setOperRoomName(String operRoomName)
+    {
+        this.operRoomName = operRoomName;
+    }
+
     public String getAnaRecordId() {
         return anaRecordId;
     }
@@ -183,7 +217,15 @@ public class DocAnaesRecord {
         this.optBody = optBody == null ? null : optBody.trim();
     }
 
-    public String getOperStartTime() {
+    public List<String> getOptBodys() {
+		return optBodys;
+	}
+
+	public void setOptBodys(List<String> optBodys) {
+		this.optBodys = optBodys;
+	}
+
+	public String getOperStartTime() {
         return operStartTime;
     }
 

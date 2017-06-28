@@ -150,6 +150,12 @@ public class BasUser implements Serializable{
 	private String beName;
 
 	/**
+	 * 局点编码
+	 */
+	@ApiModelProperty(value = "局点编码")
+	private String beCode;
+	
+	/**
 	 * 子名称
 	 */
 	@ApiModelProperty(value = "子名称")
@@ -333,6 +339,14 @@ public class BasUser implements Serializable{
 
 	public void setBeName(String beName) {
 		this.beName = beName;
+	}
+
+	public String getBeCode() {
+		return beCode;
+	}
+
+	public void setBeCode(String beCode) {
+		this.beCode = beCode;
 	}
 
 	public String getSubName() {

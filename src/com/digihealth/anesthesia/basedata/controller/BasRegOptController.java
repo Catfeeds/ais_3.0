@@ -340,12 +340,13 @@ public class BasRegOptController extends BaseController {
 		}
 		
 		emgencyOperationFormBean.setRegOpt(BasRegOptUtils.getOtherInfo(emgencyOperationFormBean.getRegOpt()));
-		String anaesMethodCode = emgencyOperationFormBean.getRegOpt().getDesignedAnaesMethodCode();
+		List<String> anaesMethodCodes = emgencyOperationFormBean.getRegOpt().getDesignedAnaesMethodCodes();
 		String beid = emgencyOperationFormBean.getRegOpt().getBeid();
-		BasRegOptUtils.IsLocalAnaesSet(emgencyOperationFormBean.getRegOpt(), anaesMethodCode, beid);
+		BasRegOptUtils.IsLocalAnaesSet(emgencyOperationFormBean.getRegOpt(), anaesMethodCodes, beid);
 		BasDispatch basDispatch = basDispatchService.getDispatchOper(emgencyOperationFormBean.getRegOpt().getRegOptId());
 		if (basDispatch != null) {
-			if(StringUtils.isEmpty(emgencyOperationFormBean.getDispatch().getAnesthetistId()) && emgencyOperationFormBean.getRegOpt().getIsLocalAnaes() == 0){
+			if(StringUtils.isEmpty(emgencyOperationFormBean.getDispatch().getAnesthetistId()) && emgencyOperationFormBean.getRegOpt().getIsLocalAnaes() == 0
+					&& StringUtils.isNotEmpty(basDispatch.getOperRoomId()) && StringUtils.isNotEmpty(basDispatch.getStartTime())){
 				respValue.setResultCode("10000001");
 				respValue.setResultMessage("全麻手术必填麻醉医生");
 				return respValue.getJsonStr();

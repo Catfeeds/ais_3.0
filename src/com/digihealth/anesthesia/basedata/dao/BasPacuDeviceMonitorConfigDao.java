@@ -8,10 +8,12 @@
  */
 package com.digihealth.anesthesia.basedata.dao;
 
-import com.digihealth.anesthesia.basedata.po.BasPacuDeviceMonitorConfig;
-import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.digihealth.anesthesia.basedata.po.BasPacuDeviceMonitorConfig;
+import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
 
 @MyBatisDao
 public interface BasPacuDeviceMonitorConfigDao {
@@ -26,4 +28,6 @@ public interface BasPacuDeviceMonitorConfigDao {
     int updateByPrimaryKeySelective(BasPacuDeviceMonitorConfig record);
 
     int updateByPrimaryKey(BasPacuDeviceMonitorConfig record);
+    
+    public List<BasPacuDeviceMonitorConfig> queryEntityByBeid(@Param("beid") String beid);
 }

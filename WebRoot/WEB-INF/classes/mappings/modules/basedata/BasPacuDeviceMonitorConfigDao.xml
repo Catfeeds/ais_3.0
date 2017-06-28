@@ -21,6 +21,10 @@
       and eventId = #{eventId,jdbcType=VARCHAR}
   </select>
 
+  <select id="queryEntityByBeid" resultType="com.digihealth.anesthesia.basedata.po.BasPacuDeviceMonitorConfig">
+    select * from bas_pacu_device_monitor_config where beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="map" >
     delete from bas_pacu_device_monitor_config
     where deviceId = #{deviceId,jdbcType=VARCHAR}

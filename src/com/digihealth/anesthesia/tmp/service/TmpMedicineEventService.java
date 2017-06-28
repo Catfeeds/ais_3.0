@@ -5,6 +5,7 @@ package com.digihealth.anesthesia.tmp.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,10 @@ public class TmpMedicineEventService extends BaseService {
 	 * @return
 	 */
 	public List<SearchOptOperMedicalevent> searchMedicaleventList(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
 		return tmpMedicineEventDao.searchMedicaleventList(searchBean);
 	}
 	
@@ -42,7 +47,10 @@ public class TmpMedicineEventService extends BaseService {
 	 * @return
 	 */
 	public List<RegOptOperMedicaleventFormBean> searchMedicaleventGroupByCodeList(SearchFormBean searchBean) {
-		
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
 		//将相同药品的数据重新封装
 		List<RegOptOperMedicaleventFormBean> resultList = tmpMedicineEventDao.getMedicalGroupByNameList(searchBean);
 		for (RegOptOperMedicaleventFormBean regOptOperMedicaleventFormBean : resultList) {

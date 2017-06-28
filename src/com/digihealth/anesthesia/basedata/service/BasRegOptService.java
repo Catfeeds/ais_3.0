@@ -166,35 +166,7 @@ public class BasRegOptService extends BaseService {
 		}else{
 			beid = searchConditionFormBean.getBeid();
 		}
-		String filter = "";
-		List<Filter> filters = searchConditionFormBean.getFilters();
-		if (filters != null && filters.size() > 0) {
-			for (int i = 0; i < filters.size(); i++) {
-				if (StringUtils.isNotBlank(filters.get(i).getValue())) {
-					if (filters.get(i).getField().equals("stateName")) {
-						filter = filter + " AND a.state= '" + filters.get(i).getValue() + "' ";
-					} else if (filters.get(i).getField().equals("operaDate")) {
-						if (filters.get(i).getValue().length() == 2) {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%-" + filters.get(i).getValue() + "'";
-						} else {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
-						}
-					} else if (filters.get(i).getField().equals("age")) {
-						if (filters.get(i).getValue().contains("岁")) {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue().replaceAll("岁", "") + "%' ";
-						} else if (filters.get(i).getValue().contains("月")) {
-							filter = filter + " AND a.ageMon like '%" + filters.get(i).getValue().replaceAll("月", "") + "%' ";
-						} else if (filters.get(i).getValue().contains("天")) {
-							filter = filter + " AND a.ageDay like '%" + filters.get(i).getValue().replaceAll("天", "") + "%' ";
-						} else {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
-						}
-					} else {
-						filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
-					}
-				}
-			}
-		}
+		String filter = getFilterStr(searchConditionFormBean);
 		BasUser user = basUserDao.getByLoginName(searchConditionFormBean.getLoginName() != null ? searchConditionFormBean.getLoginName() : "", beid);
 		List<SearchRegOptByLoginNameAndStateFormBean> resultList = new ArrayList<SearchRegOptByLoginNameAndStateFormBean>();
 		List<SearchRegOptByLoginNameAndStateFormBean> result = basRegOptDao.searchRegOptByAnaesDoctorAndState(filter, user == null ? "" : user.getUserName(), user == null ? "" : user.getRoleType(), searchConditionFormBean, beid);
@@ -243,7 +215,6 @@ public class BasRegOptService extends BaseService {
 	}
 
 	public int searchRegOptTotalByAnaesDoctorAndState(SearchConditionFormBean searchConditionFormBean) {
-
 		if (StringUtils.isEmpty(searchConditionFormBean.getSort())) {
 			searchConditionFormBean.setSort("operaDate");
 		}
@@ -257,37 +228,7 @@ public class BasRegOptService extends BaseService {
 		}else{
 			beid = searchConditionFormBean.getBeid();
 		}
-		String filter = "";
-		List<Filter> filters = searchConditionFormBean.getFilters();
-		if (filters != null && filters.size() > 0) {
-			for (int i = 0; i < filters.size(); i++) {
-				if (StringUtils.isNotBlank(filters.get(i).getValue())) {
-					if (filters.get(i).getField().equals("stateName")) {
-						filter = filter + " AND a.state= '" + filters.get(i).getValue() + "' ";
-					} else if (filters.get(i).getField().equals("operaDate")) {
-						if (filters.get(i).getValue().length() == 2) {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%-" + filters.get(i).getValue() + "'";
-						} else {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
-						}
-					} else if (filters.get(i).getField().equals("age")) {
-						if (filters.get(i).getValue().contains("岁")) {
-							filter = filter + " AND a.age like '%" + filters.get(i).getValue().replaceAll("岁", "") + "%' ";
-						} else if (filters.get(i).getValue().contains("月")) {
-							filter = filter + " AND a.ageMon like '%" + filters.get(i).getValue().replaceAll("月", "") + "%' ";
-						} else if (filters.get(i).getValue().contains("天")) {
-							filter = filter + " AND a.ageDay like '%" + filters.get(i).getValue().replaceAll("天", "") + "%' ";
-						} else {
-							filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
-						}
-					} else {
-						filter = filter + " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
-					}
-
-				}
-
-			}
-		}
+		String filter = getFilterStr(searchConditionFormBean);
 		BasUser user = basUserDao.getByLoginName(searchConditionFormBean.getLoginName() != null ? searchConditionFormBean.getLoginName() : "", beid);
 		return basRegOptDao.searchRegoptTotalByAnaesDoctorAndState(filter, user == null ? "" : user.getUserName(), user == null ? "" : user.getRoleType(), searchConditionFormBean, beid);
 	}
@@ -462,7 +403,7 @@ public class BasRegOptService extends BaseService {
 	 */
 	@Transactional
 	public String insertRegOpt(BasRegOpt regOpt) {
-		String anaesMethodCode = regOpt.getDesignedAnaesMethodCode();
+	    List<String> anaesMethodCodes = regOpt.getDesignedAnaesMethodCodes();
 		String beid = regOpt.getBeid();
 		if (StringUtils.isBlank(beid)) {
 			beid = getBeid();
@@ -470,8 +411,8 @@ public class BasRegOptService extends BaseService {
 		
 		// 处理拟施手术、拟施诊断、麻醉方法等字段的值。
 		BasRegOptUtils.getOtherInfo(regOpt);
-		
-		BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCode, beid);
+
+		BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCodes, beid);
 
 		BasDept basDept = basDeptDao.searchDeptById(regOpt.getDeptId());
 		if (basDept != null) {
@@ -564,12 +505,12 @@ public class BasRegOptService extends BaseService {
 
 	@Transactional
 	public void updateRegOptByHis(BasRegOpt regOpt) {
-		String anaesMethodCode = regOpt.getDesignedAnaesMethodCode();
+		List<String> anaesMethodCodes = regOpt.getDesignedAnaesMethodCodes();
 		String beid = regOpt.getBeid();
 		if (StringUtils.isBlank("beid")) {
 			beid = getBeid();
 		}
-		BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCode, beid);
+		BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCodes, beid);
 		basRegOptDao.updateByPrimaryKeySelective(regOpt);
 	}
 
@@ -581,8 +522,8 @@ public class BasRegOptService extends BaseService {
 			beid = getBeid();
 		}
 		if (regOpt != null && (!StringUtils.isEmpty(regOpt.getRegOptId()))) {
-			String anaesMethodCode = regOpt.getDesignedAnaesMethodCode();
-			BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCode, beid);
+			List<String> anaesMethodCodes = regOpt.getDesignedAnaesMethodCodes();
+			BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCodes, beid);
 			
 			// 处理拟施手术、拟施诊断、麻醉方法等字段的值。
 			BasRegOptUtils.getOtherInfo(regOpt);
@@ -601,8 +542,10 @@ public class BasRegOptService extends BaseService {
 
 		BasDispatch dispatch = emgencyOperationFormBean.getDispatch();
 		if (dispatch != null && (!StringUtils.isEmpty(dispatch.getRegOptId()))) {
-			dispatch.setBeid(beid);
-			basDispatchDao.update(dispatch);
+			if(StringUtils.isNotEmpty(dispatch.getOperRoomId()) && StringUtils.isNotEmpty(dispatch.getStartTime())) {
+				dispatch.setBeid(beid);
+				basDispatchDao.update(dispatch);
+			}
 		}
 		
 		// 如果在术前修改了手术的人员信息，需要同步将s_participant表中的人员信息同步修改
@@ -716,13 +659,13 @@ public class BasRegOptService extends BaseService {
 	 */
 	@Transactional
 	public void updateRegOpt(BasRegOpt regOpt) {
-		String anaesMethodCode = regOpt.getDesignedAnaesMethodCode();
-		if (StringUtils.isNotBlank(anaesMethodCode)) {
+		List<String> anaesMethodCodes = regOpt.getDesignedAnaesMethodCodes();
+		if (null != anaesMethodCodes && anaesMethodCodes.size() > 0) {
 			String beid = regOpt.getBeid();
 			if (StringUtils.isBlank("beid")) {
 				beid = getBeid();
 			}
-			BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCode, beid);
+			BasRegOptUtils.IsLocalAnaesSet(regOpt, anaesMethodCodes, beid);
 		}
 		basRegOptDao.updateByPrimaryKeySelective(regOpt);
 	}
@@ -1517,6 +1460,12 @@ public class BasRegOptService extends BaseService {
 		}
 
 		String stateStr = "05,06,07";
+		BasRegOpt basRegOpt = basRegOptDao.searchRegOptById(searchConditionFormBean.getRegOptId());
+		if(stateStr.contains(basRegOpt.getState())){
+			stateStr = "06";
+		}else{
+			stateStr = "03";
+		}
 		BasUser user = basUserDao.getByLoginName(searchConditionFormBean.getLoginName(), searchConditionFormBean.getBeid());
 		List<BasDocument> documentList = basDocumentDao.searchDocument(user != null ? user.getRoleId() : "0", stateStr, beid);
 		String sql = "";
@@ -1573,6 +1522,48 @@ public class BasRegOptService extends BaseService {
 		ls.add(map);
 
 		return ls;
+	}
+	
+	public String getFilterStr(SearchConditionFormBean searchConditionFormBean) {
+		String filter = "";
+		List<Filter> filters = searchConditionFormBean.getFilters();
+		if (filters != null && filters.size() > 0) {
+			for (int i = 0; i < filters.size(); i++) {
+				if (StringUtils.isNotBlank(filters.get(i).getValue())) {
+					if (filters.get(i).getField().equals("stateName")) {
+						filter += " AND a.state= '" + filters.get(i).getValue() + "' ";
+					} else if (filters.get(i).getField().equals("operaDate")) {
+						if (filters.get(i).getValue().length() == 2) {
+							filter += " AND a." + filters.get(i).getField() + " like '%-" + filters.get(i).getValue() + "'";
+						} else {
+							filter += " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
+						}
+					} else if (filters.get(i).getField().equals("age")) {
+						if (filters.get(i).getValue().contains("岁")) {
+							filter += " AND a.age like '%" + filters.get(i).getValue().replaceAll("岁", "") + "%' ";
+						} else if (filters.get(i).getValue().contains("月")) {
+							filter += " AND a.ageMon like '%" + filters.get(i).getValue().replaceAll("月", "") + "%' ";
+						} else if (filters.get(i).getValue().contains("天")) {
+							filter += " AND a.ageDay like '%" + filters.get(i).getValue().replaceAll("天", "") + "%' ";
+						} else {
+							filter += " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
+						}
+					} else if (filters.get(i).getField().equals("operRoomName")) {
+						filter += " AND c.operRoomId IN(select operRoomId from bas_operroom where `name` like '%"+ filters.get(i).getValue() +"%' and beid = '" + searchConditionFormBean.getBeid() + "')";
+					} else if (filters.get(i).getField().equals("anesthetistName")) {
+						filter += " AND c.anesthetistId IN(select userName from bas_user where `name` like '%"+ filters.get(i).getValue() +"%' and beid = '" + searchConditionFormBean.getBeid() + "')";
+					} else if (filters.get(i).getField().equals("circunurseName1")) {
+						filter += " AND c.circunurseId1 IN(select userName from bas_user where `name` like '%"+ filters.get(i).getValue() +"%' and beid = '" + searchConditionFormBean.getBeid() + "')";
+					} else if (filters.get(i).getField().equals("instrnurseName1")) {
+						filter += " AND c.instrnurseId1 IN(select userName from bas_user where `name` like '%"+ filters.get(i).getValue() +"%' and beid = '" + searchConditionFormBean.getBeid() + "')";
+					} else {
+						filter += " AND a." + filters.get(i).getField() + " like '%" + filters.get(i).getValue() + "%' ";
+					}
+				}
+
+			}
+		}
+		return filter;
 	}
 	
 	public static void main(String[] args) {

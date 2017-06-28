@@ -109,31 +109,61 @@ public class DocTransferConnectRecord {
 	 * 皮肤情况
 	 */
 	@ApiModelProperty(value = "皮肤情况")
-	private String skinCase;
+	private Integer skinCase;
 
+	/**
+     * 皮肤情况详情
+     */
+	@ApiModelProperty(value = "皮肤情况详情")
+    private String skinCaseDetails;
+	
 	/**
 	 * 影像片
 	 */
 	@ApiModelProperty(value = "影像片")
-	private String iconPiece;
+	private Integer iconPiece;
+
+    /**
+     * 影像片数量
+     */
+	@ApiModelProperty(value = "影像片数量")
+    private Integer iconPieceAmount;
 
 	/**
 	 * 输液
 	 */
 	@ApiModelProperty(value = "输液")
-	private String transfusion;
+	private Integer transfusion;
+
+    /**
+     * 输液数量
+     */
+	@ApiModelProperty(value = "输液数量")
+    private Integer transfusionAmount;
 
 	/**
 	 * 引流管
 	 */
 	@ApiModelProperty(value = "引流管")
-	private String drainageTube;
+	private Integer drainageTube;
+
+    /**
+     * 引流管数量
+     */
+	@ApiModelProperty(value = "引流管数量")
+    private Integer drainageTubeAmount;
 
 	/**
 	 * 术中带药
 	 */
 	@ApiModelProperty(value = "术中带药")
-	private String operingMedical;
+	private Integer operingMedical;
+
+    /**
+     * 术中带药详情
+     */
+	@ApiModelProperty(value = "术中带药详情")
+    private String operingMedicalDetails;
 
 	public String getId() {
 		return id;
@@ -255,44 +285,103 @@ public class DocTransferConnectRecord {
 		this.processState = processState == null ? null : processState.trim();
 	}
 
-	public String getSkinCase() {
-		return skinCase;
-	}
+    public Integer getSkinCase()
+    {
+        return skinCase;
+    }
 
-	public void setSkinCase(String skinCase) {
-		this.skinCase = skinCase == null ? null : skinCase.trim();
-	}
+    public void setSkinCase(Integer skinCase)
+    {
+        this.skinCase = skinCase;
+    }
 
-	public String getIconPiece() {
-		return iconPiece;
-	}
+    public String getSkinCaseDetails()
+    {
+        return skinCaseDetails;
+    }
 
-	public void setIconPiece(String iconPiece) {
-		this.iconPiece = iconPiece == null ? null : iconPiece.trim();
-	}
+    public void setSkinCaseDetails(String skinCaseDetails)
+    {
+        this.skinCaseDetails = skinCaseDetails;
+    }
 
-	public String getTransfusion() {
-		return transfusion;
-	}
+    public Integer getIconPiece()
+    {
+        return iconPiece;
+    }
 
-	public void setTransfusion(String transfusion) {
-		this.transfusion = transfusion == null ? null : transfusion.trim();
-	}
+    public void setIconPiece(Integer iconPiece)
+    {
+        this.iconPiece = iconPiece;
+    }
 
-	public String getDrainageTube() {
-		return drainageTube;
-	}
+    public Integer getIconPieceAmount()
+    {
+        return iconPieceAmount;
+    }
 
-	public void setDrainageTube(String drainageTube) {
-		this.drainageTube = drainageTube == null ? null : drainageTube.trim();
-	}
+    public void setIconPieceAmount(Integer iconPieceAmount)
+    {
+        this.iconPieceAmount = iconPieceAmount;
+    }
 
-	public String getOperingMedical() {
-		return operingMedical;
-	}
+    public Integer getTransfusion()
+    {
+        return transfusion;
+    }
 
-	public void setOperingMedical(String operingMedical) {
-		this.operingMedical = operingMedical == null ? null : operingMedical
-				.trim();
-	}
+    public void setTransfusion(Integer transfusion)
+    {
+        this.transfusion = transfusion;
+    }
+
+    public Integer getTransfusionAmount()
+    {
+        return transfusionAmount;
+    }
+
+    public void setTransfusionAmount(Integer transfusionAmount)
+    {
+        this.transfusionAmount = transfusionAmount;
+    }
+
+    public Integer getDrainageTube()
+    {
+        return drainageTube;
+    }
+
+    public void setDrainageTube(Integer drainageTube)
+    {
+        this.drainageTube = drainageTube;
+    }
+
+    public Integer getDrainageTubeAmount()
+    {
+        return drainageTubeAmount;
+    }
+
+    public void setDrainageTubeAmount(Integer drainageTubeAmount)
+    {
+        this.drainageTubeAmount = drainageTubeAmount;
+    }
+
+    public Integer getOperingMedical()
+    {
+        return operingMedical;
+    }
+
+    public void setOperingMedical(Integer operingMedical)
+    {
+        this.operingMedical = operingMedical;
+    }
+
+    public String getOperingMedicalDetails()
+    {
+        return operingMedicalDetails;
+    }
+
+    public void setOperingMedicalDetails(String operingMedicalDetails)
+    {
+        this.operingMedicalDetails = operingMedicalDetails;
+    }
 }

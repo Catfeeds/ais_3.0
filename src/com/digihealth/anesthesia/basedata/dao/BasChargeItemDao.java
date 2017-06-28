@@ -27,9 +27,11 @@ public interface BasChargeItemDao extends CrudDao<BasChargeItem> {
     
     public int findListTotal(@Param("filter")String filter, @Param("beid")String beid);
     
-    public List<BasChargeItem> queryChargeItemByChargePackagesId(@Param("chargePkgId")String chargePkgId, @Param("beid")String beid);
+    public List<BasChargeItem> queryChargeItemByChargePackagesId(@Param("filter")String filter, @Param("chargePkgId")String chargePkgId, @Param("beid")String beid);
     
     public List<BasChargeItem> queryChargeItemList(@Param("filter")String filter,@Param("systemSearchFormBean")SystemSearchFormBean systemSearchFormBean);
+    
+    public List<BasChargeItem> queryChargeItemByBeid(@Param("beid")String beid);
     
     public List<BasChargeItem> selectByCode(@Param("code")String code, @Param("beid")String beid);
 

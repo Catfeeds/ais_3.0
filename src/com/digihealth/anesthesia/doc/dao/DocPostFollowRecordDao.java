@@ -28,6 +28,6 @@ public interface DocPostFollowRecordDao extends CrudDao<DocPostFollowRecord>{
 
     int updateByPrimaryKey(DocPostFollowRecord record);
 
-    DocPostFollowRecord searchFollowRecordByRegOptId(@Param("regOptId") String regOptId);
+    DocPostFollowRecord searchFollowRecordByRegOptId(@Param("regOptId") String regOptId, @Param("beid") String beid);
 
 }

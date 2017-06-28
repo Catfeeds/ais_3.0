@@ -8,7 +8,12 @@
  */
 package com.digihealth.anesthesia.doc.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
+import com.digihealth.anesthesia.doc.formbean.SearchMedAndInstruFormBean;
 import com.digihealth.anesthesia.doc.po.DocInsuredPatAgree;
 @MyBatisDao
 public interface DocInsuredPatAgreeDao {
@@ -23,4 +28,8 @@ public interface DocInsuredPatAgreeDao {
     int updateByPrimaryKeySelective(DocInsuredPatAgree record);
 
     int updateByPrimaryKey(DocInsuredPatAgree record);
+    
+    public DocInsuredPatAgree searchByRegOptId(@Param("regOptId") String regOptId);
+    
+    List<SearchMedAndInstruFormBean> searchMedAndInstru(@Param("filter")String filter, @Param("beid")String beid); 
 }

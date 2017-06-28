@@ -31,7 +31,7 @@
   <select id="searchIoeventList" resultType="com.digihealth.anesthesia.evt.formbean.SearchOptOperIoevent">
 		SELECT 
 			a.*,b.name,b.packageDosageAmount,b.spec,a.createUser,a.docType,
-			(select name from bas_user where bas_user.userName = a.createUser limit 1 ) createUserName,
+			(select name from bas_user where bas_user.userName = a.createUser and bas_user.beid = #{searchBean.beid} limit 1 ) createUserName,
 			b.dosageUnit,b.unit,p.firm
 		FROM evt_inevent a 
 		left join bas_io_defination b on a.ioDefId=b.ioDefId 
@@ -128,15 +128,15 @@
   </select>
   
   <select id="seleteEmictionSumByDocId"  resultType="java.lang.String">
-	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId='26'
+	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId='1'
   </select>
   
   <select id="seleteBloodSumByDocId"  resultType="java.lang.String">
-	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId='25'
+	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId='2'
   </select>
   
   <select id="seleteOtherSumByDocId"  resultType="java.lang.String">
-	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId!='25' and t.ioDefId != '26'
+	select sum(t.value) from evt_egress t where t.docId=#{docId} and t.ioDefId!='1' and t.ioDefId != '2'
   </select>
   
   <select id="getBloodByDocId"  resultType="java.lang.String">

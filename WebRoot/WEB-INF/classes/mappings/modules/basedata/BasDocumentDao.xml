@@ -193,7 +193,7 @@
 	 		AND (d.operationState = #{operationState} OR d.isOperShow = 1 )
 	 	</if>
 	 </if>
-	  ) t2 ON t1.docTableId = t2.docId AND t2.enable = 1  ) 
+	  ) t2 ON t1.docTableId = t2.docId AND t2.enable = 1 AND t2.beid = #{beid}) 
 	 order by docId asc
  
 	<!--  select * from bas_document m left join bas_role_menu r on m.docId = r.menuId and m.beid = r.beid where r.roleId = #{roleId} and m.beid = #{beid} and m.operationState in <foreach collection="optType" item ="item" index="index" open="(" separator="," close=")" >#{item}</foreach>

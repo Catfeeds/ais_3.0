@@ -21,13 +21,15 @@
     <result column="asaLevelE" property="asaLevelE" jdbcType="BIT" />
     <result column="analgesicMethod" property="analgesicMethod" jdbcType="VARCHAR" />
     <result column="patAnalgesia" property="patAnalgesia" jdbcType="VARCHAR" />
+    <result column="postOperState" property="analgesicMethod" jdbcType="INTEGER" />
+    <result column="operRoomName" property="patAnalgesia" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     anaRecordId, regOptId, anaesStartTime, anaesEndTime, asaLevel, anaesLevel, optBody, 
     operStartTime, operEndTime, inOperRoomTime, outOperRoomTime, leaveTo, processState, 
-    specialInfection, materialPart, other, asaLevelE, analgesicMethod, patAnalgesia
-  </sql>
+    specialInfection, materialPart, other, asaLevelE, analgesicMethod, patAnalgesia, postOperState, operRoomName
+  </sql> 
 
 	<select id="searchAnaesRecordByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocAnaesRecord">
 		SELECT DISTINCT *
@@ -93,14 +95,14 @@
       inOperRoomTime, outOperRoomTime, leaveTo, 
       processState, specialInfection, materialPart, 
       other, asaLevelE, analgesicMethod, 
-      patAnalgesia)
+      patAnalgesia, postOperState, operRoomName)
     values (#{anaRecordId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{anaesStartTime,jdbcType=VARCHAR}, 
       #{anaesEndTime,jdbcType=VARCHAR}, #{asaLevel,jdbcType=VARCHAR}, #{anaesLevel,jdbcType=VARCHAR}, 
       #{optBody,jdbcType=VARCHAR}, #{operStartTime,jdbcType=VARCHAR}, #{operEndTime,jdbcType=VARCHAR}, 
       #{inOperRoomTime,jdbcType=VARCHAR}, #{outOperRoomTime,jdbcType=VARCHAR}, #{leaveTo,jdbcType=VARCHAR}, 
       #{processState,jdbcType=VARCHAR}, #{specialInfection,jdbcType=VARCHAR}, #{materialPart,jdbcType=VARCHAR}, 
       #{other,jdbcType=VARCHAR}, #{asaLevelE,jdbcType=BIT}, #{analgesicMethod,jdbcType=VARCHAR}, 
-      #{patAnalgesia,jdbcType=VARCHAR})
+      #{patAnalgesia,jdbcType=VARCHAR}, #{postOperState,jdbcType=INTEGER}, #{operRoomName,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocAnaesRecord" >
@@ -163,6 +165,12 @@
       <if test="patAnalgesia != null" >
         patAnalgesia,
       </if>
+      <if test="postOperState != null" >
+        postOperState,
+      </if>
+      <if test="operRoomName != null" >
+        operRoomName,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="anaRecordId != null" >
@@ -221,6 +229,12 @@
       </if>
       <if test="patAnalgesia != null" >
         #{patAnalgesia,jdbcType=VARCHAR},
+      </if>
+      <if test="postOperState != null" >
+        #{postOperState,jdbcType=INTEGER}, 
+      </if>
+      <if test="operRoomName != null" >
+        #{operRoomName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -282,6 +296,12 @@
       <if test="patAnalgesia != null" >
         patAnalgesia = #{patAnalgesia,jdbcType=VARCHAR},
       </if>
+      <if test="postOperState != null" >
+        postOperState = #{postOperState,jdbcType=INTEGER}, 
+      </if>
+      <if test="operRoomName != null" >
+        operRoomName = #{operRoomName,jdbcType=VARCHAR},
+      </if>
     </set>
     where anaRecordId = #{anaRecordId,jdbcType=VARCHAR}
   </update>
@@ -305,7 +325,9 @@
       other = #{other,jdbcType=VARCHAR},
       asaLevelE = #{asaLevelE,jdbcType=BIT},
       analgesicMethod = #{analgesicMethod,jdbcType=VARCHAR},
-      patAnalgesia = #{patAnalgesia,jdbcType=VARCHAR}
+      patAnalgesia = #{patAnalgesia,jdbcType=VARCHAR},
+      postOperState = #{postOperState,jdbcType=INTEGER},
+      operRoomName = #{operRoomName,jdbcType=VARCHAR}
     where anaRecordId = #{anaRecordId,jdbcType=VARCHAR}
   </update>
 

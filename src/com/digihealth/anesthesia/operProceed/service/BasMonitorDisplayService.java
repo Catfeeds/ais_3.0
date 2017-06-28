@@ -89,6 +89,7 @@ public class BasMonitorDisplayService extends BaseService{
 			BaseInfoQuery baseQuery = new BaseInfoQuery();
 			baseQuery.setRegOptId(regOptId);
 			baseQuery.setEventId(observeId);
+			baseQuery.setBeid(getBeid());
 			
 			//从数据库中查询最大最小值
 			BasAnaesMonitorConfigFormBean anaesMonitorConfigFormBean = basAnaesMonitorConfigDao.getAnaesMonitorConfigEventId(baseQuery);
@@ -107,17 +108,16 @@ public class BasMonitorDisplayService extends BaseService{
 					monitorDisp.setState(state);
 				}
 			}
+			//插入修改历史表
+			BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
+			observeHis.setObserveDataChange(md, value,"");
+			observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
+			basMonitorDisplayChangeHisDao.insert(observeHis);
 			
 			BeanUtils.copyProperties(monitorDisp, md);
 			md.setId(id);//防止页面传递了id
 			md.setAmendFlag(3);
 			basMonitorDisplayDao.updateByPrimaryKeySelective(md); //修改monitorDisplay数据
-			
-			//插入修改历史表
-			BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
-			observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
-			observeHis.setObserveDataChange(md, value,"");
-			basMonitorDisplayChangeHisDao.insert(observeHis);
 			
 		}else{//新增b_monitor_display
 			String newId = GenerateSequenceUtil.generateSequenceNo();
@@ -126,6 +126,7 @@ public class BasMonitorDisplayService extends BaseService{
 			BaseInfoQuery baseQuery = new BaseInfoQuery();
 			baseQuery.setRegOptId(regOptId);
 			baseQuery.setEventId(observeId);
+			baseQuery.setBeid(getBeid());
 			
 			BasAnaesMonitorConfigFormBean anaesMonitorConfigFormBean = basAnaesMonitorConfigDao.getAnaesMonitorConfigEventId(baseQuery);
 			if(null != anaesMonitorConfigFormBean){
@@ -169,6 +170,7 @@ public class BasMonitorDisplayService extends BaseService{
 		BaseInfoQuery baseQuery = new BaseInfoQuery();
 		baseQuery.setRegOptId(regOptId);
 		baseQuery.setEventId(observeId);
+		baseQuery.setBeid(getBeid());
 		
 		//从数据库中查询最大最小值
 		BasAnaesMonitorConfigFormBean anaesMonitorConfigFormBean = basAnaesMonitorConfigDao.getAnaesMonitorConfigEventId(baseQuery);
@@ -188,15 +190,16 @@ public class BasMonitorDisplayService extends BaseService{
 			}
 		}
 		if (null != monitorDisplay) {
-			BeanUtils.copyProperties(changeBean, monitorDisplay);
+		    //插入修改历史表
+		    BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
+		    observeHis.setObserveDataChange(monitorDisplay, value,changeBean.getMemo());
+		    observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
+		    basMonitorDisplayChangeHisDao.insert(observeHis);
+
+		    BeanUtils.copyProperties(changeBean, monitorDisplay);
 			monitorDisplay.setAmendFlag(2); // 数据状态，0：正常；1：程序修正；2：人为修正；3：人为添加
 			basMonitorDisplayDao.updateByPrimaryKeySelective(monitorDisplay); //修改monitorDisplay数据
 			
-			//插入修改历史表
-			BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
-			observeHis.setObserveDataChange(monitorDisplay, value,changeBean.getMemo());
-			observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
-			basMonitorDisplayChangeHisDao.insert(observeHis);
 		}
 
 		// 第二步查看b_observe_data是否有值，如果有就修改
@@ -489,6 +492,7 @@ public class BasMonitorDisplayService extends BaseService{
 		// 取beid
 		String beid = formBean.getBeid();
 		if(StringUtils.isBlank(beid)){
+		    formBean.setBeid(getBeid());
 			beid = getBeid();
 		}
 		String operModel = MyConstants.OPERATION_MODEL_NORMAL;
@@ -656,6 +660,7 @@ public class BasMonitorDisplayService extends BaseService{
 		String beid = formBean.getBeid();
 		if(StringUtils.isBlank(beid)){
 			beid = getBeid();
+			formBean.setBeid(beid);
 		}
 		
 		String operModel = MyConstants.OPERATION_MODEL_NORMAL;
@@ -720,6 +725,7 @@ public class BasMonitorDisplayService extends BaseService{
 				    BaseInfoQuery baseQuery = new BaseInfoQuery();
 				    baseQuery.setRegOptId(regOptId);
 				    baseQuery.setEventId(mcd.getEventId());
+				    baseQuery.setBeid(getBeid());
 				    BasAnaesMonitorConfigFormBean amc = basAnaesMonitorConfigDao.getAnaesMonitorConfigByEventId(baseQuery);
 				    if (null != amc && md.getObserveId().equals(amc.getRealEventId()))
 				    {
@@ -1098,6 +1104,7 @@ public class BasMonitorDisplayService extends BaseService{
 		String beid = formBean.getBeid();
 		if(StringUtils.isBlank(beid)){
 			beid = getBeid();
+			formBean.setBeid(beid);
 		}
 		// 1、删除原有无用数据
 		basMonitorDisplayDao.deleteByOperTime(time,regOptId);
@@ -1265,6 +1272,7 @@ public class BasMonitorDisplayService extends BaseService{
 					BaseInfoQuery baseQuery = new BaseInfoQuery();
 					baseQuery.setRegOptId(regOptId);
 					baseQuery.setEventId(observeId);
+					baseQuery.setBeid(getBeid());
 					
 					//从数据库中查询最大最小值
 					BasAnaesMonitorConfigFormBean anaesMonitorConfigFormBean = basAnaesMonitorConfigDao.getAnaesMonitorConfigEventId(baseQuery);
@@ -1284,15 +1292,15 @@ public class BasMonitorDisplayService extends BaseService{
 						}
 					}
 					if (null != monitorDisplay) {
+					    //插入修改历史表
+					    BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
+					    observeHis.setObserveDataChange(monitorDisplay, value,changeBean.getMemo());
+					    observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
+					    basMonitorDisplayChangeHisDao.insert(observeHis);
+					    
 						BeanUtils.copyProperties(changeBean, monitorDisplay);
 						monitorDisplay.setAmendFlag(2); //数据状态，0：正常；1：程序修正；2：人为修正；3：人为添加
 						basMonitorDisplayDao.updateByPrimaryKeySelective(monitorDisplay); //修改monitorDisplay数据
-						
-						//插入修改历史表
-						BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
-						observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
-						observeHis.setObserveDataChange(monitorDisplay, value,changeBean.getMemo());
-						basMonitorDisplayChangeHisDao.insert(observeHis);
 					}
 
 					// 第二步查看b_observe_data是否有值，如果有就修改
@@ -1312,6 +1320,7 @@ public class BasMonitorDisplayService extends BaseService{
 						BaseInfoQuery baseQuery = new BaseInfoQuery();
 						baseQuery.setRegOptId(regOptId);
 						baseQuery.setEventId(observeId);
+						baseQuery.setBeid(getBeid());
 						
 						//从数据库中查询最大最小值
 						BasAnaesMonitorConfigFormBean anaesMonitorConfigFormBean = basAnaesMonitorConfigDao.getAnaesMonitorConfigEventId(baseQuery);
@@ -1330,16 +1339,16 @@ public class BasMonitorDisplayService extends BaseService{
 								changeBean.setState(state);
 							}
 						}
+						//插入修改历史表
+						BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
+						observeHis.setObserveDataChange(md, value,changeBean.getMemo());
+						observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
+						basMonitorDisplayChangeHisDao.insert(observeHis);
 						
 						BeanUtils.copyProperties(changeBean, md);
 						md.setAmendFlag(2); // 数据状态，0：正常；1：程序修正；2：人为修正；3：人为添加
 						basMonitorDisplayDao.updateByPrimaryKeySelective(md); //修改monitorDisplay数据
 						
-						//插入修改历史表
-						BasMonitorDisplayChangeHis observeHis = new BasMonitorDisplayChangeHis();
-						observeHis.setId(GenerateSequenceUtil.generateSequenceNo());
-						observeHis.setObserveDataChange(md, value,changeBean.getMemo());
-						basMonitorDisplayChangeHisDao.insert(observeHis);
 						
 						/*ObserveData observeData = observeDataDao.getUniqObserveData(regOptId, searchtime, observeId);
 						if (null != observeData) {
@@ -1356,6 +1365,7 @@ public class BasMonitorDisplayService extends BaseService{
 						BaseInfoQuery baseQuery = new BaseInfoQuery();
 						baseQuery.setRegOptId(regOptId);
 						baseQuery.setEventId(observeId);
+						baseQuery.setBeid(getBeid());
 						
 						BasAnaesMonitorConfigFormBean anaesMonitorConfigFormBean = basAnaesMonitorConfigDao.getAnaesMonitorConfigEventId(baseQuery);
 						if(null != anaesMonitorConfigFormBean){
@@ -1409,6 +1419,7 @@ public class BasMonitorDisplayService extends BaseService{
 		String beid = bean.getBeid();
 		if(StringUtils.isBlank(beid)){
 			beid = getBeid();
+			bean.setBeid(beid);
 		}
 		logger.info("------getIntervalObsData-------regOptId="+regOptId+",freq="+freq);
 		if(null != times && times.size()>0){
@@ -1462,6 +1473,7 @@ public class BasMonitorDisplayService extends BaseService{
 		String beid = formBean.getBeid();
 		if(StringUtils.isBlank(beid)){
 			beid = getBeid();
+			formBean.setBeid(beid);
 		}
 		//将消息推送到手术室大屏
 		BasRegOpt regOpt = basRegOptDao.searchRegOptById(regOptId);
@@ -1569,6 +1581,7 @@ public class BasMonitorDisplayService extends BaseService{
 		if (StringUtils.isBlank(beid))
 		{
 		    beid = getBeid();
+		    rescueeventFormBean.setBeid(beid);
 		}
 		
 		String model = rescueevent.getModel();
@@ -1730,6 +1743,7 @@ public class BasMonitorDisplayService extends BaseService{
 		baseQuery.setRegOptId(regOptId);
 		baseQuery.setPosition(position+"");
 		baseQuery.setEnable("1");
+		baseQuery.setBeid(getBeid());
 		List<BasAnaesMonitorConfigFormBean> anaesLists = basAnaesMonitorConfigDao.findAnaesMonitorRecordListByRegOptId(baseQuery);
 		List<String> observeIds = new ArrayList<String>();
 		

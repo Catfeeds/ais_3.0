@@ -30,6 +30,19 @@
     <result column="preCircunurseId" property="preCircunurseId" jdbcType="VARCHAR" />
     <result column="postCircunurseId" property="postCircunurseId" jdbcType="VARCHAR" />
     <result column="midCircunurseId" property="midCircunurseId" jdbcType="VARCHAR" />
+    <result column="anaesMethodId" property="anaesMethodId" jdbcType="VARCHAR" />
+    <result column="preOperSkin" property="preOperSkin" jdbcType="INTEGER" />
+    <result column="preOperSkinDetails" property="preOperSkinDetails" jdbcType="VARCHAR" />
+    <result column="catheterization" property="catheterization" jdbcType="INTEGER" />
+    <result column="optBody" property="optBody" jdbcType="VARCHAR" />
+    <result column="frozen" property="frozen" jdbcType="INTEGER" />
+    <result column="postOperPathology" property="postOperPathology" jdbcType="INTEGER" />
+    <result column="drainage" property="drainage" jdbcType="INTEGER" />
+    <result column="postOperSkin" property="postOperSkin" jdbcType="INTEGER" />
+    <result column="postOperSkinDetails" property="postOperSkinDetails" jdbcType="VARCHAR" />
+    <result column="leaveTo" property="leaveTo" jdbcType="INTEGER" />
+    <result column="outSickroomTime" property="outSickroomTime" jdbcType="TIMESTAMP" />
+    <result column="backSickroomTime" property="backSickroomTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -37,17 +50,11 @@
     blood, operatorId, operatorName, instrnuseId, circunurseId, doctorConfirm, processState, 
     inOperRoomTime, outOperRoomTime, asepticPackage, bagChemistry, implant, biologicalMonitor, 
     excepCase, preInstrnurseId, postInstrnurseId, midInstrnurseId, preCircunurseId, postCircunurseId, 
-    midCircunurseId
+    midCircunurseId, anaesMethodId, preOperSkin, preOperSkinDetails, 
+    catheterization, optBody, frozen, postOperPathology, drainage, postOperSkin, postOperSkinDetails, 
+    leaveTo, outSickroomTime, backSickroomTime
   </sql>
 
-	<select id="searchOptNurseByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocOptNurse">
-		SELECT DISTINCT * FROM doc_opt_nurse d WHERE d.regOptId = #{regOptId}
-	</select>
-	
-	<select id="searchOptNurseById" resultType="com.digihealth.anesthesia.doc.po.DocOptNurse">
-		SELECT DISTINCT * FROM doc_opt_nurse d WHERE d.optNurseId = #{id}
-	</select>
-	
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -70,7 +77,12 @@
       bagChemistry, implant, biologicalMonitor, 
       excepCase, preInstrnurseId, postInstrnurseId, 
       midInstrnurseId, preCircunurseId, postCircunurseId, 
-      midCircunurseId)
+      midCircunurseId, anaesMethodId, 
+      preOperSkin, preOperSkinDetails, catheterization, 
+      optBody, frozen, postOperPathology, 
+      drainage, postOperSkin, postOperSkinDetails, 
+      leaveTo, outSickroomTime, backSickroomTime
+      )
     values (#{optNurseId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{specimenName,jdbcType=VARCHAR}, 
       #{infusion,jdbcType=INTEGER}, #{bleeding,jdbcType=INTEGER}, #{urine,jdbcType=INTEGER}, 
       #{bloodType,jdbcType=VARCHAR}, #{bloodComponents,jdbcType=VARCHAR}, #{blood,jdbcType=INTEGER}, 
@@ -80,7 +92,12 @@
       #{bagChemistry,jdbcType=INTEGER}, #{implant,jdbcType=INTEGER}, #{biologicalMonitor,jdbcType=INTEGER}, 
       #{excepCase,jdbcType=VARCHAR}, #{preInstrnurseId,jdbcType=VARCHAR}, #{postInstrnurseId,jdbcType=VARCHAR}, 
       #{midInstrnurseId,jdbcType=VARCHAR}, #{preCircunurseId,jdbcType=VARCHAR}, #{postCircunurseId,jdbcType=VARCHAR}, 
-      #{midCircunurseId,jdbcType=VARCHAR})
+      #{midCircunurseId,jdbcType=VARCHAR}, #{anaesMethodId,jdbcType=VARCHAR}, 
+      #{preOperSkin,jdbcType=INTEGER}, #{preOperSkinDetails,jdbcType=VARCHAR}, #{catheterization,jdbcType=INTEGER}, 
+      #{optBody,jdbcType=VARCHAR}, #{frozen,jdbcType=INTEGER}, #{postOperPathology,jdbcType=INTEGER}, 
+      #{drainage,jdbcType=INTEGER}, #{postOperSkin,jdbcType=INTEGER}, #{postOperSkinDetails,jdbcType=VARCHAR}, 
+      #{leaveTo,jdbcType=INTEGER}, #{outSickroomTime,jdbcType=TIMESTAMP}, #{backSickroomTime,jdbcType=TIMESTAMP}
+      )
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.doc.po.DocOptNurse" >
@@ -170,6 +187,45 @@
       <if test="midCircunurseId != null" >
         midCircunurseId,
       </if>
+      <if test="anaesMethodId != null" >
+        anaesMethodId,
+      </if>
+      <if test="preOperSkin != null" >
+        preOperSkin,
+      </if>
+      <if test="preOperSkinDetails != null" >
+        preOperSkinDetails,
+      </if>
+      <if test="catheterization != null" >
+        catheterization,
+      </if>
+      <if test="optBody != null" >
+        optBody,
+      </if>
+      <if test="frozen != null" >
+        frozen,
+      </if>
+      <if test="postOperPathology != null" >
+        postOperPathology,
+      </if>
+      <if test="drainage != null" >
+        drainage,
+      </if>
+      <if test="postOperSkin != null" >
+        postOperSkin,
+      </if>
+      <if test="postOperSkinDetails != null" >
+        postOperSkinDetails,
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo,
+      </if>
+      <if test="outSickroomTime != null" >
+        outSickroomTime,
+      </if>
+      <if test="backSickroomTime != null" >
+        backSickroomTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="optNurseId != null" >
@@ -255,6 +311,45 @@
       </if>
       <if test="midCircunurseId != null" >
         #{midCircunurseId,jdbcType=VARCHAR},
+      </if>
+      <if test="anaesMethodId != null" >
+        #{anaesMethodId,jdbcType=VARCHAR},
+      </if>
+      <if test="preOperSkin != null" >
+        #{preOperSkin,jdbcType=INTEGER},
+      </if>
+      <if test="preOperSkinDetails != null" >
+        #{preOperSkinDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterization != null" >
+        #{catheterization,jdbcType=INTEGER},
+      </if>
+      <if test="optBody != null" >
+        #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="frozen != null" >
+        #{frozen,jdbcType=INTEGER},
+      </if>
+      <if test="postOperPathology != null" >
+        #{postOperPathology,jdbcType=INTEGER},
+      </if>
+      <if test="drainage != null" >
+        #{drainage,jdbcType=INTEGER},
+      </if>
+      <if test="postOperSkin != null" >
+        #{postOperSkin,jdbcType=INTEGER},
+      </if>
+      <if test="postOperSkinDetails != null" >
+        #{postOperSkinDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="outSickroomTime != null" >
+        #{outSickroomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backSickroomTime != null" >
+        #{backSickroomTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -343,6 +438,45 @@
       <if test="midCircunurseId != null" >
         midCircunurseId = #{midCircunurseId,jdbcType=VARCHAR},
       </if>
+      <if test="anaesMethodId != null" >
+        anaesMethodId = #{anaesMethodId,jdbcType=VARCHAR},
+      </if>
+      <if test="preOperSkin != null" >
+        preOperSkin = #{preOperSkin,jdbcType=INTEGER},
+      </if>
+      <if test="preOperSkinDetails != null" >
+        preOperSkinDetails = #{preOperSkinDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="catheterization != null" >
+        catheterization = #{catheterization,jdbcType=INTEGER},
+      </if>
+      <if test="optBody != null" >
+        optBody = #{optBody,jdbcType=VARCHAR},
+      </if>
+      <if test="frozen != null" >
+        frozen = #{frozen,jdbcType=INTEGER},
+      </if>
+      <if test="postOperPathology != null" >
+        postOperPathology = #{postOperPathology,jdbcType=INTEGER},
+      </if>
+      <if test="drainage != null" >
+        drainage = #{drainage,jdbcType=INTEGER},
+      </if>
+      <if test="postOperSkin != null" >
+        postOperSkin = #{postOperSkin,jdbcType=INTEGER},
+      </if>
+      <if test="postOperSkinDetails != null" >
+        postOperSkinDetails = #{postOperSkinDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="leaveTo != null" >
+        leaveTo = #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="outSickroomTime != null" >
+        outSickroomTime = #{outSickroomTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backSickroomTime != null" >
+        backSickroomTime = #{backSickroomTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where optNurseId = #{optNurseId,jdbcType=VARCHAR}
   </update>
@@ -375,8 +509,29 @@
       midInstrnurseId = #{midInstrnurseId,jdbcType=VARCHAR},
       preCircunurseId = #{preCircunurseId,jdbcType=VARCHAR},
       postCircunurseId = #{postCircunurseId,jdbcType=VARCHAR},
-      midCircunurseId = #{midCircunurseId,jdbcType=VARCHAR}
+      midCircunurseId = #{midCircunurseId,jdbcType=VARCHAR},
+      anaesMethodId = #{anaesMethodId,jdbcType=VARCHAR},
+      preOperSkin = #{preOperSkin,jdbcType=INTEGER},
+      preOperSkinDetails = #{preOperSkinDetails,jdbcType=VARCHAR},
+      catheterization = #{catheterization,jdbcType=INTEGER},
+      optBody = #{optBody,jdbcType=VARCHAR},
+      frozen = #{frozen,jdbcType=INTEGER},
+      postOperPathology = #{postOperPathology,jdbcType=INTEGER},
+      drainage = #{drainage,jdbcType=INTEGER},
+      postOperSkin = #{postOperSkin,jdbcType=INTEGER},
+      postOperSkinDetails = #{postOperSkinDetails,jdbcType=VARCHAR},
+      leaveTo = #{leaveTo,jdbcType=INTEGER},
+      outSickroomTime = #{outSickroomTime,jdbcType=TIMESTAMP},
+      backSickroomTime = #{backSickroomTime,jdbcType=TIMESTAMP}
     where optNurseId = #{optNurseId,jdbcType=VARCHAR}
   </update>
+  
+  <select id="searchOptNurseByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocOptNurse">
+		SELECT DISTINCT * FROM doc_opt_nurse d WHERE d.regOptId = #{regOptId}
+	</select>
+	
+	<select id="searchOptNurseById" resultType="com.digihealth.anesthesia.doc.po.DocOptNurse">
+		SELECT DISTINCT * FROM doc_opt_nurse d WHERE d.optNurseId = #{id}
+	</select>
 
 </mapper>

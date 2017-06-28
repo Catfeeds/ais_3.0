@@ -45,6 +45,10 @@ public class EvtParticipantService extends BaseService {
 	 * @return
 	 */
 	public List<EvtParticipant> queryOperPersonListByDocId(SearchFormBean searchBean) {
+	    if (StringUtils.isBlank(searchBean.getBeid()))
+        {
+            searchBean.setBeid(getBeid());
+        }
 		return evtParticipantDao.queryOperPersonListByDocId(searchBean);
 	}
 

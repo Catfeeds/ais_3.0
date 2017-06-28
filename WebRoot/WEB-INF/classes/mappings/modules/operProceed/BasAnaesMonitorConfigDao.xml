@@ -120,7 +120,7 @@
 			IF (a.eventId > 0, '1', IF(b.mustShow = '1','1',0)) checked,
 			b.mustShow,
 			b.`units`
-		FROM bas_monitor_config b LEFT JOIN 
+		FROM (SELECT * FROM bas_monitor_config WHERE beid = #{baseQuery.beid}) b LEFT JOIN 
 		(SELECT * FROM bas_anaes_monitor_config  WHERE  regOptId =  #{baseQuery.regOptId} AND `position` = #{baseQuery.position}) a
 		ON a.realEventid = b.eventId and a.beid = b.beid
 		where b.`position` = #{baseQuery.position}) t

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineRetreatRecordDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineRetreatRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="outRecordId" property="outRecordId" jdbcType="INTEGER" />
+    <result column="retreatType" property="retreatType" jdbcType="VARCHAR" />
+    <result column="retreatNumber" property="retreatNumber" jdbcType="INTEGER" />
+    <result column="retreatTime" property="retreatTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="retreatName" property="retreatName" jdbcType="VARCHAR" />
+    <result column="retreatreason" property="retreatreason" jdbcType="VARCHAR" />
+    <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, outRecordId, retreatType, retreatNumber, retreatTime, operator, retreatName, 
+    retreatreason, regOptId, remark, enable,beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_retreat_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryCommonRetreatRecordList" resultType="com.digihealth.anesthesia.basedata.formbean.CommonRetreatRecordFormBean">
+     select * from (select r.id,r.outRecordId, r.retreatNumber, r.retreatTime, r.operator, r.retreatName,r.beid,
+     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+     from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
+     where r.outRecordId = o.id
+     and r.retreatType = '1'
+     and r.enable=1
+     ) x where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outRecordid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryCommonRetreatRecordListTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+      select * from (       
+	  select r.id, r.retreatNumber,r.outRecordId, r.retreatTime, r.operator, r.retreatName, r.beid,
+      o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+      from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
+      where r.outRecordId = o.id
+      and r.retreatType = '1'
+      and r.enable=1
+     ) x where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outRecordid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	) c
+  </select>
+  
+  
+  <select id="queryOperationRetreatRecordList" resultType="com.digihealth.anesthesia.basedata.formbean.OperationRetreatRecordFormBean">
+     select * from (
+     select x.*,b.designedOptName,b.name,b.sex,b.age,b.hid
+      from (select r.id, r.retreatNumber,r.outRecordId, r.retreatTime, r.operator, r.retreatName,r.beid,r.regOptId,
+     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+     from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
+     where r.outRecordId = o.id
+     and r.retreatType = '2'
+     and r.enable=1
+     ) x ,bas_reg_opt b
+     where x.regOptId = b.regOptId
+     ) y where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outRecordid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+  	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+  	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
+		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
+	</if>
+  </select>
+  
+  <select id="queryOperationRetreatRecordListTotal" resultType="java.lang.Integer">
+    SELECT count(id) FROM (
+      select * from (
+     select x.*,b.designedOptName,b.name,b.sex,b.age,b.hid
+      from (select r.id, r.retreatNumber, r.outRecordId,r.retreatTime, r.operator, r.retreatName,r.beid,r.regOptId,
+     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+     from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
+     where r.outRecordId = o.id
+     and r.retreatType = '2'
+     and r.enable=1
+     ) x ,bas_reg_opt b
+     where x.regOptId = b.regOptId
+     ) y where 1=1
+    <if test="filters != null">
+		<foreach collection="filters" item="filter" open=" " close=" " >
+		   <if test="filter.field != null and filter.field != '' ">
+				<choose>
+						<when test="filter.field == 'startTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &gt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'endTime' ">
+							<if test="filter.value != null and filter.value != ''">
+								and retreatTime &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'outRecordid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'beid' ">
+							<if test="filter.value != null and filter.value != ''">
+								and beid = #{filter.value}
+							</if>
+						</when>
+						<otherwise>
+							<if test="filter.value != null and filter.value != ''">
+								AND ${filter.field} LIKE CONCAT(CONCAT('%',#{filter.value}),'%')
+							</if>
+						</otherwise>
+				</choose>
+		   </if>
+		</foreach>
+	</if>
+	) c
+  </select>
+  
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bas_anaes_medicine_retreat_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineRetreatRecord" >
+    insert into bas_anaes_medicine_retreat_record (id, outRecordId, retreatType, 
+      retreatNumber, retreatTime, operator, 
+      retreatName, retreatreason, regOptId, 
+      remark, enable, beid)
+    values (#{id,jdbcType=INTEGER}, #{outRecordId,jdbcType=INTEGER}, #{retreatType,jdbcType=VARCHAR}, 
+      #{retreatNumber,jdbcType=INTEGER}, #{retreatTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, 
+      #{retreatName,jdbcType=VARCHAR}, #{retreatreason,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR},#{enable,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineRetreatRecord" >
+    insert into bas_anaes_medicine_retreat_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="outRecordId != null" >
+        outRecordId,
+      </if>
+      <if test="retreatType != null" >
+        retreatType,
+      </if>
+      <if test="retreatNumber != null" >
+        retreatNumber,
+      </if>
+      <if test="retreatTime != null" >
+        retreatTime,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="retreatName != null" >
+        retreatName,
+      </if>
+      <if test="retreatreason != null" >
+        retreatreason,
+      </if>
+      <if test="regOptId != null" >
+        regOptId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="outRecordId != null" >
+        #{outRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="retreatType != null" >
+        #{retreatType,jdbcType=VARCHAR},
+      </if>
+      <if test="retreatNumber != null" >
+        #{retreatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="retreatTime != null" >
+        #{retreatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="retreatName != null" >
+        #{retreatName,jdbcType=VARCHAR},
+      </if>
+      <if test="retreatreason != null" >
+        #{retreatreason,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateEnableByOutRecordId" parameterType="java.lang.Integer" >
+    update bas_anaes_medicine_retreat_record set enable = 0 where outRecordId = #{outRecordId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineRetreatRecord" >
+    update bas_anaes_medicine_retreat_record
+    <set >
+      <if test="outRecordId != null" >
+        outRecordId = #{outRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="retreatType != null" >
+        retreatType = #{retreatType,jdbcType=VARCHAR},
+      </if>
+      <if test="retreatNumber != null" >
+        retreatNumber = #{retreatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="retreatTime != null" >
+        retreatTime = #{retreatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="retreatName != null" >
+        retreatName = #{retreatName,jdbcType=VARCHAR},
+      </if>
+      <if test="retreatreason != null" >
+        retreatreason = #{retreatreason,jdbcType=VARCHAR},
+      </if>
+      <if test="regOptId != null" >
+        regOptId = #{regOptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineRetreatRecord" >
+    update bas_anaes_medicine_retreat_record
+    set outRecordId = #{outRecordId,jdbcType=INTEGER},
+      retreatType = #{retreatType,jdbcType=VARCHAR},
+      retreatNumber = #{retreatNumber,jdbcType=INTEGER},
+      retreatTime = #{retreatTime,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR},
+      retreatName = #{retreatName,jdbcType=VARCHAR},
+      retreatreason = #{retreatreason,jdbcType=VARCHAR},
+      regOptId = #{regOptId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

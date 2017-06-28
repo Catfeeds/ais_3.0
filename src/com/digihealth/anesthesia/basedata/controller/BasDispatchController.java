@@ -132,7 +132,7 @@ public class BasDispatchController extends BaseController{
 			beid = getBeid();
 		}
 		BasRegOptUtils.getOtherInfo(emgencyOperationFormBean.getRegOpt());
-        BasRegOptUtils.IsLocalAnaesSet(emgencyOperationFormBean.getRegOpt(), regOpt.getDesignedAnaesMethodCode(), beid);
+        BasRegOptUtils.IsLocalAnaesSet(emgencyOperationFormBean.getRegOpt(), regOpt.getDesignedAnaesMethodCodes(), beid);
         if (StringUtils.isEmpty(emgencyOperationFormBean.getDispatch().getAnesthetistId()) && emgencyOperationFormBean.getRegOpt().getIsLocalAnaes() == 0) {
             respValue.setResultCode("10000001");
             respValue.setResultMessage("全麻手术必填麻醉医生");

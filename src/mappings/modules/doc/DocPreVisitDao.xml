@@ -99,6 +99,12 @@
     <result column="monitor" property="monitor" jdbcType="VARCHAR" />
     <result column="leaveTo" property="leaveTo" jdbcType="VARCHAR" />
     <result column="evaluationOther" property="evaluationOther" jdbcType="VARCHAR" />
+    <result column="otherBriefHisCond" property="otherBriefHisCond" jdbcType="VARCHAR" />
+    <result column="tracheaOffset" property="tracheaOffset" jdbcType="VARCHAR" />
+    <result column="ucgAbnormal" property="ucgAbnormal" jdbcType="VARCHAR" />
+    <result column="ef" property="ef" jdbcType="VARCHAR" />
+    <result column="otherProblem" property="otherProblem" jdbcType="VARCHAR" />
+    <result column="otherMeasures" property="otherMeasures" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -117,7 +123,7 @@
     allensTest, physicalOther, assayAbnormal, assayAbnormalCond, assayAbnormalOther, 
     videographyAbnormal, ECGAbnormal, auxiliaryOther, asa, nyha, specialcasePrecautions, 
     designedAnaesCode, designedAnaes, airwayManage, specialHandle, analgesic, analgesicCond, 
-    monitor, leaveTo, evaluationOther
+    monitor, leaveTo, evaluationOther, otherBriefHisCond, tracheaOffset, ucgAbnormal, ef, otherProblem, otherMeasures
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -191,7 +197,8 @@
       asa, nyha, specialcasePrecautions, 
       designedAnaesCode, designedAnaes, airwayManage, 
       specialHandle, analgesic, analgesicCond, 
-      monitor, leaveTo, evaluationOther
+      monitor, leaveTo, evaluationOther, otherBriefHisCond, 
+      tracheaOffset, ucgAbnormal, ef, otherProblem, otherMeasures
       )
     values (#{preVisitId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{briefHis,jdbcType=VARCHAR}, 
       #{comorbidity,jdbcType=VARCHAR}, #{drugAddiction,jdbcType=VARCHAR}, #{drugAddictionCond,jdbcType=VARCHAR}, 
@@ -225,7 +232,9 @@
       #{asa,jdbcType=VARCHAR}, #{nyha,jdbcType=VARCHAR}, #{specialcasePrecautions,jdbcType=VARCHAR}, 
       #{designedAnaesCode,jdbcType=VARCHAR}, #{designedAnaes,jdbcType=VARCHAR}, #{airwayManage,jdbcType=VARCHAR}, 
       #{specialHandle,jdbcType=VARCHAR}, #{analgesic,jdbcType=VARCHAR}, #{analgesicCond,jdbcType=VARCHAR}, 
-      #{monitor,jdbcType=VARCHAR}, #{leaveTo,jdbcType=VARCHAR}, #{evaluationOther,jdbcType=VARCHAR}
+      #{monitor,jdbcType=VARCHAR}, #{leaveTo,jdbcType=VARCHAR}, #{evaluationOther,jdbcType=VARCHAR}, 
+      #{otherBriefHisCond,jdbcType=VARCHAR}, #{tracheaOffset,jdbcType=VARCHAR}, #{ucgAbnormal,jdbcType=VARCHAR}, 
+	  #{ef,jdbcType=VARCHAR}, #{otherProblem,jdbcType=VARCHAR}, #{otherMeasures,jdbcType=VARCHAR}
       )
   </insert>
 
@@ -523,6 +532,24 @@
       <if test="evaluationOther != null" >
         evaluationOther,
       </if>
+      <if test="otherBriefHisCond != null" >
+        otherBriefHisCond,
+      </if>
+      <if test="tracheaOffset != null" >
+        tracheaOffset,
+      </if>
+      <if test="ucgAbnormal != null" >
+        ucgAbnormal,
+      </if>
+      <if test="ef != null" >
+        ef,
+      </if>
+      <if test="otherProblem != null" >
+        otherProblem,
+      </if>
+      <if test="otherMeasures != null" >
+        otherMeasures,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="preVisitId != null" >
@@ -815,6 +842,24 @@
       </if>
       <if test="evaluationOther != null" >
         #{evaluationOther,jdbcType=VARCHAR},
+      </if>
+      <if test="otherBriefHisCond != null" >
+        #{otherBriefHisCond,jdbcType=VARCHAR},
+      </if>
+      <if test="tracheaOffset != null" >
+        #{tracheaOffset,jdbcType=VARCHAR},
+      </if>
+      <if test="ucgAbnormal != null" >
+        #{ucgAbnormal,jdbcType=VARCHAR},
+      </if>
+      <if test="ef != null" >
+        #{ef,jdbcType=VARCHAR},
+      </if>
+      <if test="otherProblem != null" >
+        #{otherProblem,jdbcType=VARCHAR},
+      </if>
+      <if test="otherMeasures != null" >
+        #{otherMeasures,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -1110,6 +1155,24 @@
       <if test="evaluationOther != null" >
         evaluationOther = #{evaluationOther,jdbcType=VARCHAR},
       </if>
+      <if test="otherBriefHisCond != null" >
+        otherBriefHisCond = #{otherBriefHisCond,jdbcType=VARCHAR},
+      </if>
+      <if test="tracheaOffset != null" >
+        tracheaOffset = #{tracheaOffset,jdbcType=VARCHAR},
+      </if>
+      <if test="ucgAbnormal != null" >
+        ucgAbnormal = #{ucgAbnormal,jdbcType=VARCHAR},
+      </if>
+      <if test="ef != null" >
+        ef = #{ef,jdbcType=VARCHAR},
+      </if>
+      <if test="otherProblem != null" >
+        otherProblem = #{otherProblem,jdbcType=VARCHAR},
+      </if>
+      <if test="otherMeasures != null" >
+        otherMeasures = #{otherMeasures,jdbcType=VARCHAR},
+      </if>
     </set>
     where preVisitId = #{preVisitId,jdbcType=VARCHAR}
   </update>
@@ -1211,7 +1274,13 @@
       analgesicCond = #{analgesicCond,jdbcType=VARCHAR},
       monitor = #{monitor,jdbcType=VARCHAR},
       leaveTo = #{leaveTo,jdbcType=VARCHAR},
-      evaluationOther = #{evaluationOther,jdbcType=VARCHAR}
+      evaluationOther = #{evaluationOther,jdbcType=VARCHAR},
+      otherBriefHisCond = #{otherBriefHisCond,jdbcType=VARCHAR},
+      tracheaOffset = #{tracheaOffset,jdbcType=VARCHAR},
+      ucgAbnormal = #{ucgAbnormal,jdbcType=VARCHAR}, 
+	  ef = #{ef,jdbcType=VARCHAR},
+	  otherProblem = #{otherProblem,jdbcType=VARCHAR},
+	  otherMeasures = #{otherMeasures,jdbcType=VARCHAR}
     where preVisitId = #{preVisitId,jdbcType=VARCHAR}
   </update>
 

@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 import com.digihealth.anesthesia.basedata.formbean.BaseInfoQuery;
 import com.digihealth.anesthesia.basedata.formbean.OperDefFormBean;
 import com.digihealth.anesthesia.basedata.formbean.SystemSearchFormBean;
+import com.digihealth.anesthesia.basedata.po.BasDiagnosedef;
 import com.digihealth.anesthesia.basedata.po.BasOperdef;
 import com.digihealth.anesthesia.common.persistence.EntityDao;
 import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
@@ -46,4 +47,6 @@ public interface BasOperdefDao extends EntityDao<String, BasOperdef>{
     public List<BasOperdef> selectByName(@Param("name")String name, @Param("beid")String beid);
     
     public List<BasOperdef> selectOrderByIdDesc();
+
+	public int initData(BasOperdef basOperdef);
 }

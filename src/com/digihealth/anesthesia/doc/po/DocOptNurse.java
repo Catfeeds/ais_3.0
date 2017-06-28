@@ -11,6 +11,7 @@ package com.digihealth.anesthesia.doc.po;
 import java.util.Date;
 import java.util.List;
 
+import com.digihealth.anesthesia.basedata.formbean.DesignedOptCodes;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -162,6 +163,84 @@ public class DocOptNurse {
 
 	@ApiModelProperty(value = "")
 	private int shuHouState;
+	
+	/**
+     * 麻醉方式ID
+     */
+	@ApiModelProperty(value = "麻醉方式ID")
+    private String anaesMethodId;
+
+    /**
+     * 术前皮肤是否完整
+     */
+	@ApiModelProperty(value = "术前皮肤是否完整")
+    private Integer preOperSkin;
+
+    /**
+     * 术前皮肤详情
+     */
+	@ApiModelProperty(value = "术前皮肤详情")
+    private String preOperSkinDetails;
+
+    /**
+     * 导尿
+     */
+	@ApiModelProperty(value = "导尿")
+    private Integer catheterization;
+
+    /**
+     * 体位
+     */
+	@ApiModelProperty(value = "体位")
+    private String optBody;
+
+    /**
+     * 冰冻
+     */
+	@ApiModelProperty(value = "冰冻")
+    private Integer frozen;
+
+    /**
+     * 术后病理
+     */
+	@ApiModelProperty(value = "术后病理")
+    private Integer postOperPathology;
+
+    /**
+     * 引流
+     */
+	@ApiModelProperty(value = "引流")
+    private Integer drainage;
+
+    /**
+     * 术后皮肤是否完整
+     */
+	@ApiModelProperty(value = "术后皮肤是否完整")
+    private Integer postOperSkin;
+
+    /**
+     * 术后皮肤详情
+     */
+	@ApiModelProperty(value = "术后皮肤详情")
+    private String postOperSkinDetails;
+
+    /**
+     * 术后送回
+     */
+	@ApiModelProperty(value = "术后送回")
+    private Integer leaveTo;
+
+    /**
+     * 出病房时间
+     */
+	@ApiModelProperty(value = "出病房时间")
+    private Date outSickroomTime;
+
+    /**
+     * 回病房时间
+     */
+	@ApiModelProperty(value = "回病房时间")
+    private Date backSickroomTime;
 
 	@ApiModelProperty(value = "术前巡回护士集合")
     private List<String> preCircunurseList;
@@ -171,7 +250,72 @@ public class DocOptNurse {
 
 	@ApiModelProperty(value = "术中巡回护士集合")
     private List<String> midCircunurseList;
+	
+	@ApiModelProperty(value = "器械护士集合")
+    private List<String> instrnuseList;
+
+    @ApiModelProperty(value = "巡回护士集合")
+    private List<String> circunurseList;
+
+    @ApiModelProperty(value = "手术名称集合")
+    private List<DesignedOptCodes> operationNameList;
     
+    @ApiModelProperty(value = "麻醉方式集合")
+    private List<String> anaesMethodList;
+    
+    @ApiModelProperty(value = "手术体位集合")
+    private List<String> optBodyList;
+    
+    public List<String> getOptBodyList()
+    {
+        return optBodyList;
+    }
+
+    public void setOptBodyList(List<String> optBodyList)
+    {
+        this.optBodyList = optBodyList;
+    }
+
+    public List<String> getInstrnuseList()
+    {
+        return instrnuseList;
+    }
+
+    public void setInstrnuseList(List<String> instrnuseList)
+    {
+        this.instrnuseList = instrnuseList;
+    }
+
+    public List<String> getCircunurseList()
+    {
+        return circunurseList;
+    }
+
+    public void setCircunurseList(List<String> circunurseList)
+    {
+        this.circunurseList = circunurseList;
+    }
+
+    public List<DesignedOptCodes> getOperationNameList()
+    {
+        return operationNameList;
+    }
+
+    public void setOperationNameList(List<DesignedOptCodes> operationNameList)
+    {
+        this.operationNameList = operationNameList;
+    }
+
+    public List<String> getAnaesMethodList()
+    {
+        return anaesMethodList;
+    }
+
+    public void setAnaesMethodList(List<String> anaesMethodList)
+    {
+        this.anaesMethodList = anaesMethodList;
+    }
+
     public String getOptNurseId() {
         return optNurseId;
     }
@@ -350,6 +494,136 @@ public class DocOptNurse {
 
     public String getPreInstrnurseId() {
         return preInstrnurseId;
+    }
+
+    public String getAnaesMethodId()
+    {
+        return anaesMethodId;
+    }
+
+    public void setAnaesMethodId(String anaesMethodId)
+    {
+        this.anaesMethodId = anaesMethodId;
+    }
+
+    public Integer getPreOperSkin()
+    {
+        return preOperSkin;
+    }
+
+    public void setPreOperSkin(Integer preOperSkin)
+    {
+        this.preOperSkin = preOperSkin;
+    }
+
+    public String getPreOperSkinDetails()
+    {
+        return preOperSkinDetails;
+    }
+
+    public void setPreOperSkinDetails(String preOperSkinDetails)
+    {
+        this.preOperSkinDetails = preOperSkinDetails;
+    }
+
+    public Integer getCatheterization()
+    {
+        return catheterization;
+    }
+
+    public void setCatheterization(Integer catheterization)
+    {
+        this.catheterization = catheterization;
+    }
+
+    public String getOptBody()
+    {
+        return optBody;
+    }
+
+    public void setOptBody(String optBody)
+    {
+        this.optBody = optBody;
+    }
+
+    public Integer getFrozen()
+    {
+        return frozen;
+    }
+
+    public void setFrozen(Integer frozen)
+    {
+        this.frozen = frozen;
+    }
+
+    public Integer getPostOperPathology()
+    {
+        return postOperPathology;
+    }
+
+    public void setPostOperPathology(Integer postOperPathology)
+    {
+        this.postOperPathology = postOperPathology;
+    }
+
+    public Integer getDrainage()
+    {
+        return drainage;
+    }
+
+    public void setDrainage(Integer drainage)
+    {
+        this.drainage = drainage;
+    }
+
+    public Integer getPostOperSkin()
+    {
+        return postOperSkin;
+    }
+
+    public void setPostOperSkin(Integer postOperSkin)
+    {
+        this.postOperSkin = postOperSkin;
+    }
+
+    public String getPostOperSkinDetails()
+    {
+        return postOperSkinDetails;
+    }
+
+    public void setPostOperSkinDetails(String postOperSkinDetails)
+    {
+        this.postOperSkinDetails = postOperSkinDetails;
+    }
+
+    public Integer getLeaveTo()
+    {
+        return leaveTo;
+    }
+
+    public void setLeaveTo(Integer leaveTo)
+    {
+        this.leaveTo = leaveTo;
+    }
+
+    public Date getOutSickroomTime()
+    {
+        return outSickroomTime;
+    }
+
+    public void setOutSickroomTime(Date outSickroomTime)
+    {
+        this.outSickroomTime = outSickroomTime;
+    }
+
+    public Date getBackSickroomTime()
+    {
+        return backSickroomTime;
+    }
+
+    public void setBackSickroomTime(Date backSickroomTime)
+    {
+        this.backSickroomTime = backSickroomTime;
     }
 
     public void setPreInstrnurseId(String preInstrnurseId) {

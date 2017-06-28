@@ -10,6 +10,8 @@ package com.digihealth.anesthesia.doc.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.digihealth.anesthesia.common.persistence.CrudDao;
 import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
 import com.digihealth.anesthesia.doc.po.DocPostFollowSpinal;
@@ -28,7 +30,7 @@ public interface DocPostFollowSpinalDao extends CrudDao<DocPostFollowSpinal>{
 
     int updateByPrimaryKey(DocPostFollowSpinal record);
 
-    List<DocPostFollowSpinal> getInfoByPostFollowId(String postFollowId);
+    List<DocPostFollowSpinal> getInfoByPostFollowId(@Param("postFollowId")String postFollowId, @Param("beid") String beid);
     
     int deleteByPostFollowId(String postFollowId);
 }

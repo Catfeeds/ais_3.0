@@ -7,6 +7,7 @@ public class DataStatFormbean {
 	private List<Series> series;
 	private List<YAxisData> yAxis;
 	private List<XAisData> xAxis;
+	private List<SeriesPie> seriesPies;
 
 	public List<Series> getSeries() {
 		return series;
@@ -14,6 +15,16 @@ public class DataStatFormbean {
 
 	public void setSeries(List<Series> series) {
 		this.series = series;
+	}
+
+	public List<SeriesPie> getSeriesPies()
+	{
+		return seriesPies;
+	}
+
+	public void setSeriesPies(List<SeriesPie> seriesPies)
+	{
+		this.seriesPies = seriesPies;
 	}
 
 	public List<YAxisData> getyAxis() {

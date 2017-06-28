@@ -495,21 +495,21 @@
       <if test="doubleChamberId != null" >
         doubleChamberId = #{doubleChamberId,jdbcType=INTEGER},
       </if>
-      <if test="laryngealId != null" >
+      <!-- <if test="laryngealId != null" > -->
         laryngealId = #{laryngealId,jdbcType=INTEGER},
-      </if>
-      <if test="centralVenous != null" >
+      <!-- </if> -->
+      <!-- <if test="centralVenous != null" > -->
         centralVenous = #{centralVenous,jdbcType=INTEGER},
-      </if>
-      <if test="pressureSensor != null" >
+      <!-- </if> -->
+      <!-- <if test="pressureSensor != null" > -->
         pressureSensor = #{pressureSensor,jdbcType=INTEGER},
-      </if>
-      <if test="arterialPuncture != null" >
+      <!-- </if> -->
+      <!-- <if test="arterialPuncture != null" > -->
         arterialPuncture = #{arterialPuncture,jdbcType=INTEGER},
-      </if>
-      <if test="microPump != null" >
+      <!-- </if> -->
+      <!-- <if test="microPump != null" > -->
         microPump = #{microPump,jdbcType=INTEGER},
-      </if>
+      <!-- </if> -->
       <if test="otherInstrument != null" >
         otherInstrument = #{otherInstrument,jdbcType=VARCHAR},
       </if>

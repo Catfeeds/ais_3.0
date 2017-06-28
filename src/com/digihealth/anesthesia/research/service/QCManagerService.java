@@ -56,6 +56,9 @@ public class QCManagerService extends BaseService {
     }
     
     public List<SearchOperFormBean> searchEnterPacuNum(SearchFormBean searchFormBean){
+    	if(StringUtils.isBlank(searchFormBean.getBeid())) {
+    		searchFormBean.setBeid(getBeid());
+    	}
     	return statisticsDao.searchEnterPacuNum(searchFormBean);
     }
 

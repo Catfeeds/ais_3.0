@@ -102,6 +102,7 @@ public class SearchRegOptByLoginNameAndStateFormBean implements Serializable {
 	private String documentState;
 	private List<DocumentStateFormbean> documentStateList;
 	private String operaTime;
+	private String pacuId;
 
 	public String getOperaTime() {
 		return operaTime;
@@ -534,6 +535,14 @@ public class SearchRegOptByLoginNameAndStateFormBean implements Serializable {
 
 	public void setDeptId(String deptId) {
 		this.deptId = deptId;
+	}
+
+	public String getPacuId() {
+		return pacuId;
+	}
+
+	public void setPacuId(String pacuId) {
+		this.pacuId = pacuId;
 	}
 
 }

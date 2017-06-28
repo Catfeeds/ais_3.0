@@ -34,18 +34,22 @@ public class BasRegOptUtils extends BaseService {
 	 * @param anaesMethodCode
 	 * @param beid
 	 */
-	public static void IsLocalAnaesSet(BasRegOpt regOpt, String anaesMethodCode, String beid) {
+	public static void IsLocalAnaesSet(BasRegOpt regOpt, List<String> anaesMethodCodes, String beid) {
 		int isLocalAnaes = 0;
-		List<BasAnaesMethod> anaesMethods = basAnaesMethodDao.selectByCode(anaesMethodCode, beid);
-		if (null != anaesMethods && anaesMethods.size() > 0) {
-			BasAnaesMethod basAnaesMethod = anaesMethods.get(0);
-			if (null != basAnaesMethod) {
-				isLocalAnaes = basAnaesMethod.getIsLocalAnaes();
-				regOpt.setIsLocalAnaes(isLocalAnaes);
-			}
-		} else {
-			regOpt.setIsLocalAnaes(isLocalAnaes);
-		}
+		
+        if (null != anaesMethodCodes && anaesMethodCodes.size() == 1)
+        {
+            List<BasAnaesMethod> anaesMethods = basAnaesMethodDao.selectByCode(anaesMethodCodes.get(0), beid);
+            if (null != anaesMethods && anaesMethods.size() > 0)
+            {
+                BasAnaesMethod basAnaesMethod = anaesMethods.get(0);
+                if (null != basAnaesMethod)
+                {
+                    isLocalAnaes = basAnaesMethod.getIsLocalAnaes();
+                }
+            }
+        }
+        regOpt.setIsLocalAnaes(isLocalAnaes);
 	}
 
 	/**

@@ -36,12 +36,12 @@
 		 <foreach collection="filters" item="filter" open=" " close=" " >
 		  <if test="filter.field != null and filter.field != '' ">
 		     <choose>
-				 <when test="filter.field == 'starttime' ">
+				 <when test="filter.field == 'startTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
 					</if>
 				</when>
-				<when test="filter.field == 'endtime' ">
+				<when test="filter.field == 'endTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
 					</if>
@@ -71,12 +71,12 @@
 		 <foreach collection="filters" item="filter" open=" " close=" " >
 		  <if test="filter.field != null and filter.field != '' ">
 		     <choose>
-				 <when test="filter.field == 'starttime' ">
+				 <when test="filter.field == 'startTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
 					</if>
 				</when>
-				<when test="filter.field == 'endtime' ">
+				<when test="filter.field == 'endTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
 					</if>
@@ -100,12 +100,12 @@
 		 <foreach collection="filters" item="filter" open=" " close=" " >
 		  <if test="filter.field != null and filter.field != '' ">
 		     <choose>
-				 <when test="filter.field == 'starttime' ">
+				 <when test="filter.field == 'startTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
 					</if>
 				</when>
-				<when test="filter.field == 'endtime' ">
+				<when test="filter.field == 'endTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
 					</if>
@@ -133,12 +133,12 @@
 		 <foreach collection="filters" item="filter" open=" " close=" " >
 		  <if test="filter.field != null and filter.field != '' ">
 		     <choose>
-				 <when test="filter.field == 'starttime' ">
+				 <when test="filter.field == 'startTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &gt;=  #{filter.value,jdbcType=TIMESTAMP}
 					</if>
 				</when>
-				<when test="filter.field == 'endtime' ">
+				<when test="filter.field == 'endTime' ">
 					<if test="filter.value != null and filter.value != ''">
 						AND date &lt;= #{filter.value,jdbcType=TIMESTAMP}
 					</if>

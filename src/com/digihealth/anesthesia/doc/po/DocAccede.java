@@ -124,6 +124,18 @@ public class DocAccede {
 	@ApiModelProperty(value = "治疗内容")
 	private String cureContent;
 	
+	/**
+     * 特殊情况交代
+     */
+	@ApiModelProperty(value = "特殊情况交代")
+    private String specialCase;
+    
+    /**
+     * 其他需说明的情况
+     */
+	@ApiModelProperty(value = "其他需说明的情况")
+    private String otherCase;
+	
     public String getAccedeId() {
         return accedeId;
     }
@@ -315,5 +327,25 @@ public class DocAccede {
 	public void setAnaseMethodList(List<Map> anaseMethodList) {
 		this.anaseMethodList = anaseMethodList;
 	}
+
+    public String getSpecialCase()
+    {
+        return specialCase;
+    }
+
+    public void setSpecialCase(String specialCase)
+    {
+        this.specialCase = specialCase;
+    }
+
+    public String getOtherCase()
+    {
+        return otherCase;
+    }
+
+    public void setOtherCase(String otherCase)
+    {
+        this.otherCase = otherCase;
+    }
     
 }

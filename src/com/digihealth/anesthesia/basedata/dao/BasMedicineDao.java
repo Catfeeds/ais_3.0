@@ -33,6 +33,8 @@ public interface BasMedicineDao {
     int update(BasMedicine record);
     
     public List<MedicineFormBean> findList(@Param("baseQuery") BaseInfoQuery baseQuery);
+
+    public List<BasMedicine> queryMedicineByBeid(@Param("beid")String beid);
     
     public BasMedicine queryMedicineById(@Param("medicineId") String medicineId); 
     

@@ -32,7 +32,7 @@
 
   <select id="searchFollowRecordByRegOptId" resultType="com.digihealth.anesthesia.doc.po.DocPostFollowRecord" parameterType="map" >
     select a.*,b.name as anesName
-    from doc_post_follow_record a left join bas_user b on a.anesthetistId = b.userName
+    from doc_post_follow_record a left join (select * from bas_user where beid = #{beid}) b on a.anesthetistId = b.userName
     where a.regOptId = #{regOptId,jdbcType=VARCHAR}
   </select>
   

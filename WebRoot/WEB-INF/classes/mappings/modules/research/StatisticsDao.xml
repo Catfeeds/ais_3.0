@@ -437,18 +437,17 @@ and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORD
         </if>
 </select>
 
-
     <select id="searchAnaesRegInfoList" resultType="com.digihealth.anesthesia.research.formbean.SearchAnaesRegInfo">
-        SELECT anaesRecord.*,IF(anaesRecord.operAnaesTime>0,anaesRecord.operAnaesTime,0) anaes_time FROM (
+        SELECT anaesRecord.*,IF(anaesRecord.operAnaesTime>0,anaesRecord.operAnaesTime,0) anaesTime FROM (
             SELECT b.regOptId, b.operaDate,b.name,b.sex,b.age,b.ageMon,b.ageDay,b.hid,b.bed,b.regionName,
-                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
-                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) optLatterDiag,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) optRealOper,
                 FLOOR(
                     (IFNULL(TO_SECONDS((SELECT t2.occurtime FROM evt_anaesevent t2 WHERE t2.docId = d.anaRecordId AND t2.code = '7')),0) - 
                     IFNULL(TO_SECONDS((SELECT t1.occurtime FROM evt_anaesevent t1 WHERE t1.docId = d.anaRecordId AND t1.code = '2')),0)
                 )/60) operAnaesTime,
-                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) anaes_doc,
-                (SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) shift_anaes_doc
+                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) anaesDoc,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{searchFormBean.beid}) shiftAnaesDoc
             FROM bas_reg_opt b,doc_anaes_record d  
             WHERE b.regOptId=d.regOptId 
             AND b.state IN ('06','07') AND b.beid = #{searchFormBean.beid}) anaesRecord
@@ -486,14 +485,14 @@ and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORD
     <select id="searchTotalByAnaesRegInfoList" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM (
             SELECT d.anaRecordId, b.operaDate,b.name,b.sex,b.age,b.hid,b.bed,b.regionName,
-                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) opt_latter_diag,
-                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) opt_real_oper,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_latter_diag s WHERE s.docId = d.anaRecordId ORDER BY s.optLatterDiagId) optLatterDiag,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_opt_real_oper r WHERE r.docId = d.anaRecordId ORDER BY r.optRealOperId) optRealOper,
                 FLOOR(
                     (IFNULL(TO_SECONDS((SELECT t2.occurtime FROM evt_anaesevent t2 WHERE t2.docId = d.anaRecordId AND t2.code = '7')),0) - 
                     IFNULL(TO_SECONDS((SELECT t1.occurtime FROM evt_anaesevent t1 WHERE t1.docId = d.anaRecordId AND t1.code = '2')),0)
-                )/60) anaes_time,
-                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{beid}) anaes_doc,
-                (SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{beid}) shift_anaes_doc
+                )/60) anaesTime,
+                (SELECT bas_user.`name` FROM bas_dispatch p,bas_user WHERE p.regOptId = b.regOptId AND p.anesthetistId = bas_user.userName AND bas_user.beid = #{beid}) anaesDoc,
+                (SELECT GROUP_CONCAT(NAME) FROM evt_shift_change c,bas_user WHERE c.docId = d.anaRecordId AND c.shiftChangePeopleId = bas_user.userName AND bas_user.beid = #{beid}) shiftAnaesDoc
             FROM bas_reg_opt b,doc_anaes_record d  
             WHERE b.regOptId=d.regOptId 
             AND b.state IN ('06','07') AND b.beid = #{beid}) anaes_record 
@@ -956,7 +955,7 @@ and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORD
             AND t.regOptId = t2.regOptId 
             AND t2.anaRecordId = t3.docId
             AND t.beid = #{searchFormBean.beid}
-            AND t3.userLoginName=2=#{searchFormBean.nurseId}) a;
+            AND t3.userLoginName = #{searchFormBean.nurseId}) a;
     </select>
     
     

@@ -20,12 +20,14 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="controAnal" property="controAnal" jdbcType="INTEGER" />
     <result column="leaveTo" property="leaveTo" jdbcType="INTEGER" />
+    <result column="artifiAirwayRemoval" property="artifiAirwayRemoval" jdbcType="INTEGER" />
+    <result column="controAnalPlace" property="controAnalPlace" jdbcType="INTEGER" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     anaSumId, regOptId, anaesImplSituation, anestSummary, anesthetistId, operaDate, processState, 
     bloodType, expCase, specialNote, muscleRecovery, coughReflex, directlRec, consciou, 
-    anesPlane, remarks, controAnal, leaveTo
+    anesPlane, remarks, controAnal, leaveTo, artifiAirwayRemoval, controAnalPlace
   </sql>
 
 	<select id="searchAnaesSummaryList" resultType="com.digihealth.anesthesia.doc.po.DocAnaesSummary">
@@ -61,14 +63,15 @@
       processState, bloodType, expCase, 
       specialNote, muscleRecovery, coughReflex, 
       directlRec, consciou, anesPlane, 
-      remarks, controAnal, leaveTo
+      remarks, controAnal, leaveTo, artifiAirwayRemoval, controAnalPlace
       )
     values (#{anaSumId,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, #{anaesImplSituation,jdbcType=VARCHAR}, 
       #{anestSummary,jdbcType=VARCHAR}, #{anesthetistId,jdbcType=VARCHAR}, #{operaDate,jdbcType=VARCHAR}, 
       #{processState,jdbcType=VARCHAR}, #{bloodType,jdbcType=VARCHAR}, #{expCase,jdbcType=INTEGER}, 
       #{specialNote,jdbcType=VARCHAR}, #{muscleRecovery,jdbcType=INTEGER}, #{coughReflex,jdbcType=INTEGER}, 
       #{directlRec,jdbcType=INTEGER}, #{consciou,jdbcType=INTEGER}, #{anesPlane,jdbcType=VARCHAR}, 
-      #{remarks,jdbcType=VARCHAR}, #{controAnal,jdbcType=INTEGER}, #{leaveTo,jdbcType=INTEGER}
+      #{remarks,jdbcType=VARCHAR}, #{controAnal,jdbcType=INTEGER}, #{leaveTo,jdbcType=INTEGER},
+      #{artifiAirwayRemoval,jdbcType=INTEGER}, #{controAnalPlace,jdbcType=INTEGER}
       )
   </insert>
 
@@ -129,6 +132,12 @@
       <if test="leaveTo != null" >
         leaveTo,
       </if>
+      <if test="artifiAirwayRemoval != null" >
+        artifiAirwayRemoval,
+      </if>
+      <if test="controAnalPlace != null" >
+        controAnalPlace,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="anaSumId != null" >
@@ -184,6 +193,12 @@
       </if>
       <if test="leaveTo != null" >
         #{leaveTo,jdbcType=INTEGER},
+      </if>
+      <if test="artifiAirwayRemoval != null" >
+        #{artifiAirwayRemoval,jdbcType=INTEGER},
+      </if>
+      <if test="controAnalPlace != null" >
+        #{controAnalPlace,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -242,6 +257,12 @@
       <if test="leaveTo != null" >
         leaveTo = #{leaveTo,jdbcType=INTEGER},
       </if>
+      <if test="artifiAirwayRemoval != null" >
+        artifiAirwayRemoval = #{artifiAirwayRemoval,jdbcType=INTEGER},
+      </if>
+      <if test="controAnalPlace != null" >
+        controAnalPlace = #{controAnalPlace,jdbcType=INTEGER},
+      </if>
     </set>
     where anaSumId = #{anaSumId,jdbcType=VARCHAR}
   </update>
@@ -264,7 +285,9 @@
       anesPlane = #{anesPlane,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
       controAnal = #{controAnal,jdbcType=INTEGER},
-      leaveTo = #{leaveTo,jdbcType=INTEGER}
+      leaveTo = #{leaveTo,jdbcType=INTEGER},
+      artifiAirwayRemoval = #{artifiAirwayRemoval,jdbcType=INTEGER},
+      controAnalPlace = #{controAnalPlace,jdbcType=INTEGER}
     where anaSumId = #{anaSumId,jdbcType=VARCHAR}
   </update>
 

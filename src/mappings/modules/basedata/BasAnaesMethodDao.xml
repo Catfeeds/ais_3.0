@@ -270,7 +270,7 @@
 	</select>
 	
 	<select id="searchAnaesMethodOrberById" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">
-	select * from bas_anaes_method order by CONVERT(anaMedId,SIGNED) DESC
+	select * from bas_anaes_method where beid = #{beid} order by CONVERT(anaMedId,SIGNED) DESC
 	</select>
 	
 	<select id="selectByCode" resultType="com.digihealth.anesthesia.basedata.po.BasAnaesMethod">

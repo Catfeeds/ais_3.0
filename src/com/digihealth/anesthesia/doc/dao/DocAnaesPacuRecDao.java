@@ -31,6 +31,8 @@ public interface DocAnaesPacuRecDao {
     
     DocAnaesPacuRec getAnaesPacuRecByRegOptId(String regOptId);
 
+    int hasAnaesPacuRecByRegOptId(String regOptId);
+    
     int updateByPrimaryKeySelective(DocAnaesPacuRec record);
 
     int updateByPrimaryKey(DocAnaesPacuRec record);

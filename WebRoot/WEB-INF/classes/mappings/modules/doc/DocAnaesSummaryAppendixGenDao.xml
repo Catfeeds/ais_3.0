@@ -61,6 +61,8 @@
     <result column="anesEffect" property="anesEffect" jdbcType="INTEGER" />
     <result column="changeAnesMethod" property="changeAnesMethod" jdbcType="INTEGER" />
     <result column="changeReason" property="changeReason" jdbcType="VARCHAR" />
+    <result column="glottisExpClass" property="glottisExpClass" jdbcType="INTEGER" />
+    <result column="succCount" property="succCount" jdbcType="INTEGER" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -71,7 +73,7 @@
     otherContent, laryMask, model2, diffIntub, keepMethod, baseAnes, AnesCare, monitProject7, 
     monitProject13, monitProject14, ecgSt, vtMv, petCo2, aGas, fio2, ibp, cvp, t, tof, 
     anesDeep, cardOutput, tee, bloodSugar, blood, bloodElect, hemoglobin, controlerHyp, 
-    anesEffect, changeAnesMethod, changeReason
+    anesEffect, changeAnesMethod, changeReason, glottisExpClass, succCount
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -112,7 +114,7 @@
       t, tof, anesDeep, cardOutput, 
       tee, bloodSugar, blood, 
       bloodElect, hemoglobin, controlerHyp, 
-      anesEffect, changeAnesMethod, changeReason
+      anesEffect, changeAnesMethod, changeReason, glottisExpClass, succCount
       )
     values (#{anaSumAppGenId,jdbcType=VARCHAR}, #{anaSumId,jdbcType=VARCHAR}, #{genAnesthesia,jdbcType=INTEGER}, 
       #{fastInduction,jdbcType=INTEGER}, #{slowInduction,jdbcType=INTEGER}, #{intubation,jdbcType=INTEGER}, 
@@ -132,7 +134,8 @@
       #{t,jdbcType=INTEGER}, #{tof,jdbcType=INTEGER}, #{anesDeep,jdbcType=INTEGER}, #{cardOutput,jdbcType=INTEGER}, 
       #{tee,jdbcType=INTEGER}, #{bloodSugar,jdbcType=INTEGER}, #{blood,jdbcType=INTEGER}, 
       #{bloodElect,jdbcType=INTEGER}, #{hemoglobin,jdbcType=INTEGER}, #{controlerHyp,jdbcType=INTEGER}, 
-      #{anesEffect,jdbcType=INTEGER}, #{changeAnesMethod,jdbcType=INTEGER}, #{changeReason,jdbcType=VARCHAR}
+      #{anesEffect,jdbcType=INTEGER}, #{changeAnesMethod,jdbcType=INTEGER}, #{changeReason,jdbcType=VARCHAR}, 
+      #{glottisExpClass,jdbcType=INTEGER}, #{succCount,jdbcType=INTEGER}
       )
   </insert>
 
@@ -316,6 +319,12 @@
       <if test="changeReason != null" >
         changeReason,
       </if>
+      <if test="glottisExpClass != null" >
+        glottisExpClass,
+      </if>
+      <if test="succCount != null" >
+        succCount,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="anaSumAppGenId != null" >
@@ -494,6 +503,12 @@
       </if>
       <if test="changeReason != null" >
         #{changeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="glottisExpClass != null" >
+        #{glottisExpClass,jdbcType=INTEGER},
+      </if>
+      <if test="succCount != null" >
+        #{succCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -675,6 +690,12 @@
       <if test="changeReason != null" >
         changeReason = #{changeReason,jdbcType=VARCHAR},
       </if>
+      <if test="glottisExpClass != null" >
+        glottisExpClass = #{glottisExpClass,jdbcType=INTEGER},
+      </if>
+      <if test="succCount != null" >
+        succCount = #{succCount,jdbcType=INTEGER},
+      </if>
     </set>
     where anaSumAppGenId = #{anaSumAppGenId,jdbcType=VARCHAR}
   </update>
@@ -738,7 +759,9 @@
       controlerHyp = #{controlerHyp,jdbcType=INTEGER},
       anesEffect = #{anesEffect,jdbcType=INTEGER},
       changeAnesMethod = #{changeAnesMethod,jdbcType=INTEGER},
-      changeReason = #{changeReason,jdbcType=VARCHAR}
+      changeReason = #{changeReason,jdbcType=VARCHAR},
+      glottisExpClass = #{glottisExpClass,jdbcType=VARCHAR},
+      succCount = #{succCount,jdbcType=VARCHAR}
     where anaSumAppGenId = #{anaSumAppGenId,jdbcType=VARCHAR}
   </update>
 

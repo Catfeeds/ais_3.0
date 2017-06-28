@@ -30,6 +30,10 @@
     where deviceId = #{deviceId,jdbcType=VARCHAR}
   </select>
 
+  <select id="queryEntityByBeid" resultType="com.digihealth.anesthesia.basedata.po.BasPacuDeviceSpecification">
+    select * from bas_pacu_device_specification where beid = #{beid,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from bas_pacu_device_specification
     where deviceId = #{deviceId,jdbcType=VARCHAR}

@@ -8,6 +8,9 @@
  */
 package com.digihealth.anesthesia.doc.po;
 
+import java.util.List;
+import java.util.Map;
+
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -146,6 +149,45 @@ public class DocOperBeforeSafeCheck {
      */
 	@ApiModelProperty(value = "大于等于10毫升/kg")
     private String sssxl;
+	
+	@ApiModelProperty(value = "安全核查单护士")
+	private List<String> circunurseList;//安全核查单护士
+	
+	@ApiModelProperty(value = "安全核查麻醉医生")
+    private List<String> anesthetistList;//安全核查麻醉医生
+	
+	@ApiModelProperty(value = "安全核查手术医生")
+    private List<String> operatorList;//安全核查手术医生
+
+    public List<String> getCircunurseList()
+    {
+        return circunurseList;
+    }
+
+    public void setCircunurseList(List<String> circunurseList)
+    {
+        this.circunurseList = circunurseList;
+    }
+
+    public List<String> getAnesthetistList()
+    {
+        return anesthetistList;
+    }
+
+    public void setAnesthetistList(List<String> anesthetistList)
+    {
+        this.anesthetistList = anesthetistList;
+    }
+
+    public List<String> getOperatorList()
+    {
+        return operatorList;
+    }
+
+    public void setOperatorList(List<String> operatorList)
+    {
+        this.operatorList = operatorList;
+    }
 
     public String getOperBeforeId() {
         return operBeforeId;

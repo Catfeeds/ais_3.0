@@ -66,6 +66,7 @@
     <result column="operSource" property="operSource" jdbcType="INTEGER" />
     <result column="cutLevel" property="cutLevel" jdbcType="INTEGER" />
     <result column="origin" property="origin" jdbcType="INTEGER" />
+     <result column="outMedicine" property="outMedicine" jdbcType="INTEGER" />
     <result column="beid" property="beid" jdbcType="VARCHAR" />
   </resultMap>
 
@@ -79,7 +80,7 @@
     height, weight, changeOperroomReason, realDesignedAnaesMethodName, realDesignedAnaesMethodCode, 
     hbsag, hcv, hiv, hp, assistantId, assistantName, archState, nurseArchState, state, 
     costsettlementState, previousState, msId, operTime, frontOperForbidTake, frontOperSpecialCase, 
-    operSource, cutLevel, origin, beid
+    operSource, cutLevel, origin, outMedicine, beid
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -117,7 +118,8 @@
 		(SELECT NAME FROM bas_operroom o WHERE o.operRoomId = x.operRoomId AND o.beid = #{beid})AS
 		oper_roomName,
 		(SELECT codeName FROM bas_sys_code sc WHERE sc.groupId = 'operation_state'
-		AND sc.codeValue = x.state AND sc.beid = #{beid}) AS state_name
+		AND sc.codeValue = x.state AND sc.beid = #{beid}) AS state_name,
+		x.pacuId
 		FROM (
 		SELECT
 		a.regOptId,a. NAME,a.medicalType,a.hid,a.sex,a.regionId,a.deptId,
@@ -131,10 +133,11 @@
 		a.diagnosisName,a.operaDate,a.costsettlementState,a.reasons,c.operRoomId,
 		c.instrnurseId1,c.instrnurseId2,c.circunurseId1,c.circunurseId2,c.circuanesthetistId,c.anesthetistId,c.perfusiondoctorId,
 		a.state,a.emergency,a.hypersusceptibility,a.optLevel,a.isLocalAnaes,a.designedAnaesMethodName,a.operatorName,
-		a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp, a.assistantName
+		a.height,a.weight,a.hbsag,a.hcv,a.hiv,a.hp, a.assistantName, p.id AS 'pacuId'
 		FROM
 		bas_reg_opt a
 		LEFT JOIN bas_dispatch c ON a.regOptId = c.regOptId
+		LEFT JOIN doc_anaes_pacu_rec p ON a.regOptId = p.regOptId
 		WHERE 1 = 1
 		AND a.beid = #{beid}
 		${filter}
@@ -884,7 +887,7 @@
     delete from bas_reg_opt where regOptId = #{regOptId,jdbcType=VARCHAR}
   </delete>
 
-  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
+   <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
     insert into bas_reg_opt (regOptId, name, sex, 
       birthday, age, ageMon, 
       ageDay, preengagementnumber, medicalType, 
@@ -895,9 +898,9 @@
       operaDate, startTime, endTime, 
       createUser, createTime, latierDiagName, 
       latierDiagCode, realOperationName, realOperationCode, 
-      emergency, hyperSusceptiBility, 
-      optLevel, intermitCause, reasons, 
-      remark, isLocalAnaes, designedAnaesMethodName, 
+      emergency, hyperSusceptiBility, optLevel, 
+      intermitCause, reasons, remark, 
+      isLocalAnaes, designedAnaesMethodName, 
       designedAnaesMethodCode, operatorId, operatorName, 
       height, weight, changeOperroomReason, 
       realDesignedAnaesMethodName, realDesignedAnaesMethodCode, 
@@ -906,20 +909,21 @@
       nurseArchState, state, costsettlementState, 
       previousState, msId, operTime, 
       frontOperForbidTake, frontOperSpecialCase, 
-      operSource, cutLevel, origin, beid)
+      operSource, cutLevel, origin, 
+      outMedicine, beid)
     values (#{regOptId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{ageMon,jdbcType=INTEGER}, 
       #{ageDay,jdbcType=INTEGER}, #{preengagementnumber,jdbcType=VARCHAR}, #{medicalType,jdbcType=VARCHAR}, 
       #{identityNo,jdbcType=VARCHAR}, #{hid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
-      #{bed,jdbcType=VARCHAR}, #{regionId,jdbcType=INTEGER}, #{regionName,jdbcType=VARCHAR}, 
-      #{deptId,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR}, #{designedOptName,jdbcType=VARCHAR}, 
+      #{bed,jdbcType=VARCHAR}, #{regionId,jdbcType=VARCHAR}, #{regionName,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{designedOptName,jdbcType=VARCHAR}, 
       #{designedOptCode,jdbcType=VARCHAR}, #{diagnosisName,jdbcType=VARCHAR}, #{diagnosisCode,jdbcType=VARCHAR}, 
       #{operaDate,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, 
       #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{latierDiagName,jdbcType=VARCHAR}, 
       #{latierDiagCode,jdbcType=VARCHAR}, #{realOperationName,jdbcType=VARCHAR}, #{realOperationCode,jdbcType=VARCHAR}, 
-      #{emergency,jdbcType=INTEGER}, #{hyperSusceptiBility,jdbcType=VARCHAR}, 
-      #{optLevel,jdbcType=VARCHAR}, #{intermitCause,jdbcType=VARCHAR}, #{reasons,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{isLocalAnaes,jdbcType=VARCHAR}, #{designedAnaesMethodName,jdbcType=VARCHAR}, 
+      #{emergency,jdbcType=INTEGER}, #{hyperSusceptiBility,jdbcType=VARCHAR}, #{optLevel,jdbcType=VARCHAR}, 
+      #{intermitCause,jdbcType=VARCHAR}, #{reasons,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{isLocalAnaes,jdbcType=INTEGER}, #{designedAnaesMethodName,jdbcType=VARCHAR}, 
       #{designedAnaesMethodCode,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, 
       #{height,jdbcType=REAL}, #{weight,jdbcType=REAL}, #{changeOperroomReason,jdbcType=VARCHAR}, 
       #{realDesignedAnaesMethodName,jdbcType=VARCHAR}, #{realDesignedAnaesMethodCode,jdbcType=VARCHAR}, 
@@ -928,7 +932,8 @@
       #{nurseArchState,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{costsettlementState,jdbcType=VARCHAR}, 
       #{previousState,jdbcType=VARCHAR}, #{msId,jdbcType=VARCHAR}, #{operTime,jdbcType=TIMESTAMP}, 
       #{frontOperForbidTake,jdbcType=INTEGER}, #{frontOperSpecialCase,jdbcType=VARCHAR}, 
-      #{operSource,jdbcType=INTEGER}, #{cutLevel,jdbcType=INTEGER}, #{origin,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+      #{operSource,jdbcType=INTEGER}, #{cutLevel,jdbcType=INTEGER}, #{origin,jdbcType=INTEGER}, 
+      #{outMedicine,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasRegOpt" >
@@ -1126,6 +1131,9 @@
       <if test="origin != null" >
         origin,
       </if>
+      <if test="outMedicine != null" >
+        outMedicine,
+      </if>
       <if test="beid != null" >
         beid,
       </if>
@@ -1171,13 +1179,13 @@
         #{bed,jdbcType=VARCHAR},
       </if>
       <if test="regionId != null" >
-        #{regionId,jdbcType=INTEGER},
+        #{regionId,jdbcType=VARCHAR},
       </if>
       <if test="regionName != null" >
         #{regionName,jdbcType=VARCHAR},
       </if>
       <if test="deptId != null" >
-        #{deptId,jdbcType=INTEGER},
+        #{deptId,jdbcType=VARCHAR},
       </if>
       <if test="deptName != null" >
         #{deptName,jdbcType=VARCHAR},
@@ -1240,7 +1248,7 @@
         #{remark,jdbcType=VARCHAR},
       </if>
       <if test="isLocalAnaes != null" >
-        #{isLocalAnaes,jdbcType=VARCHAR},
+        #{isLocalAnaes,jdbcType=INTEGER},
       </if>
       <if test="designedAnaesMethodName != null" >
         #{designedAnaesMethodName,jdbcType=VARCHAR},
@@ -1323,6 +1331,9 @@
       <if test="origin != null" >
         #{origin,jdbcType=INTEGER},
       </if>
+      <if test="outMedicine != null" >
+        #{outMedicine,jdbcType=INTEGER},
+      </if>
       <if test="beid != null" >
         #{beid,jdbcType=VARCHAR},
       </if>
@@ -1369,13 +1380,13 @@
         bed = #{bed,jdbcType=VARCHAR},
       </if>
       <if test="regionId != null" >
-        regionId = #{regionId,jdbcType=INTEGER},
+        regionId = #{regionId,jdbcType=VARCHAR},
       </if>
       <if test="regionName != null" >
         regionName = #{regionName,jdbcType=VARCHAR},
       </if>
       <if test="deptId != null" >
-        deptId = #{deptId,jdbcType=INTEGER},
+        deptId = #{deptId,jdbcType=VARCHAR},
       </if>
       <if test="deptName != null" >
         deptName = #{deptName,jdbcType=VARCHAR},
@@ -1438,7 +1449,7 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="isLocalAnaes != null" >
-        isLocalAnaes = #{isLocalAnaes,jdbcType=VARCHAR},
+        isLocalAnaes = #{isLocalAnaes,jdbcType=INTEGER},
       </if>
       <if test="designedAnaesMethodName != null" >
         designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
@@ -1521,6 +1532,9 @@
       <if test="origin != null" >
         origin = #{origin,jdbcType=INTEGER},
       </if>
+      <if test="outMedicine != null" >
+        outMedicine = #{outMedicine,jdbcType=INTEGER},
+      </if>
       <if test="beid != null" >
         beid = #{beid,jdbcType=VARCHAR},
       </if>
@@ -1542,9 +1556,9 @@
       hid = #{hid,jdbcType=VARCHAR},
       cid = #{cid,jdbcType=VARCHAR},
       bed = #{bed,jdbcType=VARCHAR},
-      regionId = #{regionId,jdbcType=INTEGER},
+      regionId = #{regionId,jdbcType=VARCHAR},
       regionName = #{regionName,jdbcType=VARCHAR},
-      deptId = #{deptId,jdbcType=INTEGER},
+      deptId = #{deptId,jdbcType=VARCHAR},
       deptName = #{deptName,jdbcType=VARCHAR},
       designedOptName = #{designedOptName,jdbcType=VARCHAR},
       designedOptCode = #{designedOptCode,jdbcType=VARCHAR},
@@ -1565,7 +1579,7 @@
       intermitCause = #{intermitCause,jdbcType=VARCHAR},
       reasons = #{reasons,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      isLocalAnaes = #{isLocalAnaes,jdbcType=VARCHAR},
+      isLocalAnaes = #{isLocalAnaes,jdbcType=INTEGER},
       designedAnaesMethodName = #{designedAnaesMethodName,jdbcType=VARCHAR},
       designedAnaesMethodCode = #{designedAnaesMethodCode,jdbcType=VARCHAR},
       operatorId = #{operatorId,jdbcType=VARCHAR},
@@ -1593,6 +1607,7 @@
       operSource = #{operSource,jdbcType=INTEGER},
       cutLevel = #{cutLevel,jdbcType=INTEGER},
       origin = #{origin,jdbcType=INTEGER},
+      outMedicine = #{outMedicine,jdbcType=INTEGER},
       beid = #{beid,jdbcType=VARCHAR}
     where regOptId = #{regOptId,jdbcType=VARCHAR}
   </update>

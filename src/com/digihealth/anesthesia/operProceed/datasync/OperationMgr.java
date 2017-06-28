@@ -329,7 +329,7 @@ public class OperationMgr {
         //    operation = new Operation();
         //}
         
-        if (!OperationMgr.getOperModel().equals(operModel)) {
+        if (null == OperationMgr.getOperModel() || !OperationMgr.getOperModel().equals(operModel)) {
             logger.info("setOperModel------模式不同，重新发送监测项指令"); 
             OperationMgr.setOperModel(operModel);
             //operation.setFreqChgFlag(1);

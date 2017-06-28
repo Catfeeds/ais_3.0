@@ -1,7 +1,9 @@
 package com.digihealth.anesthesia.evt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.digihealth.anesthesia.common.beanvalidator.ValidatorBean;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
 import com.digihealth.anesthesia.common.web.BaseController;
+import com.digihealth.anesthesia.doc.po.DocAnaesRecord;
 import com.digihealth.anesthesia.evt.formbean.MedicalDetailFormbean;
 import com.digihealth.anesthesia.evt.formbean.RegOptOperMedicaleventFormBean;
 import com.digihealth.anesthesia.evt.formbean.SearchFormBean;
@@ -28,8 +31,33 @@ public class EvtMedicalEventController extends BaseController {
 	public String searchMedicaleventList(@ApiParam(name = "searchBean", value = "参数")@RequestBody SearchFormBean searchBean) {
 		logger.info("begin serarchMedicaleventList");
 		ResponseValue resp = new ResponseValue();
-		List<SearchOptOperMedicalevent> resultList = evtMedicaleventService.searchMedicaleventList(searchBean);
-		resp.put("resultList", resultList);
+		if(null == searchBean)
+		{
+			resp.setResultCode("10000001");
+            resp.setResultMessage("查询对象不能为空");
+		}else
+		{
+			List<SearchOptOperMedicalevent> resultList = new ArrayList<SearchOptOperMedicalevent>();
+			
+			//如果没有传文书ID，传了regOptId,通过regOptId得到文书ID
+			if(StringUtils.isBlank(searchBean.getDocId()))
+			{
+				String regOptid = searchBean.getRegOptId();
+				if(StringUtils.isNotBlank(regOptid))
+				{
+					DocAnaesRecord docAnaesRecord = docAnaesRecordService.searchAnaesRecordByRegOptId(regOptid);
+					if(null != docAnaesRecord)
+					{
+						searchBean.setDocId(docAnaesRecord.getAnaRecordId());
+						resultList = evtMedicaleventService.searchMedicaleventList(searchBean);
+					}
+				}
+			}else{
+				resultList = evtMedicaleventService.searchMedicaleventList(searchBean);
+			}
+			resp.put("resultList", resultList);
+		}
+		
 		logger.info("end serarchMedicaleventList");
 		return resp.getJsonStr();
 	}

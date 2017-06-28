@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RegOptOperEgressFormBean {
 
-	private Integer ioDefId;
+	private String ioDefId;
 	private String name;
 	private String unit;
 	private String dosageUnit;
@@ -36,11 +36,11 @@ public class RegOptOperEgressFormBean {
 		this.name = name;
 	}
 
-	public Integer getIoDefId() {
+	public String getIoDefId() {
 		return ioDefId;
 	}
 
-	public void setIoDefId(Integer ioDefId) {
+	public void setIoDefId(String ioDefId) {
 		this.ioDefId = ioDefId;
 	}
 

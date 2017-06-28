@@ -1,7 +1,6 @@
 package com.digihealth.anesthesia.doc.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.digihealth.anesthesia.basedata.formbean.DispatchPeopleNameFormBean;
+import com.digihealth.anesthesia.basedata.formbean.DispatchFormbean;
 import com.digihealth.anesthesia.common.beanvalidator.ValidatorBean;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
+import com.digihealth.anesthesia.common.utils.StringUtils;
 import com.digihealth.anesthesia.common.web.BaseController;
 import com.digihealth.anesthesia.doc.po.DocPreVisit;
 import com.digihealth.anesthesia.evt.formbean.SearchRegOptByIdFormBean;
@@ -54,61 +54,56 @@ public class DocPreVisitController extends BaseController {
         }
         
         //获取到麻醉医生名字
-        DispatchPeopleNameFormBean dispatchPeople =
-            basDispatchService.searchPeopleNameByRegOptId(map.get("regOptId").toString());
-        if (dispatchPeople != null) {
-            preVisit.setAnaestheitistName(dispatchPeople.getAnesthetistName() != null ? dispatchPeople.getAnesthetistName() : "");
+        if (null == preVisit.getAnaestheitistId())
+        {
+            DispatchFormbean dispatchPeople =
+                basDispatchService.getDispatchOperByRegOptId(map.get("regOptId").toString());
+            if (dispatchPeople != null)
+            {
+                preVisit.setAnaestheitistId(dispatchPeople.getAnesthetistId() != null ? dispatchPeople.getAnesthetistId() : "");
+                preVisit.setAnaestheitistName(dispatchPeople.getAnesthetistName() != null ? dispatchPeople.getAnesthetistName() : "");
+            }
         }
         
         //获取手术基本信息
-        List<SearchRegOptByIdFormBean> searchRegOptByIdFormBean =
+        List<SearchRegOptByIdFormBean> searchRegOptByIdFormBeanList =
             basRegOptService.searchApplicationById(map.get("regOptId").toString());
-        
-        List<Map> anaseMethodList = new ArrayList<Map>();
-        String[] code = null;
-        String[] name = null;
-        if (null == preVisit.getDesignedAnaes() || null == preVisit.getDesignedAnaesCode())
-        {
-            if (null != searchRegOptByIdFormBean && searchRegOptByIdFormBean.size() > 0
-                && null != searchRegOptByIdFormBean.get(0))
-            {
-            	if(!org.apache.commons.lang3.StringUtils.isEmpty(searchRegOptByIdFormBean.get(0).getDesignedAnaesMethodCode())){
-            		code = searchRegOptByIdFormBean.get(0).getDesignedAnaesMethodCode().split(",");
-            	}
-            	if(!org.apache.commons.lang3.StringUtils.isEmpty(searchRegOptByIdFormBean.get(0).getDesignedAnaesMethodName())){
-            		name = searchRegOptByIdFormBean.get(0).getDesignedAnaesMethodName().split(",");
-            	}
-            }
+        SearchRegOptByIdFormBean searchRegOptByIdFormBean =  searchRegOptByIdFormBeanList!=null?searchRegOptByIdFormBeanList.get(0):null;
+        if (searchRegOptByIdFormBean == null) {
+            resp.setResultCode("30000001");
+            resp.setResultMessage("手术基本信息不存在!");
+            return resp.getJsonStr();
         }
-        else if ("".equals(preVisit.getDesignedAnaes()) || "".equals(preVisit.getDesignedAnaesCode()))
+        
+        List<String> anaseMethodList = new ArrayList<String>();
+        String[] code = null;
+        if (null == preVisit.getDesignedAnaesCode())
         {
-            preVisit.setDesignedAnaesList(anaseMethodList);
+            if (StringUtils.isNotBlank(searchRegOptByIdFormBean.getDesignedAnaesMethodCode()))
+            {
+                code = searchRegOptByIdFormBean.getDesignedAnaesMethodCode().split(",");
+            }
+            preVisit.setDesignedAnaesCode(searchRegOptByIdFormBean.getDesignedAnaesMethodCode());
+            preVisit.setDesignedAnaes(searchRegOptByIdFormBean.getDesignedAnaesMethodName());
         }
         else
         {
             code = preVisit.getDesignedAnaesCode().split(",");
-            name = preVisit.getDesignedAnaes().split(",");
-            
         }
-        if (null != code && null != name && code.length == name.length)
+        if (null != code && code.length > 0)
         {
             for (int i = 0; i < code.length; i++)
             {
-                Map anaesMethodmap = new HashMap();
-                anaesMethodmap.put("anaMedId", code[i]);
-                anaesMethodmap.put("name", name[i]);
-                anaseMethodList.add(anaesMethodmap);
-                preVisit.setDesignedAnaesList(anaseMethodList);
+                anaseMethodList.add(code[i]);
             }
-        }else{
-        	preVisit.setDesignedAnaesList(anaseMethodList);
         }
+        preVisit.setDesignedAnaesList(anaseMethodList);
             
         //设置页面选择框的值
         setMapValue(preVisit);
 		resp.put("result", "true");
 		resp.put("preVisitItem", preVisit);
-		resp.put("regOptItem", searchRegOptByIdFormBean != null ? searchRegOptByIdFormBean.get(0) : null);
+		resp.put("regOptItem", searchRegOptByIdFormBean);
         logger.info("-------------------end searchPreVisitByRegOptId-------------------");
         return resp.getJsonStr();
     }
@@ -159,6 +154,9 @@ public class DocPreVisitController extends BaseController {
         
         JSONObject jasonObject16 = JSONObject.fromObject(preVisit.getAssayAbnormalCond());
         preVisit.setAssayAbnormalMap(jasonObject16);
+        
+        JSONObject jasonObject17 = JSONObject.fromObject(preVisit.getSpecialTreatmentCond());
+        preVisit.setSpecialTreatmentCondMap(jasonObject17);
     }
     
     /**
@@ -181,62 +179,37 @@ public class DocPreVisitController extends BaseController {
             resp.setResultMessage(validatorBean.getMessage());
             return resp.getJsonStr();
         }
-        getAnaesMethod(preVisit);
+        preVisit.setDesignedAnaesCode(StringUtils.getStringByList(preVisit.getDesignedAnaesList()));
         resp = docPreVisitService.updatePreVisitByDocId(preVisit);
         logger.info("--------------------end updatePreVisit--------------------");
         return resp.getJsonStr();
     }
     
-    /**
-     * 
-     * @discription 提交术前访视单
-     * @author zhouyi
-     * @created 2016-9-7
-     * @param docId
-     * @return
-     */
-    @RequestMapping(value = "/submitPreVisit")
-    @ResponseBody
-	@ApiOperation(value="提交术前访视单",httpMethod="POST",notes="提交术前访视单")
-    public String submitPreVisitByDocId(@ApiParam(name="preVisit", value ="修改参数") @RequestBody DocPreVisit preVisit)
-    {
-        logger.info("--------------------begin updatePreVisit--------------------");
-        ResponseValue resp = new ResponseValue();
-        ValidatorBean validatorBean = beanValidator(preVisit);
-        if (!(validatorBean.isValidator())) {
-            resp.setResultCode("10000001");
-            resp.setResultMessage(validatorBean.getMessage());
-            return resp.getJsonStr();
-        }
-        getAnaesMethod(preVisit);
-        preVisit.setProcessState("END");
-        resp = docPreVisitService.updatePreVisitByDocId(preVisit);
-        logger.info("--------------------end updatePreVisit--------------------");
-        return resp.getJsonStr();
-    }
-    
-    private void getAnaesMethod(DocPreVisit preVisit)
-    {
-        if (null != preVisit.getDesignedAnaesList())
-        {
-            
-            preVisit.setDesignedAnaesCode("");   
-            preVisit.setDesignedAnaes("");
-            for (Map anaesMethodMap : preVisit.getDesignedAnaesList())
-            {
-                
-                preVisit.setDesignedAnaesCode(preVisit.getDesignedAnaesCode() + anaesMethodMap.get("anaMedId") + ",");
-                preVisit.setDesignedAnaes(preVisit.getDesignedAnaes() + anaesMethodMap.get("name") + ",");
-            }
-            
-            if (!org.apache.commons.lang3.StringUtils.isEmpty(preVisit.getDesignedAnaesCode()) && !org.apache.commons.lang3.StringUtils.isEmpty(preVisit.getDesignedAnaes()))
-            {
-                preVisit.setDesignedAnaesCode(preVisit.getDesignedAnaesCode().substring(0,
-                    preVisit.getDesignedAnaesCode().length() - 1));
-                
-                preVisit.setDesignedAnaes(preVisit.getDesignedAnaes().substring(0,
-                    preVisit.getDesignedAnaes().length() - 1));
-            }
-        }
-    }
+//    /**
+//     * 
+//     * @discription 提交术前访视单
+//     * @author zhouyi
+//     * @created 2016-9-7
+//     * @param docId
+//     * @return
+//     */
+//    @RequestMapping(value = "/submitPreVisit")
+//    @ResponseBody
+//	@ApiOperation(value="提交术前访视单",httpMethod="POST",notes="提交术前访视单")
+//    public String submitPreVisitByDocId(@ApiParam(name="preVisit", value ="修改参数") @RequestBody DocPreVisit preVisit)
+//    {
+//        logger.info("--------------------begin updatePreVisit--------------------");
+//        ResponseValue resp = new ResponseValue();
+//        ValidatorBean validatorBean = beanValidator(preVisit);
+//        if (!(validatorBean.isValidator())) {
+//            resp.setResultCode("10000001");
+//            resp.setResultMessage(validatorBean.getMessage());
+//            return resp.getJsonStr();
+//        }
+//        preVisit.setDesignedAnaesCode(StringUtils.getStringByList(preVisit.getDesignedAnaesList()));
+//        preVisit.setProcessState("END");
+//        resp = docPreVisitService.updatePreVisitByDocId(preVisit);
+//        logger.info("--------------------end updatePreVisit--------------------");
+//        return resp.getJsonStr();
+//    }
 }

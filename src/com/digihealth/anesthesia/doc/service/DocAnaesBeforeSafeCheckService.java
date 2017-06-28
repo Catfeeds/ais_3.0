@@ -70,7 +70,6 @@ public class DocAnaesBeforeSafeCheckService extends BaseService {
 			resp.setResultMessage("麻醉前核查单不存在!");
 			return resp;
 		}
-		anaesBeforeSafeCheck.setProcessState("END");
 		String regOptId = anaesBeforeSafeCheck.getRegOptId() != null ? anaesBeforeSafeCheck.getRegOptId() : "";
 		Controller controller = controllerDao
 				.getControllerById(regOptId);
@@ -88,17 +87,17 @@ public class DocAnaesBeforeSafeCheckService extends BaseService {
 			return resp;
 		}
 		docAnaesBeforeSafeCheckDao.updateByPrimaryKey(anaesBeforeSafeCheck);
-		DocOperBeforeSafeCheck ob = docOperBeforeSafeCheckDao.searchOperBeCheckByRegOptId(regOptId);
-		DocExitOperSafeCheck eo = docExitOperSafeCheckDao.searchExitOperCheckByRegOptId(regOptId, getBeid());
-		if(ob!=null&&eo!=null){
-			if("END".equals(ob.getProcessState())&&"END".equals(eo.getProcessState())){
-				DocSafeCheck safeCheck = docSafeCheckDao.searchSafeCheckByRegOptId(regOptId, getBeid());
-				if(safeCheck!=null){
-					safeCheck.setProcessState("END");
-					docSafeCheckDao.updateSafeCheck(safeCheck);
-				}
-			}
-		}
+//		DocOperBeforeSafeCheck ob = docOperBeforeSafeCheckDao.searchOperBeCheckByRegOptId(regOptId);
+//		DocExitOperSafeCheck eo = docExitOperSafeCheckDao.searchExitOperCheckByRegOptId(regOptId, getBeid());
+//		if(ob!=null&&eo!=null){
+//			if("END".equals(ob.getProcessState())&&"END".equals(eo.getProcessState())){
+//				DocSafeCheck safeCheck = docSafeCheckDao.searchSafeCheckByRegOptId(regOptId, getBeid());
+//				if(safeCheck!=null){
+//					safeCheck.setProcessState("END");
+//					docSafeCheckDao.updateSafeCheck(safeCheck);
+//				}
+//			}
+//		}
 		resp.setResultCode("1");
 		resp.setResultMessage("手术安全核查单修改成功!");
 		return resp;

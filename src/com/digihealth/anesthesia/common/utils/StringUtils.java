@@ -441,4 +441,53 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }  
         return str;  
     }  
+    
+    
+    /** 
+     * id的集合转换成逗号分开的id字符串
+     * <功能详细描述>
+     * @param list
+     * @return
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getStringByList(List<String> list)
+    {
+        String s = "";
+        if (null != list && list.size() > 0)
+        {
+            for (String str : list)
+            {
+                if (StringUtils.isBlank(s))
+                {
+                    s = str;
+                }
+                else
+                {
+                    s += "," + str;
+                }
+            }
+        }
+        return s;
+    }
+    
+    /** 
+     * id的字符串转换成id的集合
+     * <功能详细描述>
+     * @param s
+     * @return
+     * @see [类、类#方法、类#成员]
+     */
+    public static List<String> getListByString(String s)
+    {
+        List<String> list = new ArrayList<String>();
+        if (StringUtils.isNotBlank(s))
+        {
+            String[] ary = s.split(",");
+            for (String str : ary)
+            {
+                list.add(str);
+            }
+        }
+        return list;
+    }
 }

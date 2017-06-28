@@ -349,14 +349,14 @@ public class DocOptCareRecordService extends BaseService {
 		}
 
 		DocOptCareRecord optCareRecord = new DocOptCareRecord();
-		BeanUtils.copyProperties(optCareRecordFormBean, optCareRecord, new String[] { "skin1", "negativePosition", "tourniquet", "supportMaterial", "implants", "leaveTo", "venousInfusion2", "drainageTube", "skin2" });// 除json串的不需要传递之外，其他都传递
+		BeanUtils.copyProperties(optCareRecordFormBean, optCareRecord, new String[] { "skin1", "negativePosition", "tourniquet", "supportMaterial", "implants", "venousInfusion2", "drainageTube", "skin2" });// 除json串的不需要传递之外，其他都传递
 
 		optCareRecord.setSkin1(JsonType.jsonType(optCareRecordFormBean.getSkin1()));
 		optCareRecord.setNegativePosition(JsonType.jsonType(optCareRecordFormBean.getNegativePosition()));
 		optCareRecord.setTourniquet(JsonType.jsonType(optCareRecordFormBean.getTourniquet()));
 		optCareRecord.setSupportMaterial(JsonType.jsonType(optCareRecordFormBean.getSupportMaterial()));
 		optCareRecord.setImplants(JsonType.jsonType(optCareRecordFormBean.getImplants()));
-		optCareRecord.setLeaveTo(JsonType.jsonType(optCareRecordFormBean.getLeaveTo()));
+		//optCareRecord.setLeaveTo(JsonType.jsonType(optCareRecordFormBean.getLeaveTo()));
 		optCareRecord.setVenousInfusion2(JsonType.jsonType(optCareRecordFormBean.getVenousInfusion2()));
 		optCareRecord.setDrainageTube(JsonType.jsonType(optCareRecordFormBean.getDrainageTube()));
 		optCareRecord.setSkin2(JsonType.jsonType(optCareRecordFormBean.getSkin2()));
@@ -418,20 +418,20 @@ public class DocOptCareRecordService extends BaseService {
 			String leaveTo = "";
 			// 将消息推送到手术室大屏
 			if (null != optCareRecordFormBean.getLeaveTo()) {
-				if (null != optCareRecordFormBean.getLeaveTo().getA() && "1".equals(optCareRecordFormBean.getLeaveTo().getA().getChecked())) {
+				if ("1".equals(optCareRecordFormBean.getLeaveTo())) {
 					leaveTo = "病室";
 				}
 
-				if (null != optCareRecordFormBean.getLeaveTo().getB() && "1".equals(optCareRecordFormBean.getLeaveTo().getB().getChecked())) {
+				if ("2".equals(optCareRecordFormBean.getLeaveTo())) {
 					leaveTo = "ICU";
 				}
 
-				if (null != optCareRecordFormBean.getLeaveTo().getC() && "1".equals(optCareRecordFormBean.getLeaveTo().getC().getChecked())) {
+				if ("3".equals(optCareRecordFormBean.getLeaveTo())) {
 					leaveTo = "复苏室";
 				}
 
-				if (null != optCareRecordFormBean.getLeaveTo().getD() && "1".equals(optCareRecordFormBean.getLeaveTo().getD().getChecked())) {
-					leaveTo = optCareRecordFormBean.getLeaveTo().getD().getContent();
+				if ("4".equals(optCareRecordFormBean.getLeaveTo())) {
+					leaveTo = optCareRecordFormBean.getLeaveToOther();
 				}
 			}
 			WebSocketHandler.sentMessageToAllUser(regOpt.getDeptName() + regOpt.getRegionName() + regOpt.getBed() + regOpt.getName() + "手术已结束,去往" + leaveTo);

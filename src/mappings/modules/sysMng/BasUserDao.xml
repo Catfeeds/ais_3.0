@@ -36,7 +36,7 @@
   </sql>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
-		select u.*,bus.name AS "beName",bus.subName AS "subName",sr.`id` AS "roleId", sr.`name` AS "roleName",sr.`roleType`
+		select u.*,bus.name AS "beName",bus.code AS "beCode", bus.subName AS "subName",sr.`id` AS "roleId", sr.`name` AS "roleName",sr.`roleType`
 		from bas_user u , bas_user_role sur, bas_role sr, bas_bus_entity bus
 		where u.`userName` = sur.`userId`
 		AND sur.`roleId` = sr.`id`
@@ -120,37 +120,29 @@
   </select>
   
   <select id="queryUserList" resultType="com.digihealth.anesthesia.sysMng.formbean.BasUserFormBean">
-	SELECT * FROM(
-	SELECT m.username,m.enable,m.name,m.beid,m.userType,m.professionalTitle,m.executiveLevel,
-	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.userType AND sc.groupId='user_type' AND sc.beid = m.beid) AS "userTypeName",
-	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.professionalTitle AND sc.groupId='professional_title' AND sc.beid = m.beid) AS "professionalTitleName",
-	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.executiveLevel AND sc.groupId='executive_evel' AND sc.beid = m.beid) AS "executiveLevelName",
-	 m.locked,m.pinYin,sr.`id` AS "roleId", sr.`name` AS  "roleName",(SELECT NAME FROM bas_bus_entity b WHERE b.beid = m.beid LIMIT 1 ) AS "beName" 
-	 FROM bas_user m , bas_user_role sur, bas_role sr
-	 WHERE m.`username` = sur.`userId`
-	 AND sur.`roleId` = sr.`id`
-	 AND m.beid = sur.beid 
-	 AND sur.beid = sr.beid  
-	 ) u WHERE 1 = 1 ${filter} 
-	 order by u.${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
+	SELECT * FROM
+	(SELECT u.username,u.enable,u.name,u.beid,u.userType,u.professionalTitle,u.executiveLevel,
+    (SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue = u.userType AND sc.groupId = 'user_type' AND sc.beid = u.beid) AS "userTypeName",
+    (SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue = u.professionalTitle AND sc.groupId = 'professional_title' AND sc.beid = u.beid) AS "professionalTitleName",
+    (SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue = u.executiveLevel AND sc.groupId = 'executive_level' AND sc.beid = u.beid) AS "executiveLevelName",
+    u.locked,u.pinYin,sr.`id` AS "roleId",sr.`name` AS "roleName",be.name AS 'beName' 
+    FROM bas_user u,bas_user_role sur,bas_role sr,bas_bus_entity be WHERE u.beid=be.beid
+	AND sur.beid=u.beid AND sur.userId=u.userName AND sr.id=sur.roleId) u WHERE 1=1 ${filter} 
+	order by u.${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
 	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
 		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
 	</if>
-	</select>
+  </select>
 	
 	<select id="queryUserListTotal" resultType="java.lang.Integer"> 
-	SELECT count(1) FROM(
-	SELECT m.username,m.enable,m.name,m.beid,m.userType,m.professionalTitle,m.executiveLevel,
-	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.userType AND sc.groupId='user_type' AND sc.beid = m.beid) AS "userTypeName",
-	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.professionalTitle AND sc.groupId='professional_title' AND sc.beid = m.beid) AS "professionalTitleName",
-	(SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue=m.executiveLevel AND sc.groupId='executive_level' AND sc.beid = m.beid) AS "executiveLevelName",
-	 m.locked,m.pinYin,sr.`id` AS "roleId", sr.`name` AS  "roleName",(SELECT NAME FROM bas_bus_entity b WHERE b.beid = m.beid LIMIT 1 ) AS "beName" 
-	 FROM bas_user m , bas_user_role sur, bas_role sr
-	 WHERE m.`username` = sur.`userId`
-	 AND sur.`roleId` = sr.`id`
-	 AND m.beid = sur.beid 
-	 AND sur.beid = sr.beid  
-	 ) u WHERE 1 = 1 ${filter}
+	SELECT count(1) FROM 
+	(SELECT u.username,u.enable,u.name,u.beid,u.userType,u.professionalTitle,u.executiveLevel,
+    (SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue = u.userType AND sc.groupId = 'user_type' AND sc.beid = u.beid) AS "userTypeName",
+    (SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue = u.professionalTitle AND sc.groupId = 'professional_title' AND sc.beid = u.beid) AS "professionalTitleName",
+    (SELECT sc.codeName FROM bas_sys_code sc WHERE sc.codeValue = u.executiveLevel AND sc.groupId = 'executive_level' AND sc.beid = u.beid) AS "executiveLevelName",
+    u.locked,u.pinYin,sr.`id` AS "roleId",sr.`name` AS "roleName",be.name AS 'beName' 
+    FROM bas_user u,bas_user_role sur,bas_role sr,bas_bus_entity be WHERE u.beid=be.beid
+	AND sur.beid=u.beid AND sur.userId=u.userName AND sr.id=sur.roleId) u WHERE 1=1 ${filter}
 	</select>
 	
 	<select id="getAllUser" resultType="com.digihealth.anesthesia.sysMng.po.BasUser">

@@ -339,6 +339,38 @@ public class DocAnaesSummaryAppendixGen {
      */
 	@ApiModelProperty(value = "更改原因")
     private String changeReason;
+	
+	/**
+     * 声门暴露分级
+     */
+	@ApiModelProperty(value = "声门暴露分级")
+    private Integer glottisExpClass;
+    
+    /**
+     * 第几次插管成功
+     */
+	@ApiModelProperty(value = "第几次插管成功")
+    private Integer succCount;
+
+    public Integer getGlottisExpClass()
+    {
+        return glottisExpClass;
+    }
+
+    public void setGlottisExpClass(Integer glottisExpClass)
+    {
+        this.glottisExpClass = glottisExpClass;
+    }
+
+    public Integer getSuccCount()
+    {
+        return succCount;
+    }
+
+    public void setSuccCount(Integer succCount)
+    {
+        this.succCount = succCount;
+    }
 
     public String getAnaSumAppGenId() {
         return anaSumAppGenId;
