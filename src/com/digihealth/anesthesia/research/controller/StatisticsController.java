@@ -2294,7 +2294,7 @@ public class StatisticsController extends BaseController {
             for (int j = 0; j < tableList.size(); j++)
             {
                 Map<String, String> volumn = (Map<String, String>)tableList.get(j);
-                String anaesValue = volumn.get(methodList.get(i).getAnaMedId().toString());
+                String anaesValue = volumn.get(methodList.get(i).getCode());
                 data.add(Float.valueOf(anaesValue));
                 setMaxAndMin(compareMap, Float.valueOf(anaesValue)); 
             }
@@ -2342,6 +2342,11 @@ public class StatisticsController extends BaseController {
 	public String searchAnaesMethodByAnaesDoc(@ApiParam(name="searchConditionFormBean", value ="统计查询参数") @RequestBody SearchConditionFormBean searchConditionFormBean) {
 		logger.info("begin searchAnaesMethodByAnaesDoc");
 		ResponseValue resp = new ResponseValue();
+		String beid = searchConditionFormBean.getBeid();
+        if (StringUtils.isEmpty(beid)) {
+            beid = getBeid();
+        }
+        searchConditionFormBean.setBeid(beid);
 		//搜索条件，开始时间和结束时间
 		BaseInfoQuery baseInfoQuery = new BaseInfoQuery();
         baseInfoQuery.setBeid(searchConditionFormBean.getBeid());
@@ -2380,6 +2385,7 @@ public class StatisticsController extends BaseController {
 		List<BasUser> userList = new ArrayList<BasUser>();
 		BasUserFormBean basUser = new BasUserFormBean();
 		basUser.setUserType("ANAES_DOCTOR");
+		basUser.setBeid(searchConditionFormBean.getBeid());
 		userList = basUserService.selectEntityList(basUser);
 		
 		//统计中的 用户名字

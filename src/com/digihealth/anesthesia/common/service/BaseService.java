@@ -16,6 +16,7 @@ import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineLoseRecordDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineOutRecordDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineRetreatRecordDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineStorageDao;
+import com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineStorageHisDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnaesMethodDao;
 import com.digihealth.anesthesia.basedata.dao.BasAnnouncementDao;
 import com.digihealth.anesthesia.basedata.dao.BasBusEntityDao;
@@ -512,6 +513,8 @@ public abstract class BaseService {
     protected BasAnaesMedicineRetreatRecordDao basAnaesMedicineRetreatRecordDao;
     @Autowired
     protected BasAnaesMedicineLoseRecordDao basAnaesMedicineLoseRecordDao;
+    @Autowired
+    protected BasAnaesMedicineStorageHisDao basAnaesMedicineStorageHisDao;
     @Autowired
     protected DocInsuredPatAgreeDao docInsuredPatAgreeDao;
     @Autowired

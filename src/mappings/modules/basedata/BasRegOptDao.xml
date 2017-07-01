@@ -708,7 +708,7 @@
 			<foreach collection="baseQuery.stateItems" item="item" index="index"
 				open="(" separator="," close=")">#{item}</foreach>
 		</if>
-		AND r.beid = #{baseQuery.beid}
+		AND r.beid = #{baseQuery.beid} AND o.beid = #{baseQuery.beid}
 		) x ORDER BY x.operRoomId
 	</select>
 

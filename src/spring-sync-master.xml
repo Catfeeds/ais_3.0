@@ -66,5 +66,12 @@
             <task:scheduled ref="basAnnouncementTask" method="job"  cron="0 0 1 * * ?"/> 
     </task:scheduled-tasks>  
     <bean id="basAnnouncementTask" class="com.digihealth.anesthesia.common.task.BasAnnouncementTask"/>
+    
+    <!--每月最后一天23点59分 去盘点毒麻药库存-->
+    <task:scheduler id="medicineStorage" pool-size="1"/>  
+    <task:scheduled-tasks scheduler="medicineStorage">   
+            <task:scheduled ref="medicineStorageTask" method="job"  cron=" 0 59 23 L * ?"/> 
+    </task:scheduled-tasks>  
+    <bean id="medicineStorageTask" class="com.digihealth.anesthesia.common.task.MedicineStorageTask"/>
         
 </beans>

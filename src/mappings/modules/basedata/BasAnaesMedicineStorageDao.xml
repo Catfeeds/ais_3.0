@@ -12,12 +12,13 @@
     <result column="minPackageUnit" property="minPackageUnit" jdbcType="VARCHAR" />
     <result column="productionTime" property="productionTime" jdbcType="TIMESTAMP" />
     <result column="effectiveTime" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
     <result column="beid" property="beid" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     id, medicineCode, medicineName, firm, spec, batch, number, minPackageUnit, productionTime,effectiveTime, 
-    beid
+    pinYin,beid
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -25,6 +26,13 @@
     <include refid="Base_Column_List" />
     from bas_anaes_medicine_storage
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryAnaesMedicineStorageByBeid" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_storage
+    where beid = #{beid,jdbcType=VARCHAR}
   </select>
   
   <select id="selectMedicineByMFSB" resultMap="BaseResultMap">
@@ -40,12 +48,17 @@
   <select id="queryAnaesMedicineListGroupByNFS" resultMap="BaseResultMap">
      select 
      s.id, s.medicineCode, s.medicineName, s.firm, s.spec, s.batch, sum(s.number) as number, 
-     s.minPackageUnit, s.productionTime,s.effectiveTime, s.beid
+     s.minPackageUnit, s.productionTime,s.effectiveTime, s.pinYin, s.beid
      from bas_anaes_medicine_storage s where 1=1
      <if test="filters != null">
 		<foreach collection="filters" item="filter" open=" " close=" " >
 		   <if test="filter.field != null and filter.field != '' ">
 				<choose>
+				       <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -77,6 +90,11 @@
 		<foreach collection="filters" item="filter" open=" " close=" " >
 		   <if test="filter.field != null and filter.field != '' ">
 				<choose>
+				        <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -99,13 +117,13 @@
   <select id="queryAnaesMedicineByMonth" resultType="com.digihealth.anesthesia.basedata.formbean.BasAnaesMedicineStorageFormbean">
      select 
      s.id, s.medicineCode, s.medicineName, s.firm, s.spec, s.batch,  
-     s.minPackageUnit, s.productionTime,s.effectiveTime,
+     s.minPackageUnit, s.productionTime,s.effectiveTime,s.pinYin,
      (SELECT statisticsNum FROM bas_anaes_medicine_storage_his his WHERE DATE_FORMAT( date_add(his.statisticsTime, interval 1 MONTH)  ,'%Y-%m') =  #{queryMonth} and his.beid = s.beid and his.storageId = s.id) as lastMonthAllNum,
-     (select sum(i.number) from bas_anaes_medicine_in_record i where i.`status` = 1 and DATE_FORMAT(i.operateTime,'%Y-%m') =  #{queryMonth} and i.beid = s.beid and i.medicineName=s.medicineName and i.firm =s.firm and i.spec = s.spec) as monthAllInNum,
-     (select sum(ou.outNumber) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec) as monthAllOutNum,
-     (select sum(ou.retreatNumber) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec ) as monthAllRetreatNum,
-     ( (select IFNULL(sum(ou.loseNumber),0) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec)
-     + (select IFNULL(sum(los.loseNumber),0) from bas_anaes_medicine_lose_record los where los.loseType='3' and los.`enable` = 1 and DATE_FORMAT(los.loseTime,'%Y-%m') = #{queryMonth} and los.beid = s.beid) ) as monthAllLoseNum,
+     (select sum(i.number) from bas_anaes_medicine_in_record i where i.`status` = 1 and DATE_FORMAT(i.operateTime,'%Y-%m') =  #{queryMonth} and i.beid = s.beid and i.medicineName=s.medicineName and i.firm =s.firm and i.spec = s.spec and i.batch = s.batch) as monthAllInNum,
+     (select sum(ou.outNumber) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec and ou.batch = s.batch ) as monthAllOutNum,
+     (select sum(ou.retreatNumber) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec and ou.batch = s.batch  ) as monthAllRetreatNum,
+     ( (select IFNULL(sum(ou.loseNumber),0) from bas_anaes_medicine_out_record ou where ou.`enable` = 1 and DATE_FORMAT(ou.outTime,'%Y-%m') =  #{queryMonth}  and ou.beid = s.beid and ou.medicineName=s.medicineName and ou.firm =s.firm and ou.spec = s.spec and ou.batch = s.batch)
+     + (select IFNULL(sum(los.loseNumber),0) from bas_anaes_medicine_lose_record los where los.loseType='3' and los.`enable` = 1 and DATE_FORMAT(los.loseTime,'%Y-%m') = #{queryMonth} and los.beid = s.beid and los.storageId = s.id) ) as monthAllLoseNum,
      (SELECT statisticsNum FROM bas_anaes_medicine_storage_his his WHERE DATE_FORMAT(his.statisticsTime,'%Y-%m') =  #{queryMonth} and his.beid = s.beid and his.storageId = s.id) as monthAllNum
      from bas_anaes_medicine_storage s where 1=1
      <if test="filters != null">
@@ -114,6 +132,11 @@
 				<choose>
 				        <when test="filter.field == 'queryMonth' ">
 					    </when>
+					    <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -128,7 +151,6 @@
 		   </if>
 		</foreach>
 	</if>
-	group by medicineName,firm,spec
   	order by ${systemSearchFormBean.sort} ${systemSearchFormBean.orderBy}
   	<if test="systemSearchFormBean.pageSize != 0 and systemSearchFormBean.pageSize!=null">
 		limit #{systemSearchFormBean.pageNo},#{systemSearchFormBean.pageSize}
@@ -147,6 +169,11 @@
 				<choose>
 				        <when test="filter.field == 'queryMonth' ">
 					    </when>
+					    <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -161,14 +188,13 @@
 		   </if>
 		</foreach>
 	</if>
-	group by medicineName,firm,spec
 	) x
   </select>
   
   
   <select id="queryAnaesMedicineByPersonal" resultType="com.digihealth.anesthesia.basedata.formbean.BasAnaesMedicineOutRecordFormBean">
      select 
-     medicineCode, medicineName, firm, spec, batch, minPackageUnit,outTime,receiveName,outType,enable,beid,
+     medicineCode, medicineName, firm, spec, batch, minPackageUnit,outTime,receiveName,outType,enable,pinYin,beid,
      sum(outNumber) as allOutNumber,
      sum(retreatNumber) as allRetreatNumber,
      sum(loseNumber) as allLoseNumber,
@@ -180,12 +206,17 @@
 				<choose>
 				        <when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &gt;= #{filter.value}
+								and  DATE_FORMAT(outTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &lt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -212,7 +243,7 @@
   <select id="queryAnaesMedicineByPersonalTotal" resultType="java.lang.Integer">
     SELECT count(id) FROM (
 	 select 
-      id, medicineCode, medicineName, firm, spec, batch, minPackageUnit,outTime,receiveName,outType,enable,beid
+      id, medicineCode, medicineName, firm, spec, batch, minPackageUnit,outTime,receiveName,outType,enable,pinYin,beid
      from bas_anaes_medicine_out_record 
 	 where `enable` = 1
 	 <if test="filters != null">
@@ -221,12 +252,17 @@
 				<choose>
 				        <when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &gt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &lt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -257,6 +293,11 @@
 		<foreach collection="filters" item="filter" open=" " close=" " >
 		   <if test="filter.field != null and filter.field != '' ">
 				<choose>
+				       <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -287,6 +328,11 @@
 		<foreach collection="filters" item="filter" open=" " close=" " >
 		   <if test="filter.field != null and filter.field != '' ">
 				<choose>
+				        <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -313,11 +359,11 @@
     insert into bas_anaes_medicine_storage (id, medicineCode, medicineName, 
       firm, spec, batch, 
       number, minPackageUnit, effectiveTime, 
-      productionTime, beid)
+      productionTime, pinYin,beid)
     values (#{id,jdbcType=INTEGER}, #{medicineCode,jdbcType=VARCHAR}, #{medicineName,jdbcType=VARCHAR}, 
       #{firm,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, 
       #{number,jdbcType=INTEGER}, #{minPackageUnit,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP}, 
-      #{productionTime,jdbcType=TIMESTAMP}, #{beid,jdbcType=VARCHAR})
+      #{productionTime,jdbcType=TIMESTAMP}, #{pinYin,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage" >
@@ -353,6 +399,9 @@
       <if test="productionTime != null" >
         productionTime,
       </if>
+      <if test="pinYin != null" >
+        pinYin,            
+      </if> 
       <if test="beid != null" >
         beid,
       </if>
@@ -388,6 +437,9 @@
       <if test="productionTime != null" >
         #{productionTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="pinYin != null" >                  
+         #{pinYin,jdbcType=VARCHAR},
+      </if> 
       <if test="beid != null" >
         #{beid,jdbcType=VARCHAR},
       </if>
@@ -424,6 +476,9 @@
       <if test="productionTime != null" >
         productionTime = #{productionTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="pinYin != null" >                                    
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
       <if test="beid != null" >
         beid = #{beid,jdbcType=VARCHAR},
       </if>
@@ -442,6 +497,7 @@
       minPackageUnit = #{minPackageUnit,jdbcType=VARCHAR},
       effectiveTime = #{effectiveTime,jdbcType=TIMESTAMP},
       productionTime = #{productionTime,jdbcType=TIMESTAMP},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
       beid = #{beid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -14,6 +14,7 @@ import com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
 import com.digihealth.anesthesia.common.service.BaseService;
 import com.digihealth.anesthesia.common.utils.DateUtils;
+import com.digihealth.anesthesia.common.utils.PingYinUtil;
 import com.digihealth.anesthesia.common.utils.StringUtils;
 import com.digihealth.anesthesia.evt.formbean.Filter;
 
@@ -46,7 +47,7 @@ public class BasAnaesMedicineStorageService extends BaseService
 			basAnaesMedicineStorage.setMinPackageUnit(basAnaesMedicineInRecord.getMinPackageUnit());
 			basAnaesMedicineStorage.setNumber(basAnaesMedicineInRecord.getNumber());
 			basAnaesMedicineStorage.setSpec(spec);
-			
+			basAnaesMedicineStorage.setPinYin(PingYinUtil.getFirstSpell(medicineName));
 			basAnaesMedicineStorageDao.insertSelective(basAnaesMedicineStorage);
 		}else{
 			int oldNumber = oldBasAnaesMedicineStorage.getNumber();
@@ -201,5 +202,11 @@ public class BasAnaesMedicineStorageService extends BaseService
 	{
 		List<Filter> filters = systemSearchFormBean.getFilters();
 		return basAnaesMedicineStorageDao.queryAnaesMedicineByPersonalTotal(filters);
+	}
+	
+	//查询当前局点下的库存记录
+	public List<BasAnaesMedicineStorage> queryAnaesMedicineStorageByBeid()
+	{
+		return basAnaesMedicineStorageDao.queryAnaesMedicineStorageByBeid(getBeid());
 	}
 }

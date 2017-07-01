@@ -22,13 +22,14 @@
     <result column="regOptId" property="regOptId" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
     <result column="beid" property="beid" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     id, storageId, medicineCode, medicineName, firm, spec, batch, effectiveTime, outNumber, 
     retreatNumber, loseNumber, actualNumber, minPackageUnit, outTime, operator, receiveName, 
-    outType, regOptId, remark,enable, beid
+    outType, regOptId, remark,enable,pinYin, beid
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -48,12 +49,17 @@
 				<choose>
 				        <when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &gt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &lt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -87,12 +93,17 @@
 				<choose>
 				       <when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &gt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and outTime &lt;= #{filter.value}
+								and DATE_FORMAT(outTime,'%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -126,12 +137,12 @@
 				<choose>
 						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and operaDate &gt;= #{filter.value}
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and operaDate &lt;= #{filter.value}
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &lt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'outMedicine' ">
@@ -179,12 +190,12 @@
 				<choose>
 						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and operaDate &gt;= #{filter.value}
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and operaDate &lt;= #{filter.value}
+								and DATE_FORMAT(operaDate,'%Y-%m-%d') &lt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'outMedicine' ">
@@ -226,14 +237,14 @@
       retreatNumber, loseNumber, actualNumber, 
       minPackageUnit, outTime, operator, 
       receiveName, outType, regOptId, 
-      remark,enable, beid)
+      remark,enable,pinYin, beid)
     values (#{id,jdbcType=INTEGER}, #{storageId,jdbcType=INTEGER}, #{medicineCode,jdbcType=VARCHAR}, 
       #{medicineName,jdbcType=VARCHAR}, #{firm,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, 
       #{batch,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP}, #{outNumber,jdbcType=INTEGER}, 
       #{retreatNumber,jdbcType=INTEGER}, #{loseNumber,jdbcType=INTEGER}, #{actualNumber,jdbcType=INTEGER}, 
       #{minPackageUnit,jdbcType=VARCHAR}, #{outTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, 
       #{receiveName,jdbcType=VARCHAR}, #{outType,jdbcType=VARCHAR}, #{regOptId,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},#{beid,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{pinYin,jdbcType=VARCHAR},#{beid,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineOutRecord" >
@@ -299,6 +310,9 @@
       <if test="enable != null" >
         enable,
       </if>
+      <if test="pinYin != null" >
+        pinYin,            
+      </if> 
       <if test="beid != null" >
         beid,
       </if>
@@ -364,6 +378,9 @@
       <if test="enable != null" >
         #{enable,jdbcType=INTEGER},
       </if>
+      <if test="pinYin != null" >                  
+         #{pinYin,jdbcType=VARCHAR},
+      </if> 
       <if test="beid != null" >
         #{beid,jdbcType=VARCHAR},
       </if>
@@ -430,6 +447,9 @@
       <if test="enable != null" >
         enable = #{enable,jdbcType=INTEGER},
       </if>
+      <if test="pinYin != null" >                                    
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
       <if test="beid != null" >
         beid = #{beid,jdbcType=VARCHAR},
       </if>
@@ -458,6 +478,7 @@
       regOptId = #{regOptId,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       enable=  #{actualNumber,jdbcType=INTEGER},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
       beid = #{beid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

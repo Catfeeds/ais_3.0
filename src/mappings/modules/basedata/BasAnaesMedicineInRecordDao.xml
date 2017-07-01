@@ -19,13 +19,14 @@
     <result column="checkName" property="checkName" jdbcType="VARCHAR" />
     <result column="checkTime" property="checkTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pinYin" property="pinYin" jdbcType="VARCHAR" />
     <result column="beid" property="beid" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     id, medicineCode, medicineName, firm, spec, batch, number, minPackageUnit, productionTime, 
     effectiveTime, price, invoiceNumber, operator, operateTime, checkName, checkTime, 
-    status, beid
+    status, pinYin, beid
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -43,6 +44,11 @@
 		<foreach collection="filters" item="filter" open=" " close=" " >
 		   <if test="filter.field != null and filter.field != '' ">
 				<choose>
+				        <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -71,6 +77,11 @@
 		<foreach collection="filters" item="filter" open=" " close=" " >
 		   <if test="filter.field != null and filter.field != '' ">
 				<choose>
+				        <when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
+							</if>
+						</when>
 						<when test="filter.field == 'beid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and beid = #{filter.value}
@@ -99,14 +110,14 @@
       number, minPackageUnit, productionTime, 
       effectiveTime, price, invoiceNumber, 
       operator, operateTime, checkName, 
-      checkTime, status, beid
+      checkTime, status, pinYin, beid
       )
     values (#{id,jdbcType=INTEGER}, #{medicineCode,jdbcType=VARCHAR}, #{medicineName,jdbcType=VARCHAR}, 
       #{firm,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, 
       #{number,jdbcType=INTEGER}, #{minPackageUnit,jdbcType=VARCHAR}, #{productionTime,jdbcType=TIMESTAMP}, 
       #{effectiveTime,jdbcType=TIMESTAMP}, #{price,jdbcType=REAL}, #{invoiceNumber,jdbcType=VARCHAR}, 
       #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{checkName,jdbcType=VARCHAR}, 
-      #{checkTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR}
+      #{checkTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{pinYin,jdbcType=VARCHAR}, #{beid,jdbcType=VARCHAR}
       )
   </insert>
 
@@ -164,6 +175,9 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="pinYin != null" >
+        pinYin,
+      </if>
       <if test="beid != null" >
         beid,
       </if>
@@ -219,6 +233,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="pinYin != null" >
+        #{pinYin,jdbcType=VARCHAR},
       </if>
       <if test="beid != null" >
         #{beid,jdbcType=VARCHAR},
@@ -277,6 +294,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="pinYin != null" >
+        pinYin = #{pinYin,jdbcType=VARCHAR},
+      </if>
       <if test="beid != null" >
         beid = #{beid,jdbcType=VARCHAR},
       </if>
@@ -302,6 +322,7 @@
       checkName = #{checkName,jdbcType=VARCHAR},
       checkTime = #{checkTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
+      pinYin = #{pinYin,jdbcType=VARCHAR},
       beid = #{beid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

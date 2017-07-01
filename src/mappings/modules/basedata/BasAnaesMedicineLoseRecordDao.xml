@@ -33,14 +33,18 @@
      select * from 
      (
          select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
-                o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+                o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit,o.pinYin,
+                (select i.price from bas_anaes_medicine_in_record i where i.medicineName = o.medicineName and i.firm = o.firm and i.spec = o.spec and i.batch = o.batch limit 1
+                ) as price
                 from bas_anaes_medicine_lose_record r,bas_anaes_medicine_out_record o
           where r.outRecordId = o.id
                 and r.loseType in('1','2')
                 and r.enable=1
          UNION all
          select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
-                m.medicineName,m.firm,m.spec,m.batch,m.minPackageUnit
+                m.medicineName,m.firm,m.spec,m.batch,m.minPackageUnit,m.pinYin,
+                (select i.price from bas_anaes_medicine_in_record i where i.medicineName = m.medicineName and i.firm = m.firm and i.spec = m.spec and i.batch = m.batch limit 1
+                ) as price
                 from bas_anaes_medicine_lose_record r,bas_anaes_medicine_storage m
           where r.storageId = m.id
                 and r.loseType = '3'
@@ -58,6 +62,11 @@
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
 								and DATE_FORMAT(loseTime, '%Y-%m-%d') &lt;= #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'outRecordid' ">
@@ -92,14 +101,14 @@
     SELECT count(id) FROM (
       select * from (       
 	      select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
-                o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+                o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit,o.pinYin
                 from bas_anaes_medicine_lose_record r,bas_anaes_medicine_out_record o
           where r.outRecordId = o.id
                 and r.loseType in('1','2')
                 and r.enable=1
          UNION all
          select r.id,r.outRecordId, r.loseNumber, r.loseTime, r.operator, r.loseName,r.loseReason ,r.beid,r.loseType,r.storageId,
-                m.medicineName,m.firm,m.spec,m.batch,m.minPackageUnit
+                m.medicineName,m.firm,m.spec,m.batch,m.minPackageUnit,m.pinYin
                 from bas_anaes_medicine_lose_record r,bas_anaes_medicine_storage m
           where r.storageId = m.id
                 and r.loseType = '3'
@@ -122,6 +131,11 @@
 						<when test="filter.field == 'outRecordid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">

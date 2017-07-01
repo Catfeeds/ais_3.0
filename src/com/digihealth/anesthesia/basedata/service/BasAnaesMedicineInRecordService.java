@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.digihealth.anesthesia.basedata.formbean.SystemSearchFormBean;
 import com.digihealth.anesthesia.basedata.po.BasAnaesMedicineInRecord;
 import com.digihealth.anesthesia.common.service.BaseService;
+import com.digihealth.anesthesia.common.utils.PingYinUtil;
 import com.digihealth.anesthesia.common.utils.StringUtils;
 import com.digihealth.anesthesia.evt.formbean.Filter;
 
@@ -54,10 +55,12 @@ public class BasAnaesMedicineInRecordService extends BaseService
 		Integer id = basAnaesMedicineInRecord.getId();
 		if(null == id)
 		{
+			basAnaesMedicineInRecord.setPinYin(PingYinUtil.getFirstSpell(basAnaesMedicineInRecord.getMedicineName()));
 			basAnaesMedicineInRecord.setOperateTime(new Date());
 			basAnaesMedicineInRecordDao.insertSelective(basAnaesMedicineInRecord);
 		}else
 		{
+			basAnaesMedicineInRecord.setPinYin(PingYinUtil.getFirstSpell(basAnaesMedicineInRecord.getMedicineName()));
 			basAnaesMedicineInRecordDao.updateByPrimaryKeySelective(basAnaesMedicineInRecord);
 		}
 	}

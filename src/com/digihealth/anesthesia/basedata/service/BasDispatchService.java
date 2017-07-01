@@ -54,17 +54,20 @@ import com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixGen;
 import com.digihealth.anesthesia.doc.po.DocAnaesSummaryAppendixVisit;
 import com.digihealth.anesthesia.doc.po.DocAnaesSummaryVenipuncture;
 import com.digihealth.anesthesia.doc.po.DocExitOperSafeCheck;
+import com.digihealth.anesthesia.doc.po.DocInsuredPatAgree;
 import com.digihealth.anesthesia.doc.po.DocOperBeforeSafeCheck;
 import com.digihealth.anesthesia.doc.po.DocOptCareRecord;
 import com.digihealth.anesthesia.doc.po.DocOptNurse;
 import com.digihealth.anesthesia.doc.po.DocOptRiskEvaluation;
 import com.digihealth.anesthesia.doc.po.DocPatOutRangeAgree;
 import com.digihealth.anesthesia.doc.po.DocPatShuttleTransfer;
+import com.digihealth.anesthesia.doc.po.DocPlacentaHandleAgree;
 import com.digihealth.anesthesia.doc.po.DocPostFollowRecord;
 import com.digihealth.anesthesia.doc.po.DocPreOperVisit;
 import com.digihealth.anesthesia.doc.po.DocPrePostVisit;
 import com.digihealth.anesthesia.doc.po.DocPreVisit;
 import com.digihealth.anesthesia.doc.po.DocSafeCheck;
+import com.digihealth.anesthesia.doc.po.DocTransferConnectRecord;
 import com.digihealth.anesthesia.evt.po.EvtParticipant;
 import com.digihealth.anesthesia.evt.service.EvtParticipantService;
 import com.digihealth.anesthesia.sysMng.po.BasUser;
@@ -760,6 +763,30 @@ public class BasDispatchService extends BaseService {
 						postFollowRecord.setProcessState("NO_END");
 						postFollowRecord.setPostFollowId(GenerateSequenceUtil.generateSequenceNo());
 						docPostFollowRecordDao.insert(postFollowRecord);
+						
+						//参保患者特殊用药、卫材知情单
+                        DocInsuredPatAgree insuredPatAgree = new DocInsuredPatAgree();
+                        insuredPatAgree.setRegOptId(idsList.get(i));
+                        insuredPatAgree.setProcessState("NO_END");
+                        insuredPatAgree.setId(GenerateSequenceUtil.generateSequenceNo());
+                        docInsuredPatAgreeDao.insert(insuredPatAgree);
+                        
+                        //手术病人转运交接记录单
+                        DocTransferConnectRecord transferConnectRecord = new DocTransferConnectRecord();
+                        transferConnectRecord.setRegOptId(idsList.get(i));
+                        transferConnectRecord.setProcessState("NO_END");
+                        transferConnectRecord.setId(GenerateSequenceUtil.generateSequenceNo());
+                        docTransferConnectRecordDao.insert(transferConnectRecord);
+                        
+                        //胎盘处置知情同意书
+                        DocPlacentaHandleAgree placentaHandleAgree = new DocPlacentaHandleAgree();
+                        placentaHandleAgree.setRegOptId(idsList.get(i));
+                        placentaHandleAgree.setProcessState("NO_END");
+                        placentaHandleAgree.setId(GenerateSequenceUtil.generateSequenceNo());
+                        docPlacentaHandleAgreeDao.insert(placentaHandleAgree);
+                        
+                        
+                        
 
 						// 在审核的时候 生成排程信息记录
 						int dispatchCount = basDispatchDao.searchDistchByRegOptId(idsList.get(i));

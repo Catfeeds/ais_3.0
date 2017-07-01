@@ -58,6 +58,11 @@ public class BasAnaesMedicineStorage {
      */
     private Date effectiveTime;
 
+    /**                                        
+     * 药品名字拼音       
+     */                   
+    private String pinYin;
+    
     /**
      * 局点编号
      */
@@ -143,6 +148,16 @@ public class BasAnaesMedicineStorage {
 	public void setEffectiveTime(Date effectiveTime)
 	{
 		this.effectiveTime = effectiveTime;
+	}
+
+	public String getPinYin()
+	{
+		return pinYin;
+	}
+
+	public void setPinYin(String pinYin)
+	{
+		this.pinYin = pinYin;
 	}
 
 	public Date getProductionTime()

@@ -6,16 +6,31 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.digihealth.anesthesia.basedata.formbean.BasDeptFormBean;
+import com.digihealth.anesthesia.basedata.formbean.BaseInfoQuery;
 import com.digihealth.anesthesia.basedata.formbean.SystemSearchFormBean;
+import com.digihealth.anesthesia.basedata.po.BasAnaesKndgbase;
 import com.digihealth.anesthesia.basedata.po.BasAnaesMethod;
 import com.digihealth.anesthesia.basedata.po.BasBusEntity;
 import com.digihealth.anesthesia.basedata.po.BasCheckItem;
+import com.digihealth.anesthesia.basedata.po.BasDept;
+import com.digihealth.anesthesia.basedata.po.BasDiagnosedef;
 import com.digihealth.anesthesia.basedata.po.BasIoDefination;
 import com.digihealth.anesthesia.basedata.po.BasMedicalTakeReason;
 import com.digihealth.anesthesia.basedata.po.BasMedicalTakeWay;
+import com.digihealth.anesthesia.basedata.po.BasMedicine;
 import com.digihealth.anesthesia.basedata.po.BasMonitorConfigFreq;
+import com.digihealth.anesthesia.basedata.po.BasOperationPeople;
+import com.digihealth.anesthesia.basedata.po.BasOperdef;
+import com.digihealth.anesthesia.basedata.po.BasOperroom;
+import com.digihealth.anesthesia.basedata.po.BasPacuDeviceMonitorConfig;
+import com.digihealth.anesthesia.basedata.po.BasPacuDeviceSpecification;
 import com.digihealth.anesthesia.basedata.po.BasPacuMonitorConfig;
+import com.digihealth.anesthesia.basedata.po.BasPrice;
+import com.digihealth.anesthesia.basedata.po.BasRegion;
+import com.digihealth.anesthesia.basedata.po.BasRegionBed;
 import com.digihealth.anesthesia.basedata.po.BasRequiredItem;
+import com.digihealth.anesthesia.basedata.po.BasSysCode;
 import com.digihealth.anesthesia.common.config.Global;
 import com.digihealth.anesthesia.common.service.BaseService;
 import com.digihealth.anesthesia.common.utils.GenerateSequenceUtil;
@@ -245,7 +260,7 @@ public class BasBusEntityService extends BaseService {
 				}
 			}
 			
-			//拷贝  bas_monitor_config_freq 给新局点
+			//拷贝  bas_required_item 给新局点
 			List<BasRequiredItem> BasRequiredItemList = basRequiredItemDao.selectBasRequiredItemByBeid(gzbBeid);
 			if(null != BasRequiredItemList && BasRequiredItemList.size()>0)
 			{
@@ -256,6 +271,121 @@ public class BasBusEntityService extends BaseService {
 					basRequiredItemDao.insertSelective(basRequiredItem);
 				}
 			}
+
+			//拷贝  bas_anaes_kndgbase 给新局点
+			BasAnaesKndgbase entity = new BasAnaesKndgbase();
+			entity.setBeid(gzbBeid);
+			List<BasAnaesKndgbase> basAnaesKndgbaseList = basAnaesKndgbaseDao.queryAnaesKndgbaseList(entity);
+			if (null != basAnaesKndgbaseList && basAnaesKndgbaseList.size() > 0) {
+				for (BasAnaesKndgbase basAnaesKndgbase : basAnaesKndgbaseList) {
+					basAnaesKndgbase.setId(GenerateSequenceUtil.generateSequenceNo());
+					basAnaesKndgbase.setBeid(beid);
+					basAnaesKndgbaseDao.insertSelective(basAnaesKndgbase);
+				}
+			}
+			//拷贝  bas_dept 给新局点
+			BasDeptFormBean dept = new BasDeptFormBean();
+			dept.setBeid(gzbBeid);
+			List<BasDept> basDeptList = basDeptDao.selectEntityList(dept);
+			if (null != basDeptList && basDeptList.size() > 0) {
+				for (BasDept basDept : basDeptList) {
+					basDept.setDeptId(GenerateSequenceUtil.generateSequenceNo());
+					basDept.setBeid(beid);
+					basDeptDao.insert(basDept);
+				}
+			}
+			//拷贝  bas_operroom 给新局点
+			BasOperroom operroom = new BasOperroom();
+			operroom.setBeid(gzbBeid);
+			List<BasOperroom> basOperroomList = basOperroomDao.selectEntityList(operroom);
+			if (null != basOperroomList && basOperroomList.size() > 0) {
+				for (BasOperroom basOperroom : basOperroomList) {
+					basOperroom.setBeid(beid);
+					basOperroomDao.insert(basOperroom);
+				}
+			}
+			//拷贝  bas_pacu_device_monitor_config 给新局点
+			List<BasPacuDeviceMonitorConfig> pacuDeviceMonitorConfigList = basPacuDeviceMonitorConfigDao.queryEntityByBeid(gzbBeid);
+			if (null != pacuDeviceMonitorConfigList && pacuDeviceMonitorConfigList.size() > 0) {
+				for (BasPacuDeviceMonitorConfig basPacuDeviceMonitorConfig : pacuDeviceMonitorConfigList) {
+					basPacuDeviceMonitorConfig.setBeid(beid);
+					basPacuDeviceMonitorConfigDao.insert(basPacuDeviceMonitorConfig);
+				}
+			}
+			//拷贝  bas_pacu_device_specification 给新局点
+			List<BasPacuDeviceSpecification> pacuDeviceSpecificationList = basPacuDeviceSpecificationDao.queryEntityByBeid(gzbBeid);
+			if (null != pacuDeviceSpecificationList && pacuDeviceSpecificationList.size() > 0) {
+				for (BasPacuDeviceSpecification basPacuDeviceSpecification : pacuDeviceSpecificationList) {
+					basPacuDeviceSpecification.setBeid(beid);
+					basPacuDeviceSpecificationDao.insert(basPacuDeviceSpecification);
+				}
+			}
+			//拷贝  bas_price 给新局点
+			BaseInfoQuery price = new BaseInfoQuery();
+			price.setBeid(gzbBeid);
+			List<BasPrice> priceList = basPriceDao.searchPriceList(price);
+			if (null != priceList && priceList.size() > 0) {
+				for (BasPrice basPrice : priceList) {
+					basPrice.setPriceId(GenerateSequenceUtil.generateSequenceNo());
+					basPrice.setBeid(beid);
+					basPriceDao.insert(basPrice);
+				}
+			}
+			//拷贝  bas_region 给新局点
+			BasRegion region = new BasRegion();
+			region.setBeid(gzbBeid);
+			List<BasRegion> regionList = basRegionDao.selectEntityList(region);
+			if (null != regionList && regionList.size() > 0) {
+				for (BasRegion basRegion : regionList) {
+					basRegion.setRegionId(GenerateSequenceUtil.generateSequenceNo());
+					basRegion.setBeid(beid);
+					basRegionDao.insert(basRegion);
+				}
+			}
+			//拷贝  bas_region_bed 给新局点
+			BasRegionBed regionBed = new BasRegionBed();
+			regionBed.setBeid(gzbBeid);
+			List<BasRegionBed> regionBedList = basRegionBedDao.selectEntityList(regionBed);
+			if (null != regionBedList && regionBedList.size() > 0) {
+				for (BasRegionBed basRegionBed : regionBedList) {
+					basRegionBed.setId(beid + basRegionBed.getId());
+					basRegionBed.setBeid(beid);
+					basRegionBedDao.insert(basRegionBed);
+				}
+			}
+			//拷贝  bas_sys_code 给新局点
+			BasSysCode sysCode = new BasSysCode();
+			sysCode.setBeid(gzbBeid);
+			List<BasSysCode> sysCodeList = basSysCodeDao.selectEntityList(sysCode);
+			if (null != sysCodeList && sysCodeList.size() > 0) {
+				for (BasSysCode basSysCode : sysCodeList) {
+					basSysCode.setSysCodeId(GenerateSequenceUtil.generateSequenceNo());
+					basSysCode.setBeid(beid);
+					basSysCodeDao.insert(basSysCode);
+				}
+			}
+			//***********************初始化大数据量表**************************
+			double random = Math.floor(Math.random()*10000);
+			if (random < 1000) {
+				random = random * 10;
+			}
+			String rand = (int)random + "";
+			BasOperationPeople people = new BasOperationPeople();
+			people.setBeid(beid);
+			basOperationPeopleDao.initData(people, rand);
+			
+			BasDiagnosedef basDiagnosedef = new BasDiagnosedef();
+			basDiagnosedef.setBeid(beid);
+			basDiagnosedefDao.initData(basDiagnosedef, rand);
+			
+			BasOperdef basOperdef = new BasOperdef();
+			basOperdef.setBeid(beid);
+			basOperdefDao.initData(basOperdef, rand);
+
+			BasMedicine basMedicine = new BasMedicine();
+			basMedicine.setBeid(beid);
+			basMedicineDao.initData(basMedicine, rand);
+			//***********************初始化大数据量表**************************
 		}
 	}
 

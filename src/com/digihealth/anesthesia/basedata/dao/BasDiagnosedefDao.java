@@ -43,5 +43,5 @@ public interface BasDiagnosedefDao extends CrudDao<BasDiagnosedef> {
 	
 	public int insertSelective(BasDiagnosedef basDiagnosedef);
 	
-	public int initData(BasDiagnosedef basDiagnosedef);
+	public int initData(@Param("basDiagnosedef")BasDiagnosedef basDiagnosedef, @Param("random")String random);
 }

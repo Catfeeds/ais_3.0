@@ -7,10 +7,21 @@ public class RegOptOperEgressFormBean {
 	private String ioDefId;
 	private String name;
 	private String unit;
+	private String totalAmout;
 	private String dosageUnit;
 	private List<SearchOptOperEgress> egressList;
 
-	public String getDosageUnit()
+	public String getTotalAmout()
+    {
+        return totalAmout;
+    }
+
+    public void setTotalAmout(String totalAmout)
+    {
+        this.totalAmout = totalAmout;
+    }
+
+    public String getDosageUnit()
     {
         return dosageUnit;
     }

@@ -111,6 +111,11 @@ public class BasAnaesMedicineOutRecord {
      */
     private Integer enable;
 
+    /**                                        
+     * 药品名字拼音       
+     */                   
+    private String pinYin;
+    
     /**
      * 局点id
      */
@@ -275,6 +280,16 @@ public class BasAnaesMedicineOutRecord {
     public void setBeid(String beid) {
         this.beid = beid == null ? null : beid.trim();
     }
+
+	public String getPinYin()
+	{
+		return pinYin;
+	}
+
+	public void setPinYin(String pinYin)
+	{
+		this.pinYin = pinYin;
+	}
 
 	public Integer getEnable()
 	{

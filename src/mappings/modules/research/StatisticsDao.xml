@@ -782,19 +782,18 @@ and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORD
     
     
     <select id="getDeptAnaesCntGroupByAnaesMethod" resultType="com.digihealth.anesthesia.research.formbean.AnaesCntByAnaesMethod">
-        select anaMedId ana_med,(select name from bas_anaes_method m where m.anaMedId=s.anaMedId AND m.beid = #{searchFormBean.beid}) ana_med_name ,count(*) total
-			 From bas_reg_opt b,doc_anaes_record d,evt_real_anaes_method s
+        select m.code ana_med,(select name from bas_anaes_method m where m.anaMedId=s.anaMedId AND m.beid = #{searchFormBean.beid}) ana_med_name ,count(*) total
+			 From bas_reg_opt b,doc_anaes_record d,evt_real_anaes_method s,bas_anaes_method m
 			 where b.state  in ('06','07')
 			 and b.deptId = #{searchFormBean.deptId}
 			 and b.beid = #{searchFormBean.beid}
 			 and b.regOptId = d.regOptId
+			 and s.anaMedId = m.anaMedId
 			 and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
 			 and d.anaRecordId = s.docId
 			GROUP BY s.anaMedId
-		
-		union ALL
-		
-			select c.anaMedId ,c.name ana_med_name,COUNT(1) total 
+			union ALL
+			select c.code ,c.name ana_med_name,COUNT(1) total 
 			from bas_reg_opt b,bas_anaes_method c
 			where b.designedAnaesMethodCode = c.anaMedId
 			and b.state  in ('06','07')
@@ -804,12 +803,13 @@ and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORD
 			and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
     </select>
     <select id="getAnaesDocAnaesCntGroupByAnaesMethod" resultType="com.digihealth.anesthesia.research.formbean.AnaesCntByAnaesMethod">
-        select anaMedId ana_med,(select name from bas_anaes_method m where m.anaMedId=s.anaMedId AND m.beid = #{searchFormBean.beid}) ana_med_name ,count(*) total
-         From bas_reg_opt b,doc_anaes_record d,bas_dispatch c ,evt_real_anaes_method s
+        select m.`code` ana_med,(select name from bas_anaes_method m where m.anaMedId=s.anaMedId AND m.beid = #{searchFormBean.beid}) ana_med_name ,count(*) total
+         From bas_reg_opt b,doc_anaes_record d,bas_dispatch c ,evt_real_anaes_method s,bas_anaes_method m
          where b.state  in ('06','07') 
          and c.anesthetistId = #{searchFormBean.id}
          and c.regOptId = d.regOptId
          and b.regOptId = d.regOptId
+         and m.anaMedId = s.anaMedId
          and b.beid = #{searchFormBean.beid}
          and b.operaDate &gt;= #{searchFormBean.startTime} and b.operaDate &lt;= #{searchFormBean.endTime}
          and d.anaRecordId = s.docId
@@ -819,7 +819,7 @@ and t1.state  in ('06','07') and t1.isLocalAnaes = '0' AND t1.beid = #{beid} ORD
     
     <select id="searchOperByDept" resultType="com.digihealth.anesthesia.research.formbean.SearchOperByDept">
     SELECT a.deptId,a.name deptName,IFNULL(b.total,0) total FROM 
-    (SELECT * FROM bas_dept WHERE ENABLE ='1') a
+    (SELECT * FROM bas_dept WHERE ENABLE ='1' AND beid = #{searchFormBean.beid}) a
     LEFT JOIN
     (SELECT deptId,deptName,COUNT(*) total FROM bas_reg_opt 
     where operaDate &gt;= #{searchFormBean.startTime} 

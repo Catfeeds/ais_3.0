@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digihealth.anesthesia.basedata.dao.BasAnaesMedicineStorageHisDao" >
+  <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorageHis" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="storageId" property="storageId" jdbcType="INTEGER" />
+    <result column="statisticsTime" property="statisticsTime" jdbcType="TIMESTAMP" />
+    <result column="statisticsNum" property="statisticsNum" jdbcType="INTEGER" />
+    <result column="beid" property="beid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, storageId, statisticsTime, statisticsNum, beid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bas_anaes_medicine_storage_his
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bas_anaes_medicine_storage_his
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorageHis" >
+    insert into bas_anaes_medicine_storage_his (id, storageId, statisticsTime, 
+      statisticsNum, beid)
+    values (#{id,jdbcType=INTEGER}, #{storageId,jdbcType=INTEGER}, #{statisticsTime,jdbcType=TIMESTAMP}, 
+      #{statisticsNum,jdbcType=INTEGER}, #{beid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorageHis" >
+    insert into bas_anaes_medicine_storage_his
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="storageId != null" >
+        storageId,
+      </if>
+      <if test="statisticsTime != null" >
+        statisticsTime,
+      </if>
+      <if test="statisticsNum != null" >
+        statisticsNum,
+      </if>
+      <if test="beid != null" >
+        beid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="storageId != null" >
+        #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="statisticsTime != null" >
+        #{statisticsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statisticsNum != null" >
+        #{statisticsNum,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        #{beid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorageHis" >
+    update bas_anaes_medicine_storage_his
+    <set >
+      <if test="storageId != null" >
+        storageId = #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="statisticsTime != null" >
+        statisticsTime = #{statisticsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statisticsNum != null" >
+        statisticsNum = #{statisticsNum,jdbcType=INTEGER},
+      </if>
+      <if test="beid != null" >
+        beid = #{beid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorageHis" >
+    update bas_anaes_medicine_storage_his
+    set storageId = #{storageId,jdbcType=INTEGER},
+      statisticsTime = #{statisticsTime,jdbcType=TIMESTAMP},
+      statisticsNum = #{statisticsNum,jdbcType=INTEGER},
+      beid = #{beid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

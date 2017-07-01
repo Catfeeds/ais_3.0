@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
     <id column="beid" property="beid" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="subName" property="subName" jdbcType="VARCHAR" />
     <result column="tel" property="tel" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
@@ -13,7 +14,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    beid, name, subName, tel, address, description, enable, isCurBe
+    beid, name, code, subName, tel, address, description, enable, isCurBe
   </sql>
 
   <select id="getBeid" resultType="java.lang.String">
@@ -65,10 +66,10 @@
   </delete>
 
   <insert id="insert" parameterType="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
-    insert into bas_bus_entity (beid, name, subName, 
+    insert into bas_bus_entity (beid, name, code, subName, 
       tel, address, description, 
       enable, isCurBe)
-    values (#{beid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{subName,jdbcType=VARCHAR}, 
+    values (#{beid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{subName,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{enable,jdbcType=INTEGER}, #{isCurBe,jdbcType=INTEGER})
   </insert>
@@ -81,6 +82,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="code != null" >
+        code,
       </if>
       <if test="subName != null" >
         subName,
@@ -107,6 +111,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
       </if>
       <if test="subName != null" >
         #{subName,jdbcType=VARCHAR},
@@ -135,6 +142,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
       <if test="subName != null" >
         subName = #{subName,jdbcType=VARCHAR},
       </if>
@@ -160,6 +170,7 @@
   <update id="updateByPrimaryKey" parameterType="com.digihealth.anesthesia.basedata.po.BasBusEntity" >
     update bas_bus_entity
     set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
       subName = #{subName,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},

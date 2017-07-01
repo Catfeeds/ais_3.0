@@ -93,7 +93,7 @@
   </insert>
 
   <insert id="initData" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >
-    INSERT INTO `bas_operdef` (`operdefId`, `code`, `name`, `pinYin`, `enable`, `beid`) SELECT CONCAT(#{beid,jdbcType=VARCHAR}, `operdefId`), `code`, `name`, `pinYin`, `enable`, #{beid,jdbcType=VARCHAR} FROM bas_operdef WHERE beid = '102';
+    INSERT INTO `bas_operdef` (`operdefId`, `code`, `name`, `pinYin`, `enable`, `beid`) SELECT CONCAT(#{basOperdef.beid,jdbcType=VARCHAR},#{random}, `operdefId`), `code`, `name`, `pinYin`, `enable`, #{basOperdef.beid,jdbcType=VARCHAR} FROM bas_operdef WHERE beid = '102';
   </insert>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasOperdef" >

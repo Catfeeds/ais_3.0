@@ -50,6 +50,7 @@ public class EvtEgressService extends BaseService {
 				}
 				searchBean.setCode(regOptOperEgressFormBean.getIoDefId().toString());
 				regOptOperEgressFormBean.setEgressList(evtEgressDao.searchEgressList(searchBean));
+				regOptOperEgressFormBean.setTotalAmout(evtEgressDao.getEgressCountValueByIoDef(searchBean.getCode(), searchBean.getDocId()).toString());
 			}
 		}
 		resultList.remove(bean);

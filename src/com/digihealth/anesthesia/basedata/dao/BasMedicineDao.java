@@ -16,6 +16,7 @@ import com.digihealth.anesthesia.basedata.formbean.BaseInfoQuery;
 import com.digihealth.anesthesia.basedata.formbean.MedicineFormBean;
 import com.digihealth.anesthesia.basedata.formbean.SystemSearchFormBean;
 import com.digihealth.anesthesia.basedata.po.BasMedicine;
+import com.digihealth.anesthesia.basedata.po.BasOperdef;
 import com.digihealth.anesthesia.common.persistence.annotation.MyBatisDao;
 
 @MyBatisDao
@@ -47,4 +48,6 @@ public interface BasMedicineDao {
     public List<BasMedicine> selectByCode(@Param("code")String code, @Param("beid")String beid);
     
     public int updateEnable(@Param("beid")String beid);
+
+	public int initData(@Param("basMedicine")BasMedicine basMedicine, @Param("random")String random);
 }

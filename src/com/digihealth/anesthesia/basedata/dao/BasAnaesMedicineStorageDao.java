@@ -50,4 +50,6 @@ public interface BasAnaesMedicineStorageDao {
     List<BasAnaesMedicineOutRecordFormBean> queryAnaesMedicineByPersonal(@Param("filters")List<Filter> filters,@Param("systemSearchFormBean")SystemSearchFormBean systemSearchFormBean);
     
     int queryAnaesMedicineByPersonalTotal(@Param("filters")List<Filter> filters);
+    
+    List<BasAnaesMedicineStorage> queryAnaesMedicineStorageByBeid(@Param("beid")String beid);
 }

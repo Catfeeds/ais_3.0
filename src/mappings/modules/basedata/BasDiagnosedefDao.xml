@@ -94,7 +94,7 @@
 
 	<insert id="initData" parameterType="com.digihealth.anesthesia.basedata.po.BasDiagnosedef" >
 	    INSERT INTO `bas_diagnosedef` (`diagDefId`, `code`, `name`, `pinYin`, `enable`, `beid`) 
-	    SELECT CONCAT(#{beid,jdbcType=VARCHAR},`diagDefId`) AS diagDefId, `code`, `name`, `pinYin`, `enable`, #{beid,jdbcType=VARCHAR} FROM `bas_diagnosedef` WHERE beid = '102';
+	    SELECT CONCAT(#{basDiagnosedef.beid,jdbcType=VARCHAR},#{random},`diagDefId`) AS diagDefId, `code`, `name`, `pinYin`, `enable`, #{basDiagnosedef.beid,jdbcType=VARCHAR} FROM `bas_diagnosedef` WHERE beid = '102';
 	</insert>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasDiagnosedef" >

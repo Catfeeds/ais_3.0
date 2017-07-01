@@ -30,7 +30,7 @@
   
   <select id="queryCommonRetreatRecordList" resultType="com.digihealth.anesthesia.basedata.formbean.CommonRetreatRecordFormBean">
      select * from (select r.id,r.outRecordId, r.retreatNumber, r.retreatTime, r.operator, r.retreatName,r.beid,
-     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit,o.pinYin
      from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
      where r.outRecordId = o.id
      and r.retreatType = '1'
@@ -42,17 +42,22 @@
 				<choose>
 						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &gt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &lt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &lt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'outRecordid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -79,7 +84,7 @@
     SELECT count(id) FROM (
       select * from (       
 	  select r.id, r.retreatNumber,r.outRecordId, r.retreatTime, r.operator, r.retreatName, r.beid,
-      o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+      o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit,o.pinYin
       from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
       where r.outRecordId = o.id
       and r.retreatType = '1'
@@ -91,17 +96,22 @@
 				<choose>
 						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &gt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &lt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &lt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'outRecordid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -126,7 +136,7 @@
      select * from (
      select x.*,b.designedOptName,b.name,b.sex,b.age,b.hid
       from (select r.id, r.retreatNumber,r.outRecordId, r.retreatTime, r.operator, r.retreatName,r.beid,r.regOptId,
-     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit,o.pinYin
      from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
      where r.outRecordId = o.id
      and r.retreatType = '2'
@@ -140,17 +150,22 @@
 				<choose>
 						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &gt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &lt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &lt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'outRecordid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">
@@ -178,7 +193,7 @@
       select * from (
      select x.*,b.designedOptName,b.name,b.sex,b.age,b.hid
       from (select r.id, r.retreatNumber, r.outRecordId,r.retreatTime, r.operator, r.retreatName,r.beid,r.regOptId,
-     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit
+     o.medicineName,o.firm,o.spec,o.batch,o.minPackageUnit,o.pinYin
      from bas_anaes_medicine_retreat_record r,bas_anaes_medicine_out_record o
      where r.outRecordId = o.id
      and r.retreatType = '2'
@@ -192,17 +207,22 @@
 				<choose>
 						<when test="filter.field == 'startTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &gt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &gt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'endTime' ">
 							<if test="filter.value != null and filter.value != ''">
-								and retreatTime &lt;= #{filter.value}
+								and DATE_FORMAT(retreatTime,'%Y-%m-%d') &lt;= #{filter.value}
 							</if>
 						</when>
 						<when test="filter.field == 'outRecordid' ">
 							<if test="filter.value != null and filter.value != ''">
 								and outRecordId = #{filter.value}
+							</if>
+						</when>
+						<when test="filter.field == 'medicineName' ">
+							<if test="filter.value != null and filter.value != ''">
+								and (medicineName LIKE CONCAT(CONCAT('%',#{filter.value}),'%') or pinYin LIKE CONCAT('%',#{filter.value},'%'))
 							</if>
 						</when>
 						<when test="filter.field == 'beid' ">

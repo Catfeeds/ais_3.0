@@ -140,6 +140,11 @@
     </trim>
   </insert>
 
+	<insert id="initData" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicine" >
+	    INSERT INTO `bas_medicine` (`medicineId`, `code`, `type`, `source`, `pinYin`, `name`, `spec`, `hisMedicineCode`, `briefName`, `dosageUnit`, `roughType`, `packageDosageAmount`, `enable`, `beid`) 
+	    SELECT CONCAT(#{basMedicine.beid,jdbcType=VARCHAR},#{random},`medicineId`) AS medicineId, `code`, `type`, `source`, `pinYin`, `name`, `spec`, `hisMedicineCode`, `briefName`, `dosageUnit`, `roughType`, `packageDosageAmount`, `enable`, #{basMedicine.beid,jdbcType=VARCHAR} FROM `bas_medicine` WHERE beid = '102';
+	</insert>
+	
   <update id="updateByPrimaryKeySelective" parameterType="com.digihealth.anesthesia.basedata.po.BasMedicine" >
     update bas_medicine
     <set >

@@ -49,4 +49,6 @@ public interface EvtMedicalEventDao {
 	public List<RegOptOperMedicaleventFormBean> getUseMedicalGroupByNameList(@Param("searchBean")SearchFormBean searchBean);
 
 	RegOptOperMedicaleventFormBean getUseMedicalTotalById(@Param("searchBean")SearchFormBean searchBean);
+	
+	public void deleteByType(@Param("docId")String docId,@Param("type")Integer type);
 }

@@ -93,6 +93,11 @@ public class BasAnaesMedicineLoseRecordFormBean
      * 最小包装单位
      */
     private String minPackageUnit;
+    
+    /**
+     * 价格 
+     */
+    private Float price;
 
 	public Integer getId()
 	{
@@ -272,6 +277,16 @@ public class BasAnaesMedicineLoseRecordFormBean
 	public void setMinPackageUnit(String minPackageUnit)
 	{
 		this.minPackageUnit = minPackageUnit;
+	}
+
+	public Float getPrice()
+	{
+		return price;
+	}
+
+	public void setPrice(Float price)
+	{
+		this.price = price;
 	}
     
 }

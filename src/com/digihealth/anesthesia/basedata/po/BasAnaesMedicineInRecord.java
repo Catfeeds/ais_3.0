@@ -95,6 +95,11 @@ public class BasAnaesMedicineInRecord {
      * 入库状态， 0 没有核对 ， 1 核对完成
      */
     private Integer status;
+    
+    /**
+     * 药品名字拼音
+     */
+    private String pinYin;
 
     /**
      * 局点id
@@ -237,7 +242,17 @@ public class BasAnaesMedicineInRecord {
         this.status = status;
     }
 
-    public String getBeid() {
+    public String getPinYin()
+	{
+		return pinYin;
+	}
+
+	public void setPinYin(String pinYin)
+	{
+		this.pinYin = pinYin;
+	}
+
+	public String getBeid() {
         return beid;
     }
 

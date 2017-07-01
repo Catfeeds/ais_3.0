@@ -467,5 +467,11 @@
       tciValue = #{tciValue,jdbcType=REAL},
     where medEventId = #{medEventId,jdbcType=VARCHAR}
   </update>
+  
+  <delete id="deleteByType">
+    delete from evt_medicalevent
+    where docId = #{docId,jdbcType=VARCHAR} 
+    and   type = #{type,jdbcType=INTEGER}
+  </delete>
 
 </mapper>

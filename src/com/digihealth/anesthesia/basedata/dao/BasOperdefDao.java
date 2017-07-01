@@ -48,5 +48,5 @@ public interface BasOperdefDao extends EntityDao<String, BasOperdef>{
     
     public List<BasOperdef> selectOrderByIdDesc();
 
-	public int initData(BasOperdef basOperdef);
+	public int initData(@Param("basOperdef")BasOperdef basOperdef, @Param("random")String random);
 }

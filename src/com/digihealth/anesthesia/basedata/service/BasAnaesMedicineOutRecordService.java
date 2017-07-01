@@ -16,6 +16,7 @@ import com.digihealth.anesthesia.basedata.po.BasAnaesMedicineStorage;
 import com.digihealth.anesthesia.basedata.po.BasRegOpt;
 import com.digihealth.anesthesia.common.entity.ResponseValue;
 import com.digihealth.anesthesia.common.service.BaseService;
+import com.digihealth.anesthesia.common.utils.PingYinUtil;
 import com.digihealth.anesthesia.common.utils.StringUtils;
 import com.digihealth.anesthesia.evt.formbean.Filter;
 
@@ -26,7 +27,7 @@ public class BasAnaesMedicineOutRecordService extends BaseService
 	@Transactional
 	public void addAnaesMedicineOutRecord(BasAnaesMedicineOutRecord basAnaesMedicineOutRecord,ResponseValue resp)
 	{
-		int storageId = basAnaesMedicineOutRecord.getStorageId();
+		Integer storageId = basAnaesMedicineOutRecord.getStorageId();
 		int outNumber = basAnaesMedicineOutRecord.getOutNumber();
 		BasAnaesMedicineStorage basAnaesMedicineStorage = basAnaesMedicineStorageDao.selectByPrimaryKey(storageId);
 		if(null != basAnaesMedicineStorage)
@@ -42,6 +43,7 @@ public class BasAnaesMedicineOutRecordService extends BaseService
 				String regOptId = basAnaesMedicineOutRecord.getRegOptId();
 				basAnaesMedicineOutRecord.setActualNumber(outNumber);
 				basAnaesMedicineOutRecord.setOutTime(new Date());
+				basAnaesMedicineOutRecord.setPinYin(PingYinUtil.getFirstSpell(basAnaesMedicineOutRecord.getMedicineName()));
 				basAnaesMedicineOutRecordDao.insertSelective(basAnaesMedicineOutRecord);
 				//如果是手术取药，更新手术信息表outMedicine字段
 				if("2".equals(outType))

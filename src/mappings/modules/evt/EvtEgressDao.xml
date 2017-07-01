@@ -7,7 +7,7 @@
     <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
     <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
     <result column="createUser" property="createUser" jdbcType="VARCHAR" />
-    <result column="ioDefId" property="ioDefId" jdbcType="INTEGER" />
+    <result column="ioDefId" property="ioDefId" jdbcType="VARCHAR" />
     <result column="value" property="value" jdbcType="VARCHAR" />
     <result column="docType" property="docType" jdbcType="INTEGER" />
   </resultMap>
@@ -104,7 +104,7 @@
       endTime, createUser, ioDefId, 
       value, docType)
     values (#{egressId,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{ioDefId,jdbcType=INTEGER}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{ioDefId,jdbcType=VARCHAR}, 
       #{value,jdbcType=VARCHAR}, #{docType,jdbcType=INTEGER})
   </insert>
 
@@ -153,7 +153,7 @@
         #{createUser,jdbcType=VARCHAR},
       </if>
       <if test="ioDefId != null" >
-        #{ioDefId,jdbcType=INTEGER},
+        #{ioDefId,jdbcType=VARCHAR},
       </if>
       <if test="value != null" >
         #{value,jdbcType=VARCHAR},
@@ -180,7 +180,7 @@
         createUser = #{createUser,jdbcType=VARCHAR},
       </if>
       <if test="ioDefId != null" >
-        ioDefId = #{ioDefId,jdbcType=INTEGER},
+        ioDefId = #{ioDefId,jdbcType=VARCHAR},
       </if>
       <if test="value != null" >
         value = #{value,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
       startTime = #{startTime,jdbcType=TIMESTAMP},
       endTime = #{endTime,jdbcType=TIMESTAMP},
       createUser = #{createUser,jdbcType=VARCHAR},
-      ioDefId = #{ioDefId,jdbcType=INTEGER},
+      ioDefId = #{ioDefId,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},
       docType = #{docType,jdbcType=INTEGER}
     where egressId = #{egressId,jdbcType=VARCHAR}

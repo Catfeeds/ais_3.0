@@ -87,22 +87,30 @@ public class DocAnaesRecordService extends BaseService {
 		// 如果状态没发生改变，直接修改数据
 		//if (controller.getState().equals(oldAnaesRecord.getState())) {
 		anaesRecord.setOptBody(getOptBody(anaesRecord.getOptBodys()));
-			//如果手术体位发生改变，则需要记录到变更表中
-			if(StringUtils.isNotBlank(anaesRecord.getOptBody()) && StringUtils.isNotBlank(oldAnaesRecord.getOptBody())){
-				if(!anaesRecord.getOptBody().equals(oldAnaesRecord.getOptBody())){
-					EvtOperBodyEvent operBodyEvent = new EvtOperBodyEvent();
-					operBodyEvent.setDocId(anaesRecord.getAnaRecordId());
-					operBodyEvent.setOptBody(anaesRecord.getOptBody());
-					//operBodyEvent.setState(regOpt.getState());
-					operBodyEvent.setStartTime(new Date());
-					operBodyEvent.setOptBodyEventId(GenerateSequenceUtil.generateSequenceNo());
-					operBodyEvent.setOptBodyOld(oldAnaesRecord.getOptBody());
-					evtOperBodyEventDao.insert(operBodyEvent);
-				}
-			}
-			
-			BeanHelper.copyProperties(anaesRecord, oldAnaesRecord,true);
-			docAnaesRecordDao.updateByPrimaryKey(oldAnaesRecord);
+        // 如果手术体位发生改变，则需要记录到变更表中
+        if (StringUtils.isNotBlank(anaesRecord.getOptBody()) && StringUtils.isNotBlank(oldAnaesRecord.getOptBody()))
+        {
+            if (!anaesRecord.getOptBody().equals(oldAnaesRecord.getOptBody()))
+            {
+                EvtOperBodyEvent operBodyEvent = new EvtOperBodyEvent();
+                operBodyEvent.setDocId(anaesRecord.getAnaRecordId());
+                operBodyEvent.setOptBody(anaesRecord.getOptBody());
+                // operBodyEvent.setState(regOpt.getState());
+                operBodyEvent.setStartTime(new Date());
+                operBodyEvent.setOptBodyEventId(GenerateSequenceUtil.generateSequenceNo());
+                operBodyEvent.setOptBodyOld(oldAnaesRecord.getOptBody());
+                evtOperBodyEventDao.insert(operBodyEvent);
+            }
+        }
+        
+        BeanHelper.copyProperties(anaesRecord, oldAnaesRecord, true);
+        docAnaesRecordDao.updateByPrimaryKey(oldAnaesRecord);
+        
+        //如果镇痛方式选择无，则需要将镇痛用药删除
+        if ("0".equals(anaesRecord.getAnalgesicMethod()))
+        {
+            evtMedicaleventDao.deleteByType(anaesRecord.getAnaRecordId(), 3);
+        }
 			
 		/*} else {
 			// 如果状态发生改变，麻醉记录表新增一条数据为新的有用的数据，上个数据flag=0作为历史数据
@@ -231,7 +239,7 @@ public class DocAnaesRecordService extends BaseService {
 
 	public String getOptBody(List<String> optBodys) {
 		String optBody = "";
-		if(!optBodys.isEmpty() && optBodys.size() > 0) {
+		if(null != optBodys && optBodys.size() > 0) {
 			for(int i=0; i<optBodys.size(); i++) {
 				if(StringUtils.isBlank(optBody)) {
 					optBody = optBodys.get(i);
